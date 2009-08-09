@@ -1,0 +1,31 @@
+﻿<Properties>
+  <MonoDevelop.Ide.Workbench ActiveDocument="GameCreator/Functions.cs" ctype="Workbench">
+    <Files>
+      <File FileName="GameCreatorTest/Form1.cs" Line="27" Column="65" />
+      <File FileName="GameCreator/Functions.cs" Line="516" Column="170" />
+      <File FileName="GameCreator.Interpreter/Parser.cs" Line="85" Column="44" />
+      <File FileName="GameCreator.Interpreter/Lexer.cs" Line="57" Column="1" />
+      <File FileName="GameCreatorTest/Program.cs" Line="1" Column="1" />
+      <File FileName="GameCreator.Interpreter/CodeElements/Misc/Env.cs" Line="12" Column="21" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State expanded="True">
+          <Node name="GameCreator" expanded="True">
+            <Node name="Functions.cs" selected="True" />
+          </Node>
+          <Node name="GameCreatorTest" expanded="True" />
+        </State>
+      </Pad>
+      <Pad Id="ClassPad">
+        <State selected="True" />
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService>
+    <BreakpointStore>
+      <Breakpoint file="/home/josh/Projects/GameCreator/GameCreatorTest/Form1.cs" line="21" />
+    </BreakpointStore>
+  </MonoDevelop.Ide.DebuggingService>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" ctype="Workspace" />
+</Properties>
