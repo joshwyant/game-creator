@@ -6,7 +6,7 @@ namespace GameCreator.Interpreter
 {
     class Continue : Stmt
     {
-        public Continue() { }
+        public Continue(int l, int c) : base(l, c) { }
         protected override void run()
         {
             ProgramFlow = FlowType.Continue;

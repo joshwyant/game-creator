@@ -6,9 +6,9 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 
-namespace GameCreator
+namespace GameCreator.Runtime
 {
-    public partial class MessageForm : Form
+    partial class MessageForm : Form
     {
         public MessageForm()
         {

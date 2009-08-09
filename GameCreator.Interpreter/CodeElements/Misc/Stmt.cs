@@ -6,6 +6,7 @@ namespace GameCreator.Interpreter
 {
     public class Stmt : Node
     {
+        public Stmt(int line, int col) : base(line, col) { }
         protected FlowType ProgramFlow;
         // Nothing should call run(), which is called internally be Stmt.
         // This is the function you override. The statement changes program flow with the variable ProgramFlow.
@@ -16,7 +17,10 @@ namespace GameCreator.Interpreter
         public FlowType Exec()
         {
             ProgramFlow = FlowType.None;
+            Stmt prev = Env.ExecutingStatement;
+            Env.ExecutingStatement = this;
             run();
+            Env.ExecutingStatement = prev;
             return ProgramFlow;
         }
         // This function is called by non-loop statements with embedded statements. The calling statement must
@@ -45,7 +49,10 @@ namespace GameCreator.Interpreter
             ProgramFlow |= t & ~Catch;
             return t;
         }
-
-        public static Stmt Null = new Stmt();
+        public void Error(string str)
+        {
+            throw new ProgramError(str, ErrorSeverity.Error, Env.ExecutingStatement);
+        }
+        public static Stmt Null = new Stmt(0,0);
     }
 }

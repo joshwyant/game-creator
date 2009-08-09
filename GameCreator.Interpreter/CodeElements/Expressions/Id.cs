@@ -7,7 +7,7 @@ namespace GameCreator.Interpreter
     class Id : Expr
     {
         string n;
-        public Id(string n) { this.n = n; }
+        public Id(string n, int line, int col) : base(line, col) { this.n = n; }
         public override string ToString() { return n; }
     }
 }

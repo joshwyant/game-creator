@@ -1,4 +1,4 @@
-﻿namespace GameCreator
+﻿namespace GameCreator.Runtime
 {
     partial class MessageForm
     {

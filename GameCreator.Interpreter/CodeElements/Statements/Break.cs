@@ -6,7 +6,7 @@ namespace GameCreator.Interpreter
 {
     class Break : Stmt
     {
-        public Break() { }
+        public Break(int line, int col) : base(line, col) { }
         protected override void run()
         {
             ProgramFlow = FlowType.Break;

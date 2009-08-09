@@ -6,25 +6,21 @@ namespace GameCreator.Interpreter
 {
     public class Script : BaseFunction
     {
-        public string mCode;
-        internal Stmt ParseTree;
+        CodeUnit cu;
         public Script(string name, string code) : base(name, -1)
         {
-            mCode = code;
+            cu = new CodeUnit(code);
         }
         public void Compile()
         {
-            if (Compiled) return;
-            Parser p = new Parser(mCode);
-            ParseTree = p.Parse();
+            cu.Compile();
         }
         public override Value Execute(params Value[] parameters)
         {
-            if (!Compiled) Compile();
             Env.Returned = new Value();
             Env.Enter();
             Env.SetArguments(parameters);
-            ParseTree.Exec();
+            cu.Run();
             Env.Leave();
             return Env.Returned;
         }
@@ -32,14 +28,7 @@ namespace GameCreator.Interpreter
         {
             get
             {
-                return mCode;
-            }
-        }
-        public bool Compiled
-        {
-            get
-            {
-                return ParseTree != null;
+                return cu.Code;
             }
         }
     }

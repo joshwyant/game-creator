@@ -12,9 +12,12 @@ namespace GameCreator.Interpreter
     public class Env
     {
         static long ids = 100000;
+        // The last id assigned to an instance by the IDE
+        public static long LastInstanceID { get { return ids; } set { ids = value; } }
         public static Dictionary<long, Env> Instances = new Dictionary<long, Env>();
         public static Env Current = null;
         public static Env Other = null;
+        public static Stmt ExecutingStatement = null;
         static Dictionary<string, Variable> globals = new Dictionary<string, Variable>();
         static List<string> globalvars = new List<string>();
         static List<string> localvars;
@@ -22,14 +25,14 @@ namespace GameCreator.Interpreter
         static Stack<List<string>> varstack = new Stack<List<string>>();
         static Stack<Dictionary<string, Variable>> localstack = new Stack<Dictionary<string, Variable>>();
         static Dictionary<string, BaseFunction> functions = new Dictionary<string, BaseFunction>();
+        internal static Dictionary<string, Value> constants = new Dictionary<string, Value>();
         static Dictionary<string, Variable> locals;// = new Dictionary<string, Variable>();
+        static Hashtable CodeStrings = new Hashtable();
         Dictionary<string, Variable> instancevars = new Dictionary<string, Variable>();
         static Stack<Value[]> argstack = new Stack<Value[]>();
         static Value[] args = new Value[0];
         public static string Title = "game";
 		public static Dictionary<string, BaseFunction> Functions{ get { return functions; } }
-		public delegate void ErrorMessage(string msg);
-		public static event ErrorMessage Error;
         public const long self = -1, other = -2, all = -3, noone = -4, global = -5;
         // Holds the value of the last returned value. This mimics GM's behavior. If a script does not
         // return a value, it automatically returns the value returned from the last call
@@ -44,6 +47,17 @@ namespace GameCreator.Interpreter
         {
             NewReadOnly("object_index");
             NewReadOnly("id");
+        }
+        // Define a resource name along with its index, so it can be referenced in code.
+        public static void DefineResourceIndex(string name, long index)
+        {
+            Env.DefineConstant(name, new Value((double)index));
+        }
+        public static void DefineConstant(string name, Value val)
+        {
+            if (constants.ContainsKey(name))
+                constants.Remove(name);
+            constants.Add(name, val);
         }
 		public static void DefineFunctionsFromType(Type t)
 		{
@@ -60,7 +74,6 @@ namespace GameCreator.Interpreter
 		}
         static Env()
         {
-
             // builtins
             DefineVar("current_time", current_time);
             DefineVar("argument", get_argument, set_argument);
@@ -82,6 +95,13 @@ namespace GameCreator.Interpreter
             DefineVar("argument15", get_argument15, set_argument15);
             Builtin.Add("object_index");
             Builtin.Add("id");
+            DefineConstant("true", new Value(1.0));
+            DefineConstant("false", new Value(0.0));
+            DefineConstant("pi", new Value(System.Math.PI));
+            DefineConstant("c_red", new Value(0x000000FF));
+            DefineConstant("c_yellow", new Value(0x0000FFFF));
+            DefineConstant("c_green", new Value(0x00008000));
+            DefineConstant("c_blue", new Value(0x00FF0000));
         }
         #region Argument access methods
         static Value get_argument(int i1, int i2)
@@ -286,7 +306,7 @@ namespace GameCreator.Interpreter
             for (int i = 0; i < 16 && i < args.Length; i++)
                 Env.args[i] = args[i];
         }
-        public static void DefineScript(string n, string c)
+        public static void DefineScript(string n, long i, string c)
         {
             if (functions.ContainsKey(n)) return;
             functions.Add(n, new Script(n, c));
@@ -331,7 +351,8 @@ namespace GameCreator.Interpreter
 
         }
         */
-        public static void ImportScripts(string fname)
+        // To be implemented by the IDE, not the runtime interpreter
+        /*public static void ImportScripts(string fname)
         {
             ImportScripts(System.IO.File.Open(fname, System.IO.FileMode.Open));
         }
@@ -361,7 +382,7 @@ namespace GameCreator.Interpreter
             {
                 DefineScript(scr, sb.ToString());
             }
-        }
+        }*/
         public static void CompileScripts()
         {
             foreach (BaseFunction f in functions.Values)
@@ -383,10 +404,19 @@ namespace GameCreator.Interpreter
             Instances.Add(id, this);
             instancevars["id"].Value = new Value((double)id);
         }
+        // create an instance on the fly
         public static Env CreateInstance()
         {
             Env e = new Env();
             e.assign_id();
+            return e;
+        }
+        // create an instance with an id assigned by the IDE
+        public static Env CreateInstance(long id)
+        {
+            Env e = new Env();
+            Instances.Add(id, e);
+            e.instancevars["id"].Value = new Value((double)id);
             return e;
         }
         // Used for: Room scripts, etc.
@@ -394,12 +424,18 @@ namespace GameCreator.Interpreter
         {
             return new Env();
         }
+        // Execute a string. The string is cached, and subsequent calls of Exec() with the same code string
+        //  execute code that is already compiled and cached. Code that is executed from a known location, i.e., a script,
+        //  is recommended to have its own local code unit, so it does not have to be looked up in a table.
         public void Exec(string s)
         {
             Env t = Current;
             Current = this;
             Env.Enter();
-            Parser.Execute(s);
+            // Make sure the code is in the cache
+            if (!CodeStrings.ContainsKey(s))
+                CodeStrings.Add(s, new CodeUnit(s));
+            ((CodeUnit)CodeStrings[s]).Run();
             Env.Leave();
             Current = t;
         }
@@ -439,7 +475,7 @@ namespace GameCreator.Interpreter
             {
                 if (locals.ContainsKey(name))
                 {
-                    if (locals[name].IsReadOnly) throw new ProgramError("Cannot assign to the variable");
+                    if (locals[name].IsReadOnly) throw new ProgramError("Cannot assign to the variable", ErrorSeverity.Error, ExecutingStatement);
                     locals[name][i1, i2] = val;
                 }
                 else
@@ -447,14 +483,14 @@ namespace GameCreator.Interpreter
             }
             else if (globalvars.Contains(name))
             {
-                if (globals[name].IsReadOnly) throw new ProgramError("Cannot assign to the variable");
+                if (globals[name].IsReadOnly) throw new ProgramError("Cannot assign to the variable", ErrorSeverity.Error, ExecutingStatement);
                 globals[name][i1, i2] = val;
             }
             else if (Current != null)
             {
                 if (Current.instancevars.ContainsKey(name))
                 {
-                    if (Current.instancevars[name].IsReadOnly) throw new ProgramError("Cannot assign to the variable");
+                    if (Current.instancevars[name].IsReadOnly) throw new ProgramError("Cannot assign to the variable", ErrorSeverity.Error, ExecutingStatement);
                     Current.instancevars[name][i1, i2] = val;
                 }
                 else
@@ -512,7 +548,7 @@ namespace GameCreator.Interpreter
                     vars = Current.instancevars;
                     break;
                 case other:
-                    if (Other == null) throw new ProgramError("Cannot assign to the variable");
+                    if (Other == null) throw new ProgramError("Cannot assign to the variable", ErrorSeverity.Error, ExecutingStatement);
                     vars = Other.instancevars;
                     break;
                 case all:
@@ -522,7 +558,7 @@ namespace GameCreator.Interpreter
                     }
                     return;
                 case noone:
-                    throw new ProgramError("Cannot assign to the variable");
+                    throw new ProgramError("Cannot assign to the variable", ErrorSeverity.Error, ExecutingStatement);
                 case global:
                     vars = globals;
                     break;
@@ -530,7 +566,7 @@ namespace GameCreator.Interpreter
                     if (Instances.ContainsKey(instance))
                         vars = Instances[instance].instancevars;
                     else if (instance < global)
-                        throw new ProgramError("Cannot assign to the variable");
+                        throw new ProgramError("Cannot assign to the variable", ErrorSeverity.Error, ExecutingStatement);
                     else
                     {
                         foreach (Env e in Instances.Values)

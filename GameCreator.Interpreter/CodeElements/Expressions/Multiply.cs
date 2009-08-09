@@ -4,7 +4,7 @@ namespace GameCreator.Interpreter
     class Multiply : Expr
     {
         Expr expr1, expr2;
-        public Multiply(Expr e1, Expr e2) { expr1 = e1; expr2 = e2; }
+        public Multiply(Expr e1, Expr e2, int l, int c) : base(l, c) { expr1 = e1; expr2 = e2; }
         public override Value Eval()
         {
             Value v1 = expr1.Eval(), v2 = expr2.Eval();
@@ -18,7 +18,7 @@ namespace GameCreator.Interpreter
                 return new Value(sb.ToString());
             }
             else
-                throw new ProgramError("Wrong type of arguments to *.");
+                return Error("Wrong type of arguments to *.");
         }
     }
 }

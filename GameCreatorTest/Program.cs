@@ -1,22 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Windows.Forms;
+﻿using GameCreator.Runtime;
 
 namespace GameCreatorTest
 {
-    using GameCreator;
     static class Program
     {
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
-        [STAThread]
+        [System.STAThread]
         static void Main()
         {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+            Game.Name = "mygame";
+            Script.Define("scr_main", 0L, Properties.Resources.scr_main);
+            Room.Define("room0", 0L).CreationCode = "scr_main()";
+            Game.Run();
         }
     }
 }

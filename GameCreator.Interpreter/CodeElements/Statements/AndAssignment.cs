@@ -3,7 +3,7 @@
     class AndAssignment : Stmt
     {
         Access a; Expr x;
-        public AndAssignment(Access acc, Expr e) { a = acc; x = e; }
+        public AndAssignment(Access acc, Expr e, int l, int c) : base(l, c) { a = acc; x = e; }
         protected override void run()
         {
             Value v1 = a.Eval(), v2 = x.Eval();

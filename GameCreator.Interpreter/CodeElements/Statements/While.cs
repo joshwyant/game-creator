@@ -8,7 +8,7 @@ namespace GameCreator.Interpreter
     {
         public Expr expr;
         public Stmt stmt;
-        public While(Expr e, Stmt s)
+        public While(Expr e, Stmt s, int line, int col) : base(line,col)
         {
             expr = e;
             stmt = s;
@@ -16,12 +16,12 @@ namespace GameCreator.Interpreter
         protected override void run()
         {
             Value v = expr.Eval();
-            if (!v.IsReal) throw new ProgramError("Boolean expression expected");
+            if (!v.IsReal) Error("Boolean expression expected");
             while (v.Real > 0)
             {
                 if ((Exec(stmt, FlowType.Break | FlowType.Continue) & ~FlowType.Continue) != FlowType.None) return;
                 v = expr.Eval();
-                if (!v.IsReal) throw new ProgramError("Boolean expression expected");
+                if (!v.IsReal) Error("Boolean expression expected");
             }
         }
         public override string ToString()

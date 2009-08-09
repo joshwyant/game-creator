@@ -7,7 +7,7 @@ namespace GameCreator.Interpreter
     class Var : Stmt
     {
         string[] vars;
-        public Var(string[] v) { vars = v; }
+        public Var(string[] v, int l, int c) : base(l, c) { vars = v; }
         protected override void run()
         {
             Env.LocalVars(vars);

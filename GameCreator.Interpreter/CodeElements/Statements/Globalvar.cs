@@ -7,7 +7,7 @@ namespace GameCreator.Interpreter
     class Globalvar : Stmt
     {
         string[] vars;
-        public Globalvar(string[] v) { vars = v; }
+        public Globalvar(string[] v, int line, int col) : base(line, col) { vars = v; }
         protected override void run()
         {
             Env.GlobalVars(vars);

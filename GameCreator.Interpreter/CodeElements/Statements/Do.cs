@@ -8,7 +8,8 @@ namespace GameCreator.Interpreter
     {
         public Expr expr;
         public Stmt stmt;
-        public Do(Stmt s, Expr e)
+        public Do(Stmt s, Expr e, int l, int c)
+            : base(l, c)
         {
             expr = e;
             stmt = s;
@@ -21,7 +22,7 @@ namespace GameCreator.Interpreter
                 if ((Exec(stmt, FlowType.Continue | FlowType.Break) & ~ FlowType.Continue) == FlowType.None)
                 {
                     v = expr.Eval();
-                    if (!v.IsReal) throw new ProgramError("Boolean expression expected");
+                    if (!v.IsReal) Error("Boolean expression expected");
                 }
                 else break;
             } while (v.Real <= 0.0);

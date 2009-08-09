@@ -7,11 +7,11 @@ namespace GameCreator.Interpreter
     class With : Stmt
     {
         Expr expr; Stmt stmt;
-        public With(Expr e, Stmt s) { expr = e; stmt = s; }
+        public With(Expr e, Stmt s, int l, int c) : base(l, c) { expr = e; stmt = s; }
         protected override void run()
         {
             Value v = expr.Eval();
-            if (!v.IsReal) throw new ProgramError("Object id expected");
+            if (!v.IsReal) Error("Object id expected");
             long instance = (long)Math.Round(v.Real);
             Env c = Env.Current;
             Env o = Env.Other;
@@ -47,7 +47,8 @@ namespace GameCreator.Interpreter
                 case Env.noone:
                     return;
                 case Env.global:
-                    throw new ProgramError("Cannot use global in a with statement.");
+                    Error("Cannot use global in a with statement.");
+                    return;
                 default:
                     if (Env.Instances.ContainsKey(instance))
                     {

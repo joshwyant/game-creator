@@ -8,7 +8,8 @@ namespace GameCreator.Interpreter
     {
         public Expr expr;
         public Stmt stmt;
-        public Repeat(Expr e, Stmt s)
+        public Repeat(Expr e, Stmt s, int l, int c)
+            : base(l, c)
         {
             expr = e;
             stmt = s;
@@ -16,7 +17,7 @@ namespace GameCreator.Interpreter
         protected override void run()
         {
             Value v = expr.Eval();
-            if (!v.IsReal) throw new ProgramError("Repeat count must be a number");
+            if (!v.IsReal) Error("Repeat count must be a number");
             int times = (int)Math.Round(v.Real);
             while (times > 0)
             {

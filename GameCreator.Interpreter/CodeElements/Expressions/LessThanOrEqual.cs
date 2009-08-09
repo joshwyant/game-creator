@@ -7,7 +7,7 @@ namespace GameCreator.Interpreter
     class LessThanOrEqual : Expr
     {
         Expr expr1, expr2;
-        public LessThanOrEqual(Expr e1, Expr e2) { expr1 = e1; expr2 = e2; }
+        public LessThanOrEqual(Expr e1, Expr e2, int line, int col) : base(line, col) { expr1 = e1; expr2 = e2; }
         public override Value Eval()
         {
             Value v1 = expr1.Eval(), v2 = expr2.Eval();
@@ -19,7 +19,7 @@ namespace GameCreator.Interpreter
             {
                 return String.CompareOrdinal(v1.String, v2.String) <= 0 ? Value.One : Value.Zero;
             }
-            else throw new ProgramError("Cannot compare arguments.");
+            else return Error("Cannot compare arguments.");
         }
     }
 }

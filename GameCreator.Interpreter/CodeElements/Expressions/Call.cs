@@ -8,7 +8,8 @@ namespace GameCreator.Interpreter
     {
         BaseFunction f;
         Expr[] exprs;
-        public Call(BaseFunction func, Expr[] expressions)
+        public Call(BaseFunction func, Expr[] expressions, int line, int col)
+            : base(line, col)
         {
             f = func;
             exprs = expressions;

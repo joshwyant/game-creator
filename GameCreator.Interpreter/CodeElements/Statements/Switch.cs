@@ -8,7 +8,8 @@ namespace GameCreator.Interpreter
     {
         Expr expr;
         Stmt[] stmts;
-        public Switch(Expr x, Stmt[] y)
+        public Switch(Expr x, Stmt[] y, int line, int col)
+            : base(line, col)
         {
             expr = x;
             stmts = y;

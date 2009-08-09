@@ -7,7 +7,7 @@ namespace GameCreator.Interpreter
     class Return : Stmt
     {
         Expr expr;
-        public Return(Expr e) { expr = e; }
+        public Return(Expr e, int line, int col) : base(line, col) { expr = e; }
         protected override void run()
         {
             Env.Returned = expr.Eval();

@@ -9,13 +9,15 @@ namespace GameCreator.Interpreter
         public Expr expr;
         public Stmt stmt1;
         public Stmt stmt2;
-        public If(Expr e, Stmt s)
+        public If(Expr e, Stmt s, int l, int c)
+            : base(l, c)
         {
             expr = e;
             stmt1 = s;
             stmt2 = Stmt.Null;
         }
-        public If(Expr e, Stmt t, Stmt f)
+        public If(Expr e, Stmt t, Stmt f, int l, int c)
+            : base(l, c)
         {
             expr = e;
             stmt1 = t;
@@ -24,7 +26,7 @@ namespace GameCreator.Interpreter
         protected override void run()
         {
             Value v = expr.Eval();
-            if (!v.IsReal) throw new ProgramError("Expression expected");
+            if (!v.IsReal) Error("Expression expected");
             if (v.Real > 0)
             {
                 if (Exec(stmt1) != FlowType.None) return;

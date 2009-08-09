@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Text;
 using GameCreator.Interpreter;
 
-namespace GameCreator
+namespace GameCreator.Runtime
 {
     // Holds the GML functions
-    public static class Functions
+    internal static class Functions
     {
         public static Random rnd = new Random(System.Environment.TickCount);
         readonly static DateTime epoch = new DateTime(1899, 12, 30);
@@ -286,7 +286,7 @@ namespace GameCreator
             }
             catch
             {
-                throw new ProgramError("Error in function real().");
+                throw new ProgramError("Error in function real().", ErrorSeverity.Error, Env.ExecutingStatement);
             }
         }
         [GMLFunction(1, Name = "string")]
@@ -473,8 +473,8 @@ namespace GameCreator
         }
         class window
         {
-            public Script click;
-            public Script create;
+            public GameCreator.Interpreter.Script click;
+            public GameCreator.Interpreter.Script create;
             public Env inst;
         }
         [GMLFunction(1)]
@@ -513,21 +513,21 @@ namespace GameCreator
         [GMLFunction(2)]
         public static Value window_set_color(params Value[] args)
         {
-            forms[(int)args[0].Real].BackColor = System.Drawing.Color.FromArgb((int)args[1].Real, (int)args[1].Real&0xFF, ((int)args[1].Real>>8)&0xFF, ((int)args[1].Real>>16)&0xff);
+            forms[(int)args[0].Real].BackColor = System.Drawing.Color.FromArgb((int)args[1].Real&0xFF,((int)args[1].Real>>8)&0xFF,((int)args[1].Real>>16)&0xFF);
             return new Value();
         }
         [GMLFunction(2)]
         public static Value window_set_click(params Value[] args)
         {
             System.Windows.Forms.Form f = forms[(int)args[0].Real];
-            ((window)f.Tag).click = new Script(null, args[1].String);
+            ((window)f.Tag).click = new GameCreator.Interpreter.Script(null, args[1].String);
             return Value.Zero;
         }
         [GMLFunction(2)]
         public static Value window_set_create(params Value[] args)
         {
             System.Windows.Forms.Form f = forms[(int)args[0].Real];
-            ((window)f.Tag).create = new Script(null, args[1].String);
+            ((window)f.Tag).create = new GameCreator.Interpreter.Script(null, args[1].String);
             return Value.Zero;
         }
         [GMLFunction(6)]

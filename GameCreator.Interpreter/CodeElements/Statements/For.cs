@@ -8,7 +8,8 @@ namespace GameCreator.Interpreter
     {
         public Stmt stmt1, stmt2, stmt3;
         public Expr expr;
-        public For(Stmt init, Expr test, Stmt loop, Stmt stmt)
+        public For(Stmt init, Expr test, Stmt loop, Stmt stmt, int l, int c)
+            : base(l, c)
         {
             stmt1 = init;
             stmt2 = loop;
@@ -21,7 +22,7 @@ namespace GameCreator.Interpreter
             if (Exec(stmt1) != FlowType.None) return;
             loop:
             Value v = expr.Eval();
-            if (!v.IsReal) throw new ProgramError("Expression expected");
+            if (!v.IsReal) Error("Expression expected");
             if (v.Real <= 0.0) return;
             if ((Exec(stmt3, FlowType.Continue | FlowType.Break) & ~FlowType.Continue) != FlowType.None) return;
             if (Exec(stmt2) != FlowType.None) return;

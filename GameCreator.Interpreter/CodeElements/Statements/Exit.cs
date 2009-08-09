@@ -6,7 +6,7 @@ namespace GameCreator.Interpreter
 {
     class Exit : Stmt
     {
-        public Exit() { }
+        public Exit(int l, int c) : base(l, c) { }
         protected override void run()
         {
             ProgramFlow = FlowType.Exit;

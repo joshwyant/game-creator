@@ -7,9 +7,10 @@ namespace GameCreator.Interpreter
     class CallStmt : Stmt
     {
         Call c;
-        public CallStmt(BaseFunction func, Expr[] expressions)
+        public CallStmt(BaseFunction func, Expr[] expressions, int l, int c)
+            : base(l, c)
         {
-            c = new Call(func, expressions);
+            this.c = new Call(func, expressions, l, c);
         }
         protected override void run()
         {
