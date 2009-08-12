@@ -41,6 +41,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Library\DateTimeFunctions.cs" />
+    <Compile Include="Library\FormsFunctions.cs" />
+    <Compile Include="Library\MiscFunctions.cs" />
+    <Compile Include="Library\StringFunctions.cs" />
+    <Compile Include="Library\RealFunctions.cs" />
     <Compile Include="IndexedResource.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -50,7 +55,6 @@
     <Compile Include="Script.cs" />
     <Compile Include="IndexedResourceManager.cs" />
     <Compile Include="Room.cs" />
-    <Compile Include="Functions.cs" />
     <Compile Include="GameForm.cs">
       <SubType>Form</SubType>
     </Compile>

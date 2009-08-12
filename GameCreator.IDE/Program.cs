@@ -15,7 +15,18 @@ namespace GameCreator.IDE
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+            DesignerForm mainform = new DesignerForm();
+            if (!Properties.Settings.Default.WindowDefault)
+            {
+                bool maximized = Properties.Settings.Default.WindowMaximized;
+                mainform.StartPosition = FormStartPosition.Manual;
+                mainform.Location = new System.Drawing.Point(Math.Max(0, Properties.Settings.Default.WindowX), Math.Max(0, Properties.Settings.Default.WindowY));
+                mainform.Size = new System.Drawing.Size(Properties.Settings.Default.WindowWidth, Properties.Settings.Default.WindowHeight);
+                if (maximized)
+                    mainform.WindowState = FormWindowState.Maximized;
+            }
+            Application.Run(mainform);
+            Properties.Settings.Default.Save();
         }
     }
 }
