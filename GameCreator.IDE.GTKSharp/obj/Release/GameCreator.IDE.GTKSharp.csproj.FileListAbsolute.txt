@@ -1,7 +1,0 @@
-C:\Users\Josh\Documents\Visual Studio 2008\Projects\GameCreator\GameCreator.IDE.GTKSharp\bin\Release\GameCreator.IDE.exe
-C:\Users\Josh\Documents\Visual Studio 2008\Projects\GameCreator\GameCreator.IDE.GTKSharp\bin\Release\GameCreator.IDE.pdb
-C:\Users\Josh\Documents\Visual Studio 2008\Projects\GameCreator\GameCreator.IDE.GTKSharp\obj\Release\ResolveAssemblyReference.cache
-C:\Users\Josh\Documents\Visual Studio 2008\Projects\GameCreator\GameCreator.IDE.GTKSharp\obj\Release\GameCreator.IDE.Properties.Resources.resources
-C:\Users\Josh\Documents\Visual Studio 2008\Projects\GameCreator\GameCreator.IDE.GTKSharp\obj\Release\GameCreator.IDE.GTKSharp.csproj.GenerateResource.Cache
-C:\Users\Josh\Documents\Visual Studio 2008\Projects\GameCreator\GameCreator.IDE.GTKSharp\obj\Release\GameCreator.IDE.exe
-C:\Users\Josh\Documents\Visual Studio 2008\Projects\GameCreator\GameCreator.IDE.GTKSharp\obj\Release\GameCreator.IDE.pdb
