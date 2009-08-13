@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameCreator.Runtime", "Game
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameCreator.IDE", "GameCreator.IDE\GameCreator.IDE.csproj", "{2A260ABF-219E-49A2-81BD-0ED30F9B8825}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameCreator.IDE.GTKSharp", "GameCreator.IDE.GTKSharp\GameCreator.IDE.GTKSharp.csproj", "{D88A2751-C23C-4BC1-A215-E7667406F49C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -25,6 +27,10 @@ Global
 		{2A260ABF-219E-49A2-81BD-0ED30F9B8825}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2A260ABF-219E-49A2-81BD-0ED30F9B8825}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2A260ABF-219E-49A2-81BD-0ED30F9B8825}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D88A2751-C23C-4BC1-A215-E7667406F49C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D88A2751-C23C-4BC1-A215-E7667406F49C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D88A2751-C23C-4BC1-A215-E7667406F49C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D88A2751-C23C-4BC1-A215-E7667406F49C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

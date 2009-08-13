@@ -15,11 +15,16 @@ namespace GameCreator.Runtime
         public GameForm(Room startroom)
         {
             InitializeComponent();
+            ClientSize = new Size(640, 480);
             current = startroom;
-            startroom.Init();
         }
 
         private void GameForm_Click(object sender, EventArgs e)
+        {
+            current.Init();
+        }
+
+        private void GameForm_Shown(object sender, EventArgs e)
         {
             current.Init();
         }

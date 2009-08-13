@@ -6,20 +6,32 @@ using System.Windows.Forms;
 
 namespace GameCreator.IDE
 {
-    class RoomResourceView : IResourceView
+    class RoomResourceView : IResourceView, IDeletable
     {
         string name;
-        public string CreationCode = string.Empty;
+        string creationCode = string.Empty;
+        public string CreationCode
+        {
+            get
+            {
+                if (editor != null && editor.Created)
+                    return editor.CreationCode;
+                return creationCode;
+            }
+            set { creationCode = value; }
+        }
         RoomEditor editor;
         DesignerForm parent;
-        public RoomResourceView(DesignerForm parent)
+        long id;
+        public RoomResourceView(DesignerForm parent, long index)
         {
             this.parent = parent;
+            id = index;
         }
 
         void editor_Save(object sender, EventArgs e)
         {
-            CreationCode = editor.CreationCode;
+            creationCode = editor.CreationCode;
         }
         #region IResourceView Members
 
@@ -106,7 +118,10 @@ namespace GameCreator.IDE
 
         public void Delete()
         {
-            throw new NotImplementedException();
+            if (MessageBox.Show(string.Format("Are you sure you want to permanently delete {0}?", name), "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            {
+                DoDelete(true);
+            }
         }
 
         public string InsertString
@@ -121,18 +136,9 @@ namespace GameCreator.IDE
 
         public void Insert()
         {
-            RoomResourceView res = new RoomResourceView(parent);
+            RoomResourceView res = new RoomResourceView(parent, RoomsResourceView.ids);
             RoomsResourceView.rooms.Add(RoomsResourceView.ids, res);
-            res.Name = "room" + RoomsResourceView.ids++.ToString();
-            TreeNode tn = new TreeNode(res.Name);
-            res.Node = tn;
-            tn.Name = tn.Text;
-            tn.ImageKey = res.ImageKey;
-            tn.SelectedImageKey = res.ImageKey;
-            tn.Tag = res;
-            Node.Parent.Nodes.Insert(Node.Index, tn);
-            tn.EnsureVisible();
-            res.Edit();
+            parent.AddResource(Node.Parent, res, "room" + RoomsResourceView.ids++.ToString(), Node.Index, true, false, true);
         }
 
         public bool CanDuplicate
@@ -142,18 +148,10 @@ namespace GameCreator.IDE
 
         public void Duplicate()
         {
-            RoomResourceView res = new RoomResourceView(parent);
+            RoomResourceView res = new RoomResourceView(parent, RoomsResourceView.ids);
             RoomsResourceView.rooms.Add(RoomsResourceView.ids, res);
-            res.Name = "room" + RoomsResourceView.ids++.ToString();
-            TreeNode tn = new TreeNode(res.Name);
-            res.Node = tn;
-            tn.Name = tn.Text;
-            tn.ImageKey = res.ImageKey;
-            tn.SelectedImageKey = res.ImageKey;
-            tn.Tag = res;
-            Node.Parent.Nodes.Insert(Node.Index+1, tn);
-            tn.EnsureVisible();
-            res.Edit();
+            res.CreationCode = CreationCode;
+            parent.AddResource(Node.Parent, res, "room" + RoomsResourceView.ids++.ToString(), Node.Index + 1, true, false, true);
         }
 
         public string InsertGroupString
@@ -168,16 +166,7 @@ namespace GameCreator.IDE
 
         public void InsertGroup()
         {
-            RoomGroupResourceView res = new RoomGroupResourceView(parent);
-            TreeNode tn = new TreeNode(res.Name);
-            res.Node = tn;
-            tn.Name = tn.Text;
-            tn.ImageKey = res.ImageKey;
-            tn.SelectedImageKey = res.ImageKey;
-            tn.Tag = res;
-            Node.Parent.Nodes.Insert(Node.Index, tn);
-            tn.EnsureVisible();
-            tn.BeginEdit();
+            parent.AddResource(Node.Parent, new RoomGroupResourceView(parent), null, Node.Index, true, true, false);
         }
 
         public bool CanSort
@@ -185,9 +174,19 @@ namespace GameCreator.IDE
             get { return false; }
         }
 
-        public void Sort()
+        #endregion
+
+        #region IDeletable Members
+
+        public void DoDelete(bool removenode)
         {
-            throw new NotImplementedException();
+            if (editor != null && editor.Created)
+            {
+                editor.Saved = true;
+                editor.Close();
+            }
+            RoomsResourceView.rooms.Remove(id);
+            if (removenode) Node.Remove();
         }
 
         #endregion

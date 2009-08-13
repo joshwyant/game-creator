@@ -41,6 +41,5 @@ namespace GameCreator.IDE
         void InsertGroup();
         // Sort by name option
         bool CanSort { get; }
-        void Sort();
     }
 }

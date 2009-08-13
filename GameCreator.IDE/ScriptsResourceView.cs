@@ -53,7 +53,16 @@ namespace GameCreator.IDE
 
         public void SpecialAction()
         {
-            throw new NotImplementedException();
+            SaveFileDialog sfd = new SaveFileDialog();
+            sfd.Filter = "GML Files|*.gml|All Files|*.*";
+            sfd.AddExtension = true;
+            if (sfd.ShowDialog() == DialogResult.OK)
+            {
+                System.IO.TextWriter stream = new System.IO.StreamWriter(sfd.FileName, false, System.Text.Encoding.ASCII);
+                foreach (TreeNode n in Node.Nodes)
+                    ((IScriptExportable)n.Tag).WriteToStream(stream);
+                stream.Close();
+            }
         }
 
         public string ImageKey
@@ -104,18 +113,9 @@ namespace GameCreator.IDE
 
         public void Insert()
         {
-            ScriptResourceView res = new ScriptResourceView(parent);
+            ScriptResourceView res = new ScriptResourceView(parent, ScriptsResourceView.ids);
             scripts.Add(ids, res);
-            res.Name = "script" + ids++.ToString();
-            TreeNode tn = new TreeNode(res.Name);
-            res.Node = tn;
-            tn.Name = tn.Text;
-            tn.ImageKey = res.ImageKey;
-            tn.SelectedImageKey = res.ImageKey;
-            tn.Tag = res;
-            Node.Nodes.Add(tn);
-            Node.Expand();
-            res.Edit();
+            parent.AddResource(Node, res, "script" + ids++.ToString(), -1, true, false, true);
         }
 
         public bool CanDuplicate
@@ -140,26 +140,12 @@ namespace GameCreator.IDE
 
         public void InsertGroup()
         {
-            ScriptGroupResourceView res = new ScriptGroupResourceView(parent);
-            TreeNode tn = new TreeNode(res.Name);
-            res.Node = tn;
-            tn.Name = tn.Text;
-            tn.ImageKey = res.ImageKey;
-            tn.SelectedImageKey = res.ImageKey;
-            tn.Tag = res;
-            Node.Nodes.Add(tn);
-            Node.Expand();
-            tn.BeginEdit();
+            parent.AddResource(Node, new ScriptGroupResourceView(parent), null, -1, true, true, false);
         }
 
         public bool CanSort
         {
             get { return true; }
-        }
-
-        public void Sort()
-        {
-            throw new NotImplementedException();
         }
 
         #endregion

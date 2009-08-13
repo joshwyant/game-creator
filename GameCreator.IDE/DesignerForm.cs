@@ -13,38 +13,28 @@ namespace GameCreator.IDE
 {
     public partial class DesignerForm : Form
     {
+        internal ScriptsResourceView Scripts;
+        internal RoomsResourceView Rooms;
         public DesignerForm()
         {
             InitializeComponent();
-            AddResource(null, new ScriptsResourceView(this));
-            AddResource(null, new RoomsResourceView(this));
+            Scripts = new ScriptsResourceView(this);
+            Rooms = new RoomsResourceView(this);
+            AddResource(null, Scripts, null, -1, false, false, false);
+            AddResource(null, Rooms, null, -1, false, false, false);
             treeView1.SelectedNode = null;
             //
-            TreeNode ScriptsNode = treeView1.Nodes["Scripts"];
-            ScriptResourceView res = new ScriptResourceView(this);
-            ScriptsResourceView.scripts.Add(ScriptsResourceView.ids, res);
-            res.Name = "scr_main";
+            ScriptResourceView res = new ScriptResourceView(this, ScriptsResourceView.ids);
+            ScriptsResourceView.scripts.Add(ScriptsResourceView.ids++, res);
             res.Code = Properties.Resources.scr_main;
-            TreeNode tn = new TreeNode(res.Name);
-            res.Node = tn;
-            tn.Name = tn.Text;
-            tn.ImageKey = res.ImageKey;
-            tn.SelectedImageKey = res.ImageKey;
-            tn.Tag = res;
-            ScriptsNode.Nodes.Add(tn);
+            AddResource(Scripts.Node, res, "scr_main", -1, false, false, false);
             //
             TreeNode RoomsNode = treeView1.Nodes["Rooms"];
-            RoomResourceView res1 = new RoomResourceView(this);
+            RoomResourceView res1 = new RoomResourceView(this, RoomsResourceView.ids);
             res1.CreationCode = "{\r\n    scr_main();\r\n}";
             RoomsResourceView.rooms.Add(RoomsResourceView.ids, res1);
-            res1.Name = "room" + RoomsResourceView.ids++.ToString();
-            TreeNode tn1 = new TreeNode(res1.Name);
-            res1.Node = tn1;
-            tn1.Name = tn1.Text;
-            tn1.ImageKey = res1.ImageKey;
-            tn1.SelectedImageKey = res1.ImageKey;
-            tn1.Tag = res1;
-            RoomsNode.Nodes.Add(tn1);
+            AddResource(Rooms.Node, res1, "room" + RoomsResourceView.ids++.ToString(), -1, false, false, false);
+
         }
 
         private void createScriptToolStripMenuItem_Click(object sender, EventArgs e)
@@ -54,37 +44,15 @@ namespace GameCreator.IDE
 
         private void CreateScript()
         {
-            TreeNode ScriptsNode = treeView1.Nodes["Scripts"];
-            ScriptResourceView res = new ScriptResourceView(this);
+            ScriptResourceView res = new ScriptResourceView(this, ScriptsResourceView.ids);
             ScriptsResourceView.scripts.Add(ScriptsResourceView.ids, res);
-            res.Name = "script" + ScriptsResourceView.ids++.ToString();
-            TreeNode tn = new TreeNode(res.Name);
-            res.Node = tn;
-            tn.Name = tn.Text;
-            tn.ImageKey = res.ImageKey;
-            tn.SelectedImageKey = res.ImageKey;
-            tn.Tag = res;
-            ScriptsNode.Nodes.Add(tn);
-            tn.EnsureVisible();
-            treeView1.SelectedNode = tn;
-            res.Edit();
+            AddResource(Scripts.Node, res, "script" + ScriptsResourceView.ids++.ToString(), -1, true, false, true);
         }
         private void CreateRoom()
         {
-            TreeNode RoomsNode = treeView1.Nodes["Rooms"];
-            RoomResourceView res = new RoomResourceView(this);
+            RoomResourceView res = new RoomResourceView(this, RoomsResourceView.ids);
             RoomsResourceView.rooms.Add(RoomsResourceView.ids, res);
-            res.Name = "room" + RoomsResourceView.ids++.ToString();
-            TreeNode tn = new TreeNode(res.Name);
-            res.Node = tn;
-            tn.Name = tn.Text;
-            tn.ImageKey = res.ImageKey;
-            tn.SelectedImageKey = res.ImageKey;
-            tn.Tag = res;
-            RoomsNode.Nodes.Add(tn);
-            tn.EnsureVisible();
-            treeView1.SelectedNode = tn;
-            res.Edit();
+            AddResource(Rooms.Node, res, "room" + RoomsResourceView.ids++.ToString(), -1, true, false, true);
         }
 
         private void treeView1_BeforeExpand(object sender, TreeViewCancelEventArgs e)
@@ -103,7 +71,18 @@ namespace GameCreator.IDE
 
         private void treeView1_AfterLabelEdit(object sender, NodeLabelEditEventArgs e)
         {
-            ((IResourceView)e.Node.Tag).Name = e.Label;
+            string t = e.Label;
+            // apparently the label can be null.
+            if (e.Label == null)
+            {
+                if (e.Node.Text != null)
+                    t = e.Node.Text;
+                else
+                    return;
+            }
+            ((IResourceView)e.Node.Tag).Name = t;
+            e.Node.Name = t;
+            e.Node.Text = t;
         }
 
         private void treeView1_BeforeLabelEdit(object sender, NodeLabelEditEventArgs e)
@@ -173,8 +152,10 @@ namespace GameCreator.IDE
             Properties.Settings.Default.WindowMaximized = (WindowState == FormWindowState.Maximized);
             Properties.Settings.Default.WindowDefault = false;
         }
-        void AddResource(TreeNode parent, IResourceView res)
+        internal void AddResource(TreeNode parent, IResourceView res, string name, int treeIndex, bool ensureVisible, bool rename, bool edit)
         {
+            if (!string.IsNullOrEmpty(name))
+                res.Name = name;
             TreeNode tn = new TreeNode(res.Name);
             res.Node = tn;
             tn.Name = tn.Text;
@@ -184,23 +165,25 @@ namespace GameCreator.IDE
             if (parent == null)
                 tn.NodeFont = new Font(treeView1.Font, FontStyle.Bold);
             TreeNodeCollection tnc = parent == null ? treeView1.Nodes : parent.Nodes;
-            tnc.Add(tn);
-            tn.EnsureVisible();
+            if (treeIndex == -1)
+                tnc.Add(tn);
+            else
+                tnc.Insert(treeIndex, tn);
+            if (ensureVisible)
+            {
+                tn.EnsureVisible();
+                treeView1.SelectedNode = tn;
+            }
+            if (edit)
+                res.Edit();
+            if (rename)
+                tn.BeginEdit();
         }
         private void toolStripButton1_Click(object sender, EventArgs e)
         {
             CreateScript();
         }
 
-        private void treeView1_NodeMouseHover(object sender, TreeNodeMouseHoverEventArgs e)
-        {
-            treeView1.Cursor = System.Windows.Forms.Cursors.Hand;
-        }
-
-        private void treeView1_MouseMove(object sender, MouseEventArgs e)
-        {
-            treeView1.Cursor = System.Windows.Forms.Cursors.Default;
-        }
 
         private void toolStripButton2_Click(object sender, EventArgs e)
         {
@@ -210,14 +193,24 @@ namespace GameCreator.IDE
         private void toolStripButton3_Click(object sender, EventArgs e)
         {
             CreateExecutable("game.exe");
-            System.Diagnostics.Process.Start("game.exe");
+            System.Diagnostics.ProcessStartInfo psi = new System.Diagnostics.ProcessStartInfo("game.exe");
+            psi.RedirectStandardError = true;
+            psi.UseShellExecute = false; // So we can redirect StandardError
+            System.Diagnostics.Process p = System.Diagnostics.Process.Start(psi);
+            FormWindowState ws = WindowState;
+            WindowState = FormWindowState.Minimized;
+            p.WaitForExit();
+            WindowState = ws;
+            string err = p.StandardError.ReadToEnd();
+            if (!string.IsNullOrEmpty(err))
+                MessageBox.Show(string.Format("The game exited with errors:\n{0}", err), "Game Creator IDE", MessageBoxButtons.OK, MessageBoxIcon.Warning);
         }
 
         private static void CreateExecutable(string name)
         {
-            name = name.Replace('/', '\\');
-            string exename = name.Contains('\\') ? name.Substring(name.LastIndexOf('\\') + 1) : name;
-            string pathname = name.Contains('\\') ? name.Remove(name.LastIndexOf('\\')) : null;
+            name = name.Replace('\\', '/');
+            string exename = name.Contains('/') ? name.Substring(name.LastIndexOf('/') + 1) : name;
+            string pathname = name.Contains('/') ? name.Remove(name.LastIndexOf('/')) : null;
             string asmname = exename.Contains('.') ? exename.Remove(exename.LastIndexOf('.')) : exename;
             //
             // We are creating a dynamic assembly here.
@@ -240,6 +233,7 @@ namespace GameCreator.IDE
             //   ...
             //   GameCreator.Runtime.Game.Name = "name";
             //   GameCreator.Runtime.Game.Run();
+            //   (return)
             // }
             MethodBuilder main = program.DefineMethod("Main", MethodAttributes.Static);
             ILGenerator il = main.GetILGenerator();
@@ -265,6 +259,8 @@ namespace GameCreator.IDE
             il.EmitCall(OpCodes.Call, game.GetProperty("Name").GetSetMethod(), null);
             // GameCreator.Runtime.Game.Run();
             il.EmitCall(OpCodes.Call, game.GetMethod("Run"), null);
+            // return statement, required
+            il.Emit(OpCodes.Ret);
             program.CreateType();
             asm.SetEntryPoint(main, PEFileKinds.WindowApplication);
             // Use 386 bit since GTK# requires it and we plan on using it later
@@ -274,13 +270,15 @@ namespace GameCreator.IDE
         private void createExecutableToolStripMenuItem_Click(object sender, EventArgs e)
         {
             SaveFileDialog sfd = new SaveFileDialog();
-            sfd.Filter = "Executable files (*.exe)|*.exe";
+            sfd.Filter = "Executable files (*.exe)|*.exe|All Files|*.*";
             sfd.AddExtension = true;
             if (sfd.ShowDialog() == DialogResult.OK)
             {
-                string path = sfd.FileName.Remove(sfd.FileName.LastIndexOfAny(new char[] { '\\', '/' }) + 1);
-                System.IO.File.Copy("GameCreator.Interpreter.dll", path + "GameCreator.Interpreter.dll", true);
-                System.IO.File.Copy("GameCreator.Runtime.dll", path + "GameCreator.Runtime.dll", true);
+                string path = sfd.FileName.Remove(sfd.FileName.LastIndexOfAny(new char[] { '\\', '/' }) + 1).Replace('\\', '/');
+				if (!System.IO.File.Exists(path + "GameCreator.Interpreter.dll"))
+                	System.IO.File.Copy("GameCreator.Interpreter.dll", path + "GameCreator.Interpreter.dll");
+				if (!System.IO.File.Exists(path + "GameCreator.Runtime.dll"))
+                	System.IO.File.Copy("GameCreator.Runtime.dll", path + "GameCreator.Runtime.dll");
                 CreateExecutable(sfd.FileName);
             }
         }

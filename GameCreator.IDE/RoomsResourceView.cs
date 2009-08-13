@@ -104,18 +104,9 @@ namespace GameCreator.IDE
 
         public void Insert()
         {
-            RoomResourceView res = new RoomResourceView(parent);
+            RoomResourceView res = new RoomResourceView(parent, RoomsResourceView.ids);
             rooms.Add(ids, res);
-            res.Name = "room" + ids++.ToString();
-            TreeNode tn = new TreeNode(res.Name);
-            res.Node = tn;
-            tn.Name = tn.Text;
-            tn.ImageKey = res.ImageKey;
-            tn.SelectedImageKey = res.ImageKey;
-            tn.Tag = res;
-            Node.Nodes.Add(tn);
-            tn.EnsureVisible();
-            res.Edit();
+            parent.AddResource(Node, res, "room" + ids++.ToString(), -1, true, false, true);
         }
 
         public bool CanDuplicate
@@ -140,26 +131,12 @@ namespace GameCreator.IDE
 
         public void InsertGroup()
         {
-            ScriptGroupResourceView res = new ScriptGroupResourceView(parent);
-            TreeNode tn = new TreeNode(res.Name);
-            res.Node = tn;
-            tn.Name = tn.Text;
-            tn.ImageKey = res.ImageKey;
-            tn.SelectedImageKey = res.ImageKey;
-            tn.Tag = res;
-            Node.Nodes.Add(tn);
-            tn.EnsureVisible();
-            tn.BeginEdit();
+            parent.AddResource(Node, new RoomGroupResourceView(parent), null, -1, true, true, false);
         }
 
         public bool CanSort
         {
             get { return true; }
-        }
-
-        public void Sort()
-        {
-            throw new NotImplementedException();
         }
 
         #endregion

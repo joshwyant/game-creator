@@ -85,7 +85,17 @@ namespace GameCreator.IDE
 
         void ItemSortByName_Click(object sender, EventArgs e)
         {
-            irv.Sort();
+            List<string> l = new List<string>();
+            foreach (TreeNode n in irv.Node.Nodes)
+                l.Add(n.Name);
+            l.Sort();
+            int i = 0;
+            foreach (string s in l)
+            {
+                TreeNode n = irv.Node.Nodes[s];
+                n.Remove();
+                irv.Node.Nodes.Insert(i++, n);
+            }
         }
 
         void ItemInsertGroup_Click(object sender, EventArgs e)

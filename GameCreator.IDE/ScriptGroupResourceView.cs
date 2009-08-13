@@ -6,7 +6,7 @@ using System.Windows.Forms;
 
 namespace GameCreator.IDE
 {
-    class ScriptGroupResourceView : IResourceView
+    class ScriptGroupResourceView : IResourceView, IScriptExportable, IDeletable
     {
         string name = "new group";
         DesignerForm parent;
@@ -53,7 +53,17 @@ namespace GameCreator.IDE
 
         public void SpecialAction()
         {
-            throw new NotImplementedException();
+            SaveFileDialog sfd = new SaveFileDialog();
+            sfd.Filter = "GML Files|*.gml|All Files|*.*";
+            sfd.AddExtension = true;
+            sfd.FileName = name;
+            if (sfd.ShowDialog() == DialogResult.OK)
+            {
+                System.IO.TextWriter stream = new System.IO.StreamWriter(sfd.FileName, false, System.Text.Encoding.ASCII);
+                foreach (TreeNode n in Node.Nodes)
+                    ((IScriptExportable)n.Tag).WriteToStream(stream);
+                stream.Close();
+            }
         }
 
         public string ImageKey
@@ -89,7 +99,8 @@ namespace GameCreator.IDE
 
         public void Delete()
         {
-            throw new NotImplementedException();
+            if (MessageBox.Show(string.Format("Are you sure you want to permanently delete all of the scripts in the group '{0}'?", name), "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                DoDelete(true);
         }
 
         public string InsertString
@@ -104,18 +115,9 @@ namespace GameCreator.IDE
 
         public void Insert()
         {
-            ScriptResourceView res = new ScriptResourceView(parent);
+            ScriptResourceView res = new ScriptResourceView(parent, ScriptsResourceView.ids);
             ScriptsResourceView.scripts.Add(ScriptsResourceView.ids, res);
-            res.Name = "script" + ScriptsResourceView.ids++.ToString();
-            TreeNode tn = new TreeNode(res.Name);
-            res.Node = tn;
-            tn.Name = tn.Text;
-            tn.ImageKey = res.ImageKey;
-            tn.SelectedImageKey = res.ImageKey;
-            tn.Tag = res;
-            Node.Nodes.Add(tn);
-            Node.Expand();
-            res.Edit();
+            parent.AddResource(Node, res, "script" + ScriptsResourceView.ids++.ToString(), -1, true, false, true);
         }
 
         public bool CanDuplicate
@@ -140,17 +142,7 @@ namespace GameCreator.IDE
         bool ididit = false;
         public void InsertGroup()
         {
-            ScriptGroupResourceView res = new ScriptGroupResourceView(parent);
-            TreeNode tn = new TreeNode(res.Name);
-            res.Node = tn;
-            tn.Name = tn.Text;
-            tn.ImageKey = res.ImageKey;
-            tn.SelectedImageKey = res.ImageKey;
-            tn.Tag = res;
-            Node.Nodes.Add(tn);
-            Node.Expand();
-            // TODO: ididit
-            tn.BeginEdit();
+            parent.AddResource(Node, new ScriptGroupResourceView(parent), null, -1, true, true, false);
         }
 
         public bool CanSort
@@ -158,9 +150,33 @@ namespace GameCreator.IDE
             get { return true; }
         }
 
-        public void Sort()
+        #endregion
+
+        #region IScriptExportable Members
+
+        public void WriteToStream(System.IO.TextWriter stream)
+        {
+            foreach (TreeNode n in Node.Nodes)
+                ((IScriptExportable)n.Tag).WriteToStream(stream);
+        }
+
+        #endregion
+
+        #region IScriptExportable Members
+
+        void IScriptExportable.WriteToStream(System.IO.TextWriter stream)
         {
             throw new NotImplementedException();
+        }
+        #endregion
+
+        #region IDeletable Members
+
+        public void DoDelete(bool removenode)
+        {
+            foreach (TreeNode n in Node.Nodes)
+                ((IDeletable)(n.Tag)).DoDelete(false);
+            if (removenode) Node.Remove();
         }
 
         #endregion

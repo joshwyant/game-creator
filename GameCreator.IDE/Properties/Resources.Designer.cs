@@ -104,30 +104,26 @@ namespace GameCreator.IDE.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to {
-        ///	click = &quot;
-        ///		if (t == 1)
-        ///		{
-        ///			if (window_count() &gt; 1)
-        ///				window_close(window_index);
-        ///			else
-        ///			{
-        ///				show_message(&apos;Ha ha! the game ends!&apos;);
-        ///				game_end()
-        ///			}
-        ///		}
-        ///		else
-        ///		{
-        ///			t-=1
-        ///			if (t=1)
-        ///				show_message(&apos;You have 1 try left.&apos;);
-        ///			else
-        ///				show_message(&apos;You have &apos;+string(t)+&apos; tries left.&apos;);
-        ///		}&quot;;
-        ///	w = window_create(&quot;My Window&quot;);
-        ///	window_set_color(w, choose(c_red, c_green, c_yellow, c_blue));
-        ///	window_set_create(w, &quot;t = 3&quot;);
-        ///	window_set_click(w, click);
-        ///	window_add_butto [rest of string was truncated]&quot;;.
+        ///    click = &quot;
+        ///        if (t == 1)
+        ///        {
+        ///            if (window_count() &gt; 1)
+        ///                window_close(window_index);
+        ///            else
+        ///            {
+        ///                show_message(&apos;Ha ha! the game ends!&apos;);
+        ///                game_end()
+        ///            }
+        ///        }
+        ///        else
+        ///        {
+        ///            t-=1
+        ///            if (t=1)
+        ///                show_message(&apos;You have 1 try left.&apos;);
+        ///            else
+        ///                show_message(&apos;You have &apos;+string(t)+&apos; tries left.&apos;);
+        ///        }&quot;;
+        ///    w = window_cr [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string scr_main {
             get {

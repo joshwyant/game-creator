@@ -16,29 +16,29 @@ namespace GameCreator.IDE
             InitializeComponent();
         }
         public event EventHandler Save;
-        bool saved;
+        public bool Saved;
         public string CreationCode
         {
             get { return textBox1.Text; }
-            set { textBox1.Text = value; saved = true; textBox1.Select(0, 0); }
+            set { textBox1.Text = value; Saved = true; textBox1.Select(0, 0); }
         }
 
         private void toolStripButton1_Click(object sender, EventArgs e)
         {
             if (Save != null)
                 Save(this, EventArgs.Empty);
-            saved = true;
+            Saved = true;
             this.Close();
         }
 
         private void RoomEditor_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (!saved)
+            if (!Saved)
                 switch (MessageBox.Show("Save changes to the room?", "Warning", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Warning))
                 {
                     case DialogResult.Yes:
                         Save(this, EventArgs.Empty);
-                        saved = true;
+                        Saved = true;
                         break;
                     case DialogResult.Cancel:
                         e.Cancel = true;
@@ -48,7 +48,7 @@ namespace GameCreator.IDE
 
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
-            saved = false;
+            Saved = false;
         }
     }
 }

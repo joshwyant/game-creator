@@ -8,6 +8,7 @@ namespace GameCreator.Runtime
     public class Game
     {
         public static string Name { get { return Env.Title; } set { Env.Title = value; } }
+        internal static GameForm roomform;
         /* Call GameCreator.Runtime.Game.Run after all of the reasources are created using the GameCreator.Runtime namespace */
         public static void Run()
         {
@@ -43,9 +44,9 @@ namespace GameCreator.Runtime
                 System.Windows.Forms.Application.SetCompatibleTextRenderingDefault(false);
                 IEnumerator<KeyValuePair<long, IndexedResource>> e = Room.Manager.Resources.GetEnumerator();
                 e.MoveNext();
-                GameForm gameform = new GameForm((Room)e.Current.Value); // gets the first room available
-                gameform.Show();
-                while (gameform.Created) System.Windows.Forms.Application.DoEvents();
+                roomform = new GameForm((Room)e.Current.Value); // gets the first room available
+                roomform.Show();
+                while (roomform.Created) System.Windows.Forms.Application.DoEvents();
             }
             catch (ProgramError err)
             {

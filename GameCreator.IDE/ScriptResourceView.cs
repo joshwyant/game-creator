@@ -6,20 +6,32 @@ using System.Windows.Forms;
 
 namespace GameCreator.IDE
 {
-    class ScriptResourceView : IResourceView
+    class ScriptResourceView : IResourceView, IScriptExportable, IDeletable
     {
         string name;
-        public string Code = string.Empty;
+        string code = string.Empty;
+        long id;
+        public string Code {
+            get 
+            {
+                if (editor != null && editor.Created)
+                    return editor.Code;
+                return code; 
+            } 
+
+            set { code = value; } 
+        }
         ScriptEditor editor;
         DesignerForm parent;
-        public ScriptResourceView(DesignerForm parent)
+        public ScriptResourceView(DesignerForm parent, long index)
         {
             this.parent = parent;
+            id = index;
         }
 
         void editor_Save(object sender, EventArgs e)
         {
-            Code = editor.Code;
+            code = editor.Code;
         }
         #region IResourceView Members
 
@@ -60,7 +72,15 @@ namespace GameCreator.IDE
 
         public void SpecialAction()
         {
-            throw new NotImplementedException();
+            SaveFileDialog sfd = new SaveFileDialog();
+            sfd.Filter = "GML Files|*.gml|All Files|*.*";
+            sfd.AddExtension = true;
+            if (sfd.ShowDialog() == DialogResult.OK)
+            {
+                System.IO.TextWriter stream = new System.IO.StreamWriter(sfd.FileName, false, System.Text.Encoding.ASCII);
+                WriteToStream(stream);
+                stream.Close();
+            }
         }
 
         public string ImageKey
@@ -106,7 +126,10 @@ namespace GameCreator.IDE
 
         public void Delete()
         {
-            throw new NotImplementedException();
+            if (MessageBox.Show(string.Format("Are you sure you want to permanently delete {0}?", name), "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            {
+                DoDelete(true);
+            }
         }
 
         public string InsertString
@@ -121,17 +144,9 @@ namespace GameCreator.IDE
 
         public void Insert()
         {
-            ScriptResourceView res = new ScriptResourceView(parent);
+            ScriptResourceView res = new ScriptResourceView(parent, ScriptsResourceView.ids);
             ScriptsResourceView.scripts.Add(ScriptsResourceView.ids, res);
-            res.Name = "script" + ScriptsResourceView.ids++.ToString();
-            TreeNode tn = new TreeNode(res.Name);
-            res.Node = tn;
-            tn.Name = tn.Text;
-            tn.ImageKey = res.ImageKey;
-            tn.SelectedImageKey = res.ImageKey;
-            tn.Tag = res;
-            Node.Parent.Nodes.Insert(Node.Index, tn);
-            res.Edit();
+            parent.AddResource(Node.Parent, res, "script" + ScriptsResourceView.ids++.ToString(), Node.Index, true, true, false);
         }
 
         public bool CanDuplicate
@@ -141,17 +156,10 @@ namespace GameCreator.IDE
 
         public void Duplicate()
         {
-            ScriptResourceView res = new ScriptResourceView(parent);
+            ScriptResourceView res = new ScriptResourceView(parent, ScriptsResourceView.ids);
+            res.Code = Code;
             ScriptsResourceView.scripts.Add(ScriptsResourceView.ids, res);
-            res.Name = "script" + ScriptsResourceView.ids++.ToString();
-            TreeNode tn = new TreeNode(res.Name);
-            res.Node = tn;
-            tn.Name = tn.Text;
-            tn.ImageKey = res.ImageKey;
-            tn.SelectedImageKey = res.ImageKey;
-            tn.Tag = res;
-            Node.Parent.Nodes.Insert(Node.Index+1, tn);
-            res.Edit();
+            parent.AddResource(Node.Parent, res, "script" + ScriptsResourceView.ids++.ToString(), Node.Index + 1, true, false, true);
         }
 
         public string InsertGroupString
@@ -166,15 +174,7 @@ namespace GameCreator.IDE
 
         public void InsertGroup()
         {
-            ScriptGroupResourceView res = new ScriptGroupResourceView(parent);
-            TreeNode tn = new TreeNode(res.Name);
-            res.Node = tn;
-            tn.Name = tn.Text;
-            tn.ImageKey = res.ImageKey;
-            tn.SelectedImageKey = res.ImageKey;
-            tn.Tag = res;
-            Node.Parent.Nodes.Insert(Node.Index, tn);
-            tn.BeginEdit();
+            parent.AddResource(Node.Parent, new ScriptGroupResourceView(parent), null, Node.Index, true, true, false);
         }
 
         public bool CanSort
@@ -182,9 +182,31 @@ namespace GameCreator.IDE
             get { return false; }
         }
 
-        public void Sort()
+
+        #endregion
+
+        #region IScriptExportable Members
+
+        public void WriteToStream(System.IO.TextWriter stream)
         {
-            throw new NotImplementedException();
+            stream.WriteLine("#define {0}", name);
+            stream.WriteLine(Code);
+        }
+
+        #endregion
+
+        #region IDeletable Members
+
+
+        public void DoDelete(bool removenode)
+        {
+            if (editor != null && editor.Created)
+            {
+                editor.Saved = true;
+                editor.Close();
+            }
+            if (removenode) Node.Remove();
+            ScriptsResourceView.scripts.Remove(id);
         }
 
         #endregion
