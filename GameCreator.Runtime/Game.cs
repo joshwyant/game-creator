@@ -12,6 +12,7 @@ namespace GameCreator.Runtime
         /* Call GameCreator.Runtime.Game.Run after all of the reasources are created using the GameCreator.Runtime namespace */
         public static void Run()
         {
+            //System.Windows.Forms.Application
             try
             {
                 /* Define all of the built-in functions included in the runtime */
@@ -40,6 +41,7 @@ namespace GameCreator.Runtime
                 }
 
                 /* Create & show the main game form and enter the main program loop */
+                System.Windows.Forms.Application.ThreadException += new System.Threading.ThreadExceptionEventHandler(Application_ThreadException);
                 System.Windows.Forms.Application.EnableVisualStyles();
                 System.Windows.Forms.Application.SetCompatibleTextRenderingDefault(false);
                 IEnumerator<KeyValuePair<long, IndexedResource>> e = Room.Manager.Resources.GetEnumerator();
@@ -63,6 +65,25 @@ namespace GameCreator.Runtime
             {
                 System.Windows.Forms.MessageBox.Show("Unexpected error occurred while running the game.");
             }
+        }
+
+        static void Application_ThreadException(object sender, System.Threading.ThreadExceptionEventArgs e)
+        {
+            if (e.Exception.GetType() == typeof(ProgramError))
+            {
+                ProgramError err = (ProgramError)e.Exception;
+                string msg = string.Format("ERROR in code at line {0} pos {1}:\n{2}", err.Line, err.Column, err.Message);
+                switch (err.Location)
+                {
+                    case CodeLocation.Script:
+                        msg = string.Format("COMPILAION ERROR in Script:\nError in code at line {0}:\n\n\nat position {1}: {2}", err.Line, err.Column, err.Message);
+                        break;
+                }
+                System.Windows.Forms.MessageBox.Show(msg, Name, System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
+            }
+            else
+                System.Windows.Forms.MessageBox.Show("Unexpected error occurred while running the game.");
+            System.Environment.Exit(1);
         }
     }
 }

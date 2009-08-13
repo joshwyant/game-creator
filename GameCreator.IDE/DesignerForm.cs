@@ -224,7 +224,7 @@ namespace GameCreator.IDE
             System.Reflection.Emit.AssemblyBuilder asm = AppDomain.CurrentDomain.DefineDynamicAssembly(new AssemblyName(asmname), AssemblyBuilderAccess.RunAndSave, pathname);
             ModuleBuilder mod = asm.DefineDynamicModule(exename);
             TypeBuilder program = mod.DefineType("Program");
-            program.SetCustomAttribute(new CustomAttributeBuilder(typeof(STAThreadAttribute).GetConstructor(new Type[] { }), new object[] { }));
+            //program.SetCustomAttribute(new CustomAttributeBuilder(typeof(STAThreadAttribute).GetConstructor(new Type[] { }), new object[] { }));
             // our static Main() function
             // {
             //   GameCreator.Runtime.Script.Define("name", index, "code");
