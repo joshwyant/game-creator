@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using GameCreator.Interpreter;
+using GameCreator.Runtime.Interpreter;
 
-namespace GameCreator.Runtime
+namespace GameCreator.Runtime.Library
 {
     // Experimental set of functions for displaying forms, NOT functions included in YoYo GM
     internal static class FormsFunctions
@@ -19,74 +19,74 @@ namespace GameCreator.Runtime
         */
         class window
         {
-            public GameCreator.Interpreter.Script click;
-            public GameCreator.Interpreter.Script create;
-            public Env inst;
+            public GameCreator.Runtime.Interpreter.ScriptFunction click;
+            public GameCreator.Runtime.Interpreter.ScriptFunction create;
+            public Instance inst;
         }
         [GMLFunction(1)]
         public static Value window_create(params Value[] args)
         {
             int ind = formc++;
             System.Windows.Forms.Form m = new System.Windows.Forms.Form();
-            m.Text = args[0].String;
+            m.Text = args[0];
             forms.Add(ind, m);
             window w = new window();
             w.inst = Env.CreatePrivateInstance();
-            w.inst.SetLocalVar("window_index", new Value(ind));
+            w.inst.SetLocalVar("window_index", ind);
             m.Tag = w;
             m.Click += new EventHandler(m_Click);
             m.Load += new EventHandler(m_Load);
-            return new Value(ind);
+            return ind;
         }
         [GMLFunction(1)]
         public static Value window_close(params Value[] args)
         {
-            forms[(int)args[0].Real].Close();
-            forms.Remove((int)args[0].Real);
-            return Value.Zero;
+            forms[args[0]].Close();
+            forms.Remove(args[0]);
+            return 0;
         }
         [GMLFunction(0)]
         public static Value window_count(params Value[] args)
         {
-            return new Value(forms.Count);
+            return forms.Count;
         }
         [GMLFunction(1)]
         public static Value window_show(params Value[] args)
         {
-            forms[(int)args[0].Real].Show();
-            return new Value();
+            forms[args[0]].Show();
+            return Value.Null;
         }
         [GMLFunction(2)]
         public static Value window_set_color(params Value[] args)
         {
-            forms[(int)args[0].Real].BackColor = System.Drawing.Color.FromArgb((int)args[1].Real&0xFF,((int)args[1].Real>>8)&0xFF,((int)args[1].Real>>16)&0xFF);
-            return new Value();
+            forms[args[0]].BackColor = System.Drawing.Color.FromArgb(args[1]&0xFF,(args[1]>>8)&0xFF,(args[1]>>16)&0xFF);
+            return Value.Null;
         }
         [GMLFunction(2)]
         public static Value window_set_click(params Value[] args)
         {
-            System.Windows.Forms.Form f = forms[(int)args[0].Real];
-            ((window)f.Tag).click = new GameCreator.Interpreter.Script(null, args[1].String);
-            return Value.Zero;
+            System.Windows.Forms.Form f = forms[args[0]];
+            ((window)f.Tag).click = new GameCreator.Runtime.Interpreter.ScriptFunction(null, args[1]);
+            return 0;
         }
         [GMLFunction(2)]
         public static Value window_set_create(params Value[] args)
         {
-            System.Windows.Forms.Form f = forms[(int)args[0].Real];
-            ((window)f.Tag).create = new GameCreator.Interpreter.Script(null, args[1].String);
-            return Value.Zero;
+            System.Windows.Forms.Form f = forms[args[0]];
+            ((window)f.Tag).create = new GameCreator.Runtime.Interpreter.ScriptFunction(null, args[1]);
+            return 0;
         }
         [GMLFunction(6)]
         public static Value window_add_button(params Value[] args)
         {
-            System.Windows.Forms.Form t = forms[(int)args[0].Real];
+            System.Windows.Forms.Form t = forms[args[0]];
             System.Windows.Forms.Button b = new System.Windows.Forms.Button();
-            b.Text = args[5].String;
-            b.Location = new System.Drawing.Point((int)args[1].Real, (int)args[2].Real);
-            b.Size = new System.Drawing.Size((int)args[3].Real, (int)args[4].Real);
+            b.Text = args[5];
+            b.Location = new System.Drawing.Point(args[1], args[2]);
+            b.Size = new System.Drawing.Size(args[3], args[4]);
             t.Controls.Add(b);
             b.BackColor = System.Drawing.Color.FromKnownColor(System.Drawing.KnownColor.Control);
-            return Value.Zero;
+            return 0;
         }
         static void m_Click(object sender, EventArgs e)
         {

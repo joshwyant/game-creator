@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using GameCreator.Interpreter;
+using GameCreator.Runtime.Interpreter;
 
 namespace GameCreator.Runtime
 {
@@ -15,7 +15,7 @@ namespace GameCreator.Runtime
         {
             if (creationcode != null)
             {
-                Env current = Env.Current;
+                Instance current = Env.Current;
                 Env.Current = Env.CreatePrivateInstance();
                 Env.Enter();
                 creationcode.Run();
@@ -27,12 +27,12 @@ namespace GameCreator.Runtime
         {
         }
         Room(string name) : base(name) { Manager.Install(this); }
-        Room(string name, long index) : base(name) { Manager.Install(this, index); }
+        Room(string name, int index) : base(name) { Manager.Install(this, index); }
         public static Room Define(string name)
         {
             return new Room(name);
         }
-        public static Room Define(string name, long index)
+        public static Room Define(string name, int index)
         {
             return new Room(name, index);
         }

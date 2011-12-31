@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using GameCreator.Interpreter;
+using GameCreator.Runtime.Interpreter;
 
-namespace GameCreator.Runtime
+namespace GameCreator.Runtime.Library
 {
-    internal static class MiscFunctions
+    internal static partial class GMLFunctions
     {
         static string newlines(string s)
         {
@@ -34,7 +34,7 @@ namespace GameCreator.Runtime
         public static Value show_message(params Value[] args)
         {
             MessageForm mf = new MessageForm();
-            mf.Message = newlines(args[0].String);
+            mf.Message = newlines(args[0]);
             mf.ShowDialog();
             //System.Windows.Forms.MessageBox.Show(newlines(args[0].String), Env.Title);
             return Value.Zero;
@@ -42,8 +42,8 @@ namespace GameCreator.Runtime
         [GMLFunction(1)]
         public static Value execute_string(params Value[] args)
         {
-            Env.Returned = Value.Zero;
-            Parser p = new Parser(args[0].String);
+            Env.Returned = 0;
+            Parser p = new Parser(args[0]);
             p.Parse().Exec();
             return Env.Returned;
         }
@@ -51,7 +51,7 @@ namespace GameCreator.Runtime
         public static Value game_end(params Value[] args)
         {
             System.Windows.Forms.Application.Exit();
-            return new Value();
+            return Value.Null;
         }
     }
 }

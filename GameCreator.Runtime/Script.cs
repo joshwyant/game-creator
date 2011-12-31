@@ -6,8 +6,9 @@
     {
         public static IndexedResourceManager Manager = new IndexedResourceManager();
         public string Code { get; private set; }
-        Script(string name, long index, string code) : base(name) { Manager.Install(this, index); Code = code; }
-        public static Script Define(string name, long index, string code)
+        internal GameCreator.Runtime.Interpreter.ScriptFunction CompiledScript { get; set; }
+        Script(string name, int index, string code) : base(name) { Manager.Install(this, index); Code = code; }
+        public static Script Define(string name, int index, string code)
         {
             return new Script(name, index, code);
         }
