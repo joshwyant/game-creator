@@ -308,7 +308,7 @@ namespace GameCreator.IDE
             tn.SelectedImageKey = res.ImageKey;
             tn.Tag = res;
             if (parent == null)
-                tn.NodeFont = new Font(treeView1.Font, FontStyle.Bold);
+                tn.NodeFont = new Font(treeView1.Font, FontStyle.Regular);
             TreeNodeCollection tnc = parent == null ? treeView1.Nodes : parent.Nodes;
             if (treeIndex == -1)
                 tnc.Add(tn);

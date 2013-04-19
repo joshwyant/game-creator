@@ -34,7 +34,10 @@ namespace GameCreator.IDE
                 System.IO.MemoryStream ms = new System.IO.MemoryStream(a.OriginalImage);
                 System.Drawing.Bitmap b = (System.Drawing.Bitmap)System.Drawing.Bitmap.FromStream(ms);
                 a.Image = new System.Drawing.Bitmap(24, 24, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
-                System.Drawing.Graphics.FromImage(a.Image).DrawImage(b, 0, 0);
+                using (var g = System.Drawing.Graphics.FromImage(a.Image))
+                {
+                    g.DrawImage(b, new System.Drawing.Rectangle(0, 0, b.Width, b.Height));
+                }
                 if (b.PixelFormat != System.Drawing.Imaging.PixelFormat.Format32bppArgb)
                     ((System.Drawing.Bitmap)a.Image).MakeTransparent(b.GetPixel(0, b.Height - 1));
                 ms.Close();
