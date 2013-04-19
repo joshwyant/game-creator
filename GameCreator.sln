@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameCreator.IDE", "GameCrea
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameCreator.RuntimeTest", "GameCreator.RuntimeTest\GameCreator.RuntimeTest.csproj", "{2C129977-83D9-40A9-A6C8-2E09044B66CE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameCreator.ExportModules", "GameCreator.ExportModules\GameCreator.ExportModules.csproj", "{BD704AC4-13E8-4C7F-BE63-039978A89BFF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -25,6 +27,10 @@ Global
 		{2C129977-83D9-40A9-A6C8-2E09044B66CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2C129977-83D9-40A9-A6C8-2E09044B66CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2C129977-83D9-40A9-A6C8-2E09044B66CE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BD704AC4-13E8-4C7F-BE63-039978A89BFF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BD704AC4-13E8-4C7F-BE63-039978A89BFF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BD704AC4-13E8-4C7F-BE63-039978A89BFF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BD704AC4-13E8-4C7F-BE63-039978A89BFF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

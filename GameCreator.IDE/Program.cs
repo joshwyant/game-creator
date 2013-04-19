@@ -37,7 +37,7 @@ namespace GameCreator.IDE
         static void Main()
         {
             Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
+            Application.SetCompatibleTextRenderingDefault(true);
             Application.ThreadException += new System.Threading.ThreadExceptionEventHandler(Application_ThreadException);
             // Set the Program Properties
             SpriteIncremental = 0;
