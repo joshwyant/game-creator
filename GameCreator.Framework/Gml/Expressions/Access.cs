@@ -71,5 +71,10 @@ namespace GameCreator.Framework.Gml
                 return ExecutionContext.GetVar(left, Name, i1, i2);
             }
         }
+
+        public override void Emit(Intermediate.FunctionBuilder builder)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

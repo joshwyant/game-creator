@@ -29,5 +29,10 @@ namespace GameCreator.Framework.Gml
                 t[i++] = e.ToString();
             return f.Name + "(" + string.Join(", ", t) + ")";
         }
+
+        public override void Emit(Intermediate.FunctionBuilder builder)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

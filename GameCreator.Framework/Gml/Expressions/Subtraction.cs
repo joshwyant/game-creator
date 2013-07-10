@@ -11,5 +11,10 @@ namespace GameCreator.Framework.Gml
             if (!(v1.IsReal && v2.IsReal)) Error("Wrong type of arguments to -.");
             return new Value(v1.Real - v2.Real);
         }
+
+        public override void Emit(Intermediate.FunctionBuilder builder)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

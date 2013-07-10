@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using GameCreator.Framework.Intermediate;
 
 namespace GameCreator.Framework.Gml
 {
@@ -53,6 +54,11 @@ namespace GameCreator.Framework.Gml
         {
             throw new ProgramError(str, ErrorSeverity.Error, ExecutionContext.ExecutingStatement);
         }
-        public static Statement Null = new Statement(0,0);
+        public static Statement Null = new Statement(0, 0);
+
+        public override void Emit(FunctionBuilder builder)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

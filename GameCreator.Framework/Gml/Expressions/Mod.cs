@@ -11,5 +11,10 @@ namespace GameCreator.Framework.Gml
             if (!(v1.IsReal && v2.IsReal)) Error("Wrong type of arguments to mod.");
             return (double)((long)v1.Real % (long)v2.Real);
         }
+
+        public override void Emit(Intermediate.FunctionBuilder builder)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

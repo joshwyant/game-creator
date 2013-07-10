@@ -11,5 +11,10 @@ namespace GameCreator.Framework.Gml
             if (!v.IsReal) Error("Wrong type of arguments to unary operator.");
             return new Value(v.Real);
         }
+
+        public override void Emit(Intermediate.FunctionBuilder builder)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

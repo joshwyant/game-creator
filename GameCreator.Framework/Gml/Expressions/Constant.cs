@@ -17,5 +17,10 @@ namespace GameCreator.Framework.Gml
         {
             return v.ToString();
         }
+
+        public override void Emit(Intermediate.FunctionBuilder builder)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

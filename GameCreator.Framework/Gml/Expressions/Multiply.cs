@@ -20,5 +20,10 @@ namespace GameCreator.Framework.Gml
             else
                 return Error("Wrong type of arguments to *.");
         }
+
+        public override void Emit(Intermediate.FunctionBuilder builder)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

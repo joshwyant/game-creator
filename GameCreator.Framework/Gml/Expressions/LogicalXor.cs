@@ -14,5 +14,10 @@ namespace GameCreator.Framework.Gml
             if (!v1.IsReal || !v2.IsReal) Error("Wrong type of arguments for ^^.");
             return (v1.Real > 0) ^ (v2.Real > 0) ? new Value(1.0) : Value.Zero;
         }
+
+        public override void Emit(Intermediate.FunctionBuilder builder)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

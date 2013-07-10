@@ -11,5 +11,10 @@ namespace GameCreator.Framework.Gml
             if (!(v1.IsReal && v2.IsReal)) Error("Wrong type of arguments for <<.");
             return (double)(Convert.ToInt64(v1.Real) << (int)Convert.ToInt64(v2.Real));
         }
+
+        public override void Emit(Intermediate.FunctionBuilder builder)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

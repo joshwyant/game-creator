@@ -9,5 +9,10 @@ namespace GameCreator.Framework.Gml
         string n;
         public Id(string n, int line, int col) : base(line, col) { this.n = n; }
         public override string ToString() { return n; }
+
+        public override void Emit(Intermediate.FunctionBuilder builder)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

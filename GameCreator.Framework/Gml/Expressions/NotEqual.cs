@@ -21,5 +21,10 @@ namespace GameCreator.Framework.Gml
             }
             else return Error("Cannot compare arguments.");
         }
+
+        public override void Emit(Intermediate.FunctionBuilder builder)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
