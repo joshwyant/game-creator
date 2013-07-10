@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using GameCreator.Runtime.Interpreter;
+using GameCreator.Framework.Gml;
 
-namespace GameCreator.Runtime
+namespace GameCreator.Framework
 {
     public class Game
     {
@@ -15,7 +15,7 @@ namespace GameCreator.Runtime
         {
             System.AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
         }
-        /* Call GameCreator.Runtime.Game.Run after all of the reasources are created using the GameCreator.Runtime namespace */
+        /* Call GameCreator.Framework.Game.Run after all of the reasources are created using the GameCreator.Framework namespace */
         public static void Run()
         {
             //System.Windows.Forms.Application

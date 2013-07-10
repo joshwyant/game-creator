@@ -1,4 +1,4 @@
-﻿namespace GameCreator.Runtime
+﻿namespace GameCreator.Framework
 {
     public enum ActionKind : int
     {

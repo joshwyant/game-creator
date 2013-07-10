@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using GameCreator.Runtime.Interpreter;
+using GameCreator.Framework.Gml;
 
-namespace GameCreator.Runtime.Library
+namespace GameCreator.Framework.Library
 {
     // Experimental set of functions for displaying forms, NOT functions included in YoYo GM
     internal static class FormsFunctions
@@ -19,8 +19,8 @@ namespace GameCreator.Runtime.Library
         */
         class window
         {
-            public GameCreator.Runtime.Interpreter.ScriptFunction click;
-            public GameCreator.Runtime.Interpreter.ScriptFunction create;
+            public GameCreator.Framework.Gml.ScriptFunction click;
+            public GameCreator.Framework.Gml.ScriptFunction create;
             public Instance inst;
         }
         [GMLFunction(1)]
@@ -66,14 +66,14 @@ namespace GameCreator.Runtime.Library
         public static Value window_set_click(params Value[] args)
         {
             System.Windows.Forms.Form f = forms[args[0]];
-            ((window)f.Tag).click = new GameCreator.Runtime.Interpreter.ScriptFunction(null, args[1]);
+            ((window)f.Tag).click = new GameCreator.Framework.Gml.ScriptFunction(null, args[1]);
             return 0;
         }
         [GMLFunction(2)]
         public static Value window_set_create(params Value[] args)
         {
             System.Windows.Forms.Form f = forms[args[0]];
-            ((window)f.Tag).create = new GameCreator.Runtime.Interpreter.ScriptFunction(null, args[1]);
+            ((window)f.Tag).create = new GameCreator.Framework.Gml.ScriptFunction(null, args[1]);
             return 0;
         }
         [GMLFunction(6)]

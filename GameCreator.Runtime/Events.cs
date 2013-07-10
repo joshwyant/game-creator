@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using OpenTK.Input;
 
-namespace GameCreator.Runtime
+namespace GameCreator.Framework
 {
     public class MouseEvents
     {

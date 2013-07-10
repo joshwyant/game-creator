@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using GameCreator.Runtime.Interpreter;
+using GameCreator.Framework.Gml;
 
-namespace GameCreator.Runtime.Library
+namespace GameCreator.Framework.Library
 {
     internal static partial class GMLFunctions
     {

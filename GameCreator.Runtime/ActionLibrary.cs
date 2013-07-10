@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
 
-namespace GameCreator.Runtime
+namespace GameCreator.Framework
 {
     public class ActionLibrary
     {
 
       #region Publicly accessible methods
-        // A game calls GameCreator.Runtime.ActionLibrary.Define() to define actions for a library with the given id.
+        // A game calls GameCreator.Framework.ActionLibrary.Define() to define actions for a library with the given id.
         public static ActionLibrary Define(int libid)
         {
             ActionLibrary lib;
@@ -16,7 +16,7 @@ namespace GameCreator.Runtime
             Libraries.Add(libid, lib);
             return lib;
         }
-        // GameCreator.Runtime.ActionLibrary.Define(1).DefineAction(100, normal, false, "action_xx", null, {expr, menu, object});
+        // GameCreator.Framework.ActionLibrary.Define(1).DefineAction(100, normal, false, "action_xx", null, {expr, menu, object});
         public void DefineAction(int actionid, ActionKind kind, ActionExecutionType execution, bool question, string func, string code, ActionArgumentType[] args) { if (!Actions.ContainsKey(actionid)) Actions.Add(actionid, new ActionDefinition(kind, execution, question, func, code, args)); }
       #endregion
 

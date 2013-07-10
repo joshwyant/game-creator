@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace GameCreator.Runtime
+namespace GameCreator.Framework
 {
     public class IndexedResource
     {

@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using GameCreator.Runtime.Interpreter;
+using GameCreator.Framework.Gml;
 
-namespace GameCreator.Runtime
+namespace GameCreator.Framework
 {
     public class IndexedResourceManager
     {

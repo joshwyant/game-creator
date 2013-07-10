@@ -1,4 +1,4 @@
-﻿using GameCreator.Runtime;
+﻿using GameCreator.Framework;
 
 namespace GameCreator.RuntimeTest
 {

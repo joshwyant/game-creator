@@ -6,10 +6,10 @@ using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
 using System.Drawing;
-using GameCreator.Runtime.Interpreter;
-using GameCreator.Runtime.Library;
+using GameCreator.Framework.Gml;
+using GameCreator.Framework.Library;
 
-namespace GameCreator.Runtime
+namespace GameCreator.Framework
 {
     class RuntimeWindow : GameWindow
     {

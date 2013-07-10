@@ -1,6 +1,6 @@
-﻿using GameCreator.Runtime.Interpreter;
+﻿using GameCreator.Framework.Gml;
 
-namespace GameCreator.Runtime
+namespace GameCreator.Framework
 {
     class ActionDefinition
     {

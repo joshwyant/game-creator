@@ -1,4 +1,4 @@
-﻿namespace GameCreator.Runtime
+﻿namespace GameCreator.Framework
 {
     enum EmulationOptions
     {

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace GameCreator.Runtime
+namespace GameCreator.Framework
 {
     public class Object : IndexedResource
     {
@@ -15,10 +15,10 @@ namespace GameCreator.Runtime
             if (e.Destroyed) return;
             if (EventDefined(ev, num))
             {
-                Instance current = Interpreter.Env.Current;
-                Interpreter.Env.Current = e;
+                Instance current = Gml.Env.Current;
+                Gml.Env.Current = e;
                 Events[ev][num].Execute();
-                Interpreter.Env.Current = current;
+                Gml.Env.Current = current;
             }
         }
         internal bool EventDefined(EventType ev, int num)
