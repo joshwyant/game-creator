@@ -4,11 +4,11 @@ using System.Text;
 
 namespace GameCreator.Framework.Gml
 {
-    class Repeat : Stmt
+    class Repeat : Statement
     {
-        public Expr expr;
-        public Stmt stmt;
-        public Repeat(Expr e, Stmt s, int l, int c)
+        public Expression expr;
+        public Statement stmt;
+        public Repeat(Expression e, Statement s, int l, int c)
             : base(l, c)
         {
             expr = e;

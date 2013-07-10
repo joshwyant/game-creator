@@ -62,10 +62,10 @@ namespace GameCreator.Framework.Library.Actions
             double h = (args[3] - args[1]) * 0.5;
             double x = args[0] + w;
             double y = args[1] + h;
-            if (Env.argument_relative.value)
+            if (ExecutionContext.argument_relative.value)
             {
-                x += Env.Current.x.value;
-                y += Env.Current.y.value;
+                x += ExecutionContext.Current.x.value;
+                y += ExecutionContext.Current.y.value;
             }
             GL.Disable(EnableCap.Texture2D);
             GL.Begin(BeginMode.TriangleFan);

@@ -30,7 +30,7 @@ namespace GameCreator.Framework.Library
             }
             catch
             {
-                throw new ProgramError("Error in function real().", ErrorSeverity.Error, Env.ExecutingStatement);
+                throw new ProgramError("Error in function real().", ErrorSeverity.Error, ExecutionContext.ExecutingStatement);
             }
         }
         [GMLFunction(1, Name = "string")]

@@ -25,7 +25,7 @@ namespace GameCreator.Framework.Gml
         public int Column { get; set; }
         public CodeLocation Location { get; set; }
         public ErrorSeverity Severity { get; set; }
-        public Stmt OffendingStatement { get; set; }
+        public Statement OffendingStatement { get; set; }
         public ProgramError(String message, ErrorSeverity sev, int line, int col) 
             : base(message) 
         {
@@ -33,7 +33,7 @@ namespace GameCreator.Framework.Gml
             Line = line;
             Column = col; 
         }
-        public ProgramError(String message, ErrorSeverity sev, Stmt s)
+        public ProgramError(String message, ErrorSeverity sev, Statement s)
             : base(message)
         {
             Severity = sev;

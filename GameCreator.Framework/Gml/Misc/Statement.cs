@@ -4,9 +4,9 @@ using System.Text;
 
 namespace GameCreator.Framework.Gml
 {
-    public class Stmt : Node
+    public class Statement : AstNode
     {
-        public Stmt(int line, int col) : base(line, col) { }
+        public Statement(int line, int col) : base(line, col) { }
         protected FlowType ProgramFlow;
         // Nothing should call run(), which is called internally be Stmt.
         // This is the function you override. The statement changes program flow with the variable ProgramFlow.
@@ -17,15 +17,15 @@ namespace GameCreator.Framework.Gml
         public FlowType Exec()
         {
             ProgramFlow = FlowType.None;
-            Stmt prev = Env.ExecutingStatement;
-            Env.ExecutingStatement = this;
+            Statement prev = ExecutionContext.ExecutingStatement;
+            ExecutionContext.ExecutingStatement = this;
             run();
-            Env.ExecutingStatement = prev;
+            ExecutionContext.ExecutingStatement = prev;
             return ProgramFlow;
         }
         // This function is called by non-loop statements with embedded statements. The calling statement must
         // return if Exec(s) != FlowType.None.
-        protected FlowType Exec(Stmt s)
+        protected FlowType Exec(Statement s)
         {
             FlowType t = s.Exec();
             ProgramFlow |= t;
@@ -43,7 +43,7 @@ namespace GameCreator.Framework.Gml
          *     return;
          * }
          */
-        protected FlowType Exec(Stmt s, FlowType Catch)
+        protected FlowType Exec(Statement s, FlowType Catch)
         {
             FlowType t = s.Exec();
             ProgramFlow |= t & ~Catch;
@@ -51,8 +51,8 @@ namespace GameCreator.Framework.Gml
         }
         public void Error(string str)
         {
-            throw new ProgramError(str, ErrorSeverity.Error, Env.ExecutingStatement);
+            throw new ProgramError(str, ErrorSeverity.Error, ExecutionContext.ExecutingStatement);
         }
-        public static Stmt Null = new Stmt(0,0);
+        public static Statement Null = new Statement(0,0);
     }
 }

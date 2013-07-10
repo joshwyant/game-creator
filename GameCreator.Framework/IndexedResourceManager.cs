@@ -15,13 +15,13 @@ namespace GameCreator.Framework
         {
             i.Index = inds++;
             Resources.Add(i.Index, i);
-            Env.DefineResourceIndex(i.Name, i.Index);
+            ExecutionContext.DefineResourceIndex(i.Name, i.Index);
         }
         public void Install(IndexedResource i, int index)
         {
             i.Index = index;
             Resources.Add(index, i);
-            Env.DefineResourceIndex(i.Name, index);
+            ExecutionContext.DefineResourceIndex(i.Name, index);
         }
     }
 }

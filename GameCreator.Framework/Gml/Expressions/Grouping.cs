@@ -4,10 +4,10 @@ using System.Text;
 
 namespace GameCreator.Framework.Gml
 {
-    class Grouping : Expr
+    class Grouping : Expression
     {
-        Expr expr;
-        public Grouping(Expr e, int line, int col) : base(line, col) { expr = e; }
+        Expression expr;
+        public Grouping(Expression e, int line, int col) : base(line, col) { expr = e; }
         public override Value Eval()
         {
             return expr.Eval();

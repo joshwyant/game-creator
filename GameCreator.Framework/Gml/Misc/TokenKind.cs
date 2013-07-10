@@ -1,6 +1,6 @@
 ﻿namespace GameCreator.Framework.Gml
 {
-    public enum Terminal
+    public enum TokenKind
     {
         None,
         Eof,

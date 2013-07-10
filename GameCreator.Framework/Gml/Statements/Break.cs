@@ -4,7 +4,7 @@ using System.Text;
 
 namespace GameCreator.Framework.Gml
 {
-    class Break : Stmt
+    class Break : Statement
     {
         public Break(int line, int col) : base(line, col) { }
         protected override void run()

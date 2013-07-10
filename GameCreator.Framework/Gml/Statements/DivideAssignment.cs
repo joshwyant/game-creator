@@ -1,9 +1,9 @@
 ﻿namespace GameCreator.Framework.Gml
 {
-    class DivideAssignment : Stmt
+    class DivideAssignment : Statement
     {
-        Access a; Expr x;
-        public DivideAssignment(Access acc, Expr e, int line, int col) : base(line, col) { a = acc; x = e; }
+        Access a; Expression x;
+        public DivideAssignment(Access acc, Expression e, int line, int col) : base(line, col) { a = acc; x = e; }
         protected override void run()
         {
             Value v1 = a.Eval(), v2 = x.Eval();

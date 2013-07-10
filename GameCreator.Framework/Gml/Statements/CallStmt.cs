@@ -4,10 +4,10 @@ using System.Text;
 
 namespace GameCreator.Framework.Gml
 {
-    class CallStmt : Stmt
+    class CallStmt : Statement
     {
         Call c;
-        public CallStmt(BaseFunction func, Expr[] expressions, int l, int c)
+        public CallStmt(BaseFunction func, Expression[] expressions, int l, int c)
             : base(l, c)
         {
             this.c = new Call(func, expressions, l, c);

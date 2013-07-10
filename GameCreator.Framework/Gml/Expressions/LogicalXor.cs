@@ -4,10 +4,10 @@ using System.Text;
 
 namespace GameCreator.Framework.Gml
 {
-    class LogicalXor : Expr
+    class LogicalXor : Expression
     {
-        Expr expr1, expr2;
-        public LogicalXor(Expr e1, Expr e2, int l, int c) : base(l, c) { expr1 = e1; expr2 = e2; }
+        Expression expr1, expr2;
+        public LogicalXor(Expression e1, Expression e2, int l, int c) : base(l, c) { expr1 = e1; expr2 = e2; }
         public override Value Eval()
         {
             Value v1 = expr1.Eval(), v2 = expr2.Eval();

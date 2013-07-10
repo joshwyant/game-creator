@@ -4,7 +4,7 @@ using System.Text;
 
 namespace GameCreator.Framework.Gml
 {
-    class Id : Expr
+    class Id : Expression
     {
         string n;
         public Id(string n, int line, int col) : base(line, col) { this.n = n; }

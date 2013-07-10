@@ -33,7 +33,7 @@ namespace GameCreator.Framework.Library.Actions
         public static Value action_if_number(params Value[] args)
         {
             int num = 0;
-            foreach (Instance e in Env.Instances.Values) if (e.object_index.value == (int)args[0]) num++;
+            foreach (Instance e in ExecutionContext.Instances.Values) if (e.object_index.value == (int)args[0]) num++;
             switch ((int)args[2])
             {
                 case 0: return num == args[1];

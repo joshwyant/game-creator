@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameCreator.RuntimeTest", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameCreator.ExportModules", "GameCreator.ExportModules\GameCreator.ExportModules.csproj", "{BD704AC4-13E8-4C7F-BE63-039978A89BFF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameCreator.Runtime", "GameCreator.Runtime\GameCreator.Runtime.csproj", "{8D7F601C-C605-477F-8D67-850A8B6CA23A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -59,6 +61,16 @@ Global
 		{BD704AC4-13E8-4C7F-BE63-039978A89BFF}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{BD704AC4-13E8-4C7F-BE63-039978A89BFF}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{BD704AC4-13E8-4C7F-BE63-039978A89BFF}.Release|x86.ActiveCfg = Release|Any CPU
+		{8D7F601C-C605-477F-8D67-850A8B6CA23A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8D7F601C-C605-477F-8D67-850A8B6CA23A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8D7F601C-C605-477F-8D67-850A8B6CA23A}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{8D7F601C-C605-477F-8D67-850A8B6CA23A}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{8D7F601C-C605-477F-8D67-850A8B6CA23A}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{8D7F601C-C605-477F-8D67-850A8B6CA23A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8D7F601C-C605-477F-8D67-850A8B6CA23A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8D7F601C-C605-477F-8D67-850A8B6CA23A}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{8D7F601C-C605-477F-8D67-850A8B6CA23A}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{8D7F601C-C605-477F-8D67-850A8B6CA23A}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

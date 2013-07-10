@@ -4,11 +4,11 @@ using System.Text;
 
 namespace GameCreator.Framework.Gml
 {
-    class Do : Stmt
+    class Do : Statement
     {
-        public Expr expr;
-        public Stmt stmt;
-        public Do(Stmt s, Expr e, int l, int c)
+        public Expression expr;
+        public Statement stmt;
+        public Do(Statement s, Expression e, int l, int c)
             : base(l, c)
         {
             expr = e;

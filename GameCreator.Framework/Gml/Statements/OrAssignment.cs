@@ -1,10 +1,10 @@
 ﻿using System;
 namespace GameCreator.Framework.Gml
 {
-    class OrAssignment : Stmt
+    class OrAssignment : Statement
     {
-        Access a; Expr x;
-        public OrAssignment(Access acc, Expr e, int line, int col) : base(line, col) { a = acc; x = e; }
+        Access a; Expression x;
+        public OrAssignment(Access acc, Expression e, int line, int col) : base(line, col) { a = acc; x = e; }
         protected override void run()
         {
             Value v1 = a.Eval(), v2 = x.Eval();

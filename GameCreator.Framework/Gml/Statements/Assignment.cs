@@ -1,9 +1,9 @@
 ﻿namespace GameCreator.Framework.Gml
 {
-    class Assignment : Stmt
+    class Assignment : Statement
     {
-        Access a; Expr x;
-        public Assignment(Access acc, Expr e, int l, int c) :base(l,c) { a = acc; x = e; }
+        Access a; Expression x;
+        public Assignment(Access acc, Expression e, int l, int c) :base(l,c) { a = acc; x = e; }
         protected override void run()
         {
             a.Set(x.Eval());

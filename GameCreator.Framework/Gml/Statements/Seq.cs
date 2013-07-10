@@ -4,11 +4,11 @@ using System.Text;
 
 namespace GameCreator.Framework.Gml
 {
-    class Seq : Stmt
+    class Seq : Statement
     {
-        public Stmt stmt1;
-        public Stmt stmt2;
-        public Seq(Stmt s1, Stmt s2, int line, int col)
+        public Statement stmt1;
+        public Statement stmt2;
+        public Seq(Statement s1, Statement s2, int line, int col)
             : base(line, col)
         {
             stmt1 = s1;

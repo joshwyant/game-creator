@@ -4,9 +4,9 @@ using System.Text;
 
 namespace GameCreator.Framework.Gml
 {
-    public class Expr : Node
+    public class Expression : AstNode
     {
-        public Expr(int line, int col) : base(line, col) { }
+        public Expression(int line, int col) : base(line, col) { }
         public virtual Value Eval()
         {
             return new Value();

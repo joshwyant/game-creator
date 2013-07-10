@@ -4,13 +4,13 @@ using System.Text;
 
 namespace GameCreator.Framework.Gml
 {
-    class Return : Stmt
+    class Return : Statement
     {
-        Expr expr;
-        public Return(Expr e, int line, int col) : base(line, col) { expr = e; }
+        Expression expr;
+        public Return(Expression e, int line, int col) : base(line, col) { expr = e; }
         protected override void run()
         {
-            Env.Returned = expr.Eval();
+            ExecutionContext.Returned = expr.Eval();
             ProgramFlow = FlowType.Exit;
         }
         public override string ToString()

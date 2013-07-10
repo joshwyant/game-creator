@@ -4,10 +4,10 @@ using System.Text;
 
 namespace GameCreator.Framework.Gml
 {
-    class LessThanOrEqual : Expr
+    class LessThanOrEqual : Expression
     {
-        Expr expr1, expr2;
-        public LessThanOrEqual(Expr e1, Expr e2, int line, int col) : base(line, col) { expr1 = e1; expr2 = e2; }
+        Expression expr1, expr2;
+        public LessThanOrEqual(Expression e1, Expression e2, int line, int col) : base(line, col) { expr1 = e1; expr2 = e2; }
         public override Value Eval()
         {
             Value v1 = expr1.Eval(), v2 = expr2.Eval();

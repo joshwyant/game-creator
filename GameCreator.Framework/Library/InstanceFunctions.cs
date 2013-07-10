@@ -21,7 +21,7 @@ namespace GameCreator.Framework.Library
             if (!Object.Manager.Resources.TryGetValue(id, out res))
                 return null;
             Object o = res as Object;
-            Instance e = Env.CreateInstance();
+            Instance e = ExecutionContext.CreateInstance();
             e.sprite_index.value = o.SpriteIndex;
             e.xstart.value = x;
             e.ystart.value = y;

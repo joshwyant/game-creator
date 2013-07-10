@@ -9,7 +9,7 @@ namespace GameCreator.Framework.Gml
     public delegate void SetAccessor(int i1, int i2, Value val);
     // Set accessor delegate for variables
     public delegate Value GetAccessor(int i1, int i2);
-    public static class Env
+    public static class ExecutionContext
     {
         static internal int ids = 100000;
         // The last id assigned to an instance by the IDE
@@ -18,7 +18,7 @@ namespace GameCreator.Framework.Gml
         public static Dictionary<int, Instance> Instances = new Dictionary<int, Instance>();
         public static Instance Current = null;
         public static Instance Other = null;
-        public static Stmt ExecutingStatement = null;
+        public static Statement ExecutingStatement = null;
         static Dictionary<string, Variable> globals = new Dictionary<string, Variable>();
         static List<string> globalvars = new List<string>();
         static List<string> localvars;
@@ -45,7 +45,7 @@ namespace GameCreator.Framework.Gml
         // Define a resource name along with its index, so it can be referenced in code.
         public static void DefineResourceIndex(string name, int index)
         {
-            Env.DefineConstant(name, index);
+            ExecutionContext.DefineConstant(name, index);
         }
         public static void DefineConstant(string name, Value val)
         {
@@ -66,7 +66,7 @@ namespace GameCreator.Framework.Gml
                 DefineFunction(name, fn.Argc, (FunctionDelegate)System.Delegate.CreateDelegate(typeof(FunctionDelegate), mi));
             }
         }
-        static Env()
+        static ExecutionContext()
         {
             // builtins
             current_time = DefineVar("current_time", get_current_time);
@@ -319,7 +319,7 @@ namespace GameCreator.Framework.Gml
         public static void SetArguments(Value[] args)
         {
             for (int i = 0; i < 16 && i < args.Length; i++)
-                Env.args[i] = args[i];
+                ExecutionContext.args[i] = args[i];
         }
         public static ScriptFunction DefineScript(string n, int i, string c)
         {

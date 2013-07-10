@@ -1,10 +1,10 @@
 ﻿using System;
 namespace GameCreator.Framework.Gml
 {
-    class Plus : Expr
+    class Plus : Expression
     {
-        Expr expr;
-        public Plus(Expr e, int line, int col) : base(line, col) { expr = e; }
+        Expression expr;
+        public Plus(Expression e, int line, int col) : base(line, col) { expr = e; }
         public override Value Eval()
         {
             Value v = expr.Eval();

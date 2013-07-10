@@ -4,7 +4,7 @@ using System.Text;
 
 namespace GameCreator.Framework.Gml
 {
-    class Continue : Stmt
+    class Continue : Statement
     {
         public Continue(int l, int c) : base(l, c) { }
         protected override void run()

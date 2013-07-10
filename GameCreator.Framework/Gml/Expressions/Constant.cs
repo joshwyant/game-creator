@@ -4,7 +4,7 @@ using System.Text;
 
 namespace GameCreator.Framework.Gml
 {
-    class Constant : Expr
+    class Constant : Expression
     {
         Value v;
         public Constant(string s, int line, int col) : base(line, col) { v = new Value(s); }

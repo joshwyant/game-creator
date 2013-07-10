@@ -7,7 +7,7 @@ namespace GameCreator.Framework
 {
     public class Game
     {
-        public static string Name { get { return Env.Title; } set { Env.Title = value; } }
+        public static string Name { get { return ExecutionContext.Title; } set { ExecutionContext.Title = value; } }
         public static System.Resources.ResourceManager ResourceManager { get; set; }
         //internal static GameForm roomform;
         internal static RuntimeWindow roomwindow;
@@ -28,7 +28,7 @@ namespace GameCreator.Framework
                     typeof(Library.FormsFunctions), // experimental
                 };
                 foreach (Type t in lib)
-                    Env.DefineFunctionsFromType(t);
+                    ExecutionContext.DefineFunctionsFromType(t);
                 /* Load all the sprites */
 
                 foreach (int ind in Sprite.Manager.Resources.Keys)
@@ -40,10 +40,10 @@ namespace GameCreator.Framework
 
                 /* Define all of the scripts */
                 foreach (Script s in Script.Manager.Resources.Values)
-                    s.CompiledScript = Env.DefineScript(s.Name, s.Index, s.Code);
+                    s.CompiledScript = ExecutionContext.DefineScript(s.Name, s.Index, s.Code);
 
                 /* Compile the scripts */
-                Env.CompileScripts();
+                ExecutionContext.CompileScripts();
 
                 // Check if there are any rooms
                 if (Room.Manager.Resources.Count == 0)

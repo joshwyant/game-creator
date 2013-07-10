@@ -15,10 +15,10 @@ namespace GameCreator.Framework
             if (e.Destroyed) return;
             if (EventDefined(ev, num))
             {
-                Instance current = Gml.Env.Current;
-                Gml.Env.Current = e;
+                Instance current = Gml.ExecutionContext.Current;
+                Gml.ExecutionContext.Current = e;
                 Events[ev][num].Execute();
-                Gml.Env.Current = current;
+                Gml.ExecutionContext.Current = current;
             }
         }
         internal bool EventDefined(EventType ev, int num)

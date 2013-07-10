@@ -17,12 +17,12 @@ namespace GameCreator.Framework.Gml
         }
         public override Value Execute(params Value[] parameters)
         {
-            Env.Returned = new Value();
-            Env.Enter();
-            Env.SetArguments(parameters);
+            ExecutionContext.Returned = new Value();
+            ExecutionContext.Enter();
+            ExecutionContext.SetArguments(parameters);
             cu.Run();
-            Env.Leave();
-            return Env.Returned;
+            ExecutionContext.Leave();
+            return ExecutionContext.Returned;
         }
         public string Code
         {

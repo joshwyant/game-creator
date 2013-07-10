@@ -15,12 +15,12 @@ namespace GameCreator.Framework
         {
             if (creationcode != null)
             {
-                Instance current = Env.Current;
-                Env.Current = Env.CreatePrivateInstance();
-                Env.Enter();
+                Instance current = ExecutionContext.Current;
+                ExecutionContext.Current = ExecutionContext.CreatePrivateInstance();
+                ExecutionContext.Enter();
                 creationcode.Run();
-                Env.Leave();
-                Env.Current = current;
+                ExecutionContext.Leave();
+                ExecutionContext.Current = current;
             }
         }
         public void Cleanup()

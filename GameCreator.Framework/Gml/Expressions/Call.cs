@@ -4,11 +4,11 @@ using System.Text;
 
 namespace GameCreator.Framework.Gml
 {
-    class Call : Expr
+    class Call : Expression
     {
         BaseFunction f;
-        Expr[] exprs;
-        public Call(BaseFunction func, Expr[] expressions, int line, int col)
+        Expression[] exprs;
+        public Call(BaseFunction func, Expression[] expressions, int line, int col)
             : base(line, col)
         {
             f = func;
@@ -17,7 +17,7 @@ namespace GameCreator.Framework.Gml
         public override Value Eval()
         {
             List<Value> vals = new List<Value>();
-            foreach (Expr e in exprs)
+            foreach (Expression e in exprs)
                 vals.Add(e.Eval());
             return f.Execute(vals.ToArray());
         }
@@ -25,7 +25,7 @@ namespace GameCreator.Framework.Gml
         {
             string[] t = new string[exprs.Length];
             int i = 0;
-            foreach(Expr e in exprs)
+            foreach(Expression e in exprs)
                 t[i++] = e.ToString();
             return f.Name + "(" + string.Join(", ", t) + ")";
         }

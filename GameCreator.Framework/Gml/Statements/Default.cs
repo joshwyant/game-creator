@@ -4,7 +4,7 @@ using System.Text;
 
 namespace GameCreator.Framework.Gml
 {
-    class Default : Stmt
+    class Default : Statement
     {
         public Default(int l, int c) :base(l,c) { }
         // This will get run as a normal statement when not in a switch block, and will trigger the exception.

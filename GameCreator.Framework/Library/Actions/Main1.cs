@@ -18,8 +18,8 @@ namespace GameCreator.Framework.Library.Actions
         public static Value action_create_object(params Value[] args)
         {
             GMLFunctions.instance_create(
-                Env.argument_relative.value ? Env.Current.x.Value + args[1] : args[1],
-                Env.argument_relative.value ? Env.Current.y.Value + args[2] : args[2],
+                ExecutionContext.argument_relative.value ? ExecutionContext.Current.x.Value + args[1] : args[1],
+                ExecutionContext.argument_relative.value ? ExecutionContext.Current.y.Value + args[2] : args[2],
                 args[0]
             );
             return 0;
@@ -29,8 +29,8 @@ namespace GameCreator.Framework.Library.Actions
         {
             Instance e = GMLFunctions.CreateInstance(
                 args[0],
-                Env.argument_relative.value ? Env.Current.x.Value + args[1] : args[1],
-                Env.argument_relative.value ? Env.Current.y.Value + args[2] : args[2]
+                ExecutionContext.argument_relative.value ? ExecutionContext.Current.x.Value + args[1] : args[1],
+                ExecutionContext.argument_relative.value ? ExecutionContext.Current.y.Value + args[2] : args[2]
             );
             if (e != null)
             {
@@ -60,10 +60,10 @@ namespace GameCreator.Framework.Library.Actions
             if (Object.Manager.Resources.TryGetValue(args[0], out res))
             {
                 if (args[1])
-                    (Object.Manager.Resources[Env.Current.object_index.value] as Object).PerformEvent(Env.Current, EventType.Destroy, 0);
-                Env.Current.object_index.value = res.Index;
+                    (Object.Manager.Resources[ExecutionContext.Current.object_index.value] as Object).PerformEvent(ExecutionContext.Current, EventType.Destroy, 0);
+                ExecutionContext.Current.object_index.value = res.Index;
                 if (args[1])
-                    (res as Object).PerformEvent(Env.Current, EventType.Create, 0);
+                    (res as Object).PerformEvent(ExecutionContext.Current, EventType.Create, 0);
             }
             else
             {
@@ -74,8 +74,8 @@ namespace GameCreator.Framework.Library.Actions
         [GMLFunction(0)]
         public static Value action_kill_object(params Value[] args)
         {
-            (Object.Manager.Resources[Env.Current.object_index.value] as Object).PerformEvent(Env.Current, EventType.Destroy, 0);
-            Env.Current.Destroyed = true;
+            (Object.Manager.Resources[ExecutionContext.Current.object_index.value] as Object).PerformEvent(ExecutionContext.Current, EventType.Destroy, 0);
+            ExecutionContext.Current.Destroyed = true;
             return 0;
         }
         [GMLFunction(2)]
@@ -87,9 +87,9 @@ namespace GameCreator.Framework.Library.Actions
         [GMLFunction(3)]
         public static Value action_sprite_set(params Value[] args)
         {
-            Env.Current.sprite_index.value = args[0];
-            Env.Current.image_single.value = args[1];
-            Env.Current.image_speed.value = args[2];
+            ExecutionContext.Current.sprite_index.value = args[0];
+            ExecutionContext.Current.image_single.value = args[1];
+            ExecutionContext.Current.image_speed.value = args[2];
             return 0;
         }
         [GMLFunction(4)]

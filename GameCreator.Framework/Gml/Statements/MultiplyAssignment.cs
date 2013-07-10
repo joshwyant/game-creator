@@ -1,9 +1,9 @@
 ﻿namespace GameCreator.Framework.Gml
 {
-    class MultiplyAssignment : Stmt
+    class MultiplyAssignment : Statement
     {
-        Access a; Expr x;
-        public MultiplyAssignment(Access acc, Expr e, int l, int c) : base(l, c) { a = acc; x = e; }
+        Access a; Expression x;
+        public MultiplyAssignment(Access acc, Expression e, int l, int c) : base(l, c) { a = acc; x = e; }
         protected override void run()
         {
             Value v1 = a.Eval(), v2 = x.Eval();

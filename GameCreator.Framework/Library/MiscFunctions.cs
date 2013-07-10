@@ -42,10 +42,10 @@ namespace GameCreator.Framework.Library
         [GMLFunction(1)]
         public static Value execute_string(params Value[] args)
         {
-            Env.Returned = 0;
+            ExecutionContext.Returned = 0;
             Parser p = new Parser(args[0]);
             p.Parse().Exec();
-            return Env.Returned;
+            return ExecutionContext.Returned;
         }
         [GMLFunction(0)]
         public static Value game_end(params Value[] args)

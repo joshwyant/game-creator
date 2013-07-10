@@ -6,7 +6,7 @@
 	public class CodeUnit
 	{
         string code;
-        internal Stmt ParseTree;
+        internal Statement ParseTree;
         public CodeUnit(string code) { this.code = code; }
         public string Code { get { return code; } }
         public void Compile()

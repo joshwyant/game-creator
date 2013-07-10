@@ -4,13 +4,13 @@ using System.Text;
 
 namespace GameCreator.Framework.Gml
 {
-    class Globalvar : Stmt
+    class Globalvar : Statement
     {
         string[] vars;
         public Globalvar(string[] v, int line, int col) : base(line, col) { vars = v; }
         protected override void run()
         {
-            Env.GlobalVars(vars);
+            ExecutionContext.GlobalVars(vars);
         }
         public override string ToString()
         {

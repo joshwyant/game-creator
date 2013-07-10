@@ -31,7 +31,7 @@ namespace GameCreator.Framework.Library
             m.Text = args[0];
             forms.Add(ind, m);
             window w = new window();
-            w.inst = Env.CreatePrivateInstance();
+            w.inst = ExecutionContext.CreatePrivateInstance();
             w.inst.SetLocalVar("window_index", ind);
             m.Tag = w;
             m.Click += new EventHandler(m_Click);
@@ -92,14 +92,14 @@ namespace GameCreator.Framework.Library
         {
             window w = (window)(((System.Windows.Forms.Form)sender).Tag);
             if (w.click == null) return;
-            Env.Current = w.inst;
+            ExecutionContext.Current = w.inst;
             w.click.Execute();
         }
         static void m_Load(object sender, EventArgs e)
         {
  	        window w = (window)(((System.Windows.Forms.Form)sender).Tag);
             if (w.create == null) return;
-            Env.Current = w.inst;
+            ExecutionContext.Current = w.inst;
             w.create.Execute();
         }
     }

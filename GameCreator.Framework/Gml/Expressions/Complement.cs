@@ -1,10 +1,10 @@
 ﻿using System;
 namespace GameCreator.Framework.Gml
 {
-    class Complement : Expr
+    class Complement : Expression
     {
-        Expr expr;
-        public Complement(Expr e, int line, int col) : base(line, col) { expr = e; }
+        Expression expr;
+        public Complement(Expression e, int line, int col) : base(line, col) { expr = e; }
         public override Value Eval()
         {
             Value v = expr.Eval();

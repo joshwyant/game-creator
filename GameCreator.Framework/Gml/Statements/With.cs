@@ -4,79 +4,79 @@ using System.Text;
 
 namespace GameCreator.Framework.Gml
 {
-    class With : Stmt
+    class With : Statement
     {
-        Expr expr; Stmt stmt;
-        public With(Expr e, Stmt s, int l, int c) : base(l, c) { expr = e; stmt = s; }
+        Expression expr; Statement stmt;
+        public With(Expression e, Statement s, int l, int c) : base(l, c) { expr = e; stmt = s; }
         protected override void run()
         {
             Value v = expr.Eval();
             if (!v.IsReal) Error("Object id expected");
             int instance = v;
-            Instance c = Env.Current;
-            Instance o = Env.Other;
+            Instance c = ExecutionContext.Current;
+            Instance o = ExecutionContext.Other;
             switch (instance)
             {
-                case Env.self:
-                    Env.Other = c;
+                case ExecutionContext.self:
+                    ExecutionContext.Other = c;
                     break;
-                case Env.other:
-                    if (Env.Other == null) return;
-                    Env.Current = Env.Other;
-                    Env.Other = c;
+                case ExecutionContext.other:
+                    if (ExecutionContext.Other == null) return;
+                    ExecutionContext.Current = ExecutionContext.Other;
+                    ExecutionContext.Other = c;
                     break;
-                case Env.all:
-                    Env.Other = c;
-                    foreach (int i in Env.Instances.Keys)
+                case ExecutionContext.all:
+                    ExecutionContext.Other = c;
+                    foreach (int i in ExecutionContext.Instances.Keys)
                     {
-                        Env.Current = Env.Instances[i];
+                        ExecutionContext.Current = ExecutionContext.Instances[i];
                         switch (Exec(stmt, FlowType.Continue|FlowType.Break))
                         {
                             case FlowType.None:
                             case FlowType.Continue:
                                 break;
                             default:
-                                Env.Current = c;
-                                Env.Other = o;
+                                ExecutionContext.Current = c;
+                                ExecutionContext.Other = o;
                                 return;
                         }
                     }
-                    Env.Current = c;
-                    Env.Other = o;
+                    ExecutionContext.Current = c;
+                    ExecutionContext.Other = o;
                     return;
-                case Env.noone:
+                case ExecutionContext.noone:
                     return;
-                case Env.global:
+                case ExecutionContext.global:
                     Error("Cannot use global in a with statement.");
                     return;
                 default:
-                    if (Env.Instances.ContainsKey(instance))
+                    if (ExecutionContext.Instances.ContainsKey(instance))
                     {
-                        Env.Current = Env.Instances[instance];
-                        Env.Other = c;
+                        ExecutionContext.Current = ExecutionContext.Instances[instance];
+                        ExecutionContext.Other = c;
                     }
                     else
                     {
-                        Env.Other = c;
-                        foreach (int i in Env.Instances.Keys)
+                        ExecutionContext.Other = c;
+                        foreach (int i in ExecutionContext.Instances.Keys)
                         {
-                            if (Env.GetVar(i, "object_index") == instance)
+                            if (ExecutionContext.GetVar(i, "object_index") == instance)
                             {
-                                Env.Current = Env.Instances[i];
+                                ExecutionContext.Current = ExecutionContext.Instances[i];
                                 switch (Exec(stmt, FlowType.Continue|FlowType.Break))
                                 {
                                     case FlowType.None:
                                     case FlowType.Continue:
                                         break;
                                     default:
-                                        Env.Current = c;
-                                        Env.Other = o;
+                                        ExecutionContext.Current = c;
+                                        ExecutionContext.Other = o;
                                         return;
                                 }
                             }
                         }
-                        Env.Current = c;
-                        Env.Other = o;
+                        ExecutionContext.Current = c;
+                        ExecutionContext.Other = o;
                         return;
                     }
                     break;
@@ -88,8 +88,8 @@ namespace GameCreator.Framework.Gml
             // Env.Current = c;
             // Env.Other = o;
             // I'll put it here and see if that doesn't mess everything up :)
-            Env.Current = c;
-            Env.Other = o;
+            ExecutionContext.Current = c;
+            ExecutionContext.Other = o;
         }
     }
 }

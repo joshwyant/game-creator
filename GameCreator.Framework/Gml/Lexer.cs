@@ -104,7 +104,7 @@
                 string s = sb.ToString();
                 // reserve keywords and constants. Return their values literally as tokens
                 if (Words.Contains(s)) return (Token)Words[s];
-                Token t = new Token(Terminal.Identifier, s, line, tokencol);
+                Token t = new Token(TokenKind.Identifier, s, line, tokencol);
                 Words.Add(s, t);
                 return t;
             }
@@ -155,7 +155,7 @@
                     peek = readch();
                     if (!char.IsDigit(peek))
                     {
-                        return new Token(Terminal.Dot, line, tokencol);
+                        return new Token(TokenKind.Dot, line, tokencol);
                     }
                     // Fall through to the fractional part: peek holds the first digit
                 }
@@ -199,7 +199,7 @@
                 switch (peek)
                 {
                     case '=':
-                        peek = readch(); return new Token(Terminal.DivideAssignment, line, tokencol);
+                        peek = readch(); return new Token(TokenKind.DivideAssignment, line, tokencol);
                     case '/':
                         do peek = readch(); while (peek != '\n' && peek != '\r' && peek != eof);
                         goto skipwhite;
@@ -220,68 +220,68 @@
                         //error(Token.None, "End-of-file found, '*/' expected");
                         goto skipwhite;
                     default:
-                        return new Token(Terminal.Divide, line, tokencol);
+                        return new Token(TokenKind.Divide, line, tokencol);
                 }
             }
             else
             {
                 switch (peek)
                 {
-                    case '~': peek = readch(); return new Token(Terminal.BitwiseComplement, line, tokencol);
-                    case '(': peek = readch(); return new Token(Terminal.OpeningParenthesis, line, tokencol);
-                    case ')': peek = readch(); return new Token(Terminal.ClosingParenthesis, line, tokencol);
-                    case '{': peek = readch(); return new Token(Terminal.OpeningCurlyBrace, line, tokencol);
-                    case '}': peek = readch(); return new Token(Terminal.ClosingCurlyBrace, line, tokencol);
-                    case '[': peek = readch(); return new Token(Terminal.OpeningSquareBracket, line, tokencol);
-                    case ']': peek = readch(); return new Token(Terminal.ClosingSquareBracket, line, tokencol);
-                    case ';': peek = readch(); return new Token(Terminal.Semicolon, line, tokencol);
-                    case ',': peek = readch(); return new Token(Terminal.Comma, line, tokencol);
-                    case ':': peek = readch(); if (peek == '=') { peek = readch(); return new Token(Terminal.Assignment, ":=", line, tokencol); } return new Token(Terminal.Colon, line, tokencol);
-                    case '=': peek = readch(); if (peek == '=') { peek = readch(); return new Token(Terminal.Equality, line, tokencol); } return new Token(Terminal.Assignment, line, tokencol);
-                    case '!': peek = readch(); if (peek == '=') { peek = readch(); return new Token(Terminal.Inequality, line, tokencol); } return new Token(Terminal.Not, line, tokencol);
-                    case '*': peek = readch(); if (peek == '=') { peek = readch(); return new Token(Terminal.MultiplyAssignment, line, tokencol); } return new Token(Terminal.Multiply, line, tokencol);
-                    case '+': peek = readch(); if (peek == '=') { peek = readch(); return new Token(Terminal.AdditionAssignment, line, tokencol); } return new Token(Terminal.Plus, line, tokencol);
-                    case '-': peek = readch(); if (peek == '=') { peek = readch(); return new Token(Terminal.SubtractionAssignment, line, tokencol); } return new Token(Terminal.Minus, line, tokencol);
-                    case '&': peek = readch(); if (peek == '=') { peek = readch(); return new Token(Terminal.AndAssignment, line, tokencol); }
+                    case '~': peek = readch(); return new Token(TokenKind.BitwiseComplement, line, tokencol);
+                    case '(': peek = readch(); return new Token(TokenKind.OpeningParenthesis, line, tokencol);
+                    case ')': peek = readch(); return new Token(TokenKind.ClosingParenthesis, line, tokencol);
+                    case '{': peek = readch(); return new Token(TokenKind.OpeningCurlyBrace, line, tokencol);
+                    case '}': peek = readch(); return new Token(TokenKind.ClosingCurlyBrace, line, tokencol);
+                    case '[': peek = readch(); return new Token(TokenKind.OpeningSquareBracket, line, tokencol);
+                    case ']': peek = readch(); return new Token(TokenKind.ClosingSquareBracket, line, tokencol);
+                    case ';': peek = readch(); return new Token(TokenKind.Semicolon, line, tokencol);
+                    case ',': peek = readch(); return new Token(TokenKind.Comma, line, tokencol);
+                    case ':': peek = readch(); if (peek == '=') { peek = readch(); return new Token(TokenKind.Assignment, ":=", line, tokencol); } return new Token(TokenKind.Colon, line, tokencol);
+                    case '=': peek = readch(); if (peek == '=') { peek = readch(); return new Token(TokenKind.Equality, line, tokencol); } return new Token(TokenKind.Assignment, line, tokencol);
+                    case '!': peek = readch(); if (peek == '=') { peek = readch(); return new Token(TokenKind.Inequality, line, tokencol); } return new Token(TokenKind.Not, line, tokencol);
+                    case '*': peek = readch(); if (peek == '=') { peek = readch(); return new Token(TokenKind.MultiplyAssignment, line, tokencol); } return new Token(TokenKind.Multiply, line, tokencol);
+                    case '+': peek = readch(); if (peek == '=') { peek = readch(); return new Token(TokenKind.AdditionAssignment, line, tokencol); } return new Token(TokenKind.Plus, line, tokencol);
+                    case '-': peek = readch(); if (peek == '=') { peek = readch(); return new Token(TokenKind.SubtractionAssignment, line, tokencol); } return new Token(TokenKind.Minus, line, tokencol);
+                    case '&': peek = readch(); if (peek == '=') { peek = readch(); return new Token(TokenKind.AndAssignment, line, tokencol); }
                         else
-                            if (peek == '&') { peek = readch(); return new Token(Terminal.LogicalAnd, line, tokencol); } return new Token(Terminal.BitwiseAnd, line, tokencol);
-                    case '|': peek = readch(); if (peek == '=') { peek = readch(); return new Token(Terminal.OrAssignment, line, tokencol); }
+                            if (peek == '&') { peek = readch(); return new Token(TokenKind.LogicalAnd, line, tokencol); } return new Token(TokenKind.BitwiseAnd, line, tokencol);
+                    case '|': peek = readch(); if (peek == '=') { peek = readch(); return new Token(TokenKind.OrAssignment, line, tokencol); }
                         else
-                            if (peek == '|') { peek = readch(); return new Token(Terminal.LogicalOr, line, tokencol); } return new Token(Terminal.BitwiseOr, line, tokencol);
-                    case '^': peek = readch(); if (peek == '=') { peek = readch(); return new Token(Terminal.XorAssignment, line, tokencol); }
+                            if (peek == '|') { peek = readch(); return new Token(TokenKind.LogicalOr, line, tokencol); } return new Token(TokenKind.BitwiseOr, line, tokencol);
+                    case '^': peek = readch(); if (peek == '=') { peek = readch(); return new Token(TokenKind.XorAssignment, line, tokencol); }
                         else
-                            if (peek == '^') { peek = readch(); return new Token(Terminal.LogicalXor, line, tokencol); } return new Token(Terminal.BitwiseXor, line, tokencol);
+                            if (peek == '^') { peek = readch(); return new Token(TokenKind.LogicalXor, line, tokencol); } return new Token(TokenKind.BitwiseXor, line, tokencol);
                     case '<':
                         peek = readch();
                         if (peek == '=')
                         {
                             peek = readch();
-                            return new Token(Terminal.LessThanOrEqual, line, tokencol);
+                            return new Token(TokenKind.LessThanOrEqual, line, tokencol);
                         }
                         else if (peek == '<')
                         {
                             peek = readch();
-                            return new Token(Terminal.ShiftLeft, line, tokencol);
+                            return new Token(TokenKind.ShiftLeft, line, tokencol);
                         }
                         else if (peek == '>')
                         {
                             peek = readch();
-                            return new Token(Terminal.Inequality, "<>", line, tokencol);
+                            return new Token(TokenKind.Inequality, "<>", line, tokencol);
                         }
-                        else return new Token(Terminal.LessThan, line, tokencol);
+                        else return new Token(TokenKind.LessThan, line, tokencol);
                     case '>':
                         peek = readch();
                         if (peek == '=')
                         {
                             peek = readch();
-                            return new Token(Terminal.GreaterThanOrEqual, line, tokencol);
+                            return new Token(TokenKind.GreaterThanOrEqual, line, tokencol);
                         }
                         else if (peek == '>')
                         {
                             peek = readch();
-                            return new Token(Terminal.ShiftRight, line, tokencol);
+                            return new Token(TokenKind.ShiftRight, line, tokencol);
                         }
-                        else return new Token(Terminal.GreaterThan, line, tokencol);
+                        else return new Token(TokenKind.GreaterThan, line, tokencol);
                     default:
                         throw new ProgramError("Unexpected symbol.", ErrorSeverity.CompilationError, line, tokencol);
                 }

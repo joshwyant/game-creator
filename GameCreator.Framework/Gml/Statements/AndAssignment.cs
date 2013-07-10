@@ -1,10 +1,10 @@
 ﻿using System;
 namespace GameCreator.Framework.Gml
 {
-    class AndAssignment : Stmt
+    class AndAssignment : Statement
     {
-        Access a; Expr x;
-        public AndAssignment(Access acc, Expr e, int l, int c) : base(l, c) { a = acc; x = e; }
+        Access a; Expression x;
+        public AndAssignment(Access acc, Expression e, int l, int c) : base(l, c) { a = acc; x = e; }
         protected override void run()
         {
             Value v1 = a.Eval(), v2 = x.Eval();

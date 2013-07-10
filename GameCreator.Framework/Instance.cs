@@ -178,27 +178,27 @@ namespace GameCreator.Framework
         internal void assign_id(int id)
         {
             this.id.value = id;
-            Env.Instances.Add(id, this);
-            Env.InstanceIds.Add(id);
+            ExecutionContext.Instances.Add(id, this);
+            ExecutionContext.InstanceIds.Add(id);
         }
         internal void assign_id()
         {
-            assign_id(++Env.ids);
+            assign_id(++ExecutionContext.ids);
         }
         // Execute a string. The string is cached, and subsequent calls of Exec() with the same code string
         //  execute code that is already compiled and cached. Code that is executed from a known location, i.e., a script,
         //  is recommended to have its own local code unit, so it does not have to be looked up in a table.
         public void Exec(string s)
         {
-            Instance t = Env.Current;
-            Env.Current = this;
-            Env.Enter();
+            Instance t = ExecutionContext.Current;
+            ExecutionContext.Current = this;
+            ExecutionContext.Enter();
             // Make sure the code is in the cache
-            if (!Env.CodeStrings.ContainsKey(s))
-                Env.CodeStrings.Add(s, new CodeUnit(s));
-            ((CodeUnit)Env.CodeStrings[s]).Run();
-            Env.Leave();
-            Env.Current = t;
+            if (!ExecutionContext.CodeStrings.ContainsKey(s))
+                ExecutionContext.CodeStrings.Add(s, new CodeUnit(s));
+            ((CodeUnit)ExecutionContext.CodeStrings[s]).Run();
+            ExecutionContext.Leave();
+            ExecutionContext.Current = t;
         }
     }
 }

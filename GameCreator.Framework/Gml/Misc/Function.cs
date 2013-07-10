@@ -13,10 +13,10 @@ namespace GameCreator.Framework.Gml
         }
         public override Value Execute(params Value[] args)
         {
-            Env.Enter();
-            Env.Returned = Delegate(args);
-            Env.Leave();
-            return Env.Returned;
+            ExecutionContext.Enter();
+            ExecutionContext.Returned = Delegate(args);
+            ExecutionContext.Leave();
+            return ExecutionContext.Returned;
         }
     }
 }

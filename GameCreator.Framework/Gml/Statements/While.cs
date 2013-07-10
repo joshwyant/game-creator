@@ -4,11 +4,11 @@ using System.Text;
 
 namespace GameCreator.Framework.Gml
 {
-    class While : Stmt
+    class While : Statement
     {
-        public Expr expr;
-        public Stmt stmt;
-        public While(Expr e, Stmt s, int line, int col) : base(line,col)
+        public Expression expr;
+        public Statement stmt;
+        public While(Expression e, Statement s, int line, int col) : base(line,col)
         {
             expr = e;
             stmt = s;

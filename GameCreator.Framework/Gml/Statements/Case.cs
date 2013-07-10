@@ -4,10 +4,10 @@ using System.Text;
 
 namespace GameCreator.Framework.Gml
 {
-    class Case : Stmt
+    class Case : Statement
     {
-        Expr expr;
-        public Case(Expr x, int l, int c) : base(l, c) { expr = x; }
+        Expression expr;
+        public Case(Expression x, int l, int c) : base(l, c) { expr = x; }
         // This will get run as a normal statement when not in a switch block, and will trigger the exception.
         // A switch block handles this statement specially.
         protected override void run()

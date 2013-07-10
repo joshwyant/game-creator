@@ -4,11 +4,11 @@ using System.Text;
 
 namespace GameCreator.Framework.Gml
 {
-    class Switch : Stmt
+    class Switch : Statement
     {
-        Expr expr;
-        Stmt[] stmts;
-        public Switch(Expr x, Stmt[] y, int line, int col)
+        Expression expr;
+        Statement[] stmts;
+        public Switch(Expression x, Statement[] y, int line, int col)
             : base(line, col)
         {
             expr = x;
@@ -18,7 +18,7 @@ namespace GameCreator.Framework.Gml
         {
             bool met = false;
             Value v1 = expr.Eval(), v2;
-            foreach (Stmt s in stmts)
+            foreach (Statement s in stmts)
             {
                 if (s.GetType() == typeof(Default))
                     met = true;

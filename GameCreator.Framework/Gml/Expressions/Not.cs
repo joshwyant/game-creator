@@ -1,10 +1,10 @@
 ﻿using System;
 namespace GameCreator.Framework.Gml
 {
-    class Not : Expr
+    class Not : Expression
     {
-        Expr expr;
-        public Not(Expr e, int l, int c) : base(l, c) { expr = e; }
+        Expression expr;
+        public Not(Expression e, int l, int c) : base(l, c) { expr = e; }
         public override Value Eval()
         {
             Value v = expr.Eval();

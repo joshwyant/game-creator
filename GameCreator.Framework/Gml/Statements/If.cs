@@ -4,19 +4,19 @@ using System.Text;
 
 namespace GameCreator.Framework.Gml
 {
-    class If : Stmt
+    class If : Statement
     {
-        public Expr expr;
-        public Stmt stmt1;
-        public Stmt stmt2;
-        public If(Expr e, Stmt s, int l, int c)
+        public Expression expr;
+        public Statement stmt1;
+        public Statement stmt2;
+        public If(Expression e, Statement s, int l, int c)
             : base(l, c)
         {
             expr = e;
             stmt1 = s;
-            stmt2 = Stmt.Null;
+            stmt2 = Statement.Null;
         }
-        public If(Expr e, Stmt t, Stmt f, int l, int c)
+        public If(Expression e, Statement t, Statement f, int l, int c)
             : base(l, c)
         {
             expr = e;
@@ -38,7 +38,7 @@ namespace GameCreator.Framework.Gml
         }
         public override string ToString()
         {
-            if (stmt2 == Stmt.Null)
+            if (stmt2 == Statement.Null)
                 return string.Format("if {0} {1}", expr, stmt1);
             else
                 return string.Format("if {0} {1} else {2}", expr, stmt1, stmt2);

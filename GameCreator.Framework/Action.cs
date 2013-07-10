@@ -31,14 +31,14 @@ namespace GameCreator.Framework
             System.Collections.Generic.List<Instance> instances = new System.Collections.Generic.List<Instance>(1);
             switch (m_appliesto)
             {
-                case Env.self:
-                    instances.Add(Env.Current);
+                case ExecutionContext.self:
+                    instances.Add(ExecutionContext.Current);
                     break;
-                case Env.other:
-                    instances.Add(Env.Other);
+                case ExecutionContext.other:
+                    instances.Add(ExecutionContext.Other);
                     break;
                 default:
-                    foreach (Instance e in Env.Instances.Values)
+                    foreach (Instance e in ExecutionContext.Instances.Values)
                     {
                         if (e.object_index.value == m_appliesto)
                             instances.Add(e);
@@ -46,25 +46,25 @@ namespace GameCreator.Framework
                     break;
             }
             bool returned = !m_not;
-            Env.argument_relative.value = m_relative;
-            Instance c = Env.Current;
-            Instance o = Env.Other;
+            ExecutionContext.argument_relative.value = m_relative;
+            Instance c = ExecutionContext.Current;
+            Instance o = ExecutionContext.Other;
             foreach (Instance e in instances)
             {
                 if (e != c)
                 {
-                    Env.Current = e;
-                    Env.Other = c;
+                    ExecutionContext.Current = e;
+                    ExecutionContext.Other = c;
                 }
                 switch (Definition.Kind)
                 {
                     case ActionKind.Code:
                     case ActionKind.Variable:
-                        Env.Returned = new Value();
-                        Env.Enter();
+                        ExecutionContext.Returned = new Value();
+                        ExecutionContext.Enter();
                         cu.Run();
-                        Env.Leave();
-                        if (Env.Returned == m_not) returned = m_not;
+                        ExecutionContext.Leave();
+                        if (ExecutionContext.Returned == m_not) returned = m_not;
                         break;
                     case ActionKind.Normal:
                         Value[] args = new Value[Arguments.Length];
@@ -74,14 +74,14 @@ namespace GameCreator.Framework
                             switch (Definition.Arguments[i])
                             {
                                 case ActionArgumentType.Expression:
-                                    args[i] = Parser.Evaluate(Env.Current, Arguments[i]);
+                                    args[i] = Parser.Evaluate(ExecutionContext.Current, Arguments[i]);
                                     break;
                                 case ActionArgumentType.String:
                                 case ActionArgumentType.FontString:
                                     args[i] = new Value(Arguments[i]);
                                     break;
                                 case ActionArgumentType.Both:
-                                    args[i] = Arguments[i].StartsWith("\"") || Arguments[i].StartsWith("\'") ? Parser.Evaluate(Env.Current, Arguments[i]) : new Value(Arguments[i]);
+                                    args[i] = Arguments[i].StartsWith("\"") || Arguments[i].StartsWith("\'") ? Parser.Evaluate(ExecutionContext.Current, Arguments[i]) : new Value(Arguments[i]);
                                     break;
                                 default:
                                     args[i] = new Value(double.Parse(Arguments[i]));
@@ -91,24 +91,24 @@ namespace GameCreator.Framework
                         switch (Definition.ExecutionType)
                         {
                             case ActionExecutionType.Code:
-                                Env.Returned = new Value();
-                                Env.Enter();
-                                Env.SetArguments(args);
+                                ExecutionContext.Returned = new Value();
+                                ExecutionContext.Enter();
+                                ExecutionContext.SetArguments(args);
                                 Definition.Code.Run();
-                                Env.Leave();
-                                if (Env.Returned == m_not) returned = m_not;
+                                ExecutionContext.Leave();
+                                if (ExecutionContext.Returned == m_not) returned = m_not;
                                 break;
                             case ActionExecutionType.Function:
-                                if (Env.ExecuteFunction(Definition.FunctionName, args) == m_not) returned = m_not;
+                                if (ExecutionContext.ExecuteFunction(Definition.FunctionName, args) == m_not) returned = m_not;
                                 break;
                         }
                         break;
                 }
                 if (returned == m_not) break;
             }
-            Env.Current = c;
-            Env.Other = o;
-            Env.argument_relative.value = false;
+            ExecutionContext.Current = c;
+            ExecutionContext.Other = o;
+            ExecutionContext.argument_relative.value = false;
             return Definition.IsQuestion ? m_not ? !returned : returned : true;
         }
     }
