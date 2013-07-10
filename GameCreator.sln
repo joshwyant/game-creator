@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameCreator.Framework", "GameCreator.Runtime\GameCreator.Framework.csproj", "{6BC89687-EBA6-47F8-ADF0-05C1300D699A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameCreator.Framework", "GameCreator.Framework\GameCreator.Framework.csproj", "{6BC89687-EBA6-47F8-ADF0-05C1300D699A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameCreator.IDE", "GameCreator.IDE\GameCreator.IDE.csproj", "{2A260ABF-219E-49A2-81BD-0ED30F9B8825}"
 EndProject

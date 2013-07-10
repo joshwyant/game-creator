@@ -416,7 +416,7 @@
     <None Include="Resources\Sprite.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\GameCreator.Runtime\GameCreator.Framework.csproj">
+    <ProjectReference Include="..\GameCreator.Framework\GameCreator.Framework.csproj">
       <Project>{6BC89687-EBA6-47F8-ADF0-05C1300D699A}</Project>
       <Name>GameCreator.Framework</Name>
     </ProjectReference>
