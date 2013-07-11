@@ -16,5 +16,9 @@ namespace GameCreator.Framework.Gml
         {
             get { return ExpressionKind.Minus; }
         }
+        public override Expression Reduce()
+        {
+            return Fold(expr, v => -v);
+        }
     }
 }

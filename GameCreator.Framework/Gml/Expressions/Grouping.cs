@@ -17,5 +17,9 @@ namespace GameCreator.Framework.Gml
         {
             get { return ExpressionKind.Grouping; }
         }
+        public override Expression Reduce()
+        {
+            return expr.Reduce();
+        }
     }
 }

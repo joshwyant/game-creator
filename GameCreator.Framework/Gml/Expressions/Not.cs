@@ -9,12 +9,17 @@ namespace GameCreator.Framework.Gml
         {
             Value v = expr.Eval();
             if (!v.IsReal) Error("Wrong type of arguments to unary operator.");
-            return v.Real >= 0 ? Value.Zero : Value.One;
+            return v.Real > 0 ? Value.Zero : Value.One;
         }
 
         public override ExpressionKind Kind
         {
             get { return ExpressionKind.Not; }
+        }
+
+        public override Expression Reduce()
+        {
+            return Fold(expr, v => v <= 0 ? 1 : 0);
         }
     }
 }

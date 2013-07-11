@@ -19,7 +19,7 @@ namespace GameCreator.Framework.Gml
 
         public override Expression Reduce()
         {
-            return UnaryFold(expr, v => v);
+            return Fold(expr, v => v);
         }
     }
 }

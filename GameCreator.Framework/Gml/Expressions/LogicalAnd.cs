@@ -19,5 +19,9 @@ namespace GameCreator.Framework.Gml
         {
             get { return ExpressionKind.LogicalAnd; }
         }
+        public override Expression Reduce()
+        {
+            return Fold(expr1, expr2, (v1, v2) => v1 > 0 && v2 > 0);
+        }
     }
 }

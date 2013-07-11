@@ -16,5 +16,9 @@ namespace GameCreator.Framework.Gml
         {
             get { return ExpressionKind.Subtraction; }
         }
+        public override Expression Reduce()
+        {
+            return Fold(expr1, expr2, (v1, v2) => v1 - v2);
+        }
     }
 }

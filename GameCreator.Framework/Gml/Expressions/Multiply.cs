@@ -25,5 +25,29 @@ namespace GameCreator.Framework.Gml
         {
             get { return ExpressionKind.Multiply; }
         }
+        public override Expression Reduce()
+        {
+            var e1 = expr1.Reduce();
+            var e2 = expr2.Reduce();
+
+            if (e1.Kind == ExpressionKind.Constant && e2.Kind == ExpressionKind.Constant)
+            {
+                var v1 = ((Constant)e1).Value;
+                var v2 = ((Constant)e2).Value;
+
+                if (v1.IsReal && v2.IsReal)
+                    return new Constant(v1.Real * v2.Real, Line, Column);
+
+                if (v1.IsReal && v2.IsString)
+                {
+                    System.Text.StringBuilder sb = new System.Text.StringBuilder();
+                    for (int i = 0; i < (int)System.Math.Round(v1.Real); i++)
+                        sb.Append(v2.String);
+                    return new Constant(sb.ToString(), Line, Column);
+                }
+            }
+
+            return this;
+        }
     }
 }

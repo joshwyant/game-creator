@@ -24,22 +24,7 @@ namespace GameCreator.Framework.Gml
 
         public override Expression Reduce()
         {
-            var e1 = expr1.Reduce();
-            var e2 = expr2.Reduce();
-
-            if (e1.Kind == ExpressionKind.Constant && e2.Kind == ExpressionKind.Constant)
-            {
-                var v1 = ((Constant)e1).Value;
-                var v2 = ((Constant)e2).Value;
-
-                if (v1.IsReal && v2.IsReal)
-                    return new Constant(v1.Real + v2.Real, Line, Column);
-
-                if (v1.IsString && v2.IsString)
-                    return new Constant(v1.String + v2.String, Line, Column);
-            }
-
-            return this;
+            return Fold(expr1, expr2, (v1, v2) => v1 + v2, (s1, s2) => s1 + s2);
         }
     }
 }
