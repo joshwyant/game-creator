@@ -4,30 +4,32 @@ using System.Text;
 
 namespace GameCreator.Framework.Gml
 {
-    class Call : Expression
+    public class Call : Expression
     {
-        BaseFunction f;
-        Expression[] exprs;
+        public BaseFunction Function { get; set; }
+        public Expression[] Expressions { get; set; }
+
+
         public Call(BaseFunction func, Expression[] expressions, int line, int col)
             : base(line, col)
         {
-            f = func;
-            exprs = expressions;
+            Function = func;
+            Expressions = expressions;
         }
         public override Value Eval()
         {
             List<Value> vals = new List<Value>();
-            foreach (Expression e in exprs)
+            foreach (Expression e in Expressions)
                 vals.Add(e.Eval());
-            return f.Execute(vals.ToArray());
+            return Function.Execute(vals.ToArray());
         }
         public override string ToString()
         {
-            string[] t = new string[exprs.Length];
+            string[] t = new string[Expressions.Length];
             int i = 0;
-            foreach(Expression e in exprs)
+            foreach (Expression e in Expressions)
                 t[i++] = e.ToString();
-            return f.Name + "(" + string.Join(", ", t) + ")";
+            return Function.Name + "(" + string.Join(", ", t) + ")";
         }
 
         public override ExpressionKind Kind
@@ -37,12 +39,12 @@ namespace GameCreator.Framework.Gml
 
         public override Expression Reduce()
         {
-            var e = new Expression[exprs.Length];
+            var e = new Expression[Expressions.Length];
 
             for (int i = 0; i < e.Length; i++)
-                e[i] = exprs[i].Reduce();
+                e[i] = Expressions[i].Reduce();
 
-            return new Call(f, exprs, Line, Column);
+            return new Call(Function, Expressions, Line, Column);
         }
     }
 }

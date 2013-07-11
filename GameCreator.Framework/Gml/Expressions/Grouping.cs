@@ -4,13 +4,14 @@ using System.Text;
 
 namespace GameCreator.Framework.Gml
 {
-    class Grouping : Expression
+    public class Grouping : Expression
     {
-        Expression expr;
-        public Grouping(Expression e, int line, int col) : base(line, col) { expr = e; }
+        public Expression Operand { get; set; }
+
+        public Grouping(Expression e, int line, int col) : base(line, col) { Operand = e; }
         public override Value Eval()
         {
-            return expr.Eval();
+            return Operand.Eval();
         }
 
         public override ExpressionKind Kind
@@ -19,7 +20,7 @@ namespace GameCreator.Framework.Gml
         }
         public override Expression Reduce()
         {
-            return expr.Reduce();
+            return Operand.Reduce();
         }
     }
 }

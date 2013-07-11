@@ -4,13 +4,15 @@ using System.Text;
 
 namespace GameCreator.Framework.Gml
 {
-    class LessThan : Expression
+    public class LessThan : Expression
     {
-        Expression expr1, expr2;
-        public LessThan(Expression e1, Expression e2, int line, int col) : base(line, col) { expr1 = e1; expr2 = e2; }
+        public Expression Left { get; set; }
+        public Expression Right { get; set; }
+
+        public LessThan(Expression e1, Expression e2, int line, int col) : base(line, col) { Left = e1; Right = e2; }
         public override Value Eval()
         {
-            Value v1 = expr1.Eval(), v2 = expr2.Eval();
+            Value v1 = Left.Eval(), v2 = Right.Eval();
             if (v1.IsReal && v2.IsReal)
             {
                 return v1.Real < v2.Real ? Value.One : Value.Zero;
@@ -28,7 +30,7 @@ namespace GameCreator.Framework.Gml
         }
         public override Expression Reduce()
         {
-            return Fold(expr1, expr2, (v1, v2) => v1 < v2);
+            return Fold(Left, Right, (v1, v2) => v1 < v2);
         }
     }
 }

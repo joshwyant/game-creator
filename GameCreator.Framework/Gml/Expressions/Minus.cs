@@ -1,13 +1,14 @@
 ﻿using System;
 namespace GameCreator.Framework.Gml
 {
-    class Minus : Expression
+    public class Minus : Expression
     {
-        Expression expr;
-        public Minus(Expression e, int line, int col) : base(line, col) { expr = e; }
+        public Expression Operand { get; set; }
+
+        public Minus(Expression e, int line, int col) : base(line, col) { Operand = e; }
         public override Value Eval()
         {
-            Value v = expr.Eval();
+            Value v = Operand.Eval();
             if (!v.IsReal) Error("Wrong type of arguments to unary operator.");
             return new Value(-v.Real);
         }
@@ -18,7 +19,7 @@ namespace GameCreator.Framework.Gml
         }
         public override Expression Reduce()
         {
-            return Fold(expr, v => -v);
+            return Fold(Operand, v => -v);
         }
     }
 }

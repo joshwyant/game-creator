@@ -5,7 +5,7 @@ using System.Text;
 
 namespace GameCreator.Framework.Gml
 {
-    class Access : Expression
+    public class Access : Expression
     {
         public Expression Lefthand;
         public string Name;

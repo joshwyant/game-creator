@@ -4,11 +4,12 @@ using System.Text;
 
 namespace GameCreator.Framework.Gml
 {
-    class Id : Expression
+    public class Id : Expression
     {
-        string n;
-        public Id(string n, int line, int col) : base(line, col) { this.n = n; }
-        public override string ToString() { return n; }
+        public string Name { get; set; }
+
+        public Id(string n, int line, int col) : base(line, col) { this.Name = n; }
+        public override string ToString() { return Name; }
 
         public override ExpressionKind Kind
         {

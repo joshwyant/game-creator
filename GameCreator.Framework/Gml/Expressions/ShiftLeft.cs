@@ -1,13 +1,15 @@
 ﻿using System;
 namespace GameCreator.Framework.Gml
 {
-    class ShiftLeft : Expression
+    public class ShiftLeft : Expression
     {
-        Expression expr1, expr2;
-        public ShiftLeft(Expression e1, Expression e2, int line, int col) : base(line, col) { expr1 = e1; expr2 = e2; }
+        public Expression Left { get; set; }
+        public Expression Right { get; set; }
+
+        public ShiftLeft(Expression e1, Expression e2, int line, int col) : base(line, col) { Left = e1; Right = e2; }
         public override Value Eval()
         {
-            Value v1 = expr1.Eval(), v2 = expr2.Eval();
+            Value v1 = Left.Eval(), v2 = Right.Eval();
             if (!(v1.IsReal && v2.IsReal)) Error("Wrong type of arguments for <<.");
             return (double)(Convert.ToInt64(v1.Real) << (int)Convert.ToInt64(v2.Real));
         }
@@ -18,7 +20,7 @@ namespace GameCreator.Framework.Gml
         }
         public override Expression Reduce()
         {
-            return Fold(expr1, expr2, (v1, v2) => (double)(Convert.ToInt64(v1) << (int)Convert.ToInt64(v2)));
+            return Fold(Left, Right, (v1, v2) => (double)(Convert.ToInt64(v1) << (int)Convert.ToInt64(v2)));
         }
     }
 }

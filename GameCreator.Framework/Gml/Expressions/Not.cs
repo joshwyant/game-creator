@@ -1,13 +1,14 @@
 ﻿using System;
 namespace GameCreator.Framework.Gml
 {
-    class Not : Expression
+    public class Not : Expression
     {
-        Expression expr;
-        public Not(Expression e, int l, int c) : base(l, c) { expr = e; }
+        public Expression Operand { get; set; }
+
+        public Not(Expression e, int l, int c) : base(l, c) { Operand = e; }
         public override Value Eval()
         {
-            Value v = expr.Eval();
+            Value v = Operand.Eval();
             if (!v.IsReal) Error("Wrong type of arguments to unary operator.");
             return v.Real > 0 ? Value.Zero : Value.One;
         }
@@ -19,7 +20,7 @@ namespace GameCreator.Framework.Gml
 
         public override Expression Reduce()
         {
-            return Fold(expr, v => v <= 0 ? 1 : 0);
+            return Fold(Operand, v => v <= 0 ? 1 : 0);
         }
     }
 }

@@ -1,13 +1,15 @@
 ﻿using System;
 namespace GameCreator.Framework.Gml
 {
-    class Mod : Expression
+    public class Mod : Expression
     {
-        Expression expr1, expr2;
-        public Mod(Expression e1, Expression e2, int l, int c) : base(l, c) { expr1 = e1; expr2 = e2; }
+        public Expression Left { get; set; }
+        public Expression Right { get; set; }
+
+        public Mod(Expression e1, Expression e2, int l, int c) : base(l, c) { Left = e1; Right = e2; }
         public override Value Eval()
         {
-            Value v1 = expr1.Eval(), v2 = expr2.Eval();
+            Value v1 = Left.Eval(), v2 = Right.Eval();
             if (!(v1.IsReal && v2.IsReal)) Error("Wrong type of arguments to mod.");
             return (double)((long)v1.Real % (long)v2.Real);
         }
@@ -18,7 +20,7 @@ namespace GameCreator.Framework.Gml
         }
         public override Expression Reduce()
         {
-            return Fold(expr1, expr2, (v1, v2) => (double)((long)v1 % (long)v2));
+            return Fold(Left, Right, (v1, v2) => (double)((long)v1 % (long)v2));
         }
     }
 }

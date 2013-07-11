@@ -1,13 +1,15 @@
 ﻿using System;
 namespace GameCreator.Framework.Gml
 {
-    class Multiply : Expression
+    public class Multiply : Expression
     {
-        Expression expr1, expr2;
-        public Multiply(Expression e1, Expression e2, int l, int c) : base(l, c) { expr1 = e1; expr2 = e2; }
+        public Expression Left { get; set; }
+        public Expression Right { get; set; }
+
+        public Multiply(Expression e1, Expression e2, int l, int c) : base(l, c) { Left = e1; Right = e2; }
         public override Value Eval()
         {
-            Value v1 = expr1.Eval(), v2 = expr2.Eval();
+            Value v1 = Left.Eval(), v2 = Right.Eval();
             if (v1.IsReal && v2.IsReal)
                 return new Value(v1.Real * v2.Real);
             else if (v1.IsReal && v2.IsString)
@@ -27,8 +29,8 @@ namespace GameCreator.Framework.Gml
         }
         public override Expression Reduce()
         {
-            var e1 = expr1.Reduce();
-            var e2 = expr2.Reduce();
+            var e1 = Left.Reduce();
+            var e2 = Right.Reduce();
 
             if (e1.Kind == ExpressionKind.Constant && e2.Kind == ExpressionKind.Constant)
             {
@@ -48,6 +50,7 @@ namespace GameCreator.Framework.Gml
             }
 
             return this;
+            // One way to optimize could be returning a Shift operator
         }
     }
 }

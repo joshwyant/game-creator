@@ -4,13 +4,15 @@ using System.Text;
 
 namespace GameCreator.Framework.Gml
 {
-    class Equality : Expression
+    public class Equality : Expression
     {
-        Expression expr1, expr2;
-        public Equality(Expression e1, Expression e2, int line, int col) : base(line, col) { expr1 = e1; expr2 = e2; }
+        public Expression Left { get; set; }
+        public Expression Right { get; set; }
+
+        public Equality(Expression e1, Expression e2, int line, int col) : base(line, col) { Left = e1; Right = e2; }
         public override Value Eval()
         {
-            Value v1 = expr1.Eval(), v2 = expr2.Eval();
+            Value v1 = Left.Eval(), v2 = Right.Eval();
             if (v1.IsReal && v2.IsReal)
             {
                 return v1.Real == v2.Real ? Value.One : Value.Zero;
@@ -28,8 +30,8 @@ namespace GameCreator.Framework.Gml
         }
         public override Expression Reduce()
         {
-            var e1 = expr1.Reduce();
-            var e2 = expr2.Reduce();
+            var e1 = Left.Reduce();
+            var e2 = Right.Reduce();
 
             if (e1.Kind == ExpressionKind.Constant && e2.Kind == ExpressionKind.Constant)
             {

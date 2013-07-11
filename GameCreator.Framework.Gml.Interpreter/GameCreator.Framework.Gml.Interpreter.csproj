@@ -40,7 +40,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Delegator.cs" />
+    <Compile Include="ExpressionAttribute.cs" />
+    <Compile Include="Expressions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StatementAttribute.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\GameCreator.Framework\GameCreator.Framework.csproj">
+      <Project>{6BC89687-EBA6-47F8-ADF0-05C1300D699A}</Project>
+      <Name>GameCreator.Framework</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
