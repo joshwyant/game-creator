@@ -16,5 +16,10 @@ namespace GameCreator.Framework.Gml
         {
             get { return ExpressionKind.Plus; }
         }
+
+        public override Expression Reduce()
+        {
+            return UnaryFold(expr, v => v);
+        }
     }
 }

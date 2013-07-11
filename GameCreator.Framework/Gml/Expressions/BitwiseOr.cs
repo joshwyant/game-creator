@@ -18,5 +18,10 @@ namespace GameCreator.Framework.Gml
         {
             get { return ExpressionKind.BitwiseOr; }
         }
+
+        public override Expression Reduce()
+        {
+            return Fold(expr1, expr2, (v1, v2) => (double)(Convert.ToInt64(v1) | Convert.ToInt64(v2)));
+        }
     }
 }

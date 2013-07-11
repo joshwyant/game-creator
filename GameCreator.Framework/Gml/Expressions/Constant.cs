@@ -6,16 +6,16 @@ namespace GameCreator.Framework.Gml
 {
     class Constant : Expression
     {
-        Value v;
-        public Constant(string s, int line, int col) : base(line, col) { v = new Value(s); }
-        public Constant(double d, int line, int col) : base(line, col) { v = new Value(d); }
+        public Value Value { get; set; }
+        public Constant(string s, int line, int col) : base(line, col) { Value = new Value(s); }
+        public Constant(double d, int line, int col) : base(line, col) { Value = new Value(d); }
         public override Value Eval()
         {
-            return v;
+            return Value;
         }
         public override string ToString()
         {
-            return v.ToString();
+            return Value.ToString();
         }
 
         public override ExpressionKind Kind

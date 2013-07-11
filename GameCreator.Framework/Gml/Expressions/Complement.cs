@@ -16,5 +16,10 @@ namespace GameCreator.Framework.Gml
         {
             get { return ExpressionKind.Complement; }
         }
+
+        public override Expression Reduce()
+        {
+            return UnaryFold(expr, v => (double)~Convert.ToInt64(v));
+        }
     }
 }
