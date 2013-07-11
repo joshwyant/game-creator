@@ -112,7 +112,7 @@ namespace GameCreator.Framework.Gml
         public static Value Zero = new Value(0.0);
         public static Value One = new Value(1.0);
         public static Value EmptyString = new Value(String.Empty);
-        public static Value Null = new Value();
+        public static Value Null = default(Value);
         // Operators
         public Value AddReal(Value b)
         {

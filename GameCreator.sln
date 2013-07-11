@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameCreator.Runtime", "Game
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameCreator.Framework.Gml.Interpreter", "GameCreator.Framework.Gml.Interpreter\GameCreator.Framework.Gml.Interpreter.csproj", "{86EA9620-4ED5-47C0-8805-EED429AE86AD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameCreator.Runtime.Game", "GameCreator.Runtime.Game\GameCreator.Runtime.Game.csproj", "{0BCAA035-D775-47B7-9B6E-12AA6516CDCA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -83,6 +85,16 @@ Global
 		{86EA9620-4ED5-47C0-8805-EED429AE86AD}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{86EA9620-4ED5-47C0-8805-EED429AE86AD}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{86EA9620-4ED5-47C0-8805-EED429AE86AD}.Release|x86.ActiveCfg = Release|Any CPU
+		{0BCAA035-D775-47B7-9B6E-12AA6516CDCA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0BCAA035-D775-47B7-9B6E-12AA6516CDCA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0BCAA035-D775-47B7-9B6E-12AA6516CDCA}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{0BCAA035-D775-47B7-9B6E-12AA6516CDCA}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{0BCAA035-D775-47B7-9B6E-12AA6516CDCA}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{0BCAA035-D775-47B7-9B6E-12AA6516CDCA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0BCAA035-D775-47B7-9B6E-12AA6516CDCA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0BCAA035-D775-47B7-9B6E-12AA6516CDCA}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{0BCAA035-D775-47B7-9B6E-12AA6516CDCA}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{0BCAA035-D775-47B7-9B6E-12AA6516CDCA}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

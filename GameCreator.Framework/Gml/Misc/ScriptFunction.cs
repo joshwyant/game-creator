@@ -17,7 +17,7 @@ namespace GameCreator.Framework.Gml
         }
         public override Value Execute(params Value[] parameters)
         {
-            ExecutionContext.Returned = new Value();
+            ExecutionContext.Returned = default(Value);
             ExecutionContext.Enter();
             ExecutionContext.SetArguments(parameters);
             cu.Run();
