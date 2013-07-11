@@ -4,12 +4,10 @@ using System.Text;
 
 namespace GameCreator.Framework.Gml
 {
-    public class LogicalAnd : Expression
+    public class LogicalAnd : BinaryExpression
     {
-        public Expression Left { get; set; }
-        public Expression Right { get; set; }
+        public LogicalAnd(Expression e1, Expression e2, int line, int col) : base(e1, e2, line, col) { }
 
-        public LogicalAnd(Expression e1, Expression e2, int l, int c) : base(l, c) { Left = e1; Right = e2; }
         public override Value Eval()
         {
             Value v1 = Left.Eval(), v2 = Right.Eval();

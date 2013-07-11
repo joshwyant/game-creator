@@ -73,6 +73,8 @@
     <Compile Include="ActionKind.cs" />
     <Compile Include="ActionLibrary.cs" />
     <Compile Include="Events.cs" />
+    <Compile Include="Gml\Misc\BinaryExpression.cs" />
+    <Compile Include="Gml\Misc\UnaryExpression.cs" />
     <Compile Include="Gml\Misc\ExpressionKind.cs" />
     <Compile Include="Gml\Statements\Nop.cs" />
     <Compile Include="Gml\Misc\StatementKind.cs" />

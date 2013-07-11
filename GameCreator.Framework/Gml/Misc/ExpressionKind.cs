@@ -7,6 +7,7 @@ namespace GameCreator.Framework.Gml
 {
     public enum ExpressionKind
     {
+        None = 0,
         Access,
         Addition,
         BitwiseAnd,
@@ -35,6 +36,6 @@ namespace GameCreator.Framework.Gml
         Plus,
         ShiftLeft,
         ShiftRight,
-        Subtraction
+        Subtraction,
     }
 }

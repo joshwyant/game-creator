@@ -4,12 +4,10 @@ using System.Text;
 
 namespace GameCreator.Framework.Gml
 {
-    public class LessThanOrEqual : Expression
+    public class LessThanOrEqual : BinaryExpression
     {
-        public Expression Left { get; set; }
-        public Expression Right { get; set; }
+        public LessThanOrEqual(Expression e1, Expression e2, int line, int col) : base(e1, e2, line, col) { }
 
-        public LessThanOrEqual(Expression e1, Expression e2, int line, int col) : base(line, col) { Left = e1; Right = e2; }
         public override Value Eval()
         {
             Value v1 = Left.Eval(), v2 = Right.Eval();
