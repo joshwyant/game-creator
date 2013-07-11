@@ -28,5 +28,11 @@ namespace GameCreator.Framework.Gml
         {
             get { return StatementKind.Sequence; }
         }
+
+        public override void Optimize()
+        {
+            stmt1.Optimize();
+            stmt2.Optimize();
+        }
     }
 }

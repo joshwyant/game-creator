@@ -22,5 +22,10 @@ namespace GameCreator.Framework.Gml
         {
             get { return StatementKind.Return; }
         }
+
+        public override void Optimize()
+        {
+            expr = expr.Reduce();
+        }
     }
 }

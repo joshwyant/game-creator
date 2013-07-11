@@ -17,5 +17,10 @@ namespace GameCreator.Framework.Gml
         {
             get { return StatementKind.XorAssignment; }
         }
+
+        public override void Optimize()
+        {
+            x = x.Reduce();
+        }
     }
 }

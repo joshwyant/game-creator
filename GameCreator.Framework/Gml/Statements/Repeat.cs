@@ -33,5 +33,11 @@ namespace GameCreator.Framework.Gml
         {
             get { return StatementKind.Repeat; }
         }
+
+        public override void Optimize()
+        {
+            expr = expr.Reduce();
+            stmt.Optimize();
+        }
     }
 }

@@ -23,5 +23,10 @@
         {
             get { return StatementKind.MultiplyAssignment; }
         }
+
+        public override void Optimize()
+        {
+            x = x.Reduce();
+        }
     }
 }

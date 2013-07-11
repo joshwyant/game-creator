@@ -34,5 +34,15 @@ namespace GameCreator.Framework.Gml
         {
             get { return ExpressionKind.Call; }
         }
+
+        public override Expression Reduce()
+        {
+            var e = new Expression[exprs.Length];
+
+            for (int i = 0; i < e.Length; i++)
+                e[i] = exprs[i].Reduce();
+
+            return new Call(f, exprs, Line, Column);
+        }
     }
 }

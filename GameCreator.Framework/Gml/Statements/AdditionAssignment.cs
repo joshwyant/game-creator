@@ -18,5 +18,10 @@
         {
             get { return StatementKind.AdditionAssignment; }
         }
+
+        public override void Optimize()
+        {
+            x = x.Reduce();
+        }
     }
 }

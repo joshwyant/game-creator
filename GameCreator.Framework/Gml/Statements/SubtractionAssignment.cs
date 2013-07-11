@@ -16,5 +16,10 @@
         {
             get { return StatementKind.SubtractionAssignment; }
         }
+
+        public override void Optimize()
+        {
+            x = x.Reduce();
+        }
     }
 }

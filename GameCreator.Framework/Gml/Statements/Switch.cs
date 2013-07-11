@@ -43,5 +43,13 @@ namespace GameCreator.Framework.Gml
         {
             get { return StatementKind.Switch; }
         }
+
+        public override void Optimize()
+        {
+            expr = expr.Reduce();
+
+            for (int i = 0; i < stmts.Length; i++)
+                stmts[i].Optimize();
+        }
     }
 }

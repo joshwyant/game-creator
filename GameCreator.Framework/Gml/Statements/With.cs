@@ -96,5 +96,11 @@ namespace GameCreator.Framework.Gml
         {
             get { return StatementKind.With; }
         }
+
+        public override void Optimize()
+        {
+            expr = expr.Reduce();
+            stmt.Optimize();
+        }
     }
 }

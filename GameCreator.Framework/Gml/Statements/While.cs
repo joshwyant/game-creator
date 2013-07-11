@@ -32,5 +32,12 @@ namespace GameCreator.Framework.Gml
         {
             get { return StatementKind.While; }
         }
+
+        public override void Optimize()
+        {
+            expr = expr.Reduce();
+            stmt.Optimize();
+        }
+
     }
 }

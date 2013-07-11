@@ -25,5 +25,10 @@ namespace GameCreator.Framework.Gml
         {
             get { return StatementKind.CallStatement; }
         }
+
+        public override void Optimize()
+        {
+            c = (Call)c.Reduce();
+        }
     }
 }

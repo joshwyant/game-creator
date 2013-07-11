@@ -13,5 +13,11 @@
         {
             get { return StatementKind.Assignment; }
         }
+
+
+        public override void Optimize()
+        {
+            x = x.Reduce();
+        }
     }
 }
