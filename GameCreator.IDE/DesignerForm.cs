@@ -387,14 +387,14 @@ namespace GameCreator.IDE
             // We are generating a dynamic assembly here.
             //
             // Get type information from the runtime assembly
-            Assembly asm_runtime = Assembly.Load("GameCreator.Runtime");
-            Type t_game = asm_runtime.GetType("GameCreator.Runtime.Game");
-            Type t_script = asm_runtime.GetType("GameCreator.Runtime.Script");
-            Type t_sprite = asm_runtime.GetType("GameCreator.Runtime.Sprite");
-            Type t_room = asm_runtime.GetType("GameCreator.Runtime.Room");
-            Type t_object = asm_runtime.GetType("GameCreator.Runtime.Object");
-            Type t_event = asm_runtime.GetType("GameCreator.Runtime.Event");
-            Type t_lib = asm_runtime.GetType("GameCreator.Runtime.ActionLibrary");
+            Assembly asm_runtime = Assembly.Load("GameCreator.Framework");
+            Type t_game = asm_runtime.GetType("GameCreator.Framework.Game");
+            Type t_script = asm_runtime.GetType("GameCreator.Framework.Script");
+            Type t_sprite = asm_runtime.GetType("GameCreator.Framework.Sprite");
+            Type t_room = asm_runtime.GetType("GameCreator.Framework.Room");
+            Type t_object = asm_runtime.GetType("GameCreator.Framework.Object");
+            Type t_event = asm_runtime.GetType("GameCreator.Framework.Event");
+            Type t_lib = asm_runtime.GetType("GameCreator.Framework.ActionLibrary");
             // Define our dynamic assembly
             System.Reflection.Emit.AssemblyBuilder asm = AppDomain.CurrentDomain.DefineDynamicAssembly(new AssemblyName(asmname), AssemblyBuilderAccess.RunAndSave, pathname);
             ModuleBuilder mod = asm.DefineDynamicModule(exename, exename);
