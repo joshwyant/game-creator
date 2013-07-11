@@ -154,21 +154,15 @@ namespace GameCreator.Framework.Gml.Interpreter
         #region Logical
         [Expression(Kind = ExpressionKind.LogicalAnd)]
         public static Value LogicalAnd(Expression node)
-        {
-            return Logical(node, "&&", (v1, v2) => v1 > 0 && v2 > 0);
-        }
+        { return Logical(node, "&&", (v1, v2) => v1 > 0 && v2 > 0); }
 
         [Expression(Kind = ExpressionKind.LogicalOr)]
         public static Value LogicalOr(Expression node)
-        {
-            return Logical(node, "||", (v1, v2) => v1 > 0 || v2 > 0);
-        }
+        { return Logical(node, "||", (v1, v2) => v1 > 0 || v2 > 0); }
 
         [Expression(Kind = ExpressionKind.LogicalXor)]
         public static Value LogicalXor(Expression node)
-        {
-            return Logical(node, "^^", (v1, v2) => (v1 > 0) ^ (v2 > 0));
-        }
+        { return Logical(node, "^^", (v1, v2) => (v1 > 0) ^ (v2 > 0)); }
         #endregion
 
         #region Helpers
