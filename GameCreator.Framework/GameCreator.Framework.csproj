@@ -73,6 +73,9 @@
     <Compile Include="ActionKind.cs" />
     <Compile Include="ActionLibrary.cs" />
     <Compile Include="Events.cs" />
+    <Compile Include="Gml\Misc\ExpressionKind.cs" />
+    <Compile Include="Gml\Statements\Nop.cs" />
+    <Compile Include="Gml\Misc\StatementKind.cs" />
     <Compile Include="Instance.cs" />
     <Compile Include="Gml\Expressions\Access.cs" />
     <Compile Include="Gml\Expressions\Addition.cs" />
@@ -127,7 +130,7 @@
     <Compile Include="Gml\Statements\AndAssignment.cs" />
     <Compile Include="Gml\Statements\Assignment.cs" />
     <Compile Include="Gml\Statements\Break.cs" />
-    <Compile Include="Gml\Statements\CallStmt.cs" />
+    <Compile Include="Gml\Statements\CallStatement.cs" />
     <Compile Include="Gml\Statements\Case.cs" />
     <Compile Include="Gml\Statements\Continue.cs" />
     <Compile Include="Gml\Statements\Default.cs" />
@@ -141,7 +144,7 @@
     <Compile Include="Gml\Statements\OrAssignment.cs" />
     <Compile Include="Gml\Statements\Repeat.cs" />
     <Compile Include="Gml\Statements\Return.cs" />
-    <Compile Include="Gml\Statements\Seq.cs" />
+    <Compile Include="Gml\Statements\Sequence.cs" />
     <Compile Include="Gml\Statements\SubtractionAssignment.cs" />
     <Compile Include="Gml\Statements\Switch.cs" />
     <Compile Include="Gml\Statements\Var.cs" />
@@ -151,10 +154,6 @@
     <Compile Include="GameMakerEmulation.cs" />
     <Compile Include="Gml\Lexer.cs" />
     <Compile Include="Gml\Parser.cs" />
-    <Compile Include="Intermediate\FunctionBuilder.cs" />
-    <Compile Include="Intermediate\FunctionCallInfo.cs" />
-    <Compile Include="Intermediate\OpCode.cs" />
-    <Compile Include="Intermediate\Operation.cs" />
     <Compile Include="Sprite.cs" />
     <Compile Include="Event.cs" />
     <Compile Include="Library\Actions\Control.cs" />

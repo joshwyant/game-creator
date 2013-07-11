@@ -12,5 +12,10 @@ namespace GameCreator.Framework.Gml
                 a.Set((double)(Convert.ToInt64(v1.Real) & Convert.ToInt64(v2.Real)));
             // else throw new ProgramError("Wrong type of arguments to assignment operator.");
         }
+
+        public override StatementKind Kind
+        {
+            get { return StatementKind.AndAssignment; }
+        }
     }
 }

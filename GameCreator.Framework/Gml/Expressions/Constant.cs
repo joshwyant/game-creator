@@ -18,9 +18,9 @@ namespace GameCreator.Framework.Gml
             return v.ToString();
         }
 
-        public override void Emit(Intermediate.FunctionBuilder builder)
+        public override ExpressionKind Kind
         {
-            throw new NotImplementedException();
+            get { return ExpressionKind.Constant; }
         }
     }
 }

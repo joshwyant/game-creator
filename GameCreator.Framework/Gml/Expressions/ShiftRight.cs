@@ -12,9 +12,9 @@ namespace GameCreator.Framework.Gml
             return (double)(Convert.ToInt64(v1.Real) >> (int)Convert.ToInt64(v2.Real));
         }
 
-        public override void Emit(Intermediate.FunctionBuilder builder)
+        public override ExpressionKind Kind
         {
-            throw new NotImplementedException();
+            get { return ExpressionKind.ShiftRight; }
         }
     }
 }

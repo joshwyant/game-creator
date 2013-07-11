@@ -4,11 +4,11 @@ using System.Text;
 
 namespace GameCreator.Framework.Gml
 {
-    class Seq : Statement
+    class Sequence : Statement
     {
         public Statement stmt1;
         public Statement stmt2;
-        public Seq(Statement s1, Statement s2, int line, int col)
+        public Sequence(Statement s1, Statement s2, int line, int col)
             : base(line, col)
         {
             stmt1 = s1;
@@ -22,6 +22,11 @@ namespace GameCreator.Framework.Gml
         public override string ToString()
         {
             return stmt1.ToString() + "; " + stmt2.ToString();
+        }
+
+        public override StatementKind Kind
+        {
+            get { return StatementKind.Sequence; }
         }
     }
 }

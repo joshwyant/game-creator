@@ -1,5 +1,5 @@
 ﻿using System;
-using GameCreator.Framework.Intermediate;
+
 namespace GameCreator.Framework.Gml
 {
     class Addition : Expression
@@ -17,11 +17,9 @@ namespace GameCreator.Framework.Gml
                 return Error("Wrong type of arguments to +.");
         }
 
-        public override void Emit(Intermediate.FunctionBuilder builder)
+        public override ExpressionKind Kind
         {
-            expr1.Emit(builder);
-            expr2.Emit(builder);
-            builder.Emit(OpCode.Add);
+            get { return ExpressionKind.Addition; }
         }
     }
 }

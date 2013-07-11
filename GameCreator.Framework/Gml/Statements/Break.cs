@@ -15,5 +15,9 @@ namespace GameCreator.Framework.Gml
         {
             return "break";
         }
+        public override StatementKind Kind
+        {
+            get { return StatementKind.Break; }
+        }
     }
 }

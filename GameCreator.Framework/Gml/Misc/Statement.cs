@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using GameCreator.Framework.Intermediate;
+
 
 namespace GameCreator.Framework.Gml
 {
-    public class Statement : AstNode
+    public abstract class Statement : AstNode
     {
         public Statement(int line, int col) : base(line, col) { }
         protected FlowType ProgramFlow;
@@ -54,11 +54,10 @@ namespace GameCreator.Framework.Gml
         {
             throw new ProgramError(str, ErrorSeverity.Error, ExecutionContext.ExecutingStatement);
         }
-        public static Statement Null = new Statement(0, 0);
 
-        public override void Emit(FunctionBuilder builder)
-        {
-            throw new NotImplementedException();
-        }
+        public abstract StatementKind Kind { get; }
+
+
+        public static Statement Nop { get { return new Nop(0, 0); } }
     }
 }

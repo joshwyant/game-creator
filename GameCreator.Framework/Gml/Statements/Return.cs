@@ -17,5 +17,10 @@ namespace GameCreator.Framework.Gml
         {
             return "return " + expr.ToString();
         }
+
+        public override StatementKind Kind
+        {
+            get { return StatementKind.Return; }
+        }
     }
 }

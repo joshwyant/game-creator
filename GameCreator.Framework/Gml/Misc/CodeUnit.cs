@@ -1,4 +1,5 @@
-﻿namespace GameCreator.Framework.Gml
+﻿using System.IO;
+namespace GameCreator.Framework.Gml
 {
     // A code unit. It is initialized with a code string.
     // A code unit is always compiled once. Either manually, i.e. while loading, or immediately before the code is run.
@@ -13,7 +14,7 @@
         {
             if (ParseTree != null)
                 return;
-            Parser p = new Parser(code);
+            Parser p = new Parser(new StringReader(code));
             ParseTree = p.Parse();
         }
         public bool Compiled { get { return ParseTree != null; } }

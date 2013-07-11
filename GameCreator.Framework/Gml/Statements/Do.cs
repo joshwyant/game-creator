@@ -31,5 +31,9 @@ namespace GameCreator.Framework.Gml
         {
             return "do " + stmt.ToString() + " until " + expr.ToString();
         }
+        public override StatementKind Kind
+        {
+            get { return StatementKind.Do; }
+        }
     }
 }

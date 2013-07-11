@@ -22,9 +22,9 @@ namespace GameCreator.Framework.Gml
             else return Error("Cannot compare arguments.");
         }
 
-        public override void Emit(Intermediate.FunctionBuilder builder)
+        public override ExpressionKind Kind
         {
-            throw new NotImplementedException();
+            get { return ExpressionKind.LessThan; }
         }
     }
 }

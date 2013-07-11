@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using GameCreator.Framework.Intermediate;
+
 
 namespace GameCreator.Framework.Gml
 {
@@ -16,5 +16,7 @@ namespace GameCreator.Framework.Gml
         {
             throw new ProgramError(str, ErrorSeverity.Error, Line, Column);
         }
+
+        public abstract ExpressionKind Kind { get; }
     }
 }

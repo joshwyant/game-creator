@@ -91,5 +91,10 @@ namespace GameCreator.Framework.Gml
             ExecutionContext.Current = c;
             ExecutionContext.Other = o;
         }
+
+        public override StatementKind Kind
+        {
+            get { return StatementKind.With; }
+        }
     }
 }

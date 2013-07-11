@@ -16,5 +16,9 @@ namespace GameCreator.Framework.Gml
         {
             return "var "+string.Join(", ", vars);
         }
+        public override StatementKind Kind
+        {
+            get { return StatementKind.Var; }
+        }
     }
 }

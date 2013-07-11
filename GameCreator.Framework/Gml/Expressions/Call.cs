@@ -30,9 +30,9 @@ namespace GameCreator.Framework.Gml
             return f.Name + "(" + string.Join(", ", t) + ")";
         }
 
-        public override void Emit(Intermediate.FunctionBuilder builder)
+        public override ExpressionKind Kind
         {
-            throw new NotImplementedException();
+            get { return ExpressionKind.Call; }
         }
     }
 }

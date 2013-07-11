@@ -21,9 +21,9 @@ namespace GameCreator.Framework.Gml
                 return Error("Wrong type of arguments to *.");
         }
 
-        public override void Emit(Intermediate.FunctionBuilder builder)
+        public override ExpressionKind Kind
         {
-            throw new NotImplementedException();
+            get { return ExpressionKind.Multiply; }
         }
     }
 }

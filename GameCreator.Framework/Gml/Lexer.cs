@@ -1,9 +1,9 @@
-﻿namespace GameCreator.Framework.Gml
+﻿using System.IO;
+namespace GameCreator.Framework.Gml
 {
     public class Lexer
     {
-        System.IO.Stream s;
-        System.IO.BinaryReader br;
+        TextReader reader;
         char peek = ' ';
         const char eof = '\xFFFF';
         System.Collections.Generic.Stack<Token> pushed = new System.Collections.Generic.Stack<Token>();
@@ -46,18 +46,16 @@
             reserve(Token.Noone);
             reserve(Token.Global);
         }
-        public Lexer(System.IO.Stream s) : this(s, System.Text.Encoding.Default) { }
-        public Lexer(System.IO.Stream s, System.Text.Encoding e)
+        public Lexer(TextReader r)
         {
-            this.s = s;
-            br = new System.IO.BinaryReader(s, e);
+            reader = r;
         }
         static void reserve(Token t) { Words.Add(t.lexeme, t); }
         char readch()
         {
             if (chars.Count != 0) return chars.Pop();
-            if (s.Position == s.Length) return eof;
-            char c = br.ReadChar();
+            if (reader.Peek() == -1) return eof;
+            char c = (char)reader.Read();
             col++;
             if (c == '\n')
             {

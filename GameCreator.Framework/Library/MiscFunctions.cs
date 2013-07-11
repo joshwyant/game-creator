@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using GameCreator.Framework.Gml;
+using System.IO;
 
 namespace GameCreator.Framework.Library
 {
@@ -43,7 +44,7 @@ namespace GameCreator.Framework.Library
         public static Value execute_string(params Value[] args)
         {
             ExecutionContext.Returned = 0;
-            Parser p = new Parser(args[0]);
+            Parser p = new Parser(new StringReader(args[0]));
             p.Parse().Exec();
             return ExecutionContext.Returned;
         }

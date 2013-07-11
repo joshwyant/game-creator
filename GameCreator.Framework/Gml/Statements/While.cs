@@ -28,5 +28,9 @@ namespace GameCreator.Framework.Gml
         {
             return string.Format("while {0} {1}", expr, stmt);
         }
+        public override StatementKind Kind
+        {
+            get { return StatementKind.While; }
+        }
     }
 }

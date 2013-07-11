@@ -38,5 +38,10 @@ namespace GameCreator.Framework.Gml
                 }
             }
         }
+
+        public override StatementKind Kind
+        {
+            get { return StatementKind.Switch; }
+        }
     }
 }

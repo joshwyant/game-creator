@@ -14,7 +14,7 @@ namespace GameCreator.Framework.Gml
         {
             expr = e;
             stmt1 = s;
-            stmt2 = Statement.Null;
+            stmt2 = Statement.Nop;
         }
         public If(Expression e, Statement t, Statement f, int l, int c)
             : base(l, c)
@@ -38,10 +38,14 @@ namespace GameCreator.Framework.Gml
         }
         public override string ToString()
         {
-            if (stmt2 == Statement.Null)
+            if (stmt2 == Statement.Nop)
                 return string.Format("if {0} {1}", expr, stmt1);
             else
                 return string.Format("if {0} {1} else {2}", expr, stmt1, stmt2);
+        }
+        public override StatementKind Kind
+        {
+            get { return StatementKind.If; }
         }
     }
 }

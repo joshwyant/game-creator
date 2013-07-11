@@ -29,5 +29,9 @@ namespace GameCreator.Framework.Gml
         {
             return string.Format("repeat {0} {1}", expr, stmt);
         }
+        public override StatementKind Kind
+        {
+            get { return StatementKind.Repeat; }
+        }
     }
 }

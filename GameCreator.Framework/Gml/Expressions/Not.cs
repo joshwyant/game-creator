@@ -12,9 +12,9 @@ namespace GameCreator.Framework.Gml
             return v.Real >= 0 ? Value.Zero : Value.One;
         }
 
-        public override void Emit(Intermediate.FunctionBuilder builder)
+        public override ExpressionKind Kind
         {
-            throw new NotImplementedException();
+            get { return ExpressionKind.Not; }
         }
     }
 }

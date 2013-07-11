@@ -8,5 +8,10 @@
         {
             a.Set(x.Eval());
         }
+
+        public override StatementKind Kind
+        {
+            get { return StatementKind.Assignment; }
+        }
     }
 }

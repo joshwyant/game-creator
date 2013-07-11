@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.IO;
 
 namespace GameCreator.Framework.Gml
 {
@@ -58,7 +59,7 @@ namespace GameCreator.Framework.Gml
             Value v = 0;
             Instance t = ExecutionContext.Current;
             ExecutionContext.Current = inst; // The current instance executing the code
-            Parser p = new Parser(s);
+            Parser p = new Parser(new StringReader(s));
             Expression e = p.ParseExpression();
             ExecutionContext.Enter();
             try
@@ -80,13 +81,9 @@ namespace GameCreator.Framework.Gml
         {
             l = lex;
         }
-        public Parser(string s)
+        public Parser(TextReader r)
         {
-            System.IO.MemoryStream ms = new System.IO.MemoryStream();
-            System.IO.BinaryWriter bw = new System.IO.BinaryWriter(ms, Encoding.ASCII);
-            bw.Write(s.ToCharArray());
-            ms.Seek(0, System.IO.SeekOrigin.Begin);
-            l = new Lexer(ms, Encoding.ASCII);
+            l = new Lexer(r);
         }
         void move()
         {
@@ -129,10 +126,10 @@ namespace GameCreator.Framework.Gml
                 s = block(); if (t != TokenKind.Eof) error("Program ends before end of the code.");
                 return s;
             }
-            s = Statement.Null;
+            s = Statement.Nop;
             while (t != TokenKind.Eof)
             {
-                s = new Seq(s, stmt(), next.line, next.col); // stmt() throws ProgramError
+                s = new Sequence(s, stmt(), next.line, next.col); // stmt() throws ProgramError
             }
             return s;
         }
@@ -375,13 +372,13 @@ namespace GameCreator.Framework.Gml
         }
         Statement block()
         {
-            Statement s = Statement.Null;
+            Statement s = Statement.Nop;
             int l = next.line;
             int c = next.col;
             match(Token.OpeningCurlyBrace);
             while (t != TokenKind.ClosingCurlyBrace && t != TokenKind.Eof)
             {
-                s = new Seq(s, stmt(), l, c);
+                s = new Sequence(s, stmt(), l, c);
             }
             match(Token.ClosingCurlyBrace);
             while (t == TokenKind.Semicolon) move();
@@ -569,7 +566,7 @@ namespace GameCreator.Framework.Gml
                     BaseFunction f = ExecutionContext.GetFunction(str);
                     if ((f.Argc != -1 && exprs.Count != f.Argc) || exprs.Count > 16)
                         error("Wrong number of arguments to function or script.");
-                    return new CallStmt(f, exprs.ToArray(), l, c);
+                    return new CallStatement(f, exprs.ToArray(), l, c);
                 }
                 else
                 {

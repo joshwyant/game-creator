@@ -32,5 +32,9 @@ namespace GameCreator.Framework.Gml
         {
             return string.Format("for ({0};{1};{2}) {3}", stmt1, expr, stmt2, stmt3);
         }
+        public override StatementKind Kind
+        {
+            get { return StatementKind.For; }
+        }
     }
 }

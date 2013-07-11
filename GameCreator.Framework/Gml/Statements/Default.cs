@@ -13,5 +13,9 @@ namespace GameCreator.Framework.Gml
         {
             Error("Default statement only allowed inside switch statement.");
         }
+        public override StatementKind Kind
+        {
+            get { return StatementKind.Default; }
+        }
     }
 }

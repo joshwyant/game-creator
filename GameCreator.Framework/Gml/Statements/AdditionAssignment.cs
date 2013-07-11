@@ -13,5 +13,10 @@
                 a.Set(v1 + v2);
             // else throw new ProgramError("Wrong type of arguments to assignment operator.");
         }
+
+        public override StatementKind Kind
+        {
+            get { return StatementKind.AdditionAssignment; }
+        }
     }
 }

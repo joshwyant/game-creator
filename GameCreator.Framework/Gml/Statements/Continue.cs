@@ -15,5 +15,9 @@ namespace GameCreator.Framework.Gml
         {
             return "continue";
         }
+        public override StatementKind Kind
+        {
+            get { return StatementKind.Continue; }
+        }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using GameCreator.Framework.Intermediate;
+
 
 namespace GameCreator.Framework.Gml
 {
@@ -73,33 +73,9 @@ namespace GameCreator.Framework.Gml
             }
         }
 
-        public override void Emit(Intermediate.FunctionBuilder builder)
+        public override ExpressionKind Kind
         {
-            if (Lefthand == null)
-                builder.Emit(OpCode.ThisAccess);
-            else
-                Lefthand.Emit(builder);
-
-            switch (Indices.Length)
-            {
-                case 0:
-                    builder.Emit(OpCode.Access, Name);
-                    break;
-
-                case 1:
-                    Indices[0].Emit(builder);
-                    builder.Emit(OpCode.AccessArray, Name);
-                    break;
-
-                case 2:
-                    Indices[0].Emit(builder);
-                    Indices[1].Emit(builder);
-                    builder.Emit(OpCode.AccessArray2, Name);
-                    break;
-
-                default:
-                    throw new NotImplementedException();
-            }
+            get { return ExpressionKind.Access; }
         }
     }
 }

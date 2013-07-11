@@ -15,5 +15,9 @@ namespace GameCreator.Framework.Gml
         {
             return "exit";
         }
+        public override StatementKind Kind
+        {
+            get { return StatementKind.Exit; }
+        }
     }
 }

@@ -10,9 +10,9 @@ namespace GameCreator.Framework.Gml
         public Id(string n, int line, int col) : base(line, col) { this.n = n; }
         public override string ToString() { return n; }
 
-        public override void Emit(Intermediate.FunctionBuilder builder)
+        public override ExpressionKind Kind
         {
-            throw new NotImplementedException();
+            get { return ExpressionKind.Id; }
         }
     }
 }

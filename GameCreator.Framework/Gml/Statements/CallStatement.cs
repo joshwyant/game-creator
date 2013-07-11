@@ -4,10 +4,10 @@ using System.Text;
 
 namespace GameCreator.Framework.Gml
 {
-    class CallStmt : Statement
+    class CallStatement : Statement
     {
         Call c;
-        public CallStmt(BaseFunction func, Expression[] expressions, int l, int c)
+        public CallStatement(BaseFunction func, Expression[] expressions, int l, int c)
             : base(l, c)
         {
             this.c = new Call(func, expressions, l, c);
@@ -19,6 +19,11 @@ namespace GameCreator.Framework.Gml
         public override string ToString()
         {
             return c.ToString();
+        }
+
+        public override StatementKind Kind
+        {
+            get { return StatementKind.CallStatement; }
         }
     }
 }

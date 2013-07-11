@@ -1,5 +1,5 @@
 ﻿using System;
-using GameCreator.Framework.Intermediate;
+
 namespace GameCreator.Framework.Gml
 {
     class BitwiseXor : Expression
@@ -13,11 +13,9 @@ namespace GameCreator.Framework.Gml
             return (double)(Convert.ToInt64(v1.Real) | Convert.ToInt64(v2.Real));
         }
 
-        public override void Emit(Intermediate.FunctionBuilder builder)
+        public override ExpressionKind Kind
         {
-            expr1.Emit(builder);
-            expr2.Emit(builder);
-            builder.Emit(OpCode.BitwiseXor);
+            get { return ExpressionKind.BitwiseXor; }
         }
     }
 }
