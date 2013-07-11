@@ -152,6 +152,7 @@
     <Compile Include="Gml\Lexer.cs" />
     <Compile Include="Gml\Parser.cs" />
     <Compile Include="Intermediate\FunctionBuilder.cs" />
+    <Compile Include="Intermediate\FunctionCallInfo.cs" />
     <Compile Include="Intermediate\OpCode.cs" />
     <Compile Include="Intermediate\Operation.cs" />
     <Compile Include="Sprite.cs" />

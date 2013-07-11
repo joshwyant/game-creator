@@ -9,8 +9,6 @@ namespace GameCreator.Framework.Gml
         Lexer l;
         Token next;
         TokenKind t;
-        static System.Collections.Hashtable globalvars = new System.Collections.Hashtable();
-        System.Collections.Hashtable localvars = new System.Collections.Hashtable();
         /*
         public static Value Execute(string s)
         {
@@ -109,10 +107,6 @@ namespace GameCreator.Framework.Gml
                 move();
             else
                 error(err);
-        }
-        void match(TokenKind ter)
-        {
-            match(ter, "Unexpected symbol in expression.");
         }
         Token peek()
         {
@@ -372,7 +366,7 @@ namespace GameCreator.Framework.Gml
                 case TokenKind.OpeningParenthesis:
                     move();
                     e = new Grouping(expr(), next.line, next.col);
-                    match(TokenKind.ClosingParenthesis);
+                    match(TokenKind.ClosingParenthesis, "Unexpected symbol in expression.");
                     return e;
                 default:
                     throw new ProgramError("Unexpected symbol in expression.", ErrorSeverity.CompilationError, next.line, next.col);
