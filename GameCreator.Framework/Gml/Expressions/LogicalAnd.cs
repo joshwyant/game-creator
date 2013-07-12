@@ -8,13 +8,6 @@ namespace GameCreator.Framework.Gml
     {
         public LogicalAnd(Expression e1, Expression e2, int line, int col) : base(e1, e2, line, col) { }
 
-        public override Value Eval()
-        {
-            Value v1 = Left.Eval(), v2 = Right.Eval();
-            if (!v1.IsReal || !v2.IsReal) Error("Wrong type of arguments for &&.");
-            return v1.Real > 0 && v2.Real > 0 ? new Value(1.0) : Value.Zero;
-        }
-
         public override ExpressionKind Kind
         {
             get { return ExpressionKind.LogicalAnd; }

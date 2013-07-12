@@ -6,13 +6,9 @@ namespace GameCreator.Framework.Gml
 {
     public class Grouping : Expression
     {
-        public Expression Operand { get; set; }
+        public Expression InnerExpression { get; set; }
 
-        public Grouping(Expression e, int line, int col) : base(line, col) { Operand = e; }
-        public override Value Eval()
-        {
-            return Operand.Eval();
-        }
+        public Grouping(Expression e, int line, int col) : base(line, col) { InnerExpression = e; }
 
         public override ExpressionKind Kind
         {
@@ -20,7 +16,7 @@ namespace GameCreator.Framework.Gml
         }
         public override Expression Reduce()
         {
-            return Operand.Reduce();
+            return InnerExpression.Reduce();
         }
     }
 }

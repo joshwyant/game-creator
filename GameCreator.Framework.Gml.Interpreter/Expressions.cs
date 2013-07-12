@@ -94,7 +94,7 @@ namespace GameCreator.Framework.Gml.Interpreter
 
         [Expression(Kind = ExpressionKind.Grouping)]
         public static Value Grouping(Expression node)
-        { return (node as Grouping).Operand.Eval(); }
+        { return (node as Grouping).InnerExpression.Eval(); }
         #endregion
 
         #region Comparison

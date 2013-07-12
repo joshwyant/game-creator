@@ -1,18 +1,10 @@
 ﻿using System;
 namespace GameCreator.Framework.Gml
 {
-    public class Divide : Expression
+    public class Divide : BinaryExpression
     {
-        public Expression Left { get; set; }
-        public Expression Right { get; set; }
-
-        public Divide(Expression e1, Expression e2, int l, int c) : base(l, c) { Left = e1; Right = e2; }
-        public override Value Eval()
-        {
-            Value v1 = Left.Eval(), v2 = Right.Eval();
-            if (!(v1.IsReal && v2.IsReal)) Error("Wrong type of arguments to /.");
-            return new Value(v1.Real / v2.Real);
-        }
+        public Divide(Expression left, Expression right, int line, int col)
+            : base(left, right, line, col) { }
 
         public override ExpressionKind Kind
         {

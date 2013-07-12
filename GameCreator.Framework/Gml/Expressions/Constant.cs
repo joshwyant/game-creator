@@ -9,10 +9,7 @@ namespace GameCreator.Framework.Gml
         public Value Value { get; set; }
         public Constant(string s, int line, int col) : base(line, col) { Value = new Value(s); }
         public Constant(double d, int line, int col) : base(line, col) { Value = new Value(d); }
-        public override Value Eval()
-        {
-            return Value;
-        }
+
         public override string ToString()
         {
             return Value.ToString();

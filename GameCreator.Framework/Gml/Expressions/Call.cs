@@ -16,13 +16,7 @@ namespace GameCreator.Framework.Gml
             Function = func;
             Expressions = expressions;
         }
-        public override Value Eval()
-        {
-            List<Value> vals = new List<Value>();
-            foreach (Expression e in Expressions)
-                vals.Add(e.Eval());
-            return Function.Execute(vals.ToArray());
-        }
+
         public override string ToString()
         {
             string[] t = new string[Expressions.Length];

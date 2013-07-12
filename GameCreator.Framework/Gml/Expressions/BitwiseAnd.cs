@@ -2,18 +2,10 @@
 
 namespace GameCreator.Framework.Gml
 {
-    public class BitwiseAnd : Expression
+    public class BitwiseAnd : BinaryExpression
     {
-        public Expression Left { get; set; }
-        public Expression Right { get; set; }
-
-        public BitwiseAnd(Expression e1, Expression e2, int line, int col) : base(line,col) { Left = e1; Right = e2; }
-        public override Value Eval()
-        {
-            Value v1 = Left.Eval(), v2 = Right.Eval();
-            if (!(v1.IsReal && v2.IsReal)) Error("Wrong type of arguments for &.");
-            return (double)(Convert.ToInt64(v1.Real) & Convert.ToInt64(v2.Real));
-        }
+        public BitwiseAnd(Expression left, Expression right, int line, int col)
+            : base(left, right, line, col) { }
 
         public override ExpressionKind Kind
         {
