@@ -16,11 +16,6 @@ namespace GameCreator.Framework.Gml
             Second = s2;
         }
 
-        public override string ToString()
-        {
-            return First.ToString() + "; " + Second.ToString();
-        }
-
         public override StatementKind Kind
         {
             get { return StatementKind.Sequence; }
@@ -30,6 +25,11 @@ namespace GameCreator.Framework.Gml
         {
             First.Optimize();
             Second.Optimize();
+        }
+
+        internal override void Write(System.CodeDom.Compiler.IndentedTextWriter writer, GmlFormatter formatter)
+        {
+            throw new NotImplementedException();
         }
     }
 }

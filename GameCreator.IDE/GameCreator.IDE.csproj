@@ -72,8 +72,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="EXEBuilder.cs" />
-    <Compile Include="FrameBasedAnimation.cs" />
+    <Compile Include="GameResources\FrameBasedAnimation.cs" />
     <Compile Include="GameResources\Actions\ActionArgument.cs" />
     <Compile Include="GameResources\Actions\ActionDataObject.cs" />
     <Compile Include="GameResources\Actions\ActionDeclaration.cs" />
@@ -167,7 +166,6 @@
     <Compile Include="GameResources\Sprites\SpriteEditor.Designer.cs">
       <DependentUpon>SpriteEditor.cs</DependentUpon>
     </Compile>
-    <Compile Include="GameSaver.cs" />
     <Compile Include="GameResources\Objects\ObjectEditor.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -180,7 +178,7 @@
     <Compile Include="GameResources\Objects\ObjectResourceView.cs" />
     <Compile Include="GameResources\IDeletable.cs" />
     <Compile Include="GameResources\Scripts\IScriptExportable.cs" />
-    <Compile Include="IndexedResourceManager.cs" />
+    <Compile Include="GameResources\IndexedResourceManager.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

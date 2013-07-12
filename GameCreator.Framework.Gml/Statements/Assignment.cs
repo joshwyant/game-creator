@@ -1,4 +1,5 @@
-﻿namespace GameCreator.Framework.Gml
+﻿using System;
+namespace GameCreator.Framework.Gml
 {
     public class Assignment : Statement
     {
@@ -20,6 +21,11 @@
         public override void Optimize()
         {
             Expression = Expression.Reduce();
+        }
+
+        internal override void Write(System.CodeDom.Compiler.IndentedTextWriter writer, GmlFormatter formatter)
+        {
+            throw new NotImplementedException();
         }
     }
 }

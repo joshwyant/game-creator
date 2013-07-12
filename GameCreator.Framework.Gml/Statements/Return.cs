@@ -14,11 +14,6 @@ namespace GameCreator.Framework.Gml
             Expression = e;
         }
 
-        public override string ToString()
-        {
-            return "return " + Expression.ToString();
-        }
-
         public override StatementKind Kind
         {
             get { return StatementKind.Return; }
@@ -27,6 +22,11 @@ namespace GameCreator.Framework.Gml
         public override void Optimize()
         {
             Expression = Expression.Reduce();
+        }
+
+        internal override void Write(System.CodeDom.Compiler.IndentedTextWriter writer, GmlFormatter formatter)
+        {
+            throw new NotImplementedException();
         }
     }
 }

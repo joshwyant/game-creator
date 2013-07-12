@@ -14,13 +14,14 @@ namespace GameCreator.Framework.Gml
             Variables = v;
         }
 
-        public override string ToString()
-        {
-            return "globalvar " + string.Join(", ", Variables);
-        }
         public override StatementKind Kind
         {
             get { return StatementKind.Globalvar; }
+        }
+
+        internal override void Write(System.CodeDom.Compiler.IndentedTextWriter writer, GmlFormatter formatter)
+        {
+            throw new NotImplementedException();
         }
     }
 }

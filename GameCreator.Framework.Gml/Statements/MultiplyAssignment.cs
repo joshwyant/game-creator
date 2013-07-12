@@ -1,4 +1,5 @@
-﻿namespace GameCreator.Framework.Gml
+﻿using System;
+namespace GameCreator.Framework.Gml
 {
     class MultiplyAssignment : Assignment
     {
@@ -8,6 +9,11 @@
         public override StatementKind Kind
         {
             get { return StatementKind.MultiplyAssignment; }
+        }
+
+        internal override void Write(System.CodeDom.Compiler.IndentedTextWriter writer, GmlFormatter formatter)
+        {
+            throw new NotImplementedException();
         }
     }
 }

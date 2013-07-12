@@ -15,5 +15,10 @@ namespace GameCreator.Framework.Gml
         {
             return Fold(Operand, v => (double)~Convert.ToInt64(v));
         }
+
+        internal override void Write(System.CodeDom.Compiler.IndentedTextWriter writer, GmlFormatter formatter)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

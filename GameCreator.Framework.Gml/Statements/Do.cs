@@ -16,11 +16,6 @@ namespace GameCreator.Framework.Gml
             Body = s;
         }
 
-        public override string ToString()
-        {
-            return "do " + Body.ToString() + " until " + Expression.ToString();
-        }
-
         public override StatementKind Kind
         {
             get { return StatementKind.Do; }
@@ -31,6 +26,11 @@ namespace GameCreator.Framework.Gml
             Expression = Expression.Reduce();
 
             Body.Optimize();
+        }
+
+        internal override void Write(System.CodeDom.Compiler.IndentedTextWriter writer, GmlFormatter formatter)
+        {
+            throw new NotImplementedException();
         }
     }
 }

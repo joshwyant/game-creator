@@ -20,11 +20,6 @@ namespace GameCreator.Framework.Gml
             Test = test;
         }
 
-        public override string ToString()
-        {
-            return string.Format("for ({0};{1};{2}) {3}", Initializer, Test, Iterator, Loop);
-        }
-
         public override StatementKind Kind
         {
             get { return StatementKind.For; }
@@ -36,6 +31,11 @@ namespace GameCreator.Framework.Gml
             Initializer.Optimize();
             Iterator.Optimize();
             Body.Optimize();
+        }
+
+        internal override void Write(System.CodeDom.Compiler.IndentedTextWriter writer, GmlFormatter formatter)
+        {
+            throw new NotImplementedException();
         }
     }
 }

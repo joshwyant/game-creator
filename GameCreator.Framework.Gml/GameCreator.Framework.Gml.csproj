@@ -69,7 +69,7 @@
     <Compile Include="Expressions\ShiftLeft.cs" />
     <Compile Include="Expressions\ShiftRight.cs" />
     <Compile Include="Expressions\Subtraction.cs" />
-    <Compile Include="GmlFormatter.cs" />
+    <Compile Include="Misc\GmlFormatter.cs" />
     <Compile Include="Lexer.cs" />
     <Compile Include="Misc\AstNode.cs" />
     <Compile Include="Misc\BinaryExpression.cs" />

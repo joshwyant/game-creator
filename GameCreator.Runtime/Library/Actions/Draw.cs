@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using GameCreator.Framework.Gml;
-using OpenTK.Graphics.OpenGL;
 
 namespace GameCreator.Runtime.Library.Actions
 {

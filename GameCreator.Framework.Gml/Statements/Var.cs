@@ -10,14 +10,14 @@ namespace GameCreator.Framework.Gml
 
         public Var(string[] v, int l, int c) : base(l, c) { Variables = v; }
 
-        public override string ToString()
-        {
-            return "var "+string.Join(", ", Variables);
-        }
-
         public override StatementKind Kind
         {
             get { return StatementKind.Var; }
+        }
+
+        internal override void Write(System.CodeDom.Compiler.IndentedTextWriter writer, GmlFormatter formatter)
+        {
+            throw new NotImplementedException();
         }
     }
 }

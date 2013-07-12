@@ -539,7 +539,7 @@ namespace GameCreator.Framework.Gml
             while (t == TokenKind.Semicolon) move();
             return s;
         }
-        public Lexer Lexer
+        internal Lexer Lexer
         {
             get
             {

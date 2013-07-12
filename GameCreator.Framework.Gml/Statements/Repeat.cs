@@ -16,11 +16,6 @@ namespace GameCreator.Framework.Gml
             Body = s;
         }
 
-        public override string ToString()
-        {
-            return string.Format("repeat {0} {1}", Expression, Body);
-        }
-
         public override StatementKind Kind
         {
             get { return StatementKind.Repeat; }
@@ -30,6 +25,11 @@ namespace GameCreator.Framework.Gml
         {
             Expression = Expression.Reduce();
             Body.Optimize();
+        }
+
+        internal override void Write(System.CodeDom.Compiler.IndentedTextWriter writer, GmlFormatter formatter)
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -8,14 +8,14 @@ namespace GameCreator.Framework.Gml
     {
         public Exit(int l, int c) : base(l, c) { }
 
-        public override string ToString()
-        {
-            return "exit";
-        }
-
         public override StatementKind Kind
         {
             get { return StatementKind.Exit; }
+        }
+
+        internal override void Write(System.CodeDom.Compiler.IndentedTextWriter writer, GmlFormatter formatter)
+        {
+            throw new NotImplementedException();
         }
     }
 }

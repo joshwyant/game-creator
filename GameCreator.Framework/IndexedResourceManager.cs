@@ -2,15 +2,10 @@
 using System.Collections.Generic;
 using GameCreator.Framework;
 
-namespace GameCreator.IDE
+namespace GameCreator.Framework
 {
     public class IndexedResourceManager
     {
-        public static IndexedResourceManager Manager = new IndexedResourceManager();
-        public static IndexedResourceManager ScriptManager = new IndexedResourceManager();
-        public static IndexedResourceManager RoomManager = new IndexedResourceManager();
-        public static IndexedResourceManager ObjectManager = new IndexedResourceManager();
-
         int inds = 0;
         // The next index available, initially assigned by the IDE
         public int NextIndex { get{return inds;} set{inds = value;} }

@@ -9,20 +9,7 @@ namespace GameCreator.Framework
     public class Room : IndexedResource
     {
         public static IndexedResourceManager Manager = new IndexedResourceManager();
-        CodeUnit creationcode;
-        public string CreationCode { get { return creationcode.Code; } set { creationcode = new CodeUnit(value); } }
-        public void Init()
-        {
-            if (creationcode != null)
-            {
-                Instance current = ExecutionContext.Current;
-                ExecutionContext.Current = ExecutionContext.CreatePrivateInstance();
-                ExecutionContext.Enter();
-                creationcode.Run();
-                ExecutionContext.Leave();
-                ExecutionContext.Current = current;
-            }
-        }
+        public string CreationCode { get; set; }
         public void Cleanup()
         {
         }
@@ -35,6 +22,11 @@ namespace GameCreator.Framework
         public static Room Define(string name, int index)
         {
             return new Room(name, index);
+        }
+
+        public override int GetHashCode()
+        {
+            return Index;
         }
     }
 }

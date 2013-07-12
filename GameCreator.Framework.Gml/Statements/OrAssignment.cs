@@ -10,5 +10,10 @@ namespace GameCreator.Framework.Gml
         {
             get { return StatementKind.OrAssignment; }
         }
+
+        internal override void Write(System.CodeDom.Compiler.IndentedTextWriter writer, GmlFormatter formatter)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

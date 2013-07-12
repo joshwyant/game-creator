@@ -15,5 +15,10 @@ namespace GameCreator.Framework.Gml
         {
             get { return ExpressionKind.Id; }
         }
+
+        internal override void Write(System.CodeDom.Compiler.IndentedTextWriter writer, GmlFormatter formatter)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

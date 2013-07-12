@@ -25,5 +25,10 @@ namespace GameCreator.Framework.Gml
             Instance = Instance.Reduce();
             Body.Optimize();
         }
+
+        internal override void Write(System.CodeDom.Compiler.IndentedTextWriter writer, GmlFormatter formatter)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -26,14 +26,6 @@ namespace GameCreator.Framework.Gml
             Else = f;
         }
 
-        public override string ToString()
-        {
-            if (Else is Nop)
-                return string.Format("if {0} {1}", Expression, Body);
-            else
-                return string.Format("if {0} {1} else {2}", Expression, Body, Else);
-        }
-
         public override StatementKind Kind
         {
             get { return StatementKind.If; }
@@ -44,6 +36,11 @@ namespace GameCreator.Framework.Gml
             Expression = Expression.Reduce();
             Body.Optimize();
             Else.Optimize();
+        }
+
+        internal override void Write(System.CodeDom.Compiler.IndentedTextWriter writer, GmlFormatter formatter)
+        {
+            throw new NotImplementedException();
         }
     }
 }

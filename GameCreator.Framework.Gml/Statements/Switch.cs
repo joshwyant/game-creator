@@ -28,5 +28,10 @@ namespace GameCreator.Framework.Gml
             foreach (var stmt in Statements)
                 stmt.Optimize();
         }
+
+        internal override void Write(System.CodeDom.Compiler.IndentedTextWriter writer, GmlFormatter formatter)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
