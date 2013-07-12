@@ -168,8 +168,6 @@
       <DependentUpon>SpriteEditor.cs</DependentUpon>
     </Compile>
     <Compile Include="GameSaver.cs" />
-    <Compile Include="GMKIn.cs" />
-    <Compile Include="GMKOut.cs" />
     <Compile Include="GameResources\Objects\ObjectEditor.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -182,6 +180,7 @@
     <Compile Include="GameResources\Objects\ObjectResourceView.cs" />
     <Compile Include="GameResources\IDeletable.cs" />
     <Compile Include="GameResources\Scripts\IScriptExportable.cs" />
+    <Compile Include="IndexedResourceManager.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

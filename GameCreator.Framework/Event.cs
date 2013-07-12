@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using GameCreator.Framework.Gml;
 
 namespace GameCreator.Framework
 {
@@ -16,9 +15,9 @@ namespace GameCreator.Framework
             EventNumber = num;
             Actions = new List<Action>();
         }
-        public void DefineAction(int libid, int actionid, string[] args, int appliesto, bool relative, bool not)
+        public void DefineAction(ResourceContext context, int libid, int actionid, string[] args, int appliesto, bool relative, bool not)
         {
-            Actions.Add(new Action(libid, actionid, args, appliesto, relative, not));
+            Actions.Add(new Action(context, libid, actionid, args, appliesto, relative, not));
         }
         // skip an action or action block
         void Skip(ref int index)

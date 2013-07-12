@@ -7,11 +7,6 @@ namespace GameCreator.Framework.Gml.Interpreter
 {
     static class Statements
     {
-        static void Error(string str)
-        {
-            throw new ProgramError(str, ErrorSeverity.Error, ExecutionContext.ExecutingStatement);
-        }
-
         #region Assignments
         [Statement(Kind = StatementKind.Assignment)]
         public static void Assignment(Statement s)
@@ -83,18 +78,18 @@ namespace GameCreator.Framework.Gml.Interpreter
         #region Flow
         [Statement(Kind = StatementKind.Break)]
         public static void Break(Statement s)
-        { VirtualMachine.ProgramFlow = FlowType.Break; }
+        { Interpreter.ProgramFlow = FlowType.Break; }
 
         [Statement(Kind = StatementKind.Nop)]
         public static void Nop(Statement s) { }
 
         [Statement(Kind = StatementKind.Continue)]
         public static void Continue(Statement s)
-        { VirtualMachine.ProgramFlow = FlowType.Continue; }
+        { Interpreter.ProgramFlow = FlowType.Continue; }
 
         [Statement(Kind = StatementKind.Exit)]
         public static void Exit(Statement s)
-        { VirtualMachine.ProgramFlow = FlowType.Exit; }
+        { Interpreter.ProgramFlow = FlowType.Exit; }
         #endregion
 
         #region Switch
@@ -122,7 +117,7 @@ namespace GameCreator.Framework.Gml.Interpreter
                 }
                 else if (met)
                 {
-                    if (VirtualMachine.Exec(stmt, FlowType.Break) != FlowType.None) return;
+                    if (Interpreter.Exec(stmt, FlowType.Break) != FlowType.None) return;
                 }
             }
         }
@@ -155,7 +150,7 @@ namespace GameCreator.Framework.Gml.Interpreter
         public static void Return(Statement s)
         {
             ExecutionContext.Returned = ((Return)s).Expression.Eval();
-            VirtualMachine.ProgramFlow = FlowType.Exit;
+            Interpreter.ProgramFlow = FlowType.Exit;
         }
         #endregion
 
@@ -165,8 +160,8 @@ namespace GameCreator.Framework.Gml.Interpreter
         {
             var seq = (Sequence)s;
 
-            if (VirtualMachine.Exec(seq.First) != FlowType.None) return;
-            if (VirtualMachine.Exec(seq.Second) != FlowType.None) return;
+            if (Interpreter.Exec(seq.First) != FlowType.None) return;
+            if (Interpreter.Exec(seq.Second) != FlowType.None) return;
         }
 
         [Statement(Kind = StatementKind.Globalvar)]
@@ -195,11 +190,11 @@ namespace GameCreator.Framework.Gml.Interpreter
 
             if (v)
             {
-                if (VirtualMachine.Exec(stmt.Body) != FlowType.None) return;
+                if (Interpreter.Exec(stmt.Body) != FlowType.None) return;
             }
             else
             {
-                if (VirtualMachine.Exec(stmt.Else) != FlowType.None) return;
+                if (Interpreter.Exec(stmt.Else) != FlowType.None) return;
             }
         }
 
@@ -209,7 +204,7 @@ namespace GameCreator.Framework.Gml.Interpreter
             var stmt = (For)s;
 
             // Game Maker allows continues and breaks AFTER the initialization statment.
-            if (VirtualMachine.Exec(stmt.Initializer) != FlowType.None) return;
+            if (Interpreter.Exec(stmt.Initializer) != FlowType.None) return;
         loop:
             var v = stmt.Test.Eval();
 
@@ -219,10 +214,10 @@ namespace GameCreator.Framework.Gml.Interpreter
             if (v <= 0.5) 
                 return;
 
-            if ((VirtualMachine.Exec(stmt.Iterator, FlowType.Continue | FlowType.Break) & ~FlowType.Continue) != FlowType.None) 
+            if ((Interpreter.Exec(stmt.Iterator, FlowType.Continue | FlowType.Break) & ~FlowType.Continue) != FlowType.None) 
                 return;
 
-            if (VirtualMachine.Exec(stmt.Body) != FlowType.None) 
+            if (Interpreter.Exec(stmt.Body) != FlowType.None) 
                 return;
 
             goto loop;
@@ -236,7 +231,7 @@ namespace GameCreator.Framework.Gml.Interpreter
             Value v;
             do
             {
-                if ((VirtualMachine.Exec(stmt.Body, FlowType.Continue | FlowType.Break) & ~FlowType.Continue) == FlowType.None)
+                if ((Interpreter.Exec(stmt.Body, FlowType.Continue | FlowType.Break) & ~FlowType.Continue) == FlowType.None)
                 {
                     v = stmt.Expression.Eval();
 
@@ -276,7 +271,7 @@ namespace GameCreator.Framework.Gml.Interpreter
                     foreach (int i in ExecutionContext.Instances.Keys)
                     {
                         ExecutionContext.Current = ExecutionContext.Instances[i];
-                        switch (VirtualMachine.Exec(with.Body, FlowType.Continue | FlowType.Break))
+                        switch (Interpreter.Exec(with.Body, FlowType.Continue | FlowType.Break))
                         {
                             case FlowType.None:
                             case FlowType.Continue:
@@ -309,7 +304,7 @@ namespace GameCreator.Framework.Gml.Interpreter
                             if (ExecutionContext.GetVar(i, "object_index") == instance)
                             {
                                 ExecutionContext.Current = ExecutionContext.Instances[i];
-                                switch (VirtualMachine.Exec(with.Body, FlowType.Continue | FlowType.Break))
+                                switch (Interpreter.Exec(with.Body, FlowType.Continue | FlowType.Break))
                                 {
                                     case FlowType.None:
                                     case FlowType.Continue:
@@ -327,7 +322,7 @@ namespace GameCreator.Framework.Gml.Interpreter
                     }
                     break;
             }
-            VirtualMachine.Exec(with.Body, FlowType.Break | FlowType.Continue);
+            Interpreter.Exec(with.Body, FlowType.Break | FlowType.Continue);
 
             // Restore current and other instances
             ExecutionContext.Current = c;
@@ -346,7 +341,7 @@ namespace GameCreator.Framework.Gml.Interpreter
 
             while (v)
             {
-                if ((VirtualMachine.Exec(w.Body, FlowType.Break | FlowType.Continue) & ~FlowType.Continue) != FlowType.None)
+                if ((Interpreter.Exec(w.Body, FlowType.Break | FlowType.Continue) & ~FlowType.Continue) != FlowType.None)
                     return;
 
                 v = w.Expression.Eval();
@@ -370,7 +365,7 @@ namespace GameCreator.Framework.Gml.Interpreter
 
             while (times > 0)
             {
-                if ((VirtualMachine.Exec(repeat.Body, FlowType.Continue | FlowType.Break) & ~FlowType.Continue) != FlowType.None)
+                if ((Interpreter.Exec(repeat.Body, FlowType.Continue | FlowType.Break) & ~FlowType.Continue) != FlowType.None)
                     return;
                 times--;
             }
@@ -387,6 +382,11 @@ namespace GameCreator.Framework.Gml.Interpreter
 
             if (v1.IsReal && v2.IsReal)
                 a.Lefthand.Set(result(v1, v2));
+        }
+
+        static void Error(string str)
+        {
+            throw new ProgramError(str, ErrorSeverity.Error, ExecutionContext.ExecutingStatement);
         }
         #endregion
     }
