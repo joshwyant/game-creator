@@ -7,10 +7,15 @@ namespace GameCreator.Framework.Gml
 {
     public class Access : Expression
     {
-        public Expression Lefthand;
-        public string Name;
-        public Expression[] Indices;
-        public Access(Expression left, string n, Expression[] ind, int l, int c) : base(l, c) { Lefthand = left; Name = n; Indices = ind; }
+        public Expression Lefthand { get; set; }
+        public string Name { get; set; }
+        public Expression[] Indices { get; set; }
+
+        public Access(Expression left, string n, Expression[] ind, int l, int c)
+            : base(l, c)
+        {
+            Lefthand = left; Name = n; Indices = ind;
+        }
         private int info(out int i1, out int i2)
         {
             Value left = 0, v1 = 0, v2 = 0;

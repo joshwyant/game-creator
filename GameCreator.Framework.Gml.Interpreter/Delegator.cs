@@ -31,12 +31,12 @@ namespace GameCreator.Framework.Gml.Interpreter
                 ExpressionEvaluators.Add(evaluator.Kind, evaluator.Delegate);
         }
 
-        public static Value EvalOptimized(Expression e)
+        public static Value EvalOptimized(this Expression e)
         {
             return ExpressionEvaluators[e.Kind](e.Reduce());
         }
 
-        public static Value Eval(Expression e)
+        public static Value Eval(this Expression e)
         {
             return ExpressionEvaluators[e.Kind](e);
         }

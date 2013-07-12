@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Text;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace GameCreator.Framework.Gml.Interpreter
 {
@@ -66,63 +68,33 @@ namespace GameCreator.Framework.Gml.Interpreter
         #region Unary
         [Expression(Kind = ExpressionKind.Complement)]
         public static Value Complement(Expression node)
-        {
-            var expr = (Complement)node;
-
-            var v = Delegator.Eval(expr.Operand);
-
-            if (v.IsReal)
-                return (double)~Convert.ToInt64(v.Real);
-            else
-                return Error("Wrong type of arguments to unary operator.", node);
-        }
+        { return Unary(node, v => (double)~Convert.ToInt64(v)); }
 
         [Expression(Kind = ExpressionKind.Plus)]
         public static Value Plus(Expression node)
-        {
-            var expr = (Plus)node;
-
-            var v = Delegator.Eval(expr.Operand);
-
-            if (v.IsReal)
-                return v.Real;
-            else
-                return Error("Wrong type of arguments to unary operator.", node);
-        }
+        { return Unary(node, v => v); }
 
         [Expression(Kind = ExpressionKind.Minus)]
         public static Value Minus(Expression node)
-        {
-            var expr = (Minus)node;
-
-            var v = Delegator.Eval(expr.Operand);
-
-            if (v.IsReal)
-                return -v.Real;
-            else
-                return Error("Wrong type of arguments to unary operator.", node);
-        }
+        { return Unary(node, v => -v); }
 
         [Expression(Kind = ExpressionKind.Not)]
         public static Value Not(Expression node)
-        {
-            var expr = (Not)node;
-
-            var v = Delegator.Eval(expr.Operand);
-
-            if (v.IsReal)
-                return v.Real <= 0 ? 1 : 0;
-            else
-                return Error("Wrong type of arguments to unary operator.", node);
-        }
+        { return Unary(node, v => v <= 0 ? 1 : 0); }
         #endregion
 
-        #region Control
-        // Call
-        // Access
-        // Grouping
-        // Constant
-        // Id
+        #region Simple
+        [Expression(Kind = ExpressionKind.Constant)]
+        public static Value Constant(Expression node)
+        { return (node as Constant).Value; }
+
+        [Expression(Kind = ExpressionKind.Id)]
+        public static Value Id(Expression node)
+        { return default(Value); }
+
+        [Expression(Kind = ExpressionKind.Grouping)]
+        public static Value Grouping(Expression node)
+        { return (node as Grouping).Operand.Eval(); }
         #endregion
 
         #region Comparison
@@ -165,44 +137,107 @@ namespace GameCreator.Framework.Gml.Interpreter
         { return Logical(node, "^^", (v1, v2) => (v1 > 0) ^ (v2 > 0)); }
         #endregion
 
+        #region Access
+        [Expression(Kind = ExpressionKind.Access)]
+        public static Value Access(Expression e)
+        {
+            var a = (Access)e;
+
+            Value v1 = 0, v2 = 0;
+            int i1 = 0, i2 = 0;
+            var name = a.Name;
+
+            // Evaluate array indices
+            if (a.Indices.Length != 0)
+            {
+                v1 = a.Indices[0].Eval();
+                if (!v1.IsReal) Error("Wrong type of array index", a);
+                if (a.Indices.Length == 2)
+                {
+                    v2 = a.Indices[1].Eval();
+                    if (!v2.IsReal) Error("Wrong type of array index", a);
+                }
+                i1 = a.Indices.Length == 1 ? 0 : (int)v1;
+                i2 = a.Indices.Length == 1 ? v1 : v2;
+                if (i1 < 0 || i2 < 0) Error("Negative array index", a);
+            }
+
+            if (i1 >= 32000 || i2 >= 32000)
+                Error("Array index >= 32000", a);
+
+            if (a.Lefthand != null)
+            {
+                Value left = a.Lefthand.Eval();
+                if (!left.IsReal) Error("Wrong type of variable index", a);
+
+                if (i1 != 0 || i2 != 0)
+                {
+                    if (!ExecutionContext.VariableExists(left, name) || !ExecutionContext.Variable(left, name).CheckIndex(i1, i2))
+                        Error("Unknown variable " + name + " or array index out of bounds", a);
+                }
+                else
+                    if (!ExecutionContext.VariableExists(left, name)) Error("Unknown variable " + name, a);
+                return ExecutionContext.GetVar(left, name, i1, i2);
+            }
+            else
+            {
+                if (i1 != 0 || i2 != 0)
+                {
+                    if (!ExecutionContext.VariableExists(name) || !ExecutionContext.Variable(name).CheckIndex(i1, i2))
+                        Error("Unknown variable " + name + " or array index out of bounds", a);
+                }
+                else
+                    if (!ExecutionContext.VariableExists(name)) Error("Unknown variable " + name, a);
+                return ExecutionContext.GetVar(name, i1, i2);
+            }
+        }
+        #endregion
+
+        #region Call
+        [Expression(Kind = ExpressionKind.Call)]
+        public static Value Call(Expression e)
+        {
+            var f = (Call)e;
+
+            return f.Function.Execute(f.Expressions.Select(ex => ex.Eval()).ToArray());
+        }
+        #endregion
+
         #region Helpers
         static Value Error(string str, AstNode node) // Wow, this is wrong.
         {
             throw new ProgramError(str, ErrorSeverity.Error, node.Line, node.Column);
         }
 
-        static Value Logical(Expression node, string op, Func<double, double, bool> tester)
+        static Value BinaryReal(Expression node, string err, string op, Func<double, double, double> func)
         {
             var expr = (BinaryExpression)node;
 
-            var v1 = Delegator.Eval(expr.Left);
-            var v2 = Delegator.Eval(expr.Right);
+            var v1 = expr.Left.Eval();
+            var v2 = expr.Right.Eval();
 
             if (v1.IsReal && v2.IsReal)
-                return tester(v1, v2) ? 1 : 0;
+                return func(v1, v2);
             else
-                return Error(string.Format("Wrong type of arguments for {0}.", op), node);
+                return Error(string.Format(err, op), node);
+        }
+
+        static Value Logical(Expression node, string op, Func<double, double, bool> tester)
+        {
+            return BinaryReal(node, "Wrong type of arguments for {0}.", op, (v1, v2) => tester(v1, v2) ? 1 : 0);
         }
 
         static Value Bitwise(Expression node, string op, Func<long, long, long> twiddler)
         {
-            var expr = (BinaryExpression)node;
-
-            var v1 = Delegator.Eval(expr.Left);
-            var v2 = Delegator.Eval(expr.Right);
-
-            if (v1.IsReal && v2.IsReal)
-                return (double)twiddler(Convert.ToInt64(v1.Real), Convert.ToInt64(v2.Real));
-            else
-                return Error(string.Format("Wrong type of arguments for {0}.", op), node);
+            return BinaryReal(node, "Wrong type of arguments for {0}.", op, (v1, v2) => (double)twiddler(Convert.ToInt64(v1), Convert.ToInt64(v2)));
         }
 
         static Value Compare(Expression node, Func<double, double, bool> realComparer, Func<int, bool> stringOrdinalComparer)
         {
-            var expr = (Addition)node;
+            var expr = (BinaryExpression)node;
 
-            var v1 = Delegator.Eval(expr.Left);
-            var v2 = Delegator.Eval(expr.Right);
+            var v1 = expr.Left.Eval();
+            var v2 = expr.Right.Eval();
 
             if (v1.IsReal && v2.IsReal)
                 return realComparer(v1.Real, v2.Real);
@@ -214,10 +249,10 @@ namespace GameCreator.Framework.Gml.Interpreter
 
         static Value Arithmetic(Expression node, string op, Func<double, double, double> realOperator)
         {
-            var expr = (Addition)node;
+            var expr = (BinaryExpression)node;
 
-            var v1 = Delegator.Eval(expr.Left);
-            var v2 = Delegator.Eval(expr.Right);
+            var v1 = expr.Left.Eval();
+            var v2 = expr.Right.Eval();
 
             if (v1.IsReal && v2.IsReal)
                 return realOperator(v1, v2);
@@ -227,10 +262,10 @@ namespace GameCreator.Framework.Gml.Interpreter
 
         static Value Arithmetic(Expression node, string op, Func<double, double, double> realOperator, bool v1String, bool v2String, Func<Value, Value, Value> stringOperator)
         {
-            var expr = (Addition)node;
+            var expr = (BinaryExpression)node;
 
-            var v1 = Delegator.Eval(expr.Left);
-            var v2 = Delegator.Eval(expr.Right);
+            var v1 = expr.Left.Eval();
+            var v2 = expr.Right.Eval();
 
             if (v1.IsReal && v2.IsReal)
                 return realOperator(v1, v2);
@@ -238,6 +273,16 @@ namespace GameCreator.Framework.Gml.Interpreter
                 return stringOperator(v1, v2);
             else
                 return Error(string.Format("Wrong type of arguments to {0}.", op), node);
+        }
+
+        static Value Unary(Expression node, Func<double, double> op)
+        {
+            var v = (node as UnaryExpression).Operand.Eval();
+
+            if (!v.IsReal)
+                return Error("Wrong type of arguments unary operator.", node);
+
+            return op(v);
         }
         #endregion
     }
