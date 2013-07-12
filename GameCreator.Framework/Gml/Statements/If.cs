@@ -4,45 +4,36 @@ using System.Text;
 
 namespace GameCreator.Framework.Gml
 {
-    class If : Statement
+    public class If : Statement
     {
-        public Expression expr;
-        public Statement stmt1;
-        public Statement stmt2;
+        public Expression Expression { get; set; }
+        public Statement Body { get; set; }
+        public Statement Else { get; set; }
+
         public If(Expression e, Statement s, int l, int c)
             : base(l, c)
         {
-            expr = e;
-            stmt1 = s;
-            stmt2 = Statement.Nop;
+            Expression = e;
+            Body = s;
+            Else = Statement.Nop;
         }
+
         public If(Expression e, Statement t, Statement f, int l, int c)
             : base(l, c)
         {
-            expr = e;
-            stmt1 = t;
-            stmt2 = f;
+            Expression = e;
+            Body = t;
+            Else = f;
         }
-        protected override void run()
-        {
-            Value v = expr.Eval();
-            if (!v.IsReal) Error("Expression expected");
-            if (v)
-            {
-                if (Exec(stmt1) != FlowType.None) return;
-            }
-            else
-            {
-                if (Exec(stmt2) != FlowType.None) return;
-            }
-        }
+
         public override string ToString()
         {
-            if (stmt2 == Statement.Nop)
-                return string.Format("if {0} {1}", expr, stmt1);
+            if (Else is Nop)
+                return string.Format("if {0} {1}", Expression, Body);
             else
-                return string.Format("if {0} {1} else {2}", expr, stmt1, stmt2);
+                return string.Format("if {0} {1} else {2}", Expression, Body, Else);
         }
+
         public override StatementKind Kind
         {
             get { return StatementKind.If; }
@@ -50,9 +41,9 @@ namespace GameCreator.Framework.Gml
 
         public override void Optimize()
         {
-            expr = expr.Reduce();
-            stmt1.Optimize();
-            stmt2.Optimize();
+            Expression = Expression.Reduce();
+            Body.Optimize();
+            Else.Optimize();
         }
     }
 }

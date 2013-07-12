@@ -113,7 +113,6 @@
     <Compile Include="Gml\Misc\CodeUnit.cs" />
     <Compile Include="Gml\Misc\ExecutionContext.cs" />
     <Compile Include="Gml\Misc\Expression.cs" />
-    <Compile Include="Gml\Misc\FlowType.cs" />
     <Compile Include="Gml\Misc\Function.cs" />
     <Compile Include="Gml\Misc\IntVariable.cs" />
     <Compile Include="Gml\Misc\AstNode.cs" />

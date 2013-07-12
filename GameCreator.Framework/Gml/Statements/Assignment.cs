@@ -1,12 +1,15 @@
 ﻿namespace GameCreator.Framework.Gml
 {
-    class Assignment : Statement
+    public class Assignment : Statement
     {
-        Access a; Expression x;
-        public Assignment(Access acc, Expression e, int l, int c) :base(l,c) { a = acc; x = e; }
-        protected override void run()
+        public Access Lefthand { get; set; }
+        public Expression Expression { get; set; }
+
+        public Assignment(Access acc, Expression e, int l, int c)
+            : base(l, c)
         {
-            a.Set(x.Eval());
+            Lefthand = acc;
+            Expression = e;
         }
 
         public override StatementKind Kind
@@ -14,10 +17,9 @@
             get { return StatementKind.Assignment; }
         }
 
-
         public override void Optimize()
         {
-            x = x.Reduce();
+            Expression = Expression.Reduce();
         }
     }
 }

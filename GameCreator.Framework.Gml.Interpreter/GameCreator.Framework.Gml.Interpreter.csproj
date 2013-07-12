@@ -43,8 +43,11 @@
     <Compile Include="Delegator.cs" />
     <Compile Include="ExpressionAttribute.cs" />
     <Compile Include="Expressions.cs" />
+    <Compile Include="FlowType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StatementAttribute.cs" />
+    <Compile Include="Statements.cs" />
+    <Compile Include="VirtualMachine.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GameCreator.Framework\GameCreator.Framework.csproj">

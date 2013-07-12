@@ -4,31 +4,29 @@ using System.Text;
 
 namespace GameCreator.Framework.Gml
 {
-    class CallStatement : Statement
+    public class CallStatement : Statement
     {
-        Call c;
+        public Call Call { get; set; }
+
         public CallStatement(BaseFunction func, Expression[] expressions, int l, int c)
             : base(l, c)
         {
-            this.c = new Call(func, expressions, l, c);
+            this.Call = new Call(func, expressions, l, c);
         }
-        protected override void run()
-        {
-            c.Eval();
-        }
+
         public override string ToString()
         {
-            return c.ToString();
+            return Call.ToString();
         }
 
         public override StatementKind Kind
         {
-            get { return StatementKind.CallStatement; }
+            get { return StatementKind.Call; }
         }
 
         public override void Optimize()
         {
-            c = (Call)c.Reduce();
+            Call = (Call)Call.Reduce();
         }
     }
 }

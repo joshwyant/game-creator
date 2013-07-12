@@ -6,13 +6,9 @@ namespace GameCreator.Framework.Gml
 {
     class Default : Statement
     {
-        public Default(int l, int c) :base(l,c) { }
-        // This will get run as a normal statement when not in a switch block, and will trigger the exception.
-        // A switch block handles this statement specially.
-        protected override void run()
-        {
-            Error("Default statement only allowed inside switch statement.");
-        }
+        public Default(int l, int c)
+            : base(l, c) { }
+
         public override StatementKind Kind
         {
             get { return StatementKind.Default; }

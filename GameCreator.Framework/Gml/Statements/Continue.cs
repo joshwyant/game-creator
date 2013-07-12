@@ -7,14 +7,12 @@ namespace GameCreator.Framework.Gml
     class Continue : Statement
     {
         public Continue(int l, int c) : base(l, c) { }
-        protected override void run()
-        {
-            ProgramFlow = FlowType.Continue;
-        }
+
         public override string ToString()
         {
             return "continue";
         }
+
         public override StatementKind Kind
         {
             get { return StatementKind.Continue; }

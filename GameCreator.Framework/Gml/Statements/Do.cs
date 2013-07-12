@@ -4,44 +4,33 @@ using System.Text;
 
 namespace GameCreator.Framework.Gml
 {
-    class Do : Statement
+    public class Do : Statement
     {
-        public Expression expr;
-        public Statement stmt;
+        public Expression Expression { get; set; }
+        public Statement Body { get; set; }
+
         public Do(Statement s, Expression e, int l, int c)
             : base(l, c)
         {
-            expr = e;
-            stmt = s;
+            Expression = e;
+            Body = s;
         }
-        protected override void run()
-        {
-            Value v;
-            do
-            {
-                if ((Exec(stmt, FlowType.Continue | FlowType.Break) & ~FlowType.Continue) == FlowType.None)
-                {
-                    v = expr.Eval();
-                    if (!v.IsReal) Error("Boolean expression expected");
-                }
-                else break;
-            } while (v);
-        }
+
         public override string ToString()
         {
-            return "do " + stmt.ToString() + " until " + expr.ToString();
+            return "do " + Body.ToString() + " until " + Expression.ToString();
         }
+
         public override StatementKind Kind
         {
             get { return StatementKind.Do; }
         }
 
-
         public override void Optimize()
         {
-            expr = expr.Reduce();
+            Expression = Expression.Reduce();
 
-            stmt.Optimize();
+            Body.Optimize();
         }
     }
 }

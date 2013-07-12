@@ -7,10 +7,8 @@ namespace GameCreator.Framework.Gml
 {
     public class Nop : Statement
     {
-        public Nop(int line, int col) : base(line, col)
-        {
-
-        }
+        public Nop(int line, int col)
+            : base(line, col) { }
 
         public override StatementKind Kind
         {

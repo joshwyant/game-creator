@@ -4,18 +4,19 @@ using System.Text;
 
 namespace GameCreator.Framework.Gml
 {
-    class Return : Statement
+    public class Return : Statement
     {
-        Expression expr;
-        public Return(Expression e, int line, int col) : base(line, col) { expr = e; }
-        protected override void run()
+        public Expression Expression { get; set; }
+
+        public Return(Expression e, int line, int col)
+            : base(line, col)
         {
-            ExecutionContext.Returned = expr.Eval();
-            ProgramFlow = FlowType.Exit;
+            Expression = e;
         }
+
         public override string ToString()
         {
-            return "return " + expr.ToString();
+            return "return " + Expression.ToString();
         }
 
         public override StatementKind Kind
@@ -25,7 +26,7 @@ namespace GameCreator.Framework.Gml
 
         public override void Optimize()
         {
-            expr = expr.Reduce();
+            Expression = Expression.Reduce();
         }
     }
 }

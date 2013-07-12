@@ -4,18 +4,17 @@ using System.Text;
 
 namespace GameCreator.Framework.Gml
 {
-    class Var : Statement
+    public class Var : Statement
     {
-        string[] vars;
-        public Var(string[] v, int l, int c) : base(l, c) { vars = v; }
-        protected override void run()
-        {
-            ExecutionContext.LocalVars(vars);
-        }
+        public string[] Variables { get; set; }
+
+        public Var(string[] v, int l, int c) : base(l, c) { Variables = v; }
+
         public override string ToString()
         {
-            return "var "+string.Join(", ", vars);
+            return "var "+string.Join(", ", Variables);
         }
+
         public override StatementKind Kind
         {
             get { return StatementKind.Var; }

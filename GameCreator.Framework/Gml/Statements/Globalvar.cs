@@ -4,17 +4,19 @@ using System.Text;
 
 namespace GameCreator.Framework.Gml
 {
-    class Globalvar : Statement
+    public class Globalvar : Statement
     {
-        string[] vars;
-        public Globalvar(string[] v, int line, int col) : base(line, col) { vars = v; }
-        protected override void run()
+        public string[] Variables { get; set; }
+
+        public Globalvar(string[] v, int line, int col)
+            : base(line, col)
         {
-            ExecutionContext.GlobalVars(vars);
+            Variables = v;
         }
+
         public override string ToString()
         {
-            return "globalvar " + string.Join(", ", vars);
+            return "globalvar " + string.Join(", ", Variables);
         }
         public override StatementKind Kind
         {

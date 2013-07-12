@@ -4,20 +4,16 @@ using System.Text;
 
 namespace GameCreator.Framework.Gml
 {
-    class Case : Statement
+    public class Case : Statement
     {
-        Expression expr;
-        public Case(Expression x, int l, int c) : base(l, c) { expr = x; }
-        // This will get run as a normal statement when not in a switch block, and will trigger the exception.
-        // A switch block handles this statement specially.
-        protected override void run()
+        public Expression Expression { get; set; }
+
+        public Case(Expression x, int l, int c)
+            : base(l, c)
         {
-            Error("Case statement only allowed inside switch statement.");
+            Expression = x;
         }
-        public Value Eval()
-        {
-            return expr.Eval();
-        }
+
         public override StatementKind Kind
         {
             get { return StatementKind.Case; }

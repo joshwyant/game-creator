@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace GameCreator.Framework.Gml
+namespace GameCreator.Framework.Gml.Interpreter
 {
     [Flags]
     public enum FlowType

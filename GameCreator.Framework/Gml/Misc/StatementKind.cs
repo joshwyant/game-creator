@@ -11,7 +11,7 @@ namespace GameCreator.Framework.Gml
         AndAssignment,
         Assignment,
         Break,
-        CallStatement,
+        Call,
         Case,
         Continue,
         Default,
