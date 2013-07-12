@@ -11,16 +11,16 @@ namespace GameCreator.Framework.Gml.Interpreter
         #region Arithmetic
         [Expression(Kind = ExpressionKind.Addition)]
         public static Value Addition(Expression node)
-        { return Arithmetic(node, "+", (v1, v2) => v1 + v2, true, true, (s1, s2) => s1.String + s2.String); }
+        { return Arithmetic(node, (v1, v2) => v1 + v2, true, true, (s1, s2) => s1.String + s2.String); }
 
         [Expression(Kind = ExpressionKind.Subtraction)]
         public static Value Subtraction(Expression node)
-        { return Arithmetic(node, "-", (v1, v2) => v1 - v2); }
+        { return Arithmetic(node, (v1, v2) => v1 - v2); }
 
         [Expression(Kind = ExpressionKind.Multiply)]
         public static Value Multiply(Expression node)
         {
-            return Arithmetic(node, "*",
+            return Arithmetic(node, 
                 (v1, v2) => v1 * v2,
                 false, true, (v1, v2) =>
                 {
@@ -33,37 +33,37 @@ namespace GameCreator.Framework.Gml.Interpreter
 
         [Expression(Kind = ExpressionKind.Mod)]
         public static Value Mod(Expression node)
-        { return Arithmetic(node, "mod", (v1, v2) => (double)((long)v1 % (long)v2)); }
+        { return Arithmetic(node, (v1, v2) => (double)((long)v1 % (long)v2)); }
 
         [Expression(Kind = ExpressionKind.Divide)]
         public static Value Divide(Expression node)
-        { return Arithmetic(node, "/", (v1, v2) => v1 / v2); }
+        { return Arithmetic(node, (v1, v2) => v1 / v2); }
 
         [Expression(Kind = ExpressionKind.Div)]
         public static Value Div(Expression node)
-        { return Arithmetic(node, "div", (v1, v2) => (double)((long)v1 / (long)v2)); }
+        { return Arithmetic(node, (v1, v2) => (double)((long)v1 / (long)v2)); }
         #endregion
 
         #region Bitwise
         [Expression(Kind = ExpressionKind.BitwiseAnd)]
         public static Value BitwiseAnd(Expression node)
-        { return Bitwise(node, "&", (v1, v2) => v1 & v2); }
+        { return Bitwise(node, (v1, v2) => v1 & v2); }
 
         [Expression(Kind = ExpressionKind.BitwiseOr)]
         public static Value BitwiseOr(Expression node)
-        { return Bitwise(node, "|", (v1, v2) => v1 | v2); }
+        { return Bitwise(node, (v1, v2) => v1 | v2); }
 
         [Expression(Kind = ExpressionKind.BitwiseXor)]
         public static Value BitwiseXor(Expression node)
-        { return Bitwise(node, "^", (v1, v2) => v1 ^ v2); }
+        { return Bitwise(node, (v1, v2) => v1 ^ v2); }
 
         [Expression(Kind = ExpressionKind.ShiftLeft)]
         public static Value ShiftLeft(Expression node)
-        { return Bitwise(node, "<<", (v1, v2) => v1 << (int)v2); }
+        { return Bitwise(node, (v1, v2) => v1 << (int)v2); }
 
         [Expression(Kind = ExpressionKind.ShiftRight)]
         public static Value ShiftRight(Expression node)
-        { return Bitwise(node, ">>", (v1, v2) => v1 >> (int)v2); }
+        { return Bitwise(node, (v1, v2) => v1 >> (int)v2); }
         #endregion
 
         #region Unary
@@ -127,15 +127,15 @@ namespace GameCreator.Framework.Gml.Interpreter
         #region Logical
         [Expression(Kind = ExpressionKind.LogicalAnd)]
         public static Value LogicalAnd(Expression node)
-        { return Logical(node, "&&", (v1, v2) => v1 > 0 && v2 > 0); }
+        { return Logical(node, (v1, v2) => v1 > 0 && v2 > 0); }
 
         [Expression(Kind = ExpressionKind.LogicalOr)]
         public static Value LogicalOr(Expression node)
-        { return Logical(node, "||", (v1, v2) => v1 > 0 || v2 > 0); }
+        { return Logical(node, (v1, v2) => v1 > 0 || v2 > 0); }
 
         [Expression(Kind = ExpressionKind.LogicalXor)]
         public static Value LogicalXor(Expression node)
-        { return Logical(node, "^^", (v1, v2) => (v1 > 0) ^ (v2 > 0)); }
+        { return Logical(node, (v1, v2) => (v1 > 0) ^ (v2 > 0)); }
         #endregion
 
         #region Access
@@ -210,7 +210,7 @@ namespace GameCreator.Framework.Gml.Interpreter
             throw new ProgramError(str, ErrorSeverity.Error, node.Line, node.Column);
         }
 
-        static Value BinaryReal(Expression node, string err, string op, Func<double, double, double> func)
+        static Value BinaryReal(Expression node, string err, Func<double, double, double> func)
         {
             var expr = (BinaryExpression)node;
 
@@ -220,17 +220,17 @@ namespace GameCreator.Framework.Gml.Interpreter
             if (v1.IsReal && v2.IsReal)
                 return func(v1, v2);
             else
-                return Error(string.Format(err, op), node);
+                return Error(string.Format(err, expr.Operator), node);
         }
 
-        static Value Logical(Expression node, string op, Func<double, double, bool> tester)
+        static Value Logical(Expression node, Func<double, double, bool> tester)
         {
-            return BinaryReal(node, "Wrong type of arguments for {0}.", op, (v1, v2) => tester(v1, v2) ? 1 : 0);
+            return BinaryReal(node, "Wrong type of arguments for {0}.", (v1, v2) => tester(v1, v2) ? 1 : 0);
         }
 
-        static Value Bitwise(Expression node, string op, Func<long, long, long> twiddler)
+        static Value Bitwise(Expression node, Func<long, long, long> twiddler)
         {
-            return BinaryReal(node, "Wrong type of arguments for {0}.", op, (v1, v2) => (double)twiddler(Convert.ToInt64(v1), Convert.ToInt64(v2)));
+            return BinaryReal(node, "Wrong type of arguments for {0}.", (v1, v2) => (double)twiddler(Convert.ToInt64(v1), Convert.ToInt64(v2)));
         }
 
         static Value Compare(Expression node, Func<double, double, bool> realComparer, Func<int, bool> stringOrdinalComparer)
@@ -248,7 +248,7 @@ namespace GameCreator.Framework.Gml.Interpreter
                 return Error("Cannot compare arguments.", node);
         }
 
-        static Value Arithmetic(Expression node, string op, Func<double, double, double> realOperator)
+        static Value Arithmetic(Expression node, Func<double, double, double> realOperator)
         {
             var expr = (BinaryExpression)node;
 
@@ -258,10 +258,10 @@ namespace GameCreator.Framework.Gml.Interpreter
             if (v1.IsReal && v2.IsReal)
                 return realOperator(v1, v2);
             else
-                return Error(string.Format("Wrong type of arguments to {0}.", op), node);
+                return Error(string.Format("Wrong type of arguments to {0}.", expr.Operator), node);
         }
 
-        static Value Arithmetic(Expression node, string op, Func<double, double, double> realOperator, bool v1String, bool v2String, Func<Value, Value, Value> stringOperator)
+        static Value Arithmetic(Expression node, Func<double, double, double> realOperator, bool v1String, bool v2String, Func<Value, Value, Value> stringOperator)
         {
             var expr = (BinaryExpression)node;
 
@@ -273,7 +273,7 @@ namespace GameCreator.Framework.Gml.Interpreter
             else if (v1.IsString == v1String && v2.IsString == v2String)
                 return stringOperator(v1, v2);
             else
-                return Error(string.Format("Wrong type of arguments to {0}.", op), node);
+                return Error(string.Format("Wrong type of arguments to {0}.", expr.Operator), node);
         }
 
         static Value Unary(Expression node, Func<double, double> op)

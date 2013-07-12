@@ -16,5 +16,10 @@ namespace GameCreator.Framework.Gml
             return Fold(Left, Right, (v1, v2) => (double)((long)v1 / (long)v2));
             // One way to optimize could be returning a Shift operator
         }
+
+        public override string Operator
+        {
+            get { return "div"; }
+        }
     }
 }

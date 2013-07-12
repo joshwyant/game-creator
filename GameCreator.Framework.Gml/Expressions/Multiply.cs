@@ -10,6 +10,7 @@ namespace GameCreator.Framework.Gml
         {
             get { return ExpressionKind.Multiply; }
         }
+
         public override Expression Reduce()
         {
             var e1 = Left.Reduce();
@@ -34,6 +35,11 @@ namespace GameCreator.Framework.Gml
 
             return this;
             // One way to optimize could be returning a Shift operator
+        }
+
+        public override string Operator
+        {
+            get { return "*"; }
         }
     }
 }

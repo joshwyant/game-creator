@@ -72,5 +72,8 @@ namespace GameCreator.Framework.Gml
 
             return this;
         }
+
+        internal override void Write(System.CodeDom.Compiler.IndentedTextWriter writer, GmlFormatter formatter)
+        { }
     }
 }

@@ -12,6 +12,7 @@ namespace GameCreator.Framework.Gml
         {
             get { return ExpressionKind.NotEqual; }
         }
+
         public override Expression Reduce()
         {
             var e1 = Left.Reduce();
@@ -30,6 +31,11 @@ namespace GameCreator.Framework.Gml
             }
 
             return this;
+        }
+
+        public override string Operator
+        {
+            get { return "!="; }
         }
     }
 }

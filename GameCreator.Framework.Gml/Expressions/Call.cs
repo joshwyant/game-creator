@@ -17,15 +17,6 @@ namespace GameCreator.Framework.Gml
             Expressions = expressions;
         }
 
-        public override string ToString()
-        {
-            string[] t = new string[Expressions.Length];
-            int i = 0;
-            foreach (Expression e in Expressions)
-                t[i++] = e.ToString();
-            return Function.Name + "(" + string.Join(", ", t) + ")";
-        }
-
         public override ExpressionKind Kind
         {
             get { return ExpressionKind.Call; }

@@ -31,5 +31,10 @@ namespace GameCreator.Framework.Gml
 
             return this;
         }
+
+        public override string Operator
+        {
+            get { return "=="; }
+        }
     }
 }

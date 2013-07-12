@@ -16,5 +16,14 @@ namespace GameCreator.Framework.Gml
         {
             get { return ExpressionKind.None; }
         }
+
+        public abstract string Operator { get; }
+
+        internal override void Write(System.CodeDom.Compiler.IndentedTextWriter writer, GmlFormatter formatter)
+        {
+            Left.Write(writer, formatter);
+            writer.Write(string.Concat(formatter.Padding, Operator, formatter.Padding));
+            Right.Write(writer, formatter);
+        }
     }
 }

@@ -16,5 +16,10 @@ namespace GameCreator.Framework.Gml
         {
             return Fold(Left, Right, (v1, v2) => v1 > 0 || v2 > 0);
         }
+
+        public override string Operator
+        {
+            get { return "||"; }
+        }
     }
 }

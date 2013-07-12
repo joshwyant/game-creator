@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
 
 
 namespace GameCreator.Framework.Gml
@@ -33,5 +34,25 @@ namespace GameCreator.Framework.Gml
             get { return ExpressionKind.Access; }
         }
 
+        internal override void Write(System.CodeDom.Compiler.IndentedTextWriter writer, GmlFormatter formatter)
+        {
+            if (Lefthand != null)
+            {
+                Lefthand.Write(writer, formatter);
+                writer.Write(".");
+            }
+            writer.Write(Name);
+            if (Indices.Length != 0)
+            {
+                writer.Write("[");
+                for (int i = 0; i < Indices.Length; i++)
+                {
+                    Indices[i].Write(writer, formatter);
+                    if (i + 1 < Indices.Length)
+                        writer.Write("," + formatter.Padding);
+                }
+                writer.Write("]");
+            }
+        }
     }
 }

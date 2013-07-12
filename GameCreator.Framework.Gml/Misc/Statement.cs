@@ -14,5 +14,8 @@ namespace GameCreator.Framework.Gml
         public static Statement Nop { get { return new Nop(0, 0); } }
 
         public virtual void Optimize() { }
+
+        internal override void Write(System.CodeDom.Compiler.IndentedTextWriter writer, GmlFormatter formatter)
+        { }
     }
 }
