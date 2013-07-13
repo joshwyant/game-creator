@@ -31,7 +31,15 @@ namespace GameCreator.Framework.Gml
 
         internal override void Write(System.CodeDom.Compiler.IndentedTextWriter writer, GmlFormatter formatter)
         {
-            throw new NotImplementedException();
+            writer.Write(string.Concat("switch", formatter.Padding, "("));
+            Expression.Write(writer, formatter);
+            writer.WriteLine(")");
+            writer.WriteLine("{");
+            writer.Indent++;
+            foreach (var stmt in Statements)
+                stmt.Write(writer, formatter);
+            writer.Indent--;
+            writer.WriteLine("}");
         }
     }
 }

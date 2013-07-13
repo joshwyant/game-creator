@@ -11,9 +11,6 @@ namespace GameCreator.Framework.Gml
             get { return StatementKind.XorAssignment; }
         }
 
-        internal override void Write(System.CodeDom.Compiler.IndentedTextWriter writer, GmlFormatter formatter)
-        {
-            throw new NotImplementedException();
-        }
+        public override string Operator { get { return "^="; } }
     }
 }

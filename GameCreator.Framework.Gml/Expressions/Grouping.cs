@@ -16,7 +16,8 @@ namespace GameCreator.Framework.Gml
         }
         public override Expression Reduce()
         {
-            return InnerExpression.Reduce();
+            // Todo: Verify that this is correct.
+            return new Grouping(InnerExpression.Reduce(), Line, Column);
         }
 
         internal override void Write(System.CodeDom.Compiler.IndentedTextWriter writer, GmlFormatter formatter)

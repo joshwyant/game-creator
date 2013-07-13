@@ -23,9 +23,14 @@ namespace GameCreator.Framework.Gml
             Expression = Expression.Reduce();
         }
 
+        public virtual string Operator { get { return "="; } }
+
         internal override void Write(System.CodeDom.Compiler.IndentedTextWriter writer, GmlFormatter formatter)
         {
-            throw new NotImplementedException();
+            Lefthand.Write(writer, formatter);
+            writer.Write(string.Format("{1}{0}{1}", formatter.Padding, Operator));
+            Expression.Write(writer, formatter);
+            writer.WriteLine(";");
         }
     }
 }

@@ -28,7 +28,14 @@ namespace GameCreator.Framework.Gml
 
         internal override void Write(System.CodeDom.Compiler.IndentedTextWriter writer, GmlFormatter formatter)
         {
-            throw new NotImplementedException();
+            writer.Write(string.Concat("with", formatter.Padding, "("));
+            Instance.Write(writer, formatter);
+            writer.WriteLine(")");
+            if (Body.Kind != StatementKind.Sequence)
+                writer.Indent++;
+            Body.Write(writer, formatter);
+            if (Body.Kind != StatementKind.Sequence)
+                writer.Indent--;
         }
     }
 }

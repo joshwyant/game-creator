@@ -21,7 +21,13 @@ namespace GameCreator.Framework.Gml
 
         internal override void Write(System.CodeDom.Compiler.IndentedTextWriter writer, GmlFormatter formatter)
         {
-            throw new NotImplementedException();
+            var indent = writer.Indent;
+
+            if (indent != 0) writer.Indent--;
+            writer.Write("case ");
+            Expression.Write(writer, formatter);
+            writer.WriteLine(":");
+            if (indent != 0) writer.Indent++;
         }
     }
 }

@@ -22,7 +22,21 @@ namespace GameCreator.Framework.Gml
 
         internal override void Write(System.CodeDom.Compiler.IndentedTextWriter writer, GmlFormatter formatter)
         {
-            throw new NotImplementedException();
+            if (Value.IsString)
+                writer.Write(Value.String.Contains("\"") ? string.Format("'{0}'", Value.String) : string.Format("\"{0}\"", Value.String));
+            else
+            {
+                writer.Write((long)Math.Floor(Value.Real));
+                if (Value.Real - Math.Floor(Value.Real) != 0)
+                {
+                    writer.Write(".");
+                    // TODO: Do this correctly.
+                    var frac = (long)(Math.Floor(Value.Real) * 1000000000000000.0);
+                    while (frac % 10 == 0)
+                        frac /= 10;
+                    writer.Write(frac);
+                }
+            }
         }
     }
 }

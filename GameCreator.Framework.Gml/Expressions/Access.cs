@@ -47,9 +47,9 @@ namespace GameCreator.Framework.Gml
                 writer.Write("[");
                 for (int i = 0; i < Indices.Length; i++)
                 {
-                    Indices[i].Write(writer, formatter);
-                    if (i + 1 < Indices.Length)
+                    if (i != 0)
                         writer.Write("," + formatter.Padding);
+                    Indices[i].Write(writer, formatter);
                 }
                 writer.Write("]");
             }

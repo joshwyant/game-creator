@@ -26,7 +26,9 @@ namespace GameCreator.Framework.Gml
 
         internal override void Write(System.CodeDom.Compiler.IndentedTextWriter writer, GmlFormatter formatter)
         {
-            throw new NotImplementedException();
+            writer.Write("return ");
+            Expression.Write(writer, formatter);
+            writer.WriteLine(";");
         }
     }
 }

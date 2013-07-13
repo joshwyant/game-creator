@@ -18,7 +18,13 @@ namespace GameCreator.Framework.Gml
 
         internal override void Write(System.CodeDom.Compiler.IndentedTextWriter writer, GmlFormatter formatter)
         {
-            throw new NotImplementedException();
+            // Id is not a valid as an expression, as it is only used during parsing.
+            throw new InvalidOperationException();
+        }
+
+        public override string ToString(GmlFormatter formatter)
+        {
+            return Name;
         }
     }
 }

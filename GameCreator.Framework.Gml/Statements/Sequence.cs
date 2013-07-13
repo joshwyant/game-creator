@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.CodeDom.Compiler;
 
 namespace GameCreator.Framework.Gml
 {
@@ -27,9 +28,41 @@ namespace GameCreator.Framework.Gml
             Second.Optimize();
         }
 
-        internal override void Write(System.CodeDom.Compiler.IndentedTextWriter writer, GmlFormatter formatter)
+        internal override void Write(IndentedTextWriter writer, GmlFormatter formatter)
         {
-            throw new NotImplementedException();
+            // Write the sequence with curly braces.
+            Write(writer, formatter, true);
+        }
+
+        void Write(IndentedTextWriter writer, GmlFormatter formatter, bool curlyBraces)
+        {
+            Sequence seq;
+            if (curlyBraces)
+            {
+                writer.WriteLine("{");
+                writer.Indent++;
+            }
+            if (First.Kind == StatementKind.Sequence)
+            {
+                // Write the sequence without curly braces.
+                seq = (Sequence)First;
+                seq.Write(writer, formatter, false);
+            }
+            else
+                First.Write(writer, formatter);
+            if (Second.Kind == StatementKind.Sequence)
+            {
+                // Write the sequence without curly braces.
+                seq = (Sequence)Second;
+                seq.Write(writer, formatter, false);
+            }
+            else
+                Second.Write(writer, formatter);
+            if (curlyBraces)
+            {
+                writer.Indent--;
+                writer.WriteLine("}");
+            }
         }
     }
 }
