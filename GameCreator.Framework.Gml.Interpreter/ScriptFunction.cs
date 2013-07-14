@@ -5,31 +5,31 @@ using GameCreator.Runtime;
 
 namespace GameCreator.Framework.Gml.Interpreter
 {
-    public class ScriptFunction : ExecutableFunction
+    public class ScriptFunction : ExecutableFunction, IGml
     {
-        CodeUnit cu;
+        public string Code { get; set; }
+        public CodeUnit Unit { get; set; }
+
         public ScriptFunction(string name, string code) : base(name, -1)
         {
-            cu = new CodeUnit(code);
+            Code = code;
+            Unit = CodeUnit.Get(this);
         }
+
         public void Compile()
         {
-            cu.Compile();
+            Unit.Compile();
         }
+
         public override Value Execute(params Value[] parameters)
         {
             ExecutionContext.Returned = default(Value);
-            ExecutionContext.Enter();
-            ExecutionContext.SetArguments(parameters);
-            cu.Run();
-            ExecutionContext.Leave();
-            return ExecutionContext.Returned;
-        }
-        public string Code
-        {
-            get
+
+            using (new ExecutionScope(parameters))
             {
-                return cu.Code;
+                Unit.Run();
+
+                return ExecutionContext.Returned;
             }
         }
     }

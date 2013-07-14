@@ -66,29 +66,40 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Action.cs" />
-    <Compile Include="ActionArgumentType.cs" />
-    <Compile Include="ActionDefinition.cs" />
-    <Compile Include="ActionExecutionType.cs" />
-    <Compile Include="ActionKind.cs" />
-    <Compile Include="ActionLibrary.cs" />
-    <Compile Include="BaseFunction.cs" />
-    <Compile Include="Events.cs" />
-    <Compile Include="IndexedResource.cs" />
-    <Compile Include="IndexedResourceManager.cs" />
-    <Compile Include="Instance.cs" />
-    <Compile Include="GameMakerEmulation.cs" />
-    <Compile Include="InstanceScope.cs" />
-    <Compile Include="LibraryContext.cs" />
-    <Compile Include="ResourceContext.cs" />
-    <Compile Include="Sprite.cs" />
-    <Compile Include="Event.cs" />
-    <Compile Include="Script.cs" />
-    <Compile Include="Room.cs" />
-    <Compile Include="Object.cs" />
-    <Compile Include="Game.cs" />
+    <Compile Include="Actions\Action.cs" />
+    <Compile Include="Actions\ActionArgumentType.cs" />
+    <Compile Include="Actions\ActionDefinition.cs" />
+    <Compile Include="Actions\ActionExecutionType.cs" />
+    <Compile Include="Actions\ActionKind.cs" />
+    <Compile Include="Actions\ActionLibrary.cs" />
+    <Compile Include="Core\BaseFunction.cs" />
+    <Compile Include="Core\IGml.cs" />
+    <Compile Include="Core\ProgramError.cs" />
+    <Compile Include="Events\KeyCodes.cs" />
+    <Compile Include="Events\EventType.cs" />
+    <Compile Include="Events\MouseEventNumber.cs" />
+    <Compile Include="Events\MouseEvents.cs" />
+    <Compile Include="Events\OtherEventNumber.cs" />
+    <Compile Include="Events\OtherEvents.cs" />
+    <Compile Include="Events\StepEventNumber.cs" />
+    <Compile Include="Events\StepEvents.cs" />
+    <Compile Include="Events\VirtualKeyCode.cs" />
+    <Compile Include="Resources\ResourceExtensions.cs" />
+    <Compile Include="Resources\NamedIndexedResource.cs" />
+    <Compile Include="Resources\IndexedResourceManager.cs" />
+    <Compile Include="Resources\IndexedResource.cs" />
+    <Compile Include="Resources\Entities\Instance.cs" />
+    <Compile Include="Core\GameMakerEmulation.cs" />
+    <Compile Include="Core\InstanceTarget.cs" />
+    <Compile Include="Resources\LibraryContext.cs" />
+    <Compile Include="Resources\ResourceContext.cs" />
+    <Compile Include="Resources\Entities\Sprite.cs" />
+    <Compile Include="Events\Event.cs" />
+    <Compile Include="Resources\Entities\Script.cs" />
+    <Compile Include="Resources\Entities\Room.cs" />
+    <Compile Include="Resources\Entities\Object.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Value.cs" />
+    <Compile Include="Core\Value.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
@@ -107,6 +118,7 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

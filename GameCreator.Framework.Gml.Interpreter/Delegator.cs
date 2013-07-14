@@ -18,10 +18,10 @@ namespace GameCreator.Framework.Gml.Interpreter
             StatementExecutors = new Dictionary<StatementKind, Action<Statement>>();
 
             // Load the expressions delegates from the Expressions class
-            LoadDelegates(typeof(Expressions));
+            LoadDelegates(typeof(ExpressionDelegates));
 
             // Load the statements delegates from the Statements class
-            LoadDelegates(typeof(Statements));
+            LoadDelegates(typeof(StatementDelegates));
         }
 
         public static void LoadDelegates(Type t)

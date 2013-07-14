@@ -18,13 +18,13 @@ namespace GameCreator.IDE
         public Dictionary<int, IndexedResource> Resources = new Dictionary<int, IndexedResource>();
         public void Install(IndexedResource i)
         {
-            i.Index = inds++;
-            Resources.Add(i.Index, i);
-            ExecutionContext.DefineResourceIndex(i.Name, i.Index);
+            i.Id = inds++;
+            Resources.Add(i.Id, i);
+            ExecutionContext.DefineResourceIndex(i.Name, i.Id);
         }
         public void Install(IndexedResource i, int index)
         {
-            i.Index = index;
+            i.Id = index;
             Resources.Add(index, i);
             ExecutionContext.DefineResourceIndex(i.Name, index);
         }

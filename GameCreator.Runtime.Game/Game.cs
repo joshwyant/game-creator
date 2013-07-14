@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Text;
 
 
-namespace GameCreator.Framework
+namespace GameCreator.Runtime.Game
 {
     public class Game
     {
-        public static string Name { get { return ExecutionContext.Title; } set { ExecutionContext.Title = value; } }
+        public static string Name { get; set; }
         public static System.Resources.ResourceManager ResourceManager { get; set; }
         //internal static GameForm roomform;
         internal static RuntimeWindow roomwindow;

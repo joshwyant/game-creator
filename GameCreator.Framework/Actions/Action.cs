@@ -1,6 +1,7 @@
-﻿namespace GameCreator.Framework
+﻿using System.IO;
+namespace GameCreator.Framework
 {
-    public class Action
+    public class Action : IGml
     {
         public ResourceContext Context { get; set; }
         public ActionDefinition Definition { get; private set; }
@@ -22,6 +23,11 @@
                 Code = Arguments[0];
             else if (Definition.Kind == ActionKind.Variable)
                 Code = string.Format(Relative ? "{0} += {1}" : "{0} = {1}", Arguments[0], Arguments[1]);
+        }
+
+        public TextReader GetCodeReader()
+        {
+            return new StringReader(Code);
         }
     }
 }

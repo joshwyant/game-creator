@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using GameCreator.Framework.Gml;
 
 namespace GameCreator.Runtime.Library
 {
@@ -21,7 +20,7 @@ namespace GameCreator.Runtime.Library
         {
             public GameCreator.Framework.Gml.ScriptFunction click;
             public GameCreator.Framework.Gml.ScriptFunction create;
-            public Instance inst;
+            public RuntimeInstance inst;
         }
         [GMLFunction(1)]
         public static Value window_create(params Value[] args)

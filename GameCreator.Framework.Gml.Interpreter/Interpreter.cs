@@ -11,39 +11,20 @@ namespace GameCreator.Framework.Gml.Interpreter
     public delegate Value FunctionDelegate(params Value[] args);
     public static class Interpreter
     {
-        internal static Dictionary<string, CodeUnit> CodeStrings = new Dictionary<string, CodeUnit>();
         static Dictionary<string, ExecutableFunction> functions = new Dictionary<string, ExecutableFunction>();
         public static Dictionary<string, ExecutableFunction> Functions { get { return functions; } }
 
-        public static Value Evaluate(string s)
+        public static Value Eval(string s)
         {
-            return Evaluate(ExecutionContext.CreatePrivateInstance(), s);
+            return Eval(ExecutionContext.CreatePrivateInstance(), s);
         }
 
-        public static Value Evaluate(Instance inst, string s)
+        public static Value Eval(Instance inst, string s)
         {
-            if (string.IsNullOrEmpty(s.Trim()))
-                return 0;
-            Value v = 0;
-            Instance t = ExecutionContext.Current;
-            ExecutionContext.Current = inst; // The current instance executing the code
-            Parser p = new Parser(new StringReader(s));
-            Expression e = p.ParseExpression();
-            ExecutionContext.Enter();
-            try
+            using (new InstanceScope(inst))
             {
-                v = e.Eval();
+                return CodeUnit.Get(s).Eval();
             }
-            catch
-            {
-                throw;
-            }
-            finally
-            {
-                ExecutionContext.Leave();
-                ExecutionContext.Current = t;
-            }
-            return v;
         }
 
         public static void DefineFunctionsFromType(Type t)
@@ -121,9 +102,9 @@ namespace GameCreator.Framework.Gml.Interpreter
         {
             foreach (ExecutableFunction f in functions.Values)
             {
-                if (f.GetType() == typeof(ScriptFunction))
+                if (f is ScriptFunction)
                 {
-                    ((ScriptFunction)f).Compile();
+                    (f as ScriptFunction).Compile();
                 }
             }
         }

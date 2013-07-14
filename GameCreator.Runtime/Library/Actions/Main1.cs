@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using GameCreator.Framework.Gml;
 
 namespace GameCreator.Runtime.Library.Actions
 {
@@ -27,7 +26,7 @@ namespace GameCreator.Runtime.Library.Actions
         [GMLFunction(5)]
         public static Value action_create_object_motion(params Value[] args)
         {
-            Instance e = GMLFunctions.CreateInstance(
+            RuntimeInstance e = GMLFunctions.CreateInstance(
                 args[0],
                 ExecutionContext.argument_relative.value ? ExecutionContext.Current.x.Value + args[1] : args[1],
                 ExecutionContext.argument_relative.value ? ExecutionContext.Current.y.Value + args[2] : args[2]

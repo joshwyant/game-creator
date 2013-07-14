@@ -42,6 +42,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BoolVariable.cs" />
+    <Compile Include="GmlFunctionAttribute.cs" />
+    <Compile Include="RuntimeResourceExtensions.cs" />
+    <Compile Include="RuntimeInstance.cs" />
     <Compile Include="IntVariable.cs" />
     <Compile Include="Library\Actions\Control.cs" />
     <Compile Include="Library\Actions\Draw.cs" />

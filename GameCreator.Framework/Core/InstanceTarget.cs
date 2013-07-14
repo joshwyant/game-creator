@@ -5,7 +5,7 @@ using System.Text;
 
 namespace GameCreator.Framework
 {
-    public enum ActionScope
+    public enum InstanceTarget
     {
         Self = -1,
         Other = -2,

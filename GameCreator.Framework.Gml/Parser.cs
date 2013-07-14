@@ -11,7 +11,7 @@ namespace GameCreator.Framework.Gml
         Token next;
         TokenKind t;
         
-        public Parser(Lexer lex)
+        internal Parser(Lexer lex)
         {
             l = lex;
         }
@@ -75,9 +75,15 @@ namespace GameCreator.Framework.Gml
             return s;
         }
 
+        /// <summary>
+        /// This will return a constant 0 if the parser parses an empty string.
+        /// </summary>
         public Expression ParseExpression()
         {
             move();
+            if (t == TokenKind.Eof)
+                return new Constant(0, 0, 0);
+
             Expression e = expr();
             if (t != TokenKind.Eof) error("Unexpected symbol in expression.");
             return e;

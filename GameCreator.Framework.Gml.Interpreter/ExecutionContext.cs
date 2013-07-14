@@ -8,6 +8,7 @@ namespace GameCreator.Framework.Gml.Interpreter
 {
     public static class ExecutionContext
     {
+        public static bool RunOptimized { get; set; }
         static internal int ids = 100000;
         // The last id assigned to an instance by the IDE
         public static int LastInstanceID { get { return ids; } set { ids = value; } }
@@ -25,7 +26,6 @@ namespace GameCreator.Framework.Gml.Interpreter
         static Dictionary<string, Variable> locals;// = new Dictionary<string, Variable>();
         static Stack<Value[]> argstack = new Stack<Value[]>();
         static Value[] args = new Value[0];
-        public static string Title = "game";
         // Holds the value of the last returned value. This mimics GM's behavior. If a script does not
         // return a value, it automatically returns the value returned from the last call
         // (Env.Returned is not changed). Upon entry of a script, Env.Return is set to Value(0.d).

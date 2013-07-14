@@ -11,27 +11,27 @@ namespace GameCreator.Framework.Gml.Interpreter
         // Execute() is only called when the action type is Normal, Code, or Variable.
         public bool Execute(this Action action)
         {
-            System.Collections.Generic.List<Instance> instances = new System.Collections.Generic.List<Instance>(1);
+            // Get a list of affected instances for this action
+            IEnumerable<Instance> instances;
             switch (action.AppliesTo)
             {
-                case (int)ActionScope.Self:
-                    instances.Add(ExecutionContext.Current);
+                case (int)InstanceTarget.Self:
+                    instances = new[] { ExecutionContext.Current };
                     break;
-                case (int)ActionScope.Other:
-                    instances.Add(ExecutionContext.Other);
+                case (int)InstanceTarget.Other:
+                    instances = new [] { ExecutionContext.Other };
                     break;
                 default:
-                    foreach (Instance e in ExecutionContext.Instances.Values)
-                    {
-                        if (e.object_index.value == action.AppliesTo)
-                            instances.Add(e);
-                    }
+                    instances = from inst in ExecutionContext.Instances.Values
+                                where inst.Context.Objects[inst.ObjectIndex].DescendsFrom(action.AppliesTo)
+                                select inst;
                     break;
             }
+
             bool returned = !action.Not;
             ExecutionContext.argument_relative.value = action.Relative;
-            Instance c = ExecutionContext.Current;
-            Instance o = ExecutionContext.Other;
+            var c = ExecutionContext.Current;
+            var o = ExecutionContext.Other;
             foreach (Instance e in instances)
             {
                 if (e != c)
@@ -43,56 +43,62 @@ namespace GameCreator.Framework.Gml.Interpreter
                 {
                     case ActionKind.Code:
                     case ActionKind.Variable:
-                        ExecutionContext.Returned = new Value();
-                        ExecutionContext.Enter();
-                        action.Code.Run();
-                        ExecutionContext.Leave();
-                        if (ExecutionContext.Returned == Not) returned = Not;
-                        break;
+                        using (new ExecutionScope())
+                        {
+                            ExecutionContext.Returned = default(Value);
+                            action.ExecuteCode();
+                            if (ExecutionContext.Returned == action.Not)
+                                returned = action.Not;
+                            break;
+                        }
                     case ActionKind.Normal:
-                        Value[] args = new Value[Arguments.Length];
+                        Value[] args = new Value[action.Arguments.Length];
                         // Evaluate the arguments
                         for (int i = 0; i < args.Length; i++)
                         {
-                            switch (Definition.Arguments[i])
+                            switch (action.Definition.Arguments[i])
                             {
                                 case ActionArgumentType.Expression:
-                                    args[i] = Parser.Evaluate(ExecutionContext.Current, Arguments[i]);
+                                    args[i] = Interpreter.Eval(ExecutionContext.Current, action.Arguments[i]);
                                     break;
                                 case ActionArgumentType.String:
                                 case ActionArgumentType.FontString:
-                                    args[i] = new Value(Arguments[i]);
+                                    args[i] = new Value(action.Arguments[i]);
                                     break;
                                 case ActionArgumentType.Both:
-                                    args[i] = Arguments[i].StartsWith("\"") || Arguments[i].StartsWith("\'") ? Parser.Evaluate(ExecutionContext.Current, Arguments[i]) : new Value(Arguments[i]);
+                                    args[i] = action.Arguments[i].StartsWith("\"") 
+                                        || action.Arguments[i].StartsWith("\'") 
+                                        ? Interpreter.Eval(ExecutionContext.Current, action.Arguments[i]) 
+                                        : new Value(action.Arguments[i]);
                                     break;
                                 default:
-                                    args[i] = new Value(double.Parse(Arguments[i]));
+                                    args[i] = new Value(double.Parse(action.Arguments[i]));
                                     break;
                             }
                         }
-                        switch (Definition.ExecutionType)
+                        switch (action.Definition.ExecutionType)
                         {
                             case ActionExecutionType.Code:
-                                ExecutionContext.Returned = new Value();
-                                ExecutionContext.Enter();
-                                ExecutionContext.SetArguments(args);
-                                Definition.Code.Run();
-                                ExecutionContext.Leave();
-                                if (ExecutionContext.Returned == Not) returned = Not;
-                                break;
+                                ExecutionContext.Returned = default(Value);
+                                using (new ExecutionScope(args))
+                                {
+                                    action.ExecuteCode();
+                                    if (ExecutionContext.Returned == action.Not)
+                                        returned = action.Not;
+                                    break;
+                                }
                             case ActionExecutionType.Function:
-                                if (ExecutionContext.ExecuteFunction(Definition.FunctionName, args) == Not) returned = Not;
+                                if (Interpreter.ExecuteFunction(action.Definition.FunctionName, args) == action.Not) returned = action.Not;
                                 break;
                         }
                         break;
                 }
-                if (returned == Not) break;
+                if (returned == action.Not) break;
             }
             ExecutionContext.Current = c;
             ExecutionContext.Other = o;
             ExecutionContext.argument_relative.value = false;
-            return Definition.IsQuestion ? Not ? !returned : returned : true;
+            return action.Definition.IsQuestion ? action.Not ? !returned : returned : true;
         }
     }
 }

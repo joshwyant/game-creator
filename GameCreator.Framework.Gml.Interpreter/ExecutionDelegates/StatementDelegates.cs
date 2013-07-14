@@ -5,7 +5,7 @@ using System.Text;
 
 namespace GameCreator.Framework.Gml.Interpreter
 {
-    static class Statements
+    static class StatementDelegates
     {
         #region Assignments
         [Statement(Kind = StatementKind.Assignment)]

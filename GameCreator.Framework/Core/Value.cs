@@ -8,9 +8,13 @@ namespace GameCreator.Framework
     // Represents GM's dynamic data typing.
     public struct Value
     {
+        #region Fields
         int type; // 0 = undefined, 1 = real, 2 = string
         string s;
         double d;
+        #endregion
+
+        #region Constructors
         public Value(string val)
         {
             type = 2;
@@ -35,11 +39,17 @@ namespace GameCreator.Framework
             d = val ? 1.0 : 0.0;
             s = null;
         }
+        #endregion
+
+        #region ToString
         // The value returned by string(). string -> String, other -> Real.ToString()
         public override string ToString()
         {
             return type == 2 ? s : double.IsInfinity(d) ? "INF" : double.IsNaN(d) ? "NAN" : d.ToString(); // Make d.ToString() in GM format
         }
+        #endregion
+
+        #region Properties
         // The string value for a function expecting a string: string = val, other -> ""
         public string String
         {
@@ -53,6 +63,7 @@ namespace GameCreator.Framework
                 s = value;
             }
         }
+
         // The real value for a function expecting a real: real -> value, other = 0
         public double Real
         {
@@ -67,6 +78,7 @@ namespace GameCreator.Framework
                 s = null; // Get rid of reference so GC can collect
             }
         }
+
         public int Int
         {
             get
@@ -80,6 +92,7 @@ namespace GameCreator.Framework
                 s = null;
             }
         }
+
         public bool Bool
         {
             get
@@ -93,6 +106,7 @@ namespace GameCreator.Framework
                 s = null;
             }
         }
+
         // is_real(val)
         public bool IsReal
         {
@@ -101,6 +115,7 @@ namespace GameCreator.Framework
                 return type == 1;
             }
         }
+
         // is_string(val)
         public bool IsString
         {
@@ -109,11 +124,16 @@ namespace GameCreator.Framework
                 return type == 2;
             }
         }
+        #endregion
+
+        #region Static Properties
         public static Value Zero = new Value(0.0);
         public static Value One = new Value(1.0);
         public static Value EmptyString = new Value(String.Empty);
         public static Value Null = default(Value);
-        // Operators
+        #endregion
+
+        #region Functions
         public Value AddReal(Value b)
         {
             return Real + b.Real;
@@ -122,6 +142,9 @@ namespace GameCreator.Framework
         {
             return String + b.String;
         }
+        #endregion
+
+        #region Operators
         public static Value operator +(Value a, Value b)
         {
             return a.IsReal ? (Value)(a.Real + b.Real) : (Value)(a.String + b.String);
@@ -138,7 +161,9 @@ namespace GameCreator.Framework
         {
             return a.IsReal ? (Value)(a.Real / b.Real) : Zero;
         }
-        // Conversions
+        #endregion
+
+        #region Conversions
         public static implicit operator int(Value v)
         {
             return v.Int;
@@ -171,5 +196,6 @@ namespace GameCreator.Framework
         {
             return new Value(i);
         }
+        #endregion
     }
 }

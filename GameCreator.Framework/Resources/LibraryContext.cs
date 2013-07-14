@@ -10,12 +10,14 @@ namespace GameCreator.Framework
         public Dictionary<string, BaseFunction> Functions { get; set; }
         public IEnumerable<string> BuiltInVariables { get; set; }
         public Dictionary<int, ActionLibrary> Libraries { get; set; }
+        public ResourceContext Resources { get; set; }
 
         public LibraryContext()
         {
             Libraries = new Dictionary<int, ActionLibrary>();
             Functions = new Dictionary<string, BaseFunction>();
             BuiltInVariables = new List<string>();
+            Resources = new ResourceContext(this);
         }
 
         public bool FunctionExists(string n)
@@ -32,8 +34,6 @@ namespace GameCreator.Framework
             Libraries.Add(libid, lib);
             return lib;
         }
-        // context.GetActionLibrary(1).DefineAction(100, normal, false, "action_xx", null, {expr, menu, object});
-        public void DefineAction(int actionid, ActionKind kind, ActionExecutionType execution, bool question, string func, string code, ActionArgumentType[] args) { if (!Actions.ContainsKey(actionid)) Actions.Add(actionid, new ActionDefinition(kind, execution, question, func, code, args)); }
 
         public ActionDefinition GetAction(int libid, int actionid)
         {

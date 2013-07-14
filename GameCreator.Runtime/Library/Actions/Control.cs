@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using GameCreator.Framework.Gml;
 
 namespace GameCreator.Runtime.Library.Actions
 {
@@ -33,7 +32,7 @@ namespace GameCreator.Runtime.Library.Actions
         public static Value action_if_number(params Value[] args)
         {
             int num = 0;
-            foreach (Instance e in ExecutionContext.Instances.Values) if (e.object_index.value == (int)args[0]) num++;
+            foreach (RuntimeInstance e in ExecutionContext.Instances.Values) if (e.object_index.value == (int)args[0]) num++;
             switch ((int)args[2])
             {
                 case 0: return num == args[1];

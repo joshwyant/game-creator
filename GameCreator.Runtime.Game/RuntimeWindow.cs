@@ -85,7 +85,7 @@ namespace GameCreator.Runtime
             // Loop through sorted instances
             for (int i = 0; i < ExecutionContext.InstanceIds.Count; i++)
             {
-                Instance env = ExecutionContext.Instances[ExecutionContext.InstanceIds[i]];
+                RuntimeInstance env = ExecutionContext.Instances[ExecutionContext.InstanceIds[i]];
                 if (env.Destroyed) continue; // Don't bother.
                 Object o = Object.Manager.Resources[env.object_index.value] as Object;
                 if (o.EventDefined(EventType.Draw, 0))
@@ -123,13 +123,13 @@ namespace GameCreator.Runtime
             // Begin step
             for (int i = 0; i < ExecutionContext.InstanceIds.Count; i++)
             {
-                Instance env = ExecutionContext.Instances[ExecutionContext.InstanceIds[i]];
+                RuntimeInstance env = ExecutionContext.Instances[ExecutionContext.InstanceIds[i]];
                 (Object.Manager.Resources[env.object_index.value] as Object).PerformEvent(env, EventType.Step, (int)StepEventNumber.BeginStep);
             }
             // Alarm 0-12
             for (int i = 0; i < ExecutionContext.InstanceIds.Count; i++)
             {
-                Instance env = ExecutionContext.Instances[ExecutionContext.InstanceIds[i]];
+                RuntimeInstance env = ExecutionContext.Instances[ExecutionContext.InstanceIds[i]];
                 if (env.Destroyed) continue; // don't bother.
                 Object o = Object.Manager.Resources[env.object_index.value] as Object;
                 for (int j = 0; j < 12; j++)
@@ -150,14 +150,14 @@ namespace GameCreator.Runtime
                 found = true;
                 for (int i = 0; i < ExecutionContext.InstanceIds.Count; i++)
                 {
-                    Instance env = ExecutionContext.Instances[ExecutionContext.InstanceIds[i]];
+                    RuntimeInstance env = ExecutionContext.Instances[ExecutionContext.InstanceIds[i]];
                     (Object.Manager.Resources[env.object_index.value] as Object).PerformEvent(env, EventType.Keyboard, (int)KeyCodes.GetMap((OpenTK.Input.Key)key));
                 }
             }
             // vk_any/vk_none
             for (int i = 0; i < ExecutionContext.InstanceIds.Count; i++)
             {
-                Instance env = ExecutionContext.Instances[ExecutionContext.InstanceIds[i]];
+                RuntimeInstance env = ExecutionContext.Instances[ExecutionContext.InstanceIds[i]];
                 (Object.Manager.Resources[env.object_index.value] as Object).PerformEvent(env, EventType.Keyboard, (int)(found ? VirtualKeyCode.AnyKey : VirtualKeyCode.NoKey));
             }
             found = keysdown.Count != 0;
@@ -167,14 +167,14 @@ namespace GameCreator.Runtime
                 int key = keysdown.Dequeue();
                 for (int i = 0; i < ExecutionContext.InstanceIds.Count; i++)
                 {
-                    Instance env = ExecutionContext.Instances[ExecutionContext.InstanceIds[i]];
+                    RuntimeInstance env = ExecutionContext.Instances[ExecutionContext.InstanceIds[i]];
                     (Object.Manager.Resources[env.object_index.value] as Object).PerformEvent(env, EventType.KeyPress, (int)KeyCodes.GetMap((OpenTK.Input.Key)key));
                 }
             }
             // vk_any/vk_none
             for (int i = 0; i < ExecutionContext.InstanceIds.Count; i++)
             {
-                Instance env = ExecutionContext.Instances[ExecutionContext.InstanceIds[i]];
+                RuntimeInstance env = ExecutionContext.Instances[ExecutionContext.InstanceIds[i]];
                 (Object.Manager.Resources[env.object_index.value] as Object).PerformEvent(env, EventType.KeyPress, (int)(found ? VirtualKeyCode.AnyKey : VirtualKeyCode.NoKey));
             }
             // Key release events
@@ -190,7 +190,7 @@ namespace GameCreator.Runtime
                     released++;
                     for (int j = 0; j < ExecutionContext.InstanceIds.Count; j++)
                     {
-                        Instance env = ExecutionContext.Instances[ExecutionContext.InstanceIds[j]];
+                        RuntimeInstance env = ExecutionContext.Instances[ExecutionContext.InstanceIds[j]];
                         (Object.Manager.Resources[env.object_index.value] as Object).PerformEvent(env, EventType.KeyRelease, (int)KeyCodes.GetMap((OpenTK.Input.Key)key));
                     }
                 }
@@ -200,19 +200,19 @@ namespace GameCreator.Runtime
             // vk_any/vk_none
             for (int i = 0; i < ExecutionContext.InstanceIds.Count; i++)
             {
-                Instance env = ExecutionContext.Instances[ExecutionContext.InstanceIds[i]];
+                RuntimeInstance env = ExecutionContext.Instances[ExecutionContext.InstanceIds[i]];
                 (Object.Manager.Resources[env.object_index.value] as Object).PerformEvent(env, EventType.KeyRelease, (int)(found ? VirtualKeyCode.AnyKey : VirtualKeyCode.NoKey));
             }
             // Step
             for (int i = 0; i < ExecutionContext.InstanceIds.Count; i++)
             {
-                Instance env = ExecutionContext.Instances[ExecutionContext.InstanceIds[i]];
+                RuntimeInstance env = ExecutionContext.Instances[ExecutionContext.InstanceIds[i]];
                 (Object.Manager.Resources[env.object_index.Value] as Object).PerformEvent(env, EventType.Step, (int)StepEventNumber.Normal);
             }
             // Set instances to their new positions
             for (int i = 0; i < ExecutionContext.InstanceIds.Count; i++)
             {
-                Instance env = ExecutionContext.Instances[ExecutionContext.InstanceIds[i]];
+                RuntimeInstance env = ExecutionContext.Instances[ExecutionContext.InstanceIds[i]];
                 if (env.Destroyed) continue; // don't bother.
                 env.xprevious.value = env.x.value;
                 env.yprevious.value = env.y.value;
@@ -230,7 +230,7 @@ namespace GameCreator.Runtime
             // End Step
             for (int i = 0; i < ExecutionContext.InstanceIds.Count; i++)
             {
-                Instance env = ExecutionContext.Instances[ExecutionContext.InstanceIds[i]];
+                RuntimeInstance env = ExecutionContext.Instances[ExecutionContext.InstanceIds[i]];
                 (Object.Manager.Resources[env.object_index.Value] as Object).PerformEvent(env, EventType.Step, (int)StepEventNumber.EndStep);
             }
             /* After-step duty */
@@ -240,7 +240,7 @@ namespace GameCreator.Runtime
             int purged = 0; // the number of purged instances.
             for (int i = 0; i < ExecutionContext.InstanceIds.Count; i++)
             {
-                Instance env = ExecutionContext.Instances[ExecutionContext.InstanceIds[i]];
+                RuntimeInstance env = ExecutionContext.Instances[ExecutionContext.InstanceIds[i]];
                 if (env.Destroyed)
                 {
                     purged++; // increment the number of purged instances

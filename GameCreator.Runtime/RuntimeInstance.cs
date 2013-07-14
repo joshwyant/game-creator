@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using GameCreator.Framework;
 
 
-namespace GameCreator.Framework
+namespace GameCreator.Runtime
 {
-    public class Instance
+    public class RuntimeInstance : Instance
     {
         internal Dictionary<string, Variable> instancevars = new Dictionary<string, Variable>();
         #region Instance variables and access methods
@@ -70,7 +71,7 @@ namespace GameCreator.Framework
         #endregion
         public bool Destroyed = false;
         // use Env.CreateInstance() or Env.CreatePrivateInstance().
-        internal Instance()
+        internal RuntimeInstance()
         {
             // read-only variables with get accessors
             object_index = DefineLocalVar("object_index", 0, true);
@@ -190,7 +191,7 @@ namespace GameCreator.Framework
         //  is recommended to have its own local code unit, so it does not have to be looked up in a table.
         public void Exec(string s)
         {
-            Instance t = ExecutionContext.Current;
+            RuntimeInstance t = ExecutionContext.Current;
             ExecutionContext.Current = this;
             ExecutionContext.Enter();
             // Make sure the code is in the cache

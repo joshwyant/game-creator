@@ -6,7 +6,7 @@ using GameCreator.Runtime;
 
 namespace GameCreator.Framework.Gml.Interpreter
 {
-    static class Expressions
+    static class ExpressionDelegates
     {
         #region Arithmetic
         [Expression(Kind = ExpressionKind.Addition)]
