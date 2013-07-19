@@ -2,18 +2,15 @@
 using System.Collections;
 using System.Text;
 using System;
-using GameCreator.Runtime;
 
 namespace GameCreator.Framework.Gml.Interpreter
 {
     public static class ExecutionContext
     {
         public static bool RunOptimized { get; set; }
-        static internal int ids = 100000;
+
+
         // The last id assigned to an instance by the IDE
-        public static int LastInstanceID { get { return ids; } set { ids = value; } }
-        public static List<int> InstanceIds = new List<int>();
-        public static Dictionary<int, Instance> Instances = new Dictionary<int, Instance>();
         public static Instance Current = null;
         public static Instance Other = null;
         static Dictionary<string, Variable> globals = new Dictionary<string, Variable>();
@@ -354,23 +351,23 @@ namespace GameCreator.Framework.Gml.Interpreter
         {
             switch (id)
             {
-                case self:
-                    return (Current != null && Current.instancevars.ContainsKey(name));
-                case other:
-                    return (Other != null && Other.instancevars.ContainsKey(name));
-                case all:
+                case (int)InstanceTarget.Self:
+                    return (Current != null && (Current as RuntimeInstance).instancevars.ContainsKey(name));
+                case (int)InstanceTarget.Other:
+                    return (Other != null && (Other as RuntimeInstance).instancevars.ContainsKey(name));
+                case (int)InstanceTarget.All:
                     foreach (Instance e in Instances.Values)
                     {
-                        if (e.instancevars.ContainsKey(name)) return true;
+                        if ((e as RuntimeInstance).instancevars.ContainsKey(name)) return true;
                     }
                     return false;
-                case noone:
+                case (int)InstanceTarget.Noone:
                     return false;
-                case global:
+                case (int)InstanceTarget.Global:
                     return globals.ContainsKey(name);
                 default:
                     Instance inst;
-                    return (Instances.TryGetValue(id, out inst) && !inst.Destroyed && inst.instancevars.ContainsKey(name));
+                    return (Instances.TryGetValue(id, out inst) && !(inst as RuntimeInstance).Destroyed && (inst as RuntimeInstance).instancevars.ContainsKey(name));
             }
         }
         public static void SetVar(string name, int i1, int i2, Value val)
@@ -379,7 +376,7 @@ namespace GameCreator.Framework.Gml.Interpreter
             {
                 if (locals.ContainsKey(name))
                 {
-                    if (locals[name].IsReadOnly) throw new ProgramError("Cannot assign to the variable", ErrorSeverity.Error, ExecutingStatement);
+                    if (locals[name].IsReadOnly) throw new ProgramError(Error.CannotAssign);
                     locals[name][i1, i2] = val;
                 }
                 else
@@ -387,14 +384,14 @@ namespace GameCreator.Framework.Gml.Interpreter
             }
             else if (globalvars.Contains(name))
             {
-                if (globals[name].IsReadOnly) throw new ProgramError("Cannot assign to the variable", ErrorSeverity.Error, ExecutingStatement);
+                if (globals[name].IsReadOnly) throw new ProgramError(Error.CannotAssign);
                 globals[name][i1, i2] = val;
             }
             else if (Current != null)
             {
                 if (Current.instancevars.ContainsKey(name))
                 {
-                    if (Current.instancevars[name].IsReadOnly) throw new ProgramError("Cannot assign to the variable", ErrorSeverity.Error, ExecutingStatement);
+                    if (Current.instancevars[name].IsReadOnly) throw new ProgramError(Error.CannotAssign);
                     Current.instancevars[name][i1, i2] = val;
                 }
                 else
@@ -413,31 +410,31 @@ namespace GameCreator.Framework.Gml.Interpreter
         public static void SetVar(int instance, string name, int i1, int i2, Value val)
         {
             Dictionary<string, Variable> vars;
-            switch (instance)
+            switch ((InstanceTarget)instance)
             {
-                case self:
+                case InstanceTarget.Self:
                     vars = Current.instancevars;
                     break;
-                case other:
-                    if (Other == null) throw new ProgramError("Cannot assign to the variable", ErrorSeverity.Error, ExecutingStatement);
+                case InstanceTarget.Other:
+                    if (Other == null) throw new ProgramError(Error.CannotAssign);
                     vars = Other.instancevars;
                     break;
-                case all:
+                case InstanceTarget.All:
                     foreach (int l in Instances.Keys)
                     {
                         SetVar(l, name, i1, i2, val);
                     }
                     return;
-                case noone:
-                    throw new ProgramError("Cannot assign to the variable", ErrorSeverity.Error, ExecutingStatement);
-                case global:
+                case InstanceTarget.Noone:
+                    throw new ProgramError(Error.CannotAssign);
+                case InstanceTarget.Global:
                     vars = globals;
                     break;
                 default:
                     if (Instances.ContainsKey(instance))
                         vars = Instances[instance].instancevars;
-                    else if (instance < global)
-                        throw new ProgramError("Cannot assign to the variable", ErrorSeverity.Error, ExecutingStatement);
+                    else if (instance < (int)InstanceTarget.Global)
+                        throw new ProgramError(Error.CannotAssign);
                     else
                     {
                         foreach (Instance e in Instances.Values)

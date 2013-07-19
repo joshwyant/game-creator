@@ -20,13 +20,11 @@ namespace GameCreator.IDE
         {
             i.Id = inds++;
             Resources.Add(i.Id, i);
-            ExecutionContext.DefineResourceIndex(i.Name, i.Id);
         }
         public void Install(IndexedResource i, int index)
         {
             i.Id = index;
             Resources.Add(index, i);
-            ExecutionContext.DefineResourceIndex(i.Name, index);
         }
     }
 }

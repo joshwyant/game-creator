@@ -14,10 +14,11 @@ namespace GameCreator.Framework.Gml.Interpreter
         }
         public override Value Execute(params Value[] args)
         {
-            ExecutionContext.Enter();
-            ExecutionContext.Returned = Delegate(args);
-            ExecutionContext.Leave();
-            return ExecutionContext.Returned;
+            using (new ExecutionScope())
+            {
+                ExecutionContext.Returned = Delegate(args);
+                return ExecutionContext.Returned;
+            }
         }
     }
 }

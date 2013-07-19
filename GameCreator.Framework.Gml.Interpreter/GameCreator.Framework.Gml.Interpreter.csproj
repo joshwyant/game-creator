@@ -40,7 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ExecutionScope.cs" />
+    <Compile Include="ScopeHelpers\ExecutionScope.cs" />
     <Compile Include="Extensions\CodeUnitExtensions.cs" />
     <Compile Include="ExecutableFunction.cs" />
     <Compile Include="CodeUnit.cs" />
@@ -54,8 +54,8 @@
     <Compile Include="FlowType.cs" />
     <Compile Include="Function.cs" />
     <Compile Include="Extensions\InstanceExtensions.cs" />
-    <Compile Include="IGmlExtensions.cs" />
-    <Compile Include="InstanceScope.cs" />
+    <Compile Include="Extensions\IGmlExtensions.cs" />
+    <Compile Include="ScopeHelpers\InstanceScope.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Extensions\RoomExtensions.cs" />
     <Compile Include="ScriptFunction.cs" />
@@ -63,6 +63,7 @@
     <Compile Include="Extensions\StatementExtensions.cs" />
     <Compile Include="ExecutionDelegates\StatementDelegates.cs" />
     <Compile Include="Interpreter.cs" />
+    <Compile Include="ScopeHelpers\SyntaxTreeScope.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GameCreator.Framework.Gml\GameCreator.Framework.Gml.csproj">

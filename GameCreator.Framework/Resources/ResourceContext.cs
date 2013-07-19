@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Collections;
 
 namespace GameCreator.Framework
 {
@@ -9,11 +10,13 @@ namespace GameCreator.Framework
     {
         public LibraryContext Context { get; set; }
 
+        public Dictionary<Type, IDictionary> Managers { get; set; }
         public IndexedResourceManager<Sprite> Sprites { get; set; }
         public IndexedResourceManager<Script> Scripts { get; set; }
         public IndexedResourceManager<Object> Objects { get; set; }
         public IndexedResourceManager<Room> Rooms { get; set; }
         public IndexedResourceManager<Instance> Instances { get; set; }
+        public Dictionary<string, Value> Constants { get; set; }
 
         public ResourceContext(LibraryContext context)
         {
@@ -28,6 +31,23 @@ namespace GameCreator.Framework
         public bool FunctionExists(string n)
         {
             return (Context.FunctionExists(n) || Scripts.Any(s => s.Value.Name == n));
+        }
+
+        public Value GetNamedValue(string name)
+        {
+            return Managers.Values.SelectMany(m => m.Values.OfType<NamedIndexedResource>())
+                   .Where(o => o.Name == name)
+                       .Select(o => new Value(o.Id))
+                   .Union(Constants.Where(c => c.Key == name)
+                       .Select(c => c.Value))
+                   .Union(Context.Constants.Where(c => c.Key == name)
+                       .Select(c => c.Value))
+                   .FirstOrDefault();
+        }
+
+        public BaseFunction GetFunction(string str)
+        {
+            return Scripts.Values.Cast<BaseFunction>().Union(Context.Functions.Values).FirstOrDefault(f => f.Name == str);
         }
     }
 }

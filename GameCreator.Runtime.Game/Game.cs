@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using GameCreator.Framework;
 
 
 namespace GameCreator.Runtime.Game
@@ -89,9 +90,9 @@ namespace GameCreator.Runtime.Game
 
         static void Application_ThreadException(object sender, System.Threading.ThreadExceptionEventArgs e)
         {
-            if (e.Exception.GetType() == typeof(ProgramError))
+            if (e.Exception is ProgramError)
             {
-                ProgramError err = (ProgramError)e.Exception;
+                var err = e.Exception as ProgramError;
                 string msg = string.Format("ERROR in code at line {0} pos {1}:\n{2}", err.Line, err.Column, err.Message);
                 switch (err.Location)
                 {

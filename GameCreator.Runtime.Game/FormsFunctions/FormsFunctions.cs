@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using GameCreator.Framework.Gml;
+using GameCreator.Framework;
 
 namespace GameCreator.Runtime.Game.Library
 {
@@ -11,10 +12,10 @@ namespace GameCreator.Runtime.Game.Library
         static Dictionary<int, System.Windows.Forms.Form> forms = new Dictionary<int, System.Windows.Forms.Form>();
         static int formc = 0;
         /*
-        [GMLFunction(-1)]
+        [GmlFunction]
         public static Value f(params Value[] args)
         {
-           return new Value();
+           return default(Value);
         }
         */
         class window
@@ -23,7 +24,7 @@ namespace GameCreator.Runtime.Game.Library
             public GameCreator.Framework.Gml.ScriptFunction create;
             public RuntimeInstance inst;
         }
-        [GMLFunction(1)]
+        [GmlFunction]
         public static Value window_create(params Value[] args)
         {
             int ind = formc++;
@@ -38,45 +39,45 @@ namespace GameCreator.Runtime.Game.Library
             m.Load += new EventHandler(m_Load);
             return ind;
         }
-        [GMLFunction(1)]
+        [GmlFunction]
         public static Value window_close(params Value[] args)
         {
             forms[args[0]].Close();
             forms.Remove(args[0]);
             return 0;
         }
-        [GMLFunction(0)]
+        [GmlFunction]
         public static Value window_count(params Value[] args)
         {
             return forms.Count;
         }
-        [GMLFunction(1)]
+        [GmlFunction]
         public static Value window_show(params Value[] args)
         {
             forms[args[0]].Show();
             return Value.Null;
         }
-        [GMLFunction(2)]
+        [GmlFunction]
         public static Value window_set_color(params Value[] args)
         {
             forms[args[0]].BackColor = System.Drawing.Color.FromArgb(args[1]&0xFF,(args[1]>>8)&0xFF,(args[1]>>16)&0xFF);
             return Value.Null;
         }
-        [GMLFunction(2)]
+        [GmlFunction]
         public static Value window_set_click(params Value[] args)
         {
             System.Windows.Forms.Form f = forms[args[0]];
             ((window)f.Tag).click = new GameCreator.Framework.Gml.ScriptFunction(null, args[1]);
             return 0;
         }
-        [GMLFunction(2)]
+        [GmlFunction]
         public static Value window_set_create(params Value[] args)
         {
             System.Windows.Forms.Form f = forms[args[0]];
             ((window)f.Tag).create = new GameCreator.Framework.Gml.ScriptFunction(null, args[1]);
             return 0;
         }
-        [GMLFunction(6)]
+        [GmlFunction]
         public static Value window_add_button(params Value[] args)
         {
             System.Windows.Forms.Form t = forms[args[0]];

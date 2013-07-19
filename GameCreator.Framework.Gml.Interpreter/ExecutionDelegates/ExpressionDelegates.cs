@@ -152,32 +152,32 @@ namespace GameCreator.Framework.Gml.Interpreter
             if (a.Indices.Length != 0)
             {
                 v1 = a.Indices[0].Eval();
-                if (!v1.IsReal) Error("Wrong type of array index", a);
+                if (!v1.IsReal) throw new ProgramError(Error.WrongArrayIndexType);
                 if (a.Indices.Length == 2)
                 {
                     v2 = a.Indices[1].Eval();
-                    if (!v2.IsReal) Error("Wrong type of array index", a);
+                    if (!v2.IsReal) throw new ProgramError(Error.WrongArrayIndexType);
                 }
                 i1 = a.Indices.Length == 1 ? 0 : (int)v1;
                 i2 = a.Indices.Length == 1 ? v1 : v2;
-                if (i1 < 0 || i2 < 0) Error("Negative array index", a);
+                if (i1 < 0 || i2 < 0) throw new ProgramError(Error.NegativeArrayIndex);
             }
 
             if (i1 >= 32000 || i2 >= 32000)
-                Error("Array index >= 32000", a);
+                throw new ProgramError(Error.ArrayBounds);
 
             if (a.Lefthand != null)
             {
                 Value left = a.Lefthand.Eval();
-                if (!left.IsReal) Error("Wrong type of variable index", a);
+                if (!left.IsReal) throw new ProgramError(Error.WrongVariableIndexType);
 
                 if (i1 != 0 || i2 != 0)
                 {
                     if (!ExecutionContext.VariableExists(left, name) || !ExecutionContext.Variable(left, name).CheckIndex(i1, i2))
-                        Error("Unknown variable " + name + " or array index out of bounds", a);
+                        throw new ProgramError(Error.UnknownVariable, name);
                 }
                 else
-                    if (!ExecutionContext.VariableExists(left, name)) Error("Unknown variable " + name, a);
+                    if (!ExecutionContext.VariableExists(left, name)) throw new ProgramError(Error.UnknownVariable, name);
                 return ExecutionContext.GetVar(left, name, i1, i2);
             }
             else
@@ -185,10 +185,10 @@ namespace GameCreator.Framework.Gml.Interpreter
                 if (i1 != 0 || i2 != 0)
                 {
                     if (!ExecutionContext.VariableExists(name) || !ExecutionContext.Variable(name).CheckIndex(i1, i2))
-                        Error("Unknown variable " + name + " or array index out of bounds", a);
+                        throw new ProgramError(Error.UnknownArray, name);
                 }
                 else
-                    if (!ExecutionContext.VariableExists(name)) Error("Unknown variable " + name, a);
+                    if (!ExecutionContext.VariableExists(name)) throw new ProgramError(Error.UnknownVariable, name);
                 return ExecutionContext.GetVar(name, i1, i2);
             }
         }
@@ -200,17 +200,12 @@ namespace GameCreator.Framework.Gml.Interpreter
         {
             var f = (Call)e;
 
-            return f.Function.Execute(f.Expressions.Select(ex => ex.Eval()).ToArray());
+            return (f.Function as ExecutableFunction).Execute(f.Expressions.Select(ex => ex.Eval()).ToArray());
         }
         #endregion
 
         #region Helpers
-        static Value Error(string str, AstNode node) // Wow, this is wrong.
-        {
-            throw new ProgramError(str, ErrorSeverity.Error, node.Line, node.Column);
-        }
-
-        static Value BinaryReal(Expression node, string err, Func<double, double, double> func)
+        static Value BinaryReal(Expression node, Func<double, double, double> func)
         {
             var expr = (BinaryExpression)node;
 
@@ -220,17 +215,17 @@ namespace GameCreator.Framework.Gml.Interpreter
             if (v1.IsReal && v2.IsReal)
                 return func(v1, v2);
             else
-                return Error(string.Format(err, expr.Operator), node);
+                throw new ProgramError(Error.WrongArgumentTypes, expr.Operator);
         }
 
         static Value Logical(Expression node, Func<double, double, bool> tester)
         {
-            return BinaryReal(node, "Wrong type of arguments for {0}.", (v1, v2) => tester(v1, v2) ? 1 : 0);
+            return BinaryReal(node, (v1, v2) => tester(v1, v2) ? 1 : 0);
         }
 
         static Value Bitwise(Expression node, Func<long, long, long> twiddler)
         {
-            return BinaryReal(node, "Wrong type of arguments for {0}.", (v1, v2) => (double)twiddler(Convert.ToInt64(v1), Convert.ToInt64(v2)));
+            return BinaryReal(node, (v1, v2) => (double)twiddler(Convert.ToInt64(v1), Convert.ToInt64(v2)));
         }
 
         static Value Compare(Expression node, Func<double, double, bool> realComparer, Func<int, bool> stringOrdinalComparer)
@@ -245,7 +240,7 @@ namespace GameCreator.Framework.Gml.Interpreter
             else if (v1.IsString && v2.IsString)
                 return stringOrdinalComparer(string.CompareOrdinal(v1.String, v2.String));
             else
-                return Error("Cannot compare arguments.", node);
+                throw new ProgramError(Error.CannotCompare);
         }
 
         static Value Arithmetic(Expression node, Func<double, double, double> realOperator)
@@ -258,7 +253,7 @@ namespace GameCreator.Framework.Gml.Interpreter
             if (v1.IsReal && v2.IsReal)
                 return realOperator(v1, v2);
             else
-                return Error(string.Format("Wrong type of arguments to {0}.", expr.Operator), node);
+                throw new ProgramError(Error.WrongArgumentTypes, expr.Operator);
         }
 
         static Value Arithmetic(Expression node, Func<double, double, double> realOperator, bool v1String, bool v2String, Func<Value, Value, Value> stringOperator)
@@ -273,7 +268,7 @@ namespace GameCreator.Framework.Gml.Interpreter
             else if (v1.IsString == v1String && v2.IsString == v2String)
                 return stringOperator(v1, v2);
             else
-                return Error(string.Format("Wrong type of arguments to {0}.", expr.Operator), node);
+                throw new ProgramError(Error.WrongArgumentTypes, expr.Operator);
         }
 
         static Value Unary(Expression node, Func<double, double> op)
@@ -281,7 +276,7 @@ namespace GameCreator.Framework.Gml.Interpreter
             var v = (node as UnaryExpression).Operand.Eval();
 
             if (!v.IsReal)
-                return Error("Wrong type of arguments unary operator.", node);
+                throw new ProgramError(Error.WrongUnaryTypes);
 
             return op(v);
         }

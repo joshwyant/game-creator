@@ -9,12 +9,18 @@ namespace GameCreator.Framework.Gml.Interpreter
     {
         public static Value EvalOptimized(this Expression e)
         {
-            return Delegator.ExpressionEvaluators[e.Kind](e.Reduce());
+            using (new SyntaxTreeScope(e))
+            {
+                return Delegator.ExpressionEvaluators[e.Kind](e.Reduce());
+            }
         }
 
         public static Value Eval(this Expression e)
         {
-            return Delegator.ExpressionEvaluators[e.Kind](e);
+            using (new SyntaxTreeScope(e))
+            {
+                return Delegator.ExpressionEvaluators[e.Kind](e);
+            }
         }
     }
 }

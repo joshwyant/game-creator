@@ -60,7 +60,7 @@ namespace GameCreator.Framework.Gml.Interpreter
 
             using (var reader = GetTextReader())
             {
-                var p = new Parser(reader);
+                var p = new Parser(Interpreter.Context, reader);
 
                 if (IsExpression)
                 {

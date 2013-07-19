@@ -2,23 +2,27 @@
 using System.Collections.Generic;
 using System.Text;
 using System.IO;
+using System.Linq;
 
 namespace GameCreator.Framework.Gml
 {
     public class Parser
     {
+        public LibraryContext Context { get; set; }
         Lexer l;
         Token next;
         TokenKind t;
         
-        internal Parser(Lexer lex)
+        internal Parser(LibraryContext context, Lexer lex)
         {
             l = lex;
+            Context = context;
         }
 
-        public Parser(TextReader r)
+        public Parser(LibraryContext context, TextReader r)
         {
             l = new Lexer(r);
+            Context = context;
         }
 
         void move()
@@ -27,22 +31,27 @@ namespace GameCreator.Framework.Gml
             t = next.t;
         }
 
-        void error(string s)
+        void error(Error err)
         {
-            throw new ProgramError(s, ErrorSeverity.CompilationError, next.line, next.col);
+            throw new ProgramError(err, next.line, next.col);
+        }
+
+        void error(Error err, object obj)
+        {
+            throw new ProgramError(err, obj, next.line, next.col);
         }
 
         void match(Token tok)
         {
-            match(tok.t, string.Format("Symbol {0} expected.", tok.ToString()));
+            match(tok, Error.SymbolExpected);
         }
 
-        void match(TokenKind ter, string err)
+        void match(Token ter, Error err)
         {
-            if (next.t == ter)
+            if (next.t == ter.t)
                 move();
             else
-                error(err);
+                throw new ProgramError(err, ter.ToString(), next.line, next.col);
         }
 
         Token peek()
@@ -64,7 +73,7 @@ namespace GameCreator.Framework.Gml
             move();
             if (t == TokenKind.OpeningCurlyBrace)
             {
-                s = block(); if (t != TokenKind.Eof) error("Program ends before end of the code.");
+                s = block(); if (t != TokenKind.Eof) error(Error.ProgramEnds);
                 return s;
             }
             s = Statement.Nop;
@@ -85,7 +94,7 @@ namespace GameCreator.Framework.Gml
                 return new Constant(0, 0, 0);
 
             Expression e = expr();
-            if (t != TokenKind.Eof) error("Unexpected symbol in expression.");
+            if (t != TokenKind.Eof) error(Error.UnexpectedSymbol);
             return e;
         }
 
@@ -240,15 +249,18 @@ namespace GameCreator.Framework.Gml
             Token temp = next;
             Expression x = factor();
             if (x.GetType() == typeof(Id))
-                if (ExecutionContext.constants.ContainsKey(x.ToString()))
-                    x = new Constant(ExecutionContext.constants[x.ToString()].Real, temp.line, temp.col);
+            {
+                var val = Context.Resources.GetNamedValue(x.ToString());
+                if (!val.IsNull)
+                    x = val.IsReal ? new Constant(val.Real, temp.line, temp.col) : new Constant(val.String, temp.line, temp.col);
                 else
                     x = new Access(null, x.ToString(), subscript(), temp.line, temp.col);
+            }
             while (t == TokenKind.Dot)
             {
                 move();
-                if (t != TokenKind.Identifier || ExecutionContext.constants.ContainsKey(next.lexeme))
-                    error("Variable name expected.");
+                if (t != TokenKind.Identifier || !Context.Resources.GetNamedValue(x.ToString()).IsNull)
+                    error(Error.ExpectedVariableName);
                 string n = next.lexeme;
                 move();
                 x = new Access(x, n, subscript(), temp.line, temp.col);
@@ -266,10 +278,10 @@ namespace GameCreator.Framework.Gml
                 indices.Add(expr());
                 if (t == TokenKind.Comma) move();
                 else if (t != TokenKind.ClosingSquareBracket)
-                    error("Symbol , or ] expected.");
+                    error(Error.ArraySymbol);
             }
             move();
-            if (indices.Count > 2) error("Only 1- and 2-dimensional arrays are supported.");
+            if (indices.Count > 2) error(Error.ArrayDegree);
             return indices.ToArray();
         }
 
@@ -291,9 +303,9 @@ namespace GameCreator.Framework.Gml
                     if (peek().t == TokenKind.OpeningParenthesis)
                     {
                         string str = next.lexeme;
-                        if (!ExecutionContext.FunctionExists(str))
+                        if (!Context.Resources.FunctionExists(str))
                         {
-                            error("Unknown function or script: " + str);
+                            error(Error.UnknownFunction, str);
                         }
                         move(); move();
                         List<Expression> exprs = new List<Expression>();
@@ -307,9 +319,9 @@ namespace GameCreator.Framework.Gml
                             exprs.Add(expr());
                         }
                         match(Token.ClosingParenthesis);
-                        BaseFunction f = ExecutionContext.GetFunction(str);
+                        BaseFunction f = Context.Resources.GetFunction(str);
                         if ((f.Argc != -1 && exprs.Count != f.Argc) || exprs.Count > 16)
-                            error("Wrong number of arguments to function or script.");
+                            error(Error.WrongArgumentNumber);
                         return new Call(f, exprs.ToArray(), temp.line, temp.col);
                     }
                     else
@@ -321,10 +333,10 @@ namespace GameCreator.Framework.Gml
                 case TokenKind.OpeningParenthesis:
                     move();
                     e = new Grouping(expr(), next.line, next.col);
-                    match(TokenKind.ClosingParenthesis, "Unexpected symbol in expression.");
+                    match(Token.ClosingParenthesis, Error.UnexpectedSymbolInExpression);
                     return e;
                 default:
-                    throw new ProgramError("Unexpected symbol in expression.", ErrorSeverity.CompilationError, next.line, next.col);
+                    throw new ProgramError(Error.UnexpectedSymbolInExpression, ErrorSeverity.CompilationError, next.line, next.col);
 
             }
         }
@@ -350,7 +362,7 @@ namespace GameCreator.Framework.Gml
             int c = next.col;
             Expression e = access();
             if (e.GetType() != typeof(Access))
-                error("Variable name expected.");
+                error(Error.ExpectedVariableName);
             Access a = (Access)e;
             switch (t)
             {
@@ -371,7 +383,7 @@ namespace GameCreator.Framework.Gml
                 case TokenKind.XorAssignment:
                     move(); return new XorAssignment(a, expr(), l, c);
                 default:
-                    throw new ProgramError("Assignment operator expected.", ErrorSeverity.CompilationError, l, c);
+                    throw new ProgramError(Error.ExpectedAssignmentOperator, ErrorSeverity.CompilationError, l, c);
             }
         }
 
@@ -401,7 +413,7 @@ namespace GameCreator.Framework.Gml
             {
                 move();
                 s = stmt();
-                match(TokenKind.Until, "Keyword until expected.");
+                match(Token.Until, Error.ExpectedUntil);
                 return new Do(s, expr(), l, c);
             }
             else if (t == TokenKind.For)
@@ -448,7 +460,7 @@ namespace GameCreator.Framework.Gml
                 while (t == TokenKind.Identifier)
                 {
                     if (peek().t == TokenKind.OpeningParenthesis) break;
-                    if (ExecutionContext.Builtin.Contains(next.lexeme)) error("Cannot redeclare a builtin variable.");
+                    if (Context.IsBuiltIn(next.lexeme)) error(Error.BuiltinVariable);
                     strs.Add(next.lexeme);
                     move();
                     if (t == TokenKind.Comma) move();
@@ -462,7 +474,7 @@ namespace GameCreator.Framework.Gml
                 while (t == TokenKind.Identifier)
                 {
                     if (peek().t == TokenKind.OpeningParenthesis) break;
-                    if (ExecutionContext.Builtin.Contains(next.lexeme)) error("Cannot redeclare a builtin variable.");
+                    if (Context.IsBuiltIn(next.lexeme)) error(Error.BuiltinVariable);
                     strs.Add(next.lexeme);
                     move();
                     if (t == TokenKind.Comma) move();
@@ -508,9 +520,9 @@ namespace GameCreator.Framework.Gml
                 if (peek().t == TokenKind.OpeningParenthesis)
                 {
                     string str = next.lexeme;
-                    if (!ExecutionContext.FunctionExists(str))
+                    if (!Context.Resources.FunctionExists(str))
                     {
-                        error("Unknown function or script: " + str);
+                        error(Error.UnknownFunction, str);
                     }
                     move(); move();
                     List<Expression> exprs = new List<Expression>();
@@ -524,9 +536,9 @@ namespace GameCreator.Framework.Gml
                         exprs.Add(expr());
                     }
                     match(Token.ClosingParenthesis);
-                    BaseFunction f = ExecutionContext.GetFunction(str);
+                    BaseFunction f = Context.Resources.GetFunction(str);
                     if ((f.Argc != -1 && exprs.Count != f.Argc) || exprs.Count > 16)
-                        error("Wrong number of arguments to function or script.");
+                        error(Error.WrongArgumentNumber);
                     return new CallStatement(f, exprs.ToArray(), l, c);
                 }
                 else

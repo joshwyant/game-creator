@@ -16,6 +16,7 @@ namespace GameCreator.Framework
 
         internal IndexedResourceManager(ResourceContext context, int initialIndex)
         {
+            context.Managers.Add(typeof(T), this);
             Context = context;
             NextIndex = initialIndex;
         }
@@ -23,15 +24,9 @@ namespace GameCreator.Framework
         internal IndexedResourceManager(ResourceContext context)
             : this(context, 0) { }
 
-        public void Install(T i)
+        public void Install(T i, int index = -1)
         {
-            i.Id = NextIndex++;
-            Add(i.Id, i);
-        }
-
-        public void Install(T i, int index)
-        {
-            i.Id = index;
+            i.Id = index == -1 ? NextIndex++ : index;
 
             if (index >= NextIndex)
                 NextIndex = index + 1;

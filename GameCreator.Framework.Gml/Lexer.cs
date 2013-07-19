@@ -282,7 +282,7 @@ namespace GameCreator.Framework.Gml
                         }
                         else return new Token(TokenKind.GreaterThan, line, tokencol);
                     default:
-                        throw new ProgramError("Unexpected symbol.", ErrorSeverity.CompilationError, line, tokencol);
+                        throw new ProgramError(Error.UnexpectedSymbol, line, tokencol);
                 }
             }
 

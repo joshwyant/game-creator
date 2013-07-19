@@ -6,10 +6,11 @@ using System.Text;
 namespace GameCreator.Framework.Gml.Interpreter
 {
     public static class ActionExtensions
-    {        // return value indicates whether to execute the next action (or group of actions).
+    {        
+        // return value indicates whether to execute the next action (or group of actions).
         // only returns false if the action is a question and the action tests false.
         // Execute() is only called when the action type is Normal, Code, or Variable.
-        public bool Execute(this Action action)
+        public static bool Execute(this Action action)
         {
             // Get a list of affected instances for this action
             IEnumerable<Instance> instances;

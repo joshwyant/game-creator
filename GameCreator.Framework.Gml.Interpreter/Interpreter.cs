@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
-using GameCreator.Runtime;
 
 namespace GameCreator.Framework.Gml.Interpreter
 {
@@ -11,8 +10,18 @@ namespace GameCreator.Framework.Gml.Interpreter
     public delegate Value FunctionDelegate(params Value[] args);
     public static class Interpreter
     {
+        public static LibraryContext Context { get; set; }
+
         static Dictionary<string, ExecutableFunction> functions = new Dictionary<string, ExecutableFunction>();
         public static Dictionary<string, ExecutableFunction> Functions { get { return functions; } }
+
+        public static AstNode ExecutingNode { get; set; }
+        public static FlowType ProgramFlow = FlowType.None;
+
+        Interpreter()
+        {
+            Context = new LibraryContext();
+        }
 
         public static Value Eval(string s)
         {

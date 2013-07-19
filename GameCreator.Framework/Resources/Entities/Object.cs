@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System;
 
 namespace GameCreator.Framework
 {
@@ -6,30 +7,32 @@ namespace GameCreator.Framework
     {
         public int SpriteIndex { get; set; }
         public double Depth { get; set; }
-        public int Parent { get; set; }
+        int parent;
+        public int Parent
+        {
+            get
+            {
+                return parent;
+            }
+            set
+            {
+                if (value != -1 && Context.Objects[value].DescendsFrom(Id))
+                    throw new InvalidOperationException("This will create a loop in parents.");
+
+                parent = value;
+            }
+        }
 
         public Dictionary<EventType, Dictionary<int, Event>> Events { get; set; }
 
-        internal Object(ResourceContext context)
-            : base(context, null)
-        {
-            Context.Objects.Install(this);
-            Parent = -1;
-            Name = string.Format("object{0}", Id);
-        }
-
-        internal Object(ResourceContext context, string name)
-            : base(context, name)
-        {
-            Context.Objects.Install(this);
-            Parent = -1;
-        }
-
-        internal Object(ResourceContext context, string name, int index)
+        internal Object(ResourceContext context, string name = null, int index = -1, int parent = -1)
             : base(context, name)
         {
             Context.Objects.Install(this, index);
-            Parent = -1;
+            Parent = parent;
+
+            if (name == null)
+                Name = string.Format("object{0}", Id);
         }
 
         void Initialize()

@@ -117,7 +117,7 @@ namespace GameCreator.Framework.Gml.Interpreter
                 }
                 else if (met)
                 {
-                    if (Interpreter.Exec(stmt, FlowType.Break) != FlowType.None) return;
+                    if (Exec(stmt, FlowType.Break) != FlowType.None) return;
                 }
             }
         }
@@ -127,7 +127,7 @@ namespace GameCreator.Framework.Gml.Interpreter
         {
             // This will get run as a normal statement when not in a switch block, and will trigger the exception.
             // A switch block handles this statement specially.
-            Error("Case statement only allowed inside switch statement.");
+            ThrowError(Error.Case);
         }
 
         [Statement(Kind = StatementKind.Default)]
@@ -135,7 +135,7 @@ namespace GameCreator.Framework.Gml.Interpreter
         {
             // This will get run as a normal statement when not in a switch block, and will trigger the exception.
             // A switch block handles this statement specially.
-            Error("Default statement only allowed inside switch statement.");
+            ThrowError(Error.Default);
         }
         #endregion
 
@@ -160,8 +160,8 @@ namespace GameCreator.Framework.Gml.Interpreter
         {
             var seq = (Sequence)s;
 
-            if (Interpreter.Exec(seq.First) != FlowType.None) return;
-            if (Interpreter.Exec(seq.Second) != FlowType.None) return;
+            if (Exec(seq.First) != FlowType.None) return;
+            if (Exec(seq.Second) != FlowType.None) return;
         }
 
         [Statement(Kind = StatementKind.Globalvar)]
@@ -186,15 +186,15 @@ namespace GameCreator.Framework.Gml.Interpreter
             var v = stmt.Expression.Eval();
 
             if (!v.IsReal) 
-                Error("Expression expected");
+                ThrowError(Error.ExpectedExpression);
 
             if (v)
             {
-                if (Interpreter.Exec(stmt.Body) != FlowType.None) return;
+                if (Exec(stmt.Body) != FlowType.None) return;
             }
             else
             {
-                if (Interpreter.Exec(stmt.Else) != FlowType.None) return;
+                if (Exec(stmt.Else) != FlowType.None) return;
             }
         }
 
@@ -204,20 +204,20 @@ namespace GameCreator.Framework.Gml.Interpreter
             var stmt = (For)s;
 
             // Game Maker allows continues and breaks AFTER the initialization statment.
-            if (Interpreter.Exec(stmt.Initializer) != FlowType.None) return;
+            if (Exec(stmt.Initializer) != FlowType.None) return;
         loop:
             var v = stmt.Test.Eval();
 
             if (!v.IsReal)
-                Error("Expression expected");
+                ThrowError(Error.ExpectedExpression);
 
             if (v <= 0.5) 
                 return;
 
-            if ((Interpreter.Exec(stmt.Iterator, FlowType.Continue | FlowType.Break) & ~FlowType.Continue) != FlowType.None) 
+            if ((Exec(stmt.Iterator, FlowType.Continue | FlowType.Break) & ~FlowType.Continue) != FlowType.None) 
                 return;
 
-            if (Interpreter.Exec(stmt.Body) != FlowType.None) 
+            if (Exec(stmt.Body) != FlowType.None) 
                 return;
 
             goto loop;
@@ -231,12 +231,12 @@ namespace GameCreator.Framework.Gml.Interpreter
             Value v;
             do
             {
-                if ((Interpreter.Exec(stmt.Body, FlowType.Continue | FlowType.Break) & ~FlowType.Continue) == FlowType.None)
+                if ((Exec(stmt.Body, FlowType.Continue | FlowType.Break) & ~FlowType.Continue) == FlowType.None)
                 {
                     v = stmt.Expression.Eval();
 
                     if (!v.IsReal)
-                        Error("Boolean expression expected");
+                        ThrowError(Error.ExpectedBooleanExpression);
                 }
                 else break;
             } while (v);
@@ -250,28 +250,28 @@ namespace GameCreator.Framework.Gml.Interpreter
             var v = with.Instance.Eval();
 
             if (!v.IsReal)
-                Error("Object id expected");
+                ThrowError(Error.ExpectedObjectId);
 
             var c = ExecutionContext.Current;
             var o = ExecutionContext.Other;
 
             int instance = v;
-            switch (instance)
+            switch ((InstanceTarget)instance)
             {
-                case ExecutionContext.self:
+                case InstanceTarget.Self:
                     ExecutionContext.Other = c;
                     break;
-                case ExecutionContext.other:
+                case InstanceTarget.Other:
                     if (ExecutionContext.Other == null) return;
                     ExecutionContext.Current = ExecutionContext.Other;
                     ExecutionContext.Other = c;
                     break;
-                case ExecutionContext.all:
+                case InstanceTarget.All:
                     ExecutionContext.Other = c;
                     foreach (int i in ExecutionContext.Instances.Keys)
                     {
                         ExecutionContext.Current = ExecutionContext.Instances[i];
-                        switch (Interpreter.Exec(with.Body, FlowType.Continue | FlowType.Break))
+                        switch (Exec(with.Body, FlowType.Continue | FlowType.Break))
                         {
                             case FlowType.None:
                             case FlowType.Continue:
@@ -285,10 +285,10 @@ namespace GameCreator.Framework.Gml.Interpreter
                     ExecutionContext.Current = c;
                     ExecutionContext.Other = o;
                     return;
-                case ExecutionContext.noone:
+                case InstanceTarget.Noone:
                     return;
-                case ExecutionContext.global:
-                    Error("Cannot use global in a with statement.");
+                case InstanceTarget.Global:
+                    ThrowError(Error.GlobalWith);
                     return;
                 default:
                     if (ExecutionContext.Instances.ContainsKey(instance))
@@ -304,7 +304,7 @@ namespace GameCreator.Framework.Gml.Interpreter
                             if (ExecutionContext.GetVar(i, "object_index") == instance)
                             {
                                 ExecutionContext.Current = ExecutionContext.Instances[i];
-                                switch (Interpreter.Exec(with.Body, FlowType.Continue | FlowType.Break))
+                                switch (Exec(with.Body, FlowType.Continue | FlowType.Break))
                                 {
                                     case FlowType.None:
                                     case FlowType.Continue:
@@ -322,7 +322,7 @@ namespace GameCreator.Framework.Gml.Interpreter
                     }
                     break;
             }
-            Interpreter.Exec(with.Body, FlowType.Break | FlowType.Continue);
+            Exec(with.Body, FlowType.Break | FlowType.Continue);
 
             // Restore current and other instances
             ExecutionContext.Current = c;
@@ -337,17 +337,17 @@ namespace GameCreator.Framework.Gml.Interpreter
             Value v = w.Expression.Eval();
 
             if (!v.IsReal)
-                Error("Boolean expression expected");
+                ThrowError(Error.ExpectedBooleanExpression);
 
             while (v)
             {
-                if ((Interpreter.Exec(w.Body, FlowType.Break | FlowType.Continue) & ~FlowType.Continue) != FlowType.None)
+                if ((Exec(w.Body, FlowType.Break | FlowType.Continue) & ~FlowType.Continue) != FlowType.None)
                     return;
 
                 v = w.Expression.Eval();
 
                 if (!v.IsReal)
-                    Error("Boolean expression expected");
+                    ThrowError(Error.ExpectedBooleanExpression);
             }
         }
 
@@ -359,13 +359,13 @@ namespace GameCreator.Framework.Gml.Interpreter
             Value v = repeat.Expression.Eval();
 
             if (!v.IsReal)
-                Error("Repeat count must be a number");
+                ThrowError(Error.RepeatExpression);
 
             int times = (int)Math.Round(v.Real);
 
             while (times > 0)
             {
-                if ((Interpreter.Exec(repeat.Body, FlowType.Continue | FlowType.Break) & ~FlowType.Continue) != FlowType.None)
+                if ((Exec(repeat.Body, FlowType.Continue | FlowType.Break) & ~FlowType.Continue) != FlowType.None)
                     return;
                 times--;
             }
@@ -384,9 +384,43 @@ namespace GameCreator.Framework.Gml.Interpreter
                 a.Lefthand.Set(result(v1, v2));
         }
 
-        static void Error(string str)
+        static void ThrowError(Error e)
         {
-            throw new ProgramError(str, ErrorSeverity.Error, ExecutionContext.ExecutingStatement);
+            Errors.Throw(e, Interpreter.ExecutingNode.Line, Interpreter.ExecutingNode.Column);
+        }
+        
+        // This function is called by non-loop statements with embedded statements. The calling statement must
+        // return if Exec(s) != FlowType.None.
+        internal static FlowType Exec(Statement inner)
+        {
+            using (new SyntaxTreeScope(inner))
+            {
+                FlowType t = inner.Execute();
+                Interpreter.ProgramFlow |= t;
+                return t;
+            }
+        }
+
+        /* This function is called by loop statements to execute embedded statements. You can catch
+         * program flow statements, to keep them from falling through, like this:
+         * switch (Exec(s, FlowType.Break|FlowType.Continue))
+         * {
+         * case FlowType.Break:
+         *     goto End;
+         * case FlowType.Continue:
+         *     goto Test;
+         * default:
+         *     return;
+         * }
+         */
+        internal static FlowType Exec(Statement inner, FlowType Catch)
+        {
+            using (new SyntaxTreeScope(inner))
+            {
+                FlowType t = inner.Execute();
+                Interpreter.ProgramFlow |= t & ~Catch;
+                return t;
+            }
         }
         #endregion
     }
