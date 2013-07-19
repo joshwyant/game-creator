@@ -6,7 +6,7 @@ using GameCreator.Framework;
 namespace GameCreator.Runtime.Library
 {
     // GML Real double functions
-    internal static partial class GMLFunctions
+    public static partial class GmlFunctions
     {
         public static int rndseed = System.Environment.TickCount;
         public static Random rnd = new Random(rndseed);

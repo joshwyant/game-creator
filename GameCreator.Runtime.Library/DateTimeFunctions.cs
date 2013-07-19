@@ -5,7 +5,7 @@ using System.Text;
 namespace GameCreator.Runtime.Library
 {
     // TODO: Implement all GML date-time functions
-    internal static partial class GMLFunctions
+    public static partial class GmlFunctions
     {
         readonly static DateTime epoch = new DateTime(1899, 12, 30);
         [GmlFunction]

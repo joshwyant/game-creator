@@ -45,44 +45,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FormsFunctions\FormsFunctions.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="GameInstance.cs" />
-    <Compile Include="MessageForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="MessageForm.Designer.cs">
-      <DependentUpon>MessageForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
     <Compile Include="RuntimeWindow.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="MessageForm.resx">
-      <DependentUpon>MessageForm.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <None Include="OpenTK.dll.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Resources\button0.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\button1.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\button2.bmp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GameCreator.Framework\GameCreator.Framework.csproj">

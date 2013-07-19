@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace GameCreator.Runtime.Library
 {
-    internal static partial class GMLFunctions
+    public static partial class GmlFunctions
     {
         #region String handling functions
         [GmlFunction]

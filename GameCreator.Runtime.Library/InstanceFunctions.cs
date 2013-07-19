@@ -5,7 +5,7 @@ using GameCreator.Framework;
 
 namespace GameCreator.Runtime.Library
 {
-    internal static partial class GMLFunctions
+    public static partial class GmlFunctions
     {
         /*
         [GmlFunction]
