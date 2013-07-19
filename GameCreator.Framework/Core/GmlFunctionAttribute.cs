@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace GameCreator.Runtime
+namespace GameCreator.Framework
 {
     // The attribute class that marks GML functions
     [System.AttributeUsage(AttributeTargets.Method, Inherited = false, AllowMultiple = false)]

@@ -74,6 +74,7 @@
     <Compile Include="Actions\ActionLibrary.cs" />
     <Compile Include="Core\BaseFunction.cs" />
     <Compile Include="Core\Errors.cs" />
+    <Compile Include="Core\GmlFunctionAttribute.cs" />
     <Compile Include="Core\IGml.cs" />
     <Compile Include="Core\ProgramError.cs" />
     <Compile Include="Core\Error.cs" />

@@ -54,7 +54,6 @@
     <Compile Include="Dymamic\Variable.cs" />
     <Compile Include="Dymamic\VariableWrapper.cs" />
     <Compile Include="Globals.cs" />
-    <Compile Include="GmlFunctionAttribute.cs" />
     <Compile Include="RuntimeInstance.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -72,5 +72,29 @@ namespace GameCreator.Framework
             foreach (var f in fields)
                 Constants.Add(f.name, f.value);
         }
+
+        public void ImportFunctions(IEnumerable<Type> types, Func<MethodInfo, string, BaseFunction> builder)
+        {
+            // Build the list of functions
+            foreach (var mi in types.SelectMany(t => t.GetMethods(BindingFlags.Public | BindingFlags.Static)).Where(mi => mi.GetCustomAttributes(typeof(GmlFunctionAttribute), false).Any()))
+            {
+                var fn = (GmlFunctionAttribute)mi.GetCustomAttributes(typeof(GmlFunctionAttribute), false).Single();
+                string name = string.IsNullOrEmpty(fn.Name) ? mi.Name : fn.Name;
+                Functions.Add(name, builder(mi, name));
+            }
+        }
+
+        public void ImportFunctionStubs(IEnumerable<Type> types)
+        {
+            ImportFunctions(types, 
+                (m, n) => {
+                    var parms = m.GetParameters();
+                    var argc = parms.Length;
+                    if (argc == 1 && parms.Any(p => p.GetCustomAttributes(typeof(ParamArrayAttribute), false).Any()))
+                        argc = -1;
+
+                    return new BaseFunction(n, argc);
+            });
+        }
     }
 }
