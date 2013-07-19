@@ -30,7 +30,7 @@ namespace GameCreator.Runtime.Library.Actions
             if (str[8] == '1') dirs.Add(  45.0);
             if (dirs.Count == 0)
                 return 0;
-            double dir = dirs[GMLFunctions.rnd.Next(dirs.Count)];
+            double dir = dirs[GmlFunctions.rnd.Next(dirs.Count)];
             if (dir == -1.0f)
             {
                 ExecutionContext.Current.speed.Value = Value.Zero;
@@ -48,8 +48,8 @@ namespace GameCreator.Runtime.Library.Actions
             if (ExecutionContext.argument_relative.value)
             {
                 ExecutionContext.Current.AddSpeedVector(
-                    GMLFunctions.lengthdir_x(args[1], args[0]),
-                    GMLFunctions.lengthdir_y(args[1], args[0])
+                    GmlFunctions.lengthdir_x(args[1], args[0]),
+                    GmlFunctions.lengthdir_y(args[1], args[0])
                     );
             }
             else
@@ -63,7 +63,7 @@ namespace GameCreator.Runtime.Library.Actions
         public static Value action_move_point(params Value[] args)
         {
             ExecutionContext.Current.direction.Value = 
-                GMLFunctions.point_direction(
+                GmlFunctions.point_direction(
                  ExecutionContext.Current.x.value, 
                  ExecutionContext.Current.y.value, 
                  ExecutionContext.argument_relative.value ? ExecutionContext.Current.x.Value + args[0] : args[0],

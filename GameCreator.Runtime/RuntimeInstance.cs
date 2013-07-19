@@ -38,6 +38,14 @@ namespace GameCreator.Runtime
         {
             SetLocalVar(name, 0, index, val);
         }
+        public GetSetValue Variable(string name)
+        {
+            if (Context.Context.InstanceVariables.Contains(name, StringComparer.Ordinal))
+                return FieldAccessor<Value>.Variable(this, name);
+            else if (instancevars.ContainsKey(name))
+                return instancevars[name];
+            else return null;
+        }
         public void SetLocalVar(string name, int i1, int i2, Value val)
         {
             if (Context.Context.InstanceVariables.Contains(name, StringComparer.Ordinal))
@@ -55,6 +63,13 @@ namespace GameCreator.Runtime
         {
             return GetLocalVar(name, 0, index);
         }
+
+        public bool VariableExists(string name)
+        {
+            return Context.Context.InstanceVariables.Contains(name, StringComparer.Ordinal)
+                || instancevars.ContainsKey(name);
+        }
+
         public Value GetLocalVar(string name, int i1, int i2)
         {
             if (Context.Context.InstanceVariables.Contains(name, StringComparer.Ordinal))

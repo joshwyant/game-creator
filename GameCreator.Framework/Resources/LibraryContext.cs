@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Reflection;
 
 namespace GameCreator.Framework
 {
@@ -48,14 +49,28 @@ namespace GameCreator.Framework
             return a;
         }
 
-        public void DefineVariable(string str)
+        public void DefineGlobalVariables(IEnumerable<string> str)
         {
-            (BuiltInVariables as List<string>).Add(str);
+            (BuiltInVariables as List<string>).AddRange(str);
+        }
+
+        public void DefineInstanceVariables(IEnumerable<string> str)
+        {
+            (InstanceVariables as List<string>).AddRange(str);
         }
 
         public bool IsBuiltIn(string varname)
         {
             return BuiltInVariables.Union(InstanceVariables).Contains(varname);
+        }
+
+        public void DefineConstants(Type t)
+        {
+            var fields = t.GetFields(BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy)
+                .Where(fi => fi.IsLiteral && !fi.IsInitOnly).Select(c => new { name = c.Name, value = new Value(c.GetRawConstantValue()) });
+
+            foreach (var f in fields)
+                Constants.Add(f.name, f.value);
         }
     }
 }

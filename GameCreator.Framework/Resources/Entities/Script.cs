@@ -5,6 +5,14 @@ namespace GameCreator.Framework
     // as scripts are not allowed to be created on the fly, the script must have an IDE-assigned index.
     public class Script : NamedIndexedResource, IGml
     {
+        public static IndexedResourceManager<Script> Manager
+        {
+            get
+            {
+                return LibraryContext.Current.Resources.Scripts;
+            }
+        }
+
         public string Code { get; set; }
 
         internal Script(ResourceContext context)

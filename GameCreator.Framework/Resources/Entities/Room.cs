@@ -9,6 +9,14 @@ namespace GameCreator.Framework
 {
     public class Room : NamedIndexedResource, IGml
     {
+        public static IndexedResourceManager<Room> Manager
+        {
+            get
+            {
+                return LibraryContext.Current.Resources.Rooms;
+            }
+        }
+
         public string CreationCode { get; set; }
 
         internal Room(ResourceContext context)

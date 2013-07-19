@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace GameCreator.Framework.Dynamic
+namespace GameCreator.Runtime.Dynamic
 {
     internal interface IMemberAccessor<T>
     {

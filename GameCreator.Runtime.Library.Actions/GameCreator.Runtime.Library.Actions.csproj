@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common.cs" />
     <Compile Include="Control.cs" />
     <Compile Include="Draw.cs" />
     <Compile Include="Extra.cs" />
@@ -63,6 +64,14 @@
     <ProjectReference Include="..\GameCreator.Runtime.Game\GameCreator.Runtime.Game.csproj">
       <Project>{0BCAA035-D775-47B7-9B6E-12AA6516CDCA}</Project>
       <Name>GameCreator.Runtime.Game</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GameCreator.Runtime.Library.Game\GameCreator.Runtime.Library.Game.csproj">
+      <Project>{0779C852-0EEC-43D1-9C10-12E03D903DBE}</Project>
+      <Name>GameCreator.Runtime.Library.Game</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GameCreator.Runtime.Library\GameCreator.Runtime.Library.csproj">
+      <Project>{172B9966-7F45-4C99-9306-6316D6E308BE}</Project>
+      <Name>GameCreator.Runtime.Library</Name>
     </ProjectReference>
     <ProjectReference Include="..\GameCreator.Runtime\GameCreator.Runtime.csproj">
       <Project>{8D7F601C-C605-477F-8D67-850A8B6CA23A}</Project>

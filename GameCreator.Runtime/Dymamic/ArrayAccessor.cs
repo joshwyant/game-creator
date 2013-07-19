@@ -5,7 +5,7 @@ using System.Text;
 using System.Reflection;
 using System.Linq.Expressions;
 
-namespace GameCreator.Framework.Dynamic
+namespace GameCreator.Runtime.Dynamic
 {
     internal class ArrayAccessor<T> : MemberAccessorBuilder<T>
     {

@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using GameCreator.Framework;
 
-namespace GameCreator.Framework
+namespace GameCreator.Runtime
 {
-    public class Variable : IGetSet<Value>
+    public class Variable : GetSetValue
     {
         #region Values Field
         List<List<Value>> Values;
@@ -44,43 +45,7 @@ namespace GameCreator.Framework
             for (int i = list.Count; i <= i2; i++)
                 list.Add(Value.Zero);
 
-            list[i2] = Value;
-        }
-        #endregion
-
-        #region Helper Access Properties
-        public Value Value
-        {
-            get
-            {
-                return Get(0, 0);
-            }
-            set
-            {
-                Set(0, 0, value);
-            }
-        }
-        public Value this[int i1, int i2]
-        {
-            get
-            {
-                return Get(i1, i2);
-            }
-            set
-            {
-                Set(i1, i2, value);
-            }
-        }
-        public Value this[int index]
-        {
-            get
-            {
-                return Get(0, index);
-            }
-            set
-            {
-                Set(0, index, value);
-            }
+            list[i2] = val;
         }
         #endregion
 

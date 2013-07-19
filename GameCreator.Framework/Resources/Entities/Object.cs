@@ -5,6 +5,14 @@ namespace GameCreator.Framework
 {
     public class Object : NamedIndexedResource
     {
+        public static IndexedResourceManager<Object> Manager
+        {
+            get
+            {
+                return LibraryContext.Current.Resources.Objects;
+            }
+        }
+
         public int SpriteIndex { get; set; }
         public double Depth { get; set; }
         int parent;

@@ -5,9 +5,9 @@ using System.Text;
 using System.Reflection;
 using System.Linq.Expressions;
 
-namespace GameCreator.Framework.Dynamic
+namespace GameCreator.Runtime.Dynamic
 {
-    public class MemberAccessor<T> : MemberAccessorBuilder<T>
+    class MemberAccessor<T> : MemberAccessorBuilder<T>
     {
         bool m_readOnly;
         bool initialized = false;

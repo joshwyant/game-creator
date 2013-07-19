@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using GameCreator.Framework;
+using GameCreator.Runtime.Library.Game;
 
 namespace GameCreator.Runtime.Library.Actions
 {
@@ -60,9 +61,9 @@ namespace GameCreator.Runtime.Library.Actions
             return 0;
         }
         [GmlFunction]
-        public static Value action_message(params Value[] args)
+        public static int action_message(string msg)
         {
-            GMLFunctions.show_message(args[0].ToString());
+            GameFunctions.show_message(msg);
             return 0;
         }
         [GmlFunction]
@@ -107,9 +108,9 @@ namespace GameCreator.Runtime.Library.Actions
             return 0;
         }
         [GmlFunction]
-        public static Value action_end_game(params Value[] args)
+        public static int action_end_game()
         {
-            GMLFunctions.game_end();
+            GameFunctions.game_end();
             return 0;
         }
         [GmlFunction]

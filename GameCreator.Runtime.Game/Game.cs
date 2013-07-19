@@ -6,16 +6,31 @@ using GameCreator.Framework;
 
 namespace GameCreator.Runtime.Game
 {
-    public class Game
+    public static class Game
     {
         public static string Name { get; set; }
         public static System.Resources.ResourceManager ResourceManager { get; set; }
         //internal static GameForm roomform;
-        internal static RuntimeWindow roomwindow;
+        internal static GameWindow roomwindow;
         public static void Init()
         {
             System.AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
+            InitializeContext(LibraryContext.Current);
         }
+
+        private static void InitializeContext(LibraryContext context)
+        {
+            //context.DefineGlobalVariables(new [] { "...." });
+
+            // Declare additional variable names specific to games
+            context.DefineInstanceVariables(new[] {
+                "alarm", "direction", "speed", "hspeed", "vspeed", "sprite_index", "image_blend",
+                "x", "y", "gravity", "gravity_direction", "friction", "depth", "image_speed", "image_single", "image_index",
+                "image_xscale", "image_yscale", "image_angle", "image_alpha", "xstart", "ystart", "xprevious", "yprevious",
+                 "visible", "solid", "persistent"
+            });
+        }
+
         /* Call GameCreator.Framework.Game.Run after all of the reasources are created using the GameCreator.Framework namespace */
         public static void Run()
         {
@@ -25,7 +40,7 @@ namespace GameCreator.Runtime.Game
                 /* Define all of the built-in functions included in the runtime */
                 Type[] lib = new Type[] { 
                     typeof(Library.Actions.LibraryFunctions),
-                    typeof(Library.GMLFunctions), 
+                    typeof(Library.GmlFunctions), 
                     typeof(Library.FormsFunctions), // experimental
                 };
                 foreach (Type t in lib)

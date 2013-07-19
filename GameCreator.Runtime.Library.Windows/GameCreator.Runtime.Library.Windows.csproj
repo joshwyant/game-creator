@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{86EA9620-4ED5-47C0-8805-EED429AE86AD}</ProjectGuid>
+    <ProjectGuid>{8655F06A-A70B-4DB4-A754-BAF2D741A512}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>GameCreator.Framework.Gml.Interpreter</RootNamespace>
-    <AssemblyName>GameCreator.Framework.Gml.Interpreter</AssemblyName>
+    <RootNamespace>GameCreator.Runtime.Library.Windows</RootNamespace>
+    <AssemblyName>GameCreator.Runtime.Library.Windows</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -33,6 +33,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -40,44 +41,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ScopeHelpers\ExecutionScope.cs" />
-    <Compile Include="Extensions\CodeUnitExtensions.cs" />
-    <Compile Include="ExecutableFunction.cs" />
-    <Compile Include="CodeUnit.cs" />
-    <Compile Include="Delegator.cs" />
-    <Compile Include="ExecutionContext.cs" />
-    <Compile Include="ExpressionAttribute.cs" />
-    <Compile Include="Extensions\ActionExtensions.cs" />
-    <Compile Include="Extensions\EventExtensions.cs" />
-    <Compile Include="Extensions\ExpressionExtensions.cs" />
-    <Compile Include="ExecutionDelegates\ExpressionDelegates.cs" />
-    <Compile Include="FlowType.cs" />
-    <Compile Include="Function.cs" />
-    <Compile Include="Extensions\InstanceExtensions.cs" />
-    <Compile Include="Extensions\IGmlExtensions.cs" />
-    <Compile Include="ScopeHelpers\InstanceScope.cs" />
+    <Compile Include="GmlFunctions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Extensions\RoomExtensions.cs" />
-    <Compile Include="ScriptFunction.cs" />
-    <Compile Include="StatementAttribute.cs" />
-    <Compile Include="Extensions\StatementExtensions.cs" />
-    <Compile Include="ExecutionDelegates\StatementDelegates.cs" />
-    <Compile Include="Interpreter.cs" />
-    <Compile Include="ScopeHelpers\SyntaxTreeScope.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\GameCreator.Framework.Gml\GameCreator.Framework.Gml.csproj">
-      <Project>{026075FF-7A82-4AEB-B09A-70073D6ED686}</Project>
-      <Name>GameCreator.Framework.Gml</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\GameCreator.Framework\GameCreator.Framework.csproj">
-      <Project>{6BC89687-EBA6-47F8-ADF0-05C1300D699A}</Project>
-      <Name>GameCreator.Framework</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\GameCreator.Runtime.Library.Game\GameCreator.Runtime.Library.Game.csproj">
-      <Project>{0779C852-0EEC-43D1-9C10-12E03D903DBE}</Project>
-      <Name>GameCreator.Runtime.Library.Game</Name>
-    </ProjectReference>
     <ProjectReference Include="..\GameCreator.Runtime\GameCreator.Runtime.csproj">
       <Project>{8D7F601C-C605-477F-8D67-850A8B6CA23A}</Project>
       <Name>GameCreator.Runtime</Name>

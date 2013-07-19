@@ -4,13 +4,13 @@ using System.Text;
 using System.IO;
 using GameCreator.Framework;
 
-namespace GameCreator.Runtime.Library
+namespace GameCreator.Runtime.Library.Game
 {
-    public static partial class GmlFunctions
+    public static class GameFunctions
     {
         static string newlines(string s)
         {
-            StringBuilder sb = new StringBuilder();
+            var sb = new StringBuilder();
             for (int i = 0; i < s.Length; i++)
             {
                 if (s[i] == '#') sb.Append('\n');
@@ -24,31 +24,15 @@ namespace GameCreator.Runtime.Library
             }
             return sb.ToString();
         }
-        /*
-        [GmlFunction]
-        public static Value f(params Value[] args)
-        {
-           return new Value();
-        }
-        */
 
         [GmlFunction]
         public static int show_message(string msg)
         {
-            MessageForm mf = new MessageForm();
+            var mf = new MessageForm();
             mf.Message = newlines(msg);
             mf.ShowDialog();
             //System.Windows.Forms.MessageBox.Show(newlines(args[0].String), Env.Title);
             return 0;
-        }
-
-        [GmlFunction]
-        public static Value execute_string(string code)
-        {
-            ExecutionContext.Returned = 0;
-            Parser p = new Parser(new StringReader(args[0]));
-            p.Parse().Exec();
-            return ExecutionContext.Returned;
         }
 
         [GmlFunction]

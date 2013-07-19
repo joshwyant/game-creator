@@ -12,7 +12,7 @@ namespace GameCreator.Framework
         public int NextIndex { get; set; }
 
         // Gets all of the indexed resources of this type in the game (e.g. rooms, sprites, objects, etc.)
-        public Dictionary<int, T> Resources { get; set; }
+        public Dictionary<int, T> Resources { get { return this; } }
 
         internal IndexedResourceManager(ResourceContext context, int initialIndex)
         {

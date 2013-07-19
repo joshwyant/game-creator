@@ -11,6 +11,7 @@ namespace GameCreator.Framework
             : base(context)
         {
             Name = name;
+            context.DefineConstant(name, Id);
         }
 
         public override string ToString()

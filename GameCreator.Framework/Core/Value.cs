@@ -39,6 +39,37 @@ namespace GameCreator.Framework
             d = val ? 1.0 : 0.0;
             s = null;
         }
+        public Value(object obj)
+        {
+            if (obj is string)
+            {
+                type = 2;
+                s = (string)obj;
+                d = 0;
+            }
+            else if (obj == null)
+            {
+                type = 0;
+                d = 0;
+                s = null;
+            }
+            else
+            {
+                type = 1;
+                s = null;
+                if (obj is int)
+                    d = (double)(int)obj;
+                else if (obj is double)
+                    d = (double)obj;
+                else if (obj is bool)
+                    d = (bool)obj ? 1.0 : 0.0;
+                else
+                {
+                    type = 0;
+                    d = 0.0;
+                }
+            }
+        }
         #endregion
 
         #region ToString

@@ -45,7 +45,7 @@ namespace GameCreator.Runtime.Library.Actions
         [GmlFunction]
         public static Value action_if_dice(params Value[] args)
         {
-            return GMLFunctions.rnd.Next(0, args[0]) == 0;
+            return GmlFunctions.rnd.Next(0, args[0]) == 0;
         }
         [GmlFunction]
         public static Value action_if_question(params Value[] args)

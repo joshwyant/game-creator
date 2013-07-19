@@ -5,6 +5,14 @@ namespace GameCreator.Framework
 {
     public class Sprite : NamedIndexedResource
     {
+        public static IndexedResourceManager<Sprite> Manager
+        {
+            get
+            {
+                return LibraryContext.Current.Resources.Sprites;
+            }
+        }
+
         internal Bitmap[] SubImages { get; set; }
         internal int[] Textures { get; set; }
         internal int subImagesCount;

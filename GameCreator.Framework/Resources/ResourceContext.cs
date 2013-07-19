@@ -49,5 +49,12 @@ namespace GameCreator.Framework
         {
             return Scripts.Values.Cast<BaseFunction>().Union(Context.Functions.Values).FirstOrDefault(f => f.Name == str);
         }
+
+        public void DefineConstant(string name, Value val)
+        {
+            if (Constants.ContainsKey(name))
+                Constants.Remove(name);
+            Constants.Add(name, val);
+        }
     }
 }

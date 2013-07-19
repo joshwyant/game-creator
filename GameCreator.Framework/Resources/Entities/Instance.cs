@@ -8,6 +8,14 @@ namespace GameCreator.Framework
 {
     public class Instance : IndexedResource
     {
+        public static IndexedResourceManager<Instance> Manager
+        {
+            get
+            {
+                return LibraryContext.Current.Resources.Instances;
+            }
+        }
+
         public int ObjectIndex { get; set; }
 
         protected internal Instance(ResourceContext context)

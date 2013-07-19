@@ -164,23 +164,6 @@ namespace GameCreator.Runtime.Library
         {
             return new string(str.Where(c => char.IsLetterOrDigit(c)).ToArray());
         }
-        [GmlFunction]
-        public static bool clipboard_has_text()
-        {
-            return System.Windows.Forms.Clipboard.ContainsText();
-        }
-        [GmlFunction]
-        public static string clipboard_get_text()
-        {
-            return System.Windows.Forms.Clipboard.ContainsText() ? System.Windows.Forms.Clipboard.GetText() : string.Empty;
-        }
-        [GmlFunction]
-        public static int clipboard_set_text(string str)
-        {
-            if (!string.IsNullOrEmpty(str))
-                System.Windows.Forms.Clipboard.SetText(str);
-            return 0;
-        }
         #endregion
         /*
         [GmlFunction]

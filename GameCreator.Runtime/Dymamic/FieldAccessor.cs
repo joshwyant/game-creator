@@ -5,9 +5,9 @@ using System.Text;
 using System.Reflection.Emit;
 using System.Linq.Expressions;
 using System.Reflection;
-using GameCreator.Framework.Dynamic;
+using GameCreator.Runtime.Dynamic;
 
-namespace GameCreator.Framework
+namespace GameCreator.Runtime
 {
     public class FieldAccessor<T>
     {
@@ -34,6 +34,19 @@ namespace GameCreator.Framework
             }
 
             return accessor;
+        }
+
+        public static object ChooseObject(IEnumerable<object> objs, string name)
+        {
+            var obj_with_key = objs.Select(o => new { o, t = o.GetType() })
+                                .Where(
+                                    o => GetFieldAccessor(o.t).Accessors.ContainsKey(name)
+                                ).Select(o => o.o).SingleOrDefault();
+
+            return obj_with_key ?? objs.Select(o => new { o, t = o.GetType() })
+                                    .Where(
+                                        o => o.t.GetMember(name, MemberTypes.Field | MemberTypes.Property, BindingFlags.Public | BindingFlags.Instance).Any()
+                                    ).Select(o => o.o).SingleOrDefault();
         }
 
         private static MemberInfo GetMember(object obj, string name)
@@ -72,6 +85,11 @@ namespace GameCreator.Framework
         private static bool IsGetSet(Type memberType)
         {
             return memberType.GetInterfaces().Any(i => i.IsGenericType && i.GetGenericTypeDefinition() == typeof(IGetSet<>));
+        }
+
+        public static GetSetValue Variable(object obj, string name)
+        {
+            return new VariableWrapper(obj, name);
         }
 
         public static T GetNamedValue(object obj, string name, int i1, int i2)

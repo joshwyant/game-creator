@@ -17,7 +17,7 @@ namespace GameCreator.Runtime.Library.Actions
         [GmlFunction]
         public static Value action_create_object(params Value[] args)
         {
-            GMLFunctions.instance_create(
+            GmlFunctions.instance_create(
                 ExecutionContext.argument_relative.value ? ExecutionContext.Current.x.Value + args[1] : args[1],
                 ExecutionContext.argument_relative.value ? ExecutionContext.Current.y.Value + args[2] : args[2],
                 args[0]
@@ -27,7 +27,7 @@ namespace GameCreator.Runtime.Library.Actions
         [GmlFunction]
         public static Value action_create_object_motion(params Value[] args)
         {
-            RuntimeInstance e = GMLFunctions.CreateInstance(
+            RuntimeInstance e = GmlFunctions.CreateInstance(
                 args[0],
                 ExecutionContext.argument_relative.value ? ExecutionContext.Current.x.Value + args[1] : args[1],
                 ExecutionContext.argument_relative.value ? ExecutionContext.Current.y.Value + args[2] : args[2]
@@ -50,7 +50,7 @@ namespace GameCreator.Runtime.Library.Actions
                     list.Add(args[i]);
             }
             if (list.Count != 0)
-                GMLFunctions.CreateInstance(list[GMLFunctions.rnd.Next(list.Count)], args[4], args[5]);
+                GmlFunctions.CreateInstance(list[GmlFunctions.rnd.Next(list.Count)], args[4], args[5]);
             return 0;
         }
         [GmlFunction]

@@ -41,6 +41,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ArgumentList.cs" />
+    <Compile Include="Constants.cs" />
+    <Compile Include="Dymamic\ArrayAccessor.cs" />
+    <Compile Include="Dymamic\FieldAccessor.cs" />
+    <Compile Include="Dymamic\GetSetAccessor.cs" />
+    <Compile Include="Dymamic\GetSetValue.cs" />
+    <Compile Include="Dymamic\IGetSet.cs" />
+    <Compile Include="Dymamic\IMemberAccessor.cs" />
+    <Compile Include="Dymamic\MemberAccessor.cs" />
+    <Compile Include="Dymamic\MemberAccessorBuilder.cs" />
+    <Compile Include="Dymamic\Variable.cs" />
+    <Compile Include="Dymamic\VariableWrapper.cs" />
+    <Compile Include="Globals.cs" />
     <Compile Include="GmlFunctionAttribute.cs" />
     <Compile Include="RuntimeInstance.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

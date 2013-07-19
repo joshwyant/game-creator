@@ -78,14 +78,7 @@
     <Compile Include="Core\ProgramError.cs" />
     <Compile Include="Core\Error.cs" />
     <Compile Include="Core\ErrorDefinition.cs" />
-    <Compile Include="Dymamic\ArrayAccessor.cs" />
-    <Compile Include="Dymamic\MemberAccessorBuilder.cs" />
-    <Compile Include="Dymamic\FieldAccessor.cs" />
-    <Compile Include="Dymamic\GetSetAccessor.cs" />
-    <Compile Include="Dymamic\IGetSet.cs" />
-    <Compile Include="Dymamic\IMemberAccessor.cs" />
-    <Compile Include="Dymamic\MemberAccessor.cs" />
-    <Compile Include="Dymamic\Variable.cs" />
+    <Compile Include="Core\Value.cs" />
     <Compile Include="Events\KeyCodes.cs" />
     <Compile Include="Events\EventType.cs" />
     <Compile Include="Events\MouseEventNumber.cs" />
@@ -111,7 +104,6 @@
     <Compile Include="Resources\Entities\Room.cs" />
     <Compile Include="Resources\Entities\Object.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Dymamic\Value.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">

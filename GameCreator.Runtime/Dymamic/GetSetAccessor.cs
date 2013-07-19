@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Linq.Expressions;
 
-namespace GameCreator.Framework.Dynamic
+namespace GameCreator.Runtime.Dynamic
 {
     internal class GetSetAccessor<T> : MemberAccessorBuilder<T>
     {

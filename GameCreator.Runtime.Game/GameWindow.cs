@@ -6,15 +6,15 @@ using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
 using System.Drawing;
-using GameCreator.Framework.Gml;
-using GameCreator.Framework.Library;
+using GameCreator.Runtime.Library;
+using GameCreator.Framework;
 
-namespace GameCreator.Runtime
+namespace GameCreator.Runtime.Game
 {
-    class RuntimeWindow : GameWindow
+    class GameWindow : OpenTK.GameWindow
     {
         Room current;
-        public RuntimeWindow(Room r)
+        public GameWindow(Room r)
             : base(640, 480, GraphicsMode.Default, string.Empty)
         {
             current = r;
@@ -37,7 +37,7 @@ namespace GameCreator.Runtime
             GL.Enable(EnableCap.Blend);
             GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
             GL.Hint(HintTarget.PerspectiveCorrectionHint, HintMode.Nicest);
-            foreach (IndexedResource r in Sprite.Manager.Resources.Values)
+            foreach (IndexedResource r in LibraryContext.Current.Resources.Sprites.Values)
             {
                 Sprite s = r as Sprite;
                 for (int i = 0; i < s.subImagesCount; i++)
@@ -57,9 +57,8 @@ namespace GameCreator.Runtime
         }
         protected override void OnUnload(EventArgs e)
         {
-            foreach (int ind in Sprite.Manager.Resources.Keys)
+            foreach (var s in Sprite.Manager.Values)
             {
-                Sprite s = Sprite.Manager.Resources[ind] as Sprite;
                 for (int i = 0; i < s.subImagesCount; i++)
                     GL.DeleteTextures(1, ref s.Textures[i]);
             }
@@ -220,8 +219,8 @@ namespace GameCreator.Runtime
                 env.speed.Value = env.friction.Value > 0 && Math.Abs(env.speed.Value) <= env.friction.Value ? 0.0 : env.speed.Value.Real - env.friction.Value * Math.Sign(env.speed.Value.Real);
                 // then gravity
                 env.AddSpeedVector(
-                    GMLFunctions.lengthdir_x(env.gravity.Value, env.gravity_direction.Value),
-                    GMLFunctions.lengthdir_y(env.gravity.Value, env.gravity_direction.Value)
+                    GmlFunctions.lengthdir_x(env.gravity.Value, env.gravity_direction.Value),
+                    GmlFunctions.lengthdir_y(env.gravity.Value, env.gravity_direction.Value)
                     );
                 // move the object
                 env.x.Value += env.hspeed.Value;

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
+using GameCreator.Runtime;
 
 namespace GameCreator.Framework.Gml.Interpreter
 {
@@ -18,14 +19,14 @@ namespace GameCreator.Framework.Gml.Interpreter
         public static AstNode ExecutingNode { get; set; }
         public static FlowType ProgramFlow = FlowType.None;
 
-        Interpreter()
+        static Interpreter()
         {
             Context = new LibraryContext();
         }
 
         public static Value Eval(string s)
         {
-            return Eval(ExecutionContext.CreatePrivateInstance(), s);
+            return Eval(Context.InstanceFactory.CreatePrivateInstance(), s);
         }
 
         public static Value Eval(Instance inst, string s)
@@ -42,9 +43,9 @@ namespace GameCreator.Framework.Gml.Interpreter
             foreach (System.Reflection.MethodInfo mi in t.GetMethods())
             {
                 if (!mi.IsStatic) continue;
-                GMLFunctionAttribute[] attrs = (GMLFunctionAttribute[])mi.GetCustomAttributes(typeof(GMLFunctionAttribute), false);
+                GmlFunctionAttribute[] attrs = (GmlFunctionAttribute[])mi.GetCustomAttributes(typeof(GmlFunctionAttribute), false);
                 if (attrs.Length != 1) continue;
-                GMLFunctionAttribute fn = attrs[0];
+                GmlFunctionAttribute fn = attrs[0];
                 string name = string.IsNullOrEmpty(fn.Name) ? mi.Name : fn.Name;
                 DefineFunction(name, fn.Argc, (FunctionDelegate)System.Delegate.CreateDelegate(typeof(FunctionDelegate), mi));
             }

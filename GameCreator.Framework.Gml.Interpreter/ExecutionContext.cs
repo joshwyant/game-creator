@@ -2,6 +2,8 @@
 using System.Collections;
 using System.Text;
 using System;
+using GameCreator.Runtime;
+using System.Linq;
 
 namespace GameCreator.Framework.Gml.Interpreter
 {
@@ -9,20 +11,24 @@ namespace GameCreator.Framework.Gml.Interpreter
     {
         public static bool RunOptimized { get; set; }
 
+        public static IEnumerable<RuntimeInstance> Instances { get { return LibraryContext.Current.InstanceFactory.Instances.Values.Cast<RuntimeInstance>(); } }
 
-        // The last id assigned to an instance by the IDE
-        public static Instance Current = null;
-        public static Instance Other = null;
-        static Dictionary<string, Variable> globals = new Dictionary<string, Variable>();
+        public static Globals Globals = new Globals();
+        public static readonly IEnumerable<object> GlobalObjects = new List<object> { Globals };
+        public static readonly Dictionary<string, Variable> GlobalVariables = new Dictionary<string, Variable>();
+
+        public static RuntimeInstance Current = null;
+        public static RuntimeInstance Other = null;
+        // Names of variables declared with 'global' keyword
         static List<string> globalvars = new List<string>();
+        // Names of variables declared with 'local' keyword
         static List<string> localvars;
-        public static List<string> Builtin = new List<string>();
+        // Stacks for scopes
+        static Stack<ArgumentList> argstack = new Stack<ArgumentList>();
         static Stack<List<string>> varstack = new Stack<List<string>>();
-        internal static Dictionary<string, Value> constants = new Dictionary<string, Value>();
         static Stack<Dictionary<string, Variable>> localstack = new Stack<Dictionary<string, Variable>>();
+
         static Dictionary<string, Variable> locals;// = new Dictionary<string, Variable>();
-        static Stack<Value[]> argstack = new Stack<Value[]>();
-        static Value[] args = new Value[0];
         // Holds the value of the last returned value. This mimics GM's behavior. If a script does not
         // return a value, it automatically returns the value returned from the last call
         // (Env.Returned is not changed). Upon entry of a script, Env.Return is set to Value(0.d).
@@ -31,345 +37,99 @@ namespace GameCreator.Framework.Gml.Interpreter
         // it has the same behavior as a script (Env.Return -> 0, if return statement is encountered,
         // returns control from string, not script).
         public static Value Returned;
-        // Define a resource name along with its index, so it can be referenced in code.
-        public static void DefineResourceIndex(string name, int index)
-        {
-            ExecutionContext.DefineConstant(name, index);
-        }
-        public static void DefineConstant(string name, Value val)
-        {
-            if (constants.ContainsKey(name))
-                constants.Remove(name);
-            constants.Add(name, val);
-        }
+
         static ExecutionContext()
         {
-            // builtins
-            current_time = DefineVar("current_time", get_current_time);
-            argument = DefineVar("argument", get_argument, set_argument);
-            argument0 = DefineVar("argument0", get_argument0, set_argument0);
-            argument1 = DefineVar("argument1", get_argument1, set_argument1);
-            argument2 = DefineVar("argument2", get_argument2, set_argument2);
-            argument3 = DefineVar("argument3", get_argument3, set_argument3);
-            argument4 = DefineVar("argument4", get_argument4, set_argument4);
-            argument5 = DefineVar("argument5", get_argument5, set_argument5);
-            argument6 = DefineVar("argument6", get_argument6, set_argument6);
-            argument7 = DefineVar("argument7", get_argument7, set_argument7);
-            argument8 = DefineVar("argument8", get_argument8, set_argument8);
-            argument9 = DefineVar("argument9", get_argument9, set_argument9);
-            argument10 = DefineVar("argument10", get_argument10, set_argument10);
-            argument11 = DefineVar("argument11", get_argument11, set_argument11);
-            argument12 = DefineVar("argument12", get_argument12, set_argument12);
-            argument13 = DefineVar("argument13", get_argument13, set_argument13);
-            argument14 = DefineVar("argument14", get_argument14, set_argument14);
-            argument15 = DefineVar("argument15", get_argument15, set_argument15);
-            argument_relative = DefineVar("argument_relative", new BoolVariable(false, true)) as BoolVariable;
-            Builtin.Add("object_index");
-            Builtin.Add("id");
-            Builtin.Add("x");
-            Builtin.Add("y");
-            Builtin.Add("hspeed");
-            Builtin.Add("vspeed");
-            Builtin.Add("direction");
-            Builtin.Add("speed");
-            DefineConstant("true", true);
-            DefineConstant("false", false);
-            DefineConstant("pi", System.Math.PI);
-            DefineConstant("c_red", 0x000000FF);
-            DefineConstant("c_yellow", 0x0000FFFF);
-            DefineConstant("c_green", 0x00008000);
-            DefineConstant("c_blue", 0x00FF0000);
+            InitializeContext(LibraryContext.Current);
         }
-        #region Argument access methods
-        static Value get_argument(int i1, int i2)
+
+        public static void InitializeContext(LibraryContext context)
         {
-            return i2 >= 16 ? (Value)0 : args[i2];
+            context.DefineGlobalVariables(new [] {
+                "argument", "argument0", "argument1", "argument2", "argument3", "argument4", "argument5", "argument6", "argument7", "argument8", "argument9", 
+                "argument10", "argument11", "argument12", "argument13", "argument14", "argument15", "argument_relative", "current_time"
+            });
+
+            context.DefineInstanceVariables(new [] {
+                "object_index", "id"
+            });
+
+            context.DefineConstants(typeof(Constants));
         }
-        static void set_argument(int i1, int i2, Value v)
-        {
-            args[i2 >= 16 ? 0 : i2] = v;
-        }
-        // argument[5,0] is an unexpected error in gm
-        static Value get_argument0(int i1, int i2)
-        {
-            return args[0];
-        }
-        static void set_argument0(int i1, int i2, Value v)
-        {
-            args[0] = v;
-        }
-        static Value get_argument1(int i1, int i2)
-        {
-            return args[1];
-        }
-        static void set_argument1(int i1, int i2, Value v)
-        {
-            args[1] = v;
-        }
-        static Value get_argument2(int i1, int i2)
-        {
-            return args[2];
-        }
-        static void set_argument2(int i1, int i2, Value v)
-        {
-            args[2] = v;
-        }
-        static Value get_argument3(int i1, int i2)
-        {
-            return args[3];
-        }
-        static void set_argument3(int i1, int i2, Value v)
-        {
-            args[3] = v;
-        }
-        static Value get_argument4(int i1, int i2)
-        {
-            return args[4];
-        }
-        static void set_argument4(int i1, int i2, Value v)
-        {
-            args[4] = v;
-        }
-        static Value get_argument5(int i1, int i2)
-        {
-            return args[5];
-        }
-        static void set_argument5(int i1, int i2, Value v)
-        {
-            args[5] = v;
-        }
-        static Value get_argument6(int i1, int i2)
-        {
-            return args[6];
-        }
-        static void set_argument6(int i1, int i2, Value v)
-        {
-            args[6] = v;
-        }
-        static Value get_argument7(int i1, int i2)
-        {
-            return args[7];
-        }
-        static void set_argument7(int i1, int i2, Value v)
-        {
-            args[7] = v;
-        }
-        static Value get_argument8(int i1, int i2)
-        {
-            return args[8];
-        }
-        static void set_argument8(int i1, int i2, Value v)
-        {
-            args[8] = v;
-        }
-        static Value get_argument9(int i1, int i2)
-        {
-            return args[9];
-        }
-        static void set_argument9(int i1, int i2, Value v)
-        {
-            args[9] = v;
-        }
-        static Value get_argument10(int i1, int i2)
-        {
-            return args[10];
-        }
-        static void set_argument10(int i1, int i2, Value v)
-        {
-            args[10] = v;
-        }
-        static Value get_argument11(int i1, int i2)
-        {
-            return args[11];
-        }
-        static void set_argument11(int i1, int i2, Value v)
-        {
-            args[11] = v;
-        }
-        static Value get_argument12(int i1, int i2)
-        {
-            return args[12];
-        }
-        static void set_argument12(int i1, int i2, Value v)
-        {
-            args[12] = v;
-        }
-        static Value get_argument13(int i1, int i2)
-        {
-            return args[13];
-        }
-        static void set_argument13(int i1, int i2, Value v)
-        {
-            args[13] = v;
-        }
-        static Value get_argument14(int i1, int i2)
-        {
-            return args[14];
-        }
-        static void set_argument14(int i1, int i2, Value v)
-        {
-            args[14] = v;
-        }
-        static Value get_argument15(int i1, int i2)
-        {
-            return args[15];
-        }
-        static void set_argument15(int i1, int i2, Value v)
-        {
-            args[15] = v;
-        }
-        #endregion
-		#region Builtin Variables
-        public static Variable current_time, argument, argument0, argument1, argument2, argument3, argument4,
-            argument5, argument6, argument7, argument8, argument9, argument10, argument11, argument12, argument13,
-            argument14, argument15;
-        public static BoolVariable argument_relative;
-		/*
-         * Built-in variables
-         */
-        public static Value get_current_time(int i1, int i2)
-        {
-            return new Value((double)Environment.TickCount);
-        }
-		#endregion
-        static Variable DefineVar(string n, GetAccessor f)
-        {
-            Variable t;
-            Builtin.Add(n);
-            globals.Add(n, t = new Variable(f));
-            globalvars.Add(n);
-            return t;
-        }
-        static Variable DefineVar(string n, Variable v)
-        {
-            Builtin.Add(n);
-            globals.Add(n, v);
-            globalvars.Add(n);
-            return v;
-        }
-        static Variable DefineVar(string n, GetAccessor g, SetAccessor s)
-        {
-            Variable t;
-            Builtin.Add(n);
-            globals.Add(n, t = new Variable(g, s));
-            globalvars.Add(n);
-            return t;
-        }
+		
         public static void Enter()
         {
             varstack.Push(localvars);
             localstack.Push(locals);
-            argstack.Push(args);
+            argstack.Push(Globals.argument);
             localvars = new List<string>();
             locals = new Dictionary<string, Variable>();
-            args = new Value[] {Value.Zero, Value.Zero, Value.Zero, Value.Zero,
-                                Value.Zero, Value.Zero, Value.Zero, Value.Zero,
-                                Value.Zero, Value.Zero, Value.Zero, Value.Zero,
-                                Value.Zero, Value.Zero, Value.Zero, Value.Zero};
+            Globals.argument = new ArgumentList();
             Returned = Value.Zero;
         }
         public static void Leave()
         {
             localvars = varstack.Pop();
             locals = localstack.Pop();
-            args = argstack.Pop();
+            Globals.argument = argstack.Pop();
         }
         public static void SetArguments(Value[] args)
         {
             for (int i = 0; i < 16 && i < args.Length; i++)
-                ExecutionContext.args[i] = args[i];
+                Globals.argument[i] = args[i];
         }
-		/*
-        public static void RunProgram(System.IO.Stream s)
+        public static void DefineGlobalObject(object obj)
         {
-            try
-            {
-                try
-                {
-                    Env t = Env.Current;
-                    Env.Current = Env.CreatePrivateInstance(); // The current instance executing the code
-                    ImportScripts(s);
-                    if (!FunctionExists("main")) throw new ProgramError("Entry point not found.");
-                    CompileScripts();
-                    Enter();
-                    try
-                    {
-                        functions["main"].Execute();
-                    }
-                    catch (System.OutOfMemoryException)
-                    {
-                        throw;
-                    }
-                    finally
-                    {
-                        Leave();
-                        Env.Current = t;
-                    }
-                }
-                catch (ProgramError p)
-                {
-                    System.Windows.Forms.MessageBox.Show(p.Message, Env.Title, System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
-                }
-            }
-            catch (System.OutOfMemoryException)
-            {
-                System.Windows.Forms.MessageBox.Show("Unexpected error occurred when running the game.");
-                System.Environment.Exit(1);
-            }
+            (GlobalObjects as List<object>).Add(obj);
+        }
 
+        public static bool GlobalVariableExists(string name)
+        {
+            return GlobalVariables.ContainsKey(name)
+                    || FieldAccessor<Value>.ChooseObject(GlobalObjects, name) != null;
         }
-        */
 
-        // create an instance on the fly
-        public static Instance CreateInstance()
+        public static GetSetValue GetGlobalVariable(string name)
         {
-            Instance e = new Instance();
-            e.assign_id();
-            return e;
+            if (GlobalVariables.ContainsKey(name))
+                return GlobalVariables[name];
+
+            var obj = FieldAccessor<Value>.ChooseObject(GlobalObjects, name);
+
+            return obj == null ? null : new VariableWrapper(obj, name);
         }
-        // create an instance with an id assigned by the IDE
-        public static Instance CreateInstance(int id)
-        {
-            Instance e = new Instance();
-            e.assign_id(id);
-            return e;
-        }
-        // Used for: Room scripts, etc.
-        public static Instance CreatePrivateInstance()
-        {
-            return new Instance();
-        }
+		
         // returns whether the name exists as a variable, in the scope of the current instance.
         // The interpreter checks array bounds with Variable.CheckIndex().
         public static bool VariableExists(string name)
         {
-            return (locals.ContainsKey(name) || globalvars.Contains(name) || Current.instancevars.ContainsKey(name));
+            return (locals.ContainsKey(name) || globalvars.Contains(name) || Current.VariableExists(name));
         }
         // returns whether the name exists as a variable, in the scope of the given instance.
         // example: x = VariableExists(Env.self, "t");
         public static bool VariableExists(int id, string name)
         {
-            switch (id)
+            switch ((InstanceTarget)id)
             {
-                case (int)InstanceTarget.Self:
-                    return (Current != null && (Current as RuntimeInstance).instancevars.ContainsKey(name));
-                case (int)InstanceTarget.Other:
-                    return (Other != null && (Other as RuntimeInstance).instancevars.ContainsKey(name));
-                case (int)InstanceTarget.All:
-                    foreach (Instance e in Instances.Values)
-                    {
-                        if ((e as RuntimeInstance).instancevars.ContainsKey(name)) return true;
-                    }
+                case InstanceTarget.Self:
+                    return (Current != null && Current.VariableExists(name));
+                case InstanceTarget.Other:
+                    return (Other != null && Other.VariableExists(name));
+                case InstanceTarget.All:
+                    return Instances.Any(e => e.VariableExists(name));
+                case InstanceTarget.Noone:
                     return false;
-                case (int)InstanceTarget.Noone:
-                    return false;
-                case (int)InstanceTarget.Global:
-                    return globals.ContainsKey(name);
+                case InstanceTarget.Global:
+                    return GlobalVariableExists(name);
                 default:
-                    Instance inst;
-                    return (Instances.TryGetValue(id, out inst) && !(inst as RuntimeInstance).Destroyed && (inst as RuntimeInstance).instancevars.ContainsKey(name));
+                    return Instances.Any(inst => inst.id == id && !inst.Destroyed && inst.VariableExists(name));
             }
         }
+        static RuntimeInstance GetInstance(int id)
+        {
+            return LibraryContext.Current.InstanceFactory.Instances[id] as RuntimeInstance;
+        }
+
         public static void SetVar(string name, int i1, int i2, Value val)
         {
             if (localvars.Contains(name))
@@ -382,20 +142,22 @@ namespace GameCreator.Framework.Gml.Interpreter
                 else
                     locals.Add(name, new Variable(i1, i2, val));
             }
-            else if (globalvars.Contains(name))
+            else if (GlobalVariableExists(name))
             {
-                if (globals[name].IsReadOnly) throw new ProgramError(Error.CannotAssign);
-                globals[name][i1, i2] = val;
+                var globalvar = GetGlobalVariable(name);
+                if (globalvar.IsReadOnly) throw new ProgramError(Error.CannotAssign);
+                globalvar[i1, i2] = val;
             }
             else if (Current != null)
             {
-                if (Current.instancevars.ContainsKey(name))
+                if (Current.VariableExists(name))
                 {
-                    if (Current.instancevars[name].IsReadOnly) throw new ProgramError(Error.CannotAssign);
-                    Current.instancevars[name][i1, i2] = val;
+                    var instancevar = Current.Variable(name);
+                    if (instancevar.IsReadOnly) throw new ProgramError(Error.CannotAssign);
+                    instancevar[i1, i2] = val;
                 }
                 else
-                    Current.instancevars.Add(name, new Variable(i1, i2, val));
+                   Current.SetLocalVar(name, val);
             }
             
         }
@@ -409,54 +171,45 @@ namespace GameCreator.Framework.Gml.Interpreter
         }
         public static void SetVar(int instance, string name, int i1, int i2, Value val)
         {
-            Dictionary<string, Variable> vars;
             switch ((InstanceTarget)instance)
             {
                 case InstanceTarget.Self:
-                    vars = Current.instancevars;
+                    Current.SetLocalVar(name, i1, i2, val);
                     break;
                 case InstanceTarget.Other:
                     if (Other == null) throw new ProgramError(Error.CannotAssign);
-                    vars = Other.instancevars;
+                    Other.SetLocalVar(name, i1, i2, val);
                     break;
                 case InstanceTarget.All:
-                    foreach (int l in Instances.Keys)
+                    foreach (var inst in Instances)
                     {
-                        SetVar(l, name, i1, i2, val);
+                        inst.SetLocalVar(name, i1, i2, val);
                     }
-                    return;
+                    break;
                 case InstanceTarget.Noone:
                     throw new ProgramError(Error.CannotAssign);
                 case InstanceTarget.Global:
-                    vars = globals;
+                    if (GlobalVariableExists(name))
+                        GetGlobalVariable(name).Set(i1, i2, val);
+                    else
+                        GlobalVariables.Add(name, new Variable(val, i1: i1, i2: i2));
                     break;
                 default:
-                    if (Instances.ContainsKey(instance))
-                        vars = Instances[instance].instancevars;
+                    var e = GetInstance(instance);
+
+                    if (e != null)
+                        e.SetLocalVar(name, i1, i2, val);
                     else if (instance < (int)InstanceTarget.Global)
                         throw new ProgramError(Error.CannotAssign);
                     else
                     {
-                        foreach (Instance e in Instances.Values)
+                        foreach (var i in Instances.Where(ii => ii.object_index == instance))
                         {
-                            if (e.object_index.value == instance)
-                            {
-                                //SetVar(e.instancevars["id"].Value, name, i1, i2, val);
-                                vars = e.instancevars;
-                                if (vars.ContainsKey(name))
-                                    vars[name][i1, i2] = val;
-                                else
-                                    vars.Add(name, new Variable(i1, i2, val));
-                            }
+                            e.SetLocalVar(name, i1, i2, val);
                         }
-                        return;
                     }
                     break;
             }
-            if (vars.ContainsKey(name))
-                vars[name][i1, i2] = val;
-            else
-                vars.Add(name, new Variable(i1, i2, val));
         }
         public static void SetVar(int instance, string name, int index, Value val)
         {
@@ -471,8 +224,8 @@ namespace GameCreator.Framework.Gml.Interpreter
             if (localvars.Contains(name))
                 return locals[name][i1, i2];
             if (globalvars.Contains(name))
-                return globals[name][i1, i2];
-            return Current.instancevars[name][i1, i2];
+                return GetGlobalVariable(name)[i1, i2];
+            return Current.Variable(name)[i1, i2];
         }
         public static Value GetVar(string name, int index)
         {
@@ -484,26 +237,10 @@ namespace GameCreator.Framework.Gml.Interpreter
         }
         public static Value GetVar(int instance, string name, int i1, int i2)
         {
-            switch (instance)
-            {
-                case self:
-                    return Current.instancevars[name][i1, i2];
-                case other:
-                    return Other.instancevars[name][i1, i2];
-                case all:
-                    foreach (Instance e in Instances.Values)
-                    {
-                        if (e.instancevars.ContainsKey(name))
-                            return e.instancevars[name][i1, i2];
-                    }
-                    return Value.Zero;
-                case noone:
-                    return Value.Zero;
-                case global:
-                    return globals[name][i1, i2];
-                default:
-                    return Instances[instance].instancevars[name][i1, i2];
-            }
+            var variable = Variable(instance, name);
+            if (variable == null)
+                return Value.Zero;
+            return variable[i1, i2];
         }
         public static Value GetVar(int instance, string name, int index)
         {
@@ -513,35 +250,30 @@ namespace GameCreator.Framework.Gml.Interpreter
         {
             return GetVar(instance, name, 0, 0);
         }
-        public static Variable Variable(string name)
+        public static GetSetValue Variable(string name)
         {
             if (localvars.Contains(name))
                 return locals[name];
             if (globalvars.Contains(name))
-                return globals[name];
-            return Current.instancevars[name];
+                return GlobalVariables[name];
+            return Current.Variable(name);
         }
-        public static Variable Variable(int instance, string name)
+        public static GetSetValue Variable(int instance, string name)
         {
-            switch (instance)
+            switch ((InstanceTarget)instance)
             {
-                case self:
-                    return Current.instancevars[name];
-                case other:
-                    return Other.instancevars[name];
-                case all:
-                    foreach (Instance e in Instances.Values)
-                    {
-                        if (e.instancevars.ContainsKey(name))
-                            return e.instancevars[name];
-                    }
+                case InstanceTarget.Self:
+                    return Current.Variable(name);
+                case InstanceTarget.Other:
+                    return Other.Variable(name);
+                case InstanceTarget.All:
+                    return Instances.Where(e => e.VariableExists(name)).Select(e => e.Variable(name)).FirstOrDefault();
+                case InstanceTarget.Noone:
                     return null;
-                case noone:
-                    return null;
-                case global:
-                    return globals[name];
+                case InstanceTarget.Global:
+                    return GetGlobalVariable(name);
                 default:
-                    return Instances[instance].instancevars[name];
+                    return GetInstance(instance).Variable(name);
             }
         }
         public static void GlobalVars(string[] v)
@@ -551,7 +283,7 @@ namespace GameCreator.Framework.Gml.Interpreter
                 if (!globalvars.Contains(s))
                 {
                     globalvars.Add(s);
-                    globals.Add(s, new Variable());
+                    GlobalVariables.Add(s, new Variable());
                 }
             }
         }

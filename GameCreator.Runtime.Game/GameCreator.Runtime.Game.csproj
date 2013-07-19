@@ -48,7 +48,7 @@
     <Compile Include="Game.cs" />
     <Compile Include="GameInstance.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RuntimeWindow.cs" />
+    <Compile Include="GameWindow.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="OpenTK.dll.config">
@@ -59,6 +59,10 @@
     <ProjectReference Include="..\GameCreator.Framework\GameCreator.Framework.csproj">
       <Project>{6BC89687-EBA6-47F8-ADF0-05C1300D699A}</Project>
       <Name>GameCreator.Framework</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GameCreator.Runtime.Library\GameCreator.Runtime.Library.csproj">
+      <Project>{172B9966-7F45-4C99-9306-6316D6E308BE}</Project>
+      <Name>GameCreator.Runtime.Library</Name>
     </ProjectReference>
     <ProjectReference Include="..\GameCreator.Runtime\GameCreator.Runtime.csproj">
       <Project>{8D7F601C-C605-477F-8D67-850A8B6CA23A}</Project>
