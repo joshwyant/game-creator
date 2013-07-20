@@ -21,6 +21,7 @@ namespace GameCreator.Framework
         public ResourceContext(LibraryContext context)
         {
             Context = context;
+            Managers = new Dictionary<Type, IDictionary>();
             Sprites = new IndexedResourceManager<Sprite>(this);
             Scripts = new IndexedResourceManager<Script>(this);
             Objects = new IndexedResourceManager<Object>(this);

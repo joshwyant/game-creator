@@ -204,7 +204,9 @@ namespace GameCreator.Framework
         {
             return a.type == b.type &&
                     ((a.type == 1 && a.d == b.d) ||
-                    (a.type == 2 && a.s == b.s));
+                    (a.type == 2 && a.s == b.s) ||
+                    (a.type <= 0 || a.type >= 3)
+                    );
         }
 
         public static Value operator !=(Value a, Value b)
