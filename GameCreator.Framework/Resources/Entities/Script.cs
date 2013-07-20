@@ -42,5 +42,7 @@ namespace GameCreator.Framework
         {
             return new StringReader(Code);
         }
+
+        public FunctionDelegate ExecutionDelegate { get; set; }
     }
 }

@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Text;
 using GameCreator.Runtime;
+using System.Linq;
+using System.IO;
 
 namespace GameCreator.Framework.Gml.Interpreter
 {
@@ -19,18 +21,25 @@ namespace GameCreator.Framework.Gml.Interpreter
         public void Compile()
         {
             Unit.Compile();
+            var script = Script.Manager.Where(s => s.Value.Name == Name).Single().Value;
+            script.ExecutionDelegate = Execute;
         }
 
         public override Value Execute(params Value[] parameters)
         {
-            ExecutionContext.Returned = default(Value);
+            Interpreter.Returned = default(Value);
 
             using (new ExecutionScope(parameters))
             {
                 Unit.Run();
 
-                return ExecutionContext.Returned;
+                return Interpreter.Returned;
             }
+        }
+
+        public TextReader GetCodeReader()
+        {
+            return new StringReader(Code);
         }
     }
 }

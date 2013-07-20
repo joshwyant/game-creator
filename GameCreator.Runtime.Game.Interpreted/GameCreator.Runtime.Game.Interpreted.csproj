@@ -2,20 +2,18 @@
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{99481168-5777-4E98-B84D-EEAB5C5021D8}</ProjectGuid>
+    <ProjectGuid>{1D629B47-A821-4030-B680-6E4953A744D7}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>GameCreator.Runtime.Library.Actions</RootNamespace>
-    <AssemblyName>GameCreator.Runtime.Library.Actions</AssemblyName>
+    <RootNamespace>GameCreator.Runtime.Game.Interpreted</RootNamespace>
+    <AssemblyName>GameCreator.Runtime.Game.Interpreted</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
-    <PlatformTarget>x86</PlatformTarget>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -24,8 +22,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
-    <PlatformTarget>x86</PlatformTarget>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -33,30 +30,25 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup>
-    <StartupObject />
-  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
+    <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Common.cs" />
-    <Compile Include="Control.cs" />
-    <Compile Include="Draw.cs" />
-    <Compile Include="Extra.cs" />
-    <Compile Include="Main1.cs" />
-    <Compile Include="Main2.cs" />
-    <Compile Include="Move.cs" />
-    <Compile Include="Score.cs" />
+    <Compile Include="InterpretedGame.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\GameCreator.Framework.Gml.Interpreter\GameCreator.Framework.Gml.Interpreter.csproj">
+      <Project>{86EA9620-4ED5-47C0-8805-EED429AE86AD}</Project>
+      <Name>GameCreator.Framework.Gml.Interpreter</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GameCreator.Framework.Gml\GameCreator.Framework.Gml.csproj">
+      <Project>{026075FF-7A82-4AEB-B09A-70073D6ED686}</Project>
+      <Name>GameCreator.Framework.Gml</Name>
+    </ProjectReference>
     <ProjectReference Include="..\GameCreator.Framework\GameCreator.Framework.csproj">
       <Project>{6BC89687-EBA6-47F8-ADF0-05C1300D699A}</Project>
       <Name>GameCreator.Framework</Name>
@@ -65,9 +57,13 @@
       <Project>{0BCAA035-D775-47B7-9B6E-12AA6516CDCA}</Project>
       <Name>GameCreator.Runtime.Game</Name>
     </ProjectReference>
-    <ProjectReference Include="..\GameCreator.Runtime.Library.Game\GameCreator.Runtime.Library.Game.csproj">
-      <Project>{0779C852-0EEC-43D1-9C10-12E03D903DBE}</Project>
-      <Name>GameCreator.Runtime.Library.Game</Name>
+    <ProjectReference Include="..\GameCreator.Runtime.Library.Interpreted\GameCreator.Runtime.Library.Interpreted.csproj">
+      <Project>{11328C16-7D70-421D-85C6-4EBAA195B1C7}</Project>
+      <Name>GameCreator.Runtime.Library.Interpreted</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GameCreator.Runtime.Library.Windows\GameCreator.Runtime.Library.Windows.csproj">
+      <Project>{8655F06A-A70B-4DB4-A754-BAF2D741A512}</Project>
+      <Name>GameCreator.Runtime.Library.Windows</Name>
     </ProjectReference>
     <ProjectReference Include="..\GameCreator.Runtime.Library\GameCreator.Runtime.Library.csproj">
       <Project>{172B9966-7F45-4C99-9306-6316D6E308BE}</Project>

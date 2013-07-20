@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using GameCreator.Runtime;
 
 namespace GameCreator.Framework.Gml.Interpreter
 {
@@ -14,26 +15,26 @@ namespace GameCreator.Framework.Gml.Interpreter
         {
             // Get a list of affected instances for this action
             IEnumerable<Instance> instances;
-            switch (action.AppliesTo)
+            switch ((InstanceTarget)action.AppliesTo)
             {
-                case (int)InstanceTarget.Self:
+                case InstanceTarget.Self:
                     instances = new[] { ExecutionContext.Current };
                     break;
-                case (int)InstanceTarget.Other:
+                case InstanceTarget.Other:
                     instances = new [] { ExecutionContext.Other };
                     break;
                 default:
-                    instances = from inst in ExecutionContext.Instances.Values
+                    instances = from inst in ExecutionContext.Instances
                                 where inst.Context.Objects[inst.ObjectIndex].DescendsFrom(action.AppliesTo)
                                 select inst;
                     break;
             }
 
             bool returned = !action.Not;
-            ExecutionContext.argument_relative.value = action.Relative;
+            ExecutionContext.Globals.argument_relative = action.Relative;
             var c = ExecutionContext.Current;
             var o = ExecutionContext.Other;
-            foreach (Instance e in instances)
+            foreach (RuntimeInstance e in instances)
             {
                 if (e != c)
                 {
@@ -46,9 +47,9 @@ namespace GameCreator.Framework.Gml.Interpreter
                     case ActionKind.Variable:
                         using (new ExecutionScope())
                         {
-                            ExecutionContext.Returned = default(Value);
+                            Interpreter.Returned = default(Value);
                             action.ExecuteCode();
-                            if (ExecutionContext.Returned == action.Not)
+                            if (Interpreter.Returned == action.Not)
                                 returned = action.Not;
                             break;
                         }
@@ -80,11 +81,11 @@ namespace GameCreator.Framework.Gml.Interpreter
                         switch (action.Definition.ExecutionType)
                         {
                             case ActionExecutionType.Code:
-                                ExecutionContext.Returned = default(Value);
+                                Interpreter.Returned = default(Value);
                                 using (new ExecutionScope(args))
                                 {
                                     action.ExecuteCode();
-                                    if (ExecutionContext.Returned == action.Not)
+                                    if (Interpreter.Returned == action.Not)
                                         returned = action.Not;
                                     break;
                                 }
@@ -98,7 +99,7 @@ namespace GameCreator.Framework.Gml.Interpreter
             }
             ExecutionContext.Current = c;
             ExecutionContext.Other = o;
-            ExecutionContext.argument_relative.value = false;
+            ExecutionContext.Globals.argument_relative = false;
             return action.Definition.IsQuestion ? action.Not ? !returned : returned : true;
         }
     }

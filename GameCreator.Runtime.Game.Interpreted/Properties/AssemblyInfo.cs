@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("GameCreator.Runtime.Library.Game")]
+[assembly: AssemblyTitle("GameCreator.Runtime.Game.Interpreted")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("GameCreator.Runtime.Library.Game")]
+[assembly: AssemblyProduct("GameCreator.Runtime.Game.Interpreted")]
 [assembly: AssemblyCopyright("Copyright ©  2013")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("118083ff-882d-411d-a66a-2eea7154ce14")]
+[assembly: Guid("549e57a2-093e-409a-9d25-a797612554cf")]
 
 // Version information for an assembly consists of the following four values:
 //

@@ -25,17 +25,17 @@ namespace GameCreator.Runtime
         #endregion
 
         #region Methods
-        public bool CheckIndex(int i1, int i2)
+        public override bool CheckIndex(int i1, int i2)
         {
             return (Values.Count > i1 && Values[i1].Count > i2);
         }
 
-        public Value Get(int i1, int i2)
+        public override Value Get(int i1, int i2)
         {
             return Values[i1][i2];
         }
 
-        public void Set(int i1, int i2, Value val)
+        public override void Set(int i1, int i2, Value val)
         {
             for (int i = Values.Count; i <= i1; i++)
                 Values.Add(new List<Value>() { 0 });
@@ -50,7 +50,7 @@ namespace GameCreator.Runtime
         #endregion
 
         #region IsReadOnly Property
-        public bool IsReadOnly { get { return false; } }
+        public override bool IsReadOnly { get { return false; } }
         #endregion
     }
 }

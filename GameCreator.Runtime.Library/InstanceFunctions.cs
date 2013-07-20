@@ -35,7 +35,7 @@ namespace GameCreator.Runtime.Library
         public static int instance_create(double x, double y, int object_index)
         {
             var e = CreateInstance(object_index, x, y);
-            LibraryContext.Current.Resources.Objects[object_index].PerformEvent(e, EventType.Create, 0);
+            LibraryContext.Current.PerformEvent(e, EventType.Create, 0);
             return e.id;
         }
     }

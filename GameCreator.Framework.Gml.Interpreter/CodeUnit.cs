@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using System;
 using System.Collections.Generic;
+using GameCreator.Runtime;
 namespace GameCreator.Framework.Gml.Interpreter
 {
     // A code unit. It is initialized with a code string.
@@ -65,13 +66,13 @@ namespace GameCreator.Framework.Gml.Interpreter
                 if (IsExpression)
                 {
                     parseTree = p.ParseExpression();
-                    if (ExecutionContext.RunOptimized)
+                    if (Interpreter.RunOptimized)
                         parseTree = (parseTree as Expression).Reduce();
                 }
                 else
                 {
                     parseTree = p.Parse();
-                    if (ExecutionContext.RunOptimized)
+                    if (Interpreter.RunOptimized)
                         (parseTree as Statement).Optimize();
                 }
 

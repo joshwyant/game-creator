@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using GameCreator.Runtime;
 
 namespace GameCreator.Framework.Gml.Interpreter
 {
@@ -11,7 +12,7 @@ namespace GameCreator.Framework.Gml.Interpreter
         {
             if (room.CreationCode != null)
             {
-                using (new InstanceScope(ExecutionContext.CreatePrivateInstance()))
+                using (new InstanceScope(LibraryContext.Current.InstanceFactory.CreatePrivateInstance() as RuntimeInstance))
                 {
                     CodeUnit.Get(room).Run();
                 }

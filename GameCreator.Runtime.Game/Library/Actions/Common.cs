@@ -2,17 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using GameCreator.Runtime.Game;
 
-namespace GameCreator.Runtime.Library.Actions
+namespace GameCreator.Runtime.Game.Library.Actions
 {
     public static partial class LibraryFunctions
     {
-        public GameInstance Current
+        public static GameInstance Current
         {
             get
             {
-                return ExecutionContext.Current;
+                return ExecutionContext.Current as GameInstance;
             }
         }
     }

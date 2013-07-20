@@ -2,18 +2,12 @@
 using System.Collections.Generic;
 using System.Text;
 using GameCreator.Framework;
+using OpenTK.Graphics.OpenGL;
 
-namespace GameCreator.Runtime.Library.Actions
+namespace GameCreator.Runtime.Game.Library.Actions
 {
-    internal static partial class LibraryFunctions
+    public static partial class LibraryFunctions
     {
-        /*
-        [GmlFunction]
-        public static Value f(params Value[] args)
-        {
-           return 0;
-        }
-        */
         [GmlFunction]
         public static Value action_draw_sprite(params Value[] args)
         {
@@ -61,10 +55,10 @@ namespace GameCreator.Runtime.Library.Actions
             double h = (args[3] - args[1]) * 0.5;
             double x = args[0] + w;
             double y = args[1] + h;
-            if (ExecutionContext.argument_relative.value)
+            if (ExecutionContext.Globals.argument_relative)
             {
-                x += ExecutionContext.Current.x.value;
-                y += ExecutionContext.Current.y.value;
+                x += Game.Current.x;
+                y += Game.Current.y;
             }
             GL.Disable(EnableCap.Texture2D);
             GL.Begin(BeginMode.TriangleFan);

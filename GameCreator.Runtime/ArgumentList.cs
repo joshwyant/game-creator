@@ -18,22 +18,22 @@ namespace GameCreator.Runtime
                 Values[i] = 0;
         }
 
-        public Value Get(int i1, int i2)
+        public override Value Get(int i1, int i2)
         {
             return i2 >= 16 ? Value.Zero : Values[i2];
         }
 
-        public void Set(int i1, int i2, Value value)
+        public override void Set(int i1, int i2, Value value)
         {
             Values[i2 >= 16 ? 0 : i2] = value;
         }
 
-        public bool CheckIndex(int i1, int i2)
+        public override bool CheckIndex(int i1, int i2)
         {
             return true;
         }
 
-        public bool IsReadOnly
+        public override bool IsReadOnly
         {
             get { return false; }
         }

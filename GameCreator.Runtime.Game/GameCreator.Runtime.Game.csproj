@@ -38,17 +38,35 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Game.cs" />
     <Compile Include="GameInstance.cs" />
+    <Compile Include="KeyMapper.cs" />
+    <Compile Include="Library\Actions\Common.cs" />
+    <Compile Include="Library\Actions\Control.cs" />
+    <Compile Include="Library\Actions\Draw.cs" />
+    <Compile Include="Library\Actions\Extra.cs" />
+    <Compile Include="Library\Actions\Main1.cs" />
+    <Compile Include="Library\Actions\Main2.cs" />
+    <Compile Include="Library\Actions\Move.cs" />
+    <Compile Include="Library\Actions\Score.cs" />
+    <Compile Include="Library\FormsFunctions.cs" />
+    <Compile Include="Library\GameFunctions.cs" />
+    <Compile Include="MessageForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MessageForm.Designer.cs">
+      <DependentUpon>MessageForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="GameWindow.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="OpenTK.dll.config">
@@ -60,6 +78,10 @@
       <Project>{6BC89687-EBA6-47F8-ADF0-05C1300D699A}</Project>
       <Name>GameCreator.Framework</Name>
     </ProjectReference>
+    <ProjectReference Include="..\GameCreator.Runtime.Library.Windows\GameCreator.Runtime.Library.Windows.csproj">
+      <Project>{8655F06A-A70B-4DB4-A754-BAF2D741A512}</Project>
+      <Name>GameCreator.Runtime.Library.Windows</Name>
+    </ProjectReference>
     <ProjectReference Include="..\GameCreator.Runtime.Library\GameCreator.Runtime.Library.csproj">
       <Project>{172B9966-7F45-4C99-9306-6316D6E308BE}</Project>
       <Name>GameCreator.Runtime.Library</Name>
@@ -69,6 +91,26 @@
       <Name>GameCreator.Runtime</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\button0.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\button1.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\button2.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="MessageForm.resx">
+      <DependentUpon>MessageForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

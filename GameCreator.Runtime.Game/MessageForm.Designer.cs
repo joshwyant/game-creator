@@ -1,6 +1,7 @@
-﻿namespace GameCreator.Framework
+﻿using System.Windows.Forms;
+namespace GameCreator.Runtime.Game
 {
-    partial class MessageForm
+    partial class MessageForm : Form
     {
         /// <summary>
         /// Required designer variable.

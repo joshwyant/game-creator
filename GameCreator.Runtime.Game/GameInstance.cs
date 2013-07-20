@@ -17,12 +17,12 @@ namespace GameCreator.Runtime.Game
         #endregion
 
         #region Instance variables and access methods
-        int[] alarm = new int[] { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 };
+        public int[] alarm = new int[] { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 };
         double m_direction, m_hspeed, m_vspeed, m_speed;
-        double direction { get { return m_direction; } set { m_direction = value; sethspeedvspeed(); } }
-        double speed { get { return m_speed; } set { m_speed = value; sethspeedvspeed(); } }
-        double hspeed { get { return m_hspeed; } set { m_hspeed = value; setspeeddirection(true); } }
-        double vspeed { get { return m_vspeed; } set { m_vspeed = value; setspeeddirection(true); } }
+        public double direction { get { return m_direction; } set { m_direction = value; sethspeedvspeed(); } }
+        public double speed { get { return m_speed; } set { m_speed = value; sethspeedvspeed(); } }
+        public double hspeed { get { return m_hspeed; } set { m_hspeed = value; setspeeddirection(true); } }
+        public double vspeed { get { return m_vspeed; } set { m_vspeed = value; setspeeddirection(true); } }
         public int sprite_index = 0, image_blend = 16777215 /* which I believe to be an int, I have no way to test it now. */;
         public double x = 0, y = 0, gravity = 0, gravity_direction = 270, friction = 0, depth = 0, image_speed = 1, image_single = -1, image_index = 0,
             image_xscale = 1, image_yscale = 1, image_angle = 0, image_alpha = 1, xstart = 0, ystart = 0, xprevious = 0, yprevious = 0;

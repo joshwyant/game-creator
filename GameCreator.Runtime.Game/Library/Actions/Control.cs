@@ -2,18 +2,13 @@
 using System.Collections.Generic;
 using System.Text;
 using GameCreator.Framework;
+using System.Linq;
+using GameCreator.Runtime.Library;
 
-namespace GameCreator.Runtime.Library.Actions
+namespace GameCreator.Runtime.Game.Library.Actions
 {
-    internal static partial class LibraryFunctions
+    public static partial class LibraryFunctions
     {
-        /*
-        [GmlFunction]
-        public static Value f(params Value[] args)
-        {
-           return new Value();
-        }
-        */
         [GmlFunction]
         public static Value action_if_empty(params Value[] args)
         {
@@ -30,22 +25,22 @@ namespace GameCreator.Runtime.Library.Actions
             return 0;
         }
         [GmlFunction]
-        public static Value action_if_number(params Value[] args)
+        public static bool action_if_number(int object_index, int inum, int action)
         {
             int num = 0;
-            foreach (RuntimeInstance e in ExecutionContext.Instances.Values) if (e.object_index.value == (int)args[0]) num++;
-            switch ((int)args[2])
+            foreach (var e in ExecutionContext.Instances.Cast<GameInstance>()) if (e.object_index == object_index) num++;
+            switch (action)
             {
-                case 0: return num == args[1];
-                case 1: return num < args[1];
-                case 2: return num > args[1];
+                case 0: return num == inum;
+                case 1: return num < inum;
+                case 2: return num > inum;
             }
             return false;
         }
         [GmlFunction]
-        public static Value action_if_dice(params Value[] args)
+        public static bool action_if_dice(int bound)
         {
-            return GmlFunctions.rnd.Next(0, args[0]) == 0;
+            return GmlFunctions.rnd.Next(0, bound) == 0;
         }
         [GmlFunction]
         public static Value action_if_question(params Value[] args)
@@ -53,9 +48,9 @@ namespace GameCreator.Runtime.Library.Actions
             return 0;
         }
         [GmlFunction]
-        public static Value action_if(params Value[] args)
+        public static Value action_if(bool arg)
         {
-            return (bool)args[0];
+            return arg;
         }
         [GmlFunction]
         public static Value action_if_mouse(params Value[] args)
@@ -75,16 +70,16 @@ namespace GameCreator.Runtime.Library.Actions
         [GmlFunction]
         public static Value action_execute_script(params Value[] args)
         {
-            return (Script.Manager.Resources[args[0]] as Script).CompiledScript.Execute(args[1], args[2], args[3], args[4], args[5]);
+            return Script.Manager[args[0]].ExecutionDelegate(args[1], args[2], args[3], args[4], args[5]);
         }
         [GmlFunction]
         public static Value action_if_variable(params Value[] args)
         {
             switch ((int)args[2])
             {
-                case 0: return args[0].IsString == args[1].IsString ? args[0].IsString ? args[0].String == args[1] : args[0].Real == args[1] : false;
-                case 1: return args[0].IsString == args[1].IsString ? args[0].IsString ? String.Compare(args[0], args[1]) < 0 : args[0].Real < args[1] : false;
-                case 2: return args[0].IsString == args[1].IsString ? args[0].IsString ? String.Compare(args[0], args[1]) > 0 : args[0].Real > args[1] : false;
+                case 0: return args[0].IsString == args[1].IsString ? args[0].IsString ? (args[0] == args[1]) : (args[0] == args[1]) : (Value)false;
+                case 1: return args[0].IsString == args[1].IsString ? args[0].IsString ? String.Compare(args[0], args[1]) < 0 : args[0] < args[1] : false;
+                case 2: return args[0].IsString == args[1].IsString ? args[0].IsString ? String.Compare(args[0], args[1]) > 0 : args[0] > args[1] : false;
             }
             return false;
         }

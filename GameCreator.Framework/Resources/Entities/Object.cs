@@ -48,7 +48,7 @@ namespace GameCreator.Framework
             Events = new Dictionary<EventType, Dictionary<int, Event>>();
         }
 
-        internal bool EventDefined(EventType etype, int num)
+        public bool EventDefined(EventType etype, int num)
         {
             return Events.ContainsKey(etype) && Events[etype].ContainsKey(num);
         }

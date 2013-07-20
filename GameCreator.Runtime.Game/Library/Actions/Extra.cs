@@ -3,17 +3,10 @@ using System.Collections.Generic;
 using System.Text;
 using GameCreator.Framework;
 
-namespace GameCreator.Runtime.Library.Actions
+namespace GameCreator.Runtime.Game.Library.Actions
 {
-    internal static partial class LibraryFunctions
+    public static partial class LibraryFunctions
     {
-        /*
-        [GmlFunction]
-        public static Value f(params Value[] args)
-        {
-           return 0;
-        }
-        */
         [GmlFunction]
         public static Value action_partsyst_create(params Value[] args)
         {

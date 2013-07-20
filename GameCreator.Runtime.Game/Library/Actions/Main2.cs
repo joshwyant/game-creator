@@ -2,19 +2,11 @@
 using System.Collections.Generic;
 using System.Text;
 using GameCreator.Framework;
-using GameCreator.Runtime.Library.Game;
 
-namespace GameCreator.Runtime.Library.Actions
+namespace GameCreator.Runtime.Game.Library.Actions
 {
-    internal static partial class LibraryFunctions
+    public static partial class LibraryFunctions
     {
-        /*
-        [GmlFunction]
-        public static Value f(params Value[] args)
-        {
-           return new Value();
-        }
-        */
         [GmlFunction]
         public static Value action_set_alarm(params Value[] args)
         {

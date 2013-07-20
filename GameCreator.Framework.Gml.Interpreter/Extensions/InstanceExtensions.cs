@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using GameCreator.Runtime;
 
 namespace GameCreator.Framework.Gml.Interpreter
 {
@@ -16,7 +17,7 @@ namespace GameCreator.Framework.Gml.Interpreter
 
             if (obj.EventDefined(ev, num))
             {
-                using (var scope = new InstanceScope(i, false))
+                using (new InstanceScope(i, false))
                 {
                     obj.Events[ev][num].Execute();
                 }
@@ -28,7 +29,7 @@ namespace GameCreator.Framework.Gml.Interpreter
         //  is recommended to have its own local code unit, so it does not have to be looked up in a table.
         public static void Exec(this RuntimeInstance i, string s)
         {
-            using (var scope = new InstanceScope(i))
+            using (new InstanceScope(i))
             {
                 CodeUnit.Get(s).Run();
             }

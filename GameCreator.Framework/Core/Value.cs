@@ -200,6 +200,17 @@ namespace GameCreator.Framework
         {
             return a.IsReal ? (Value)(a.Real / b.Real) : Zero;
         }
+        public static Value operator ==(Value a, Value b)
+        {
+            return a.type == b.type &&
+                    ((a.type == 1 && a.d == b.d) ||
+                    (a.type == 2 && a.s == b.s));
+        }
+
+        public static Value operator !=(Value a, Value b)
+        {
+            return !(a == b);
+        }
         #endregion
 
         #region Conversions
@@ -234,6 +245,18 @@ namespace GameCreator.Framework
         public static implicit operator Value(int i)
         {
             return new Value(i);
+        }
+        #endregion
+
+        #region Equals
+        public override bool Equals(object obj)
+        {
+            if (obj is Value)
+            {
+                var val = (Value)obj;
+                return this == val;
+            }
+            return false;
         }
         #endregion
     }

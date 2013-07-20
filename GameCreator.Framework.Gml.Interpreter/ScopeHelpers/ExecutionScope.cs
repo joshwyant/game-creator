@@ -9,17 +9,17 @@ namespace GameCreator.Framework.Gml.Interpreter
     {
         public ExecutionScope()
         {
-            ExecutionContext.Enter();
+            Interpreter.Enter();
         }
         public ExecutionScope(params Value[] args)
             : this()
         {
-            ExecutionContext.SetArguments(args);
+            Interpreter.SetArguments(args);
         }
 
         public void Dispose()
         {
-            ExecutionContext.Leave();
+            Interpreter.Leave();
         }
     }
 }

@@ -2,16 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using GameCreator.Runtime;
 
 namespace GameCreator.Framework.Gml.Interpreter
 {
     public class InstanceScope : IDisposable
     {
-        public Instance Instance { get; set; }
-        public Instance Other { get; set; }
+        public RuntimeInstance Instance { get; set; }
+        public RuntimeInstance Other { get; set; }
         public ExecutionScope Scope { get; set; }
 
-        public InstanceScope(Instance inst, bool enterFrame)
+        public InstanceScope(RuntimeInstance inst, bool enterFrame)
         {
             Instance = inst;
             Other = ExecutionContext.Current;
@@ -21,7 +22,7 @@ namespace GameCreator.Framework.Gml.Interpreter
                 Scope = new ExecutionScope();
         }
 
-        public InstanceScope(Instance inst)
+        public InstanceScope(RuntimeInstance inst)
             : this(inst, true) { }
 
         public void Dispose()

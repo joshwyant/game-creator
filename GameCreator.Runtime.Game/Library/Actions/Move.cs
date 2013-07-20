@@ -2,18 +2,12 @@
 using System.Collections.Generic;
 using System.Text;
 using GameCreator.Framework;
+using GameCreator.Runtime.Library;
 
-namespace GameCreator.Runtime.Library.Actions
+namespace GameCreator.Runtime.Game.Library.Actions
 {
-    internal static partial class LibraryFunctions
+    public static partial class LibraryFunctions
     {
-        /*
-        [GmlFunction]
-        public static Value f(params Value[] args)
-        {
-           return 0;
-        }
-        */
         [GmlFunction]
         public static Value action_move(params Value[] args)
         {
@@ -33,94 +27,94 @@ namespace GameCreator.Runtime.Library.Actions
             double dir = dirs[GmlFunctions.rnd.Next(dirs.Count)];
             if (dir == -1.0f)
             {
-                ExecutionContext.Current.speed.Value = Value.Zero;
+                Game.Current.speed = 0;
             }
             else
             {
-                ExecutionContext.Current.speed.Value = ExecutionContext.argument_relative.value ? ExecutionContext.Current.speed.Value + args[1] : args[1];
-                ExecutionContext.Current.direction.Value = dir;
+                Game.Current.speed = ExecutionContext.Globals.argument_relative ? Game.Current.speed + args[1] : args[1];
+                Game.Current.direction = dir;
             }
             return 0;
         }
         [GmlFunction]
         public static Value action_set_motion(params Value[] args)
         {
-            if (ExecutionContext.argument_relative.value)
+            if (ExecutionContext.Globals.argument_relative)
             {
-                ExecutionContext.Current.AddSpeedVector(
+                Game.Current.AddSpeedVector(
                     GmlFunctions.lengthdir_x(args[1], args[0]),
                     GmlFunctions.lengthdir_y(args[1], args[0])
                     );
             }
             else
             {
-                ExecutionContext.Current.direction.Value = args[0];
-                ExecutionContext.Current.speed.Value = args[1];
+                Game.Current.direction = args[0];
+                Game.Current.speed = args[1];
             }
             return 0;
         }
         [GmlFunction]
         public static Value action_move_point(params Value[] args)
         {
-            ExecutionContext.Current.direction.Value = 
+            Game.Current.direction = 
                 GmlFunctions.point_direction(
-                 ExecutionContext.Current.x.value, 
-                 ExecutionContext.Current.y.value, 
-                 ExecutionContext.argument_relative.value ? ExecutionContext.Current.x.Value + args[0] : args[0],
-                 ExecutionContext.argument_relative.value ? ExecutionContext.Current.y.Value + args[1] : args[0]
+                 Game.Current.x, 
+                 Game.Current.y, 
+                 ExecutionContext.Globals.argument_relative ? Game.Current.x + args[0] : args[0],
+                 ExecutionContext.Globals.argument_relative ? Game.Current.y + args[1] : args[0]
                 );
-            ExecutionContext.Current.speed.Value = args[2];
+            Game.Current.speed = args[2];
             return 0;
         }
         [GmlFunction]
         public static Value action_set_hspeed(params Value[] args)
         {
-            ExecutionContext.Current.hspeed.Value = ExecutionContext.argument_relative.value ? ExecutionContext.Current.hspeed.Value + args[0] : args[0];
+            Game.Current.hspeed = ExecutionContext.Globals.argument_relative ? Game.Current.hspeed + args[0] : args[0];
             return 0;
         }
         [GmlFunction]
         public static Value action_set_vspeed(params Value[] args)
         {
-            ExecutionContext.Current.vspeed.Value = ExecutionContext.argument_relative.value ? ExecutionContext.Current.vspeed.Value + args[0] : args[0];
+            Game.Current.vspeed = ExecutionContext.Globals.argument_relative ? Game.Current.vspeed + args[0] : args[0];
             return 0;
         }
         [GmlFunction]
         public static Value action_set_gravity(params Value[] args)
         {
-            ExecutionContext.Current.gravity_direction.value = ExecutionContext.argument_relative.value ? ExecutionContext.Current.gravity_direction.value + args[0] : args[0];
-            ExecutionContext.Current.gravity.value = ExecutionContext.argument_relative.value ? ExecutionContext.Current.gravity.Value + args[1] : args[1];
+            Game.Current.gravity_direction = ExecutionContext.Globals.argument_relative ? Game.Current.gravity_direction + args[0] : args[0];
+            Game.Current.gravity = ExecutionContext.Globals.argument_relative ? Game.Current.gravity + args[1] : args[1];
             return 0;
         }
         [GmlFunction]
         public static Value action_reverse_xdir(params Value[] args)
         {
-            ExecutionContext.Current.hspeed.Value = -ExecutionContext.Current.hspeed.Value.Real;
+            Game.Current.hspeed = -Game.Current.hspeed;
             return 0;
         }
         [GmlFunction]
         public static Value action_reverse_ydir(params Value[] args)
         {
-            ExecutionContext.Current.vspeed.Value = -ExecutionContext.Current.vspeed.Value.Real;
+            Game.Current.vspeed = -Game.Current.vspeed;
             return 0;
         }
         [GmlFunction]
         public static Value action_set_friction(params Value[] args)
         {
-            ExecutionContext.Current.friction.value = ExecutionContext.argument_relative.value ? ExecutionContext.Current.friction.Value + args[0] : args[0];
+            Game.Current.friction = ExecutionContext.Globals.argument_relative ? Game.Current.friction + args[0] : args[0];
             return 0;
         }
         [GmlFunction]
         public static Value action_move_to(params Value[] args)
         {
-            ExecutionContext.Current.x.value = ExecutionContext.argument_relative.value ? ExecutionContext.Current.x.Value + args[0] : args[0];
-            ExecutionContext.Current.y.value = ExecutionContext.argument_relative.value ? ExecutionContext.Current.y.Value + args[1] : args[1];
+            Game.Current.x = ExecutionContext.Globals.argument_relative ? Game.Current.x + args[0] : args[0];
+            Game.Current.y = ExecutionContext.Globals.argument_relative ? Game.Current.y + args[1] : args[1];
             return 0;
         }
         [GmlFunction]
         public static Value action_move_start(params Value[] args)
         {
-            ExecutionContext.Current.x.value = ExecutionContext.Current.xstart.value;
-            ExecutionContext.Current.y.value = ExecutionContext.Current.ystart.value;
+            Game.Current.x = Game.Current.xstart;
+            Game.Current.y = Game.Current.ystart;
             return 0;
         }
         [GmlFunction]

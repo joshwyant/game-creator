@@ -17,6 +17,8 @@ namespace GameCreator.Framework
         public IEnumerable<string> InstanceVariables { get; set; }
         public IInstanceFactory InstanceFactory { get; set; }
 
+        public Action<Instance, EventType, int> PerformEvent { get; set; }
+
         public LibraryContext()
         {
             Libraries = new Dictionary<int, ActionLibrary>();

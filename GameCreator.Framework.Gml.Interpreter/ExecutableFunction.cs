@@ -8,8 +8,6 @@ namespace GameCreator.Framework.Gml.Interpreter
     // Base class for functions and scripts
     public class ExecutableFunction : BaseFunction
     {
-        public string Name;
-        public int Argc;
         public ExecutableFunction(string n, int argc) 
             : base(n, argc) { }
 

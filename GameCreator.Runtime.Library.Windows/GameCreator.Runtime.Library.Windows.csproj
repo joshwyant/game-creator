@@ -34,17 +34,17 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GmlFunctions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\GameCreator.Framework\GameCreator.Framework.csproj">
+      <Project>{6BC89687-EBA6-47F8-ADF0-05C1300D699A}</Project>
+      <Name>GameCreator.Framework</Name>
+    </ProjectReference>
     <ProjectReference Include="..\GameCreator.Runtime\GameCreator.Runtime.csproj">
       <Project>{8D7F601C-C605-477F-8D67-850A8B6CA23A}</Project>
       <Name>GameCreator.Runtime</Name>

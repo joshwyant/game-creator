@@ -4,7 +4,7 @@ using System.Text;
 using System.IO;
 using GameCreator.Framework;
 
-namespace GameCreator.Runtime.Library.Game
+namespace GameCreator.Runtime.Game.Library
 {
     public static class GameFunctions
     {

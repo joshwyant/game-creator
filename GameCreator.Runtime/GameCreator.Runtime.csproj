@@ -33,12 +33,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ArgumentList.cs" />
@@ -53,6 +48,7 @@
     <Compile Include="Dymamic\MemberAccessorBuilder.cs" />
     <Compile Include="Dymamic\Variable.cs" />
     <Compile Include="Dymamic\VariableWrapper.cs" />
+    <Compile Include="ExecutionContext.cs" />
     <Compile Include="Globals.cs" />
     <Compile Include="RuntimeInstance.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -7,10 +7,10 @@ using GameCreator.Runtime;
 
 namespace GameCreator.Framework.Gml.Interpreter
 {
-    // Delegate for calling GML functions
-    public delegate Value FunctionDelegate(params Value[] args);
     public static class Interpreter
     {
+        public static bool RunOptimized { get; set; }
+
         public static LibraryContext Context { get; set; }
 
         static Dictionary<string, ExecutableFunction> functions = new Dictionary<string, ExecutableFunction>();
@@ -19,6 +19,13 @@ namespace GameCreator.Framework.Gml.Interpreter
         public static AstNode ExecutingNode { get; set; }
         public static FlowType ProgramFlow = FlowType.None;
 
+        // Stacks for scopes
+        static Stack<ArgumentList> argstack = new Stack<ArgumentList>();
+        static Stack<List<string>> varstack = new Stack<List<string>>();
+        static Stack<Dictionary<string, Variable>> localstack = new Stack<Dictionary<string, Variable>>();
+
+        public static Value Returned;
+
         static Interpreter()
         {
             Context = LibraryContext.Current;
@@ -26,10 +33,10 @@ namespace GameCreator.Framework.Gml.Interpreter
 
         public static Value Eval(string s)
         {
-            return Eval(Context.InstanceFactory.CreatePrivateInstance(), s);
+            return Eval(Context.InstanceFactory.CreatePrivateInstance() as RuntimeInstance, s);
         }
 
-        public static Value Eval(Instance inst, string s)
+        public static Value Eval(RuntimeInstance inst, string s)
         {
             using (new InstanceScope(inst))
             {
@@ -89,8 +96,8 @@ namespace GameCreator.Framework.Gml.Interpreter
 
         public static Value ExecuteFunction(string n, params Value[] args)
         {
-            ExecutionContext.Returned = functions[n].Execute(args);
-            return ExecutionContext.Returned;
+            Returned = functions[n].Execute(args);
+            return Returned;
         }
 
         public static ExecutableFunction GetFunction(string n)
@@ -106,38 +113,6 @@ namespace GameCreator.Framework.Gml.Interpreter
             return s;
         }
 
-        // To be implemented by the IDE, not the runtime interpreter
-        /*public static void ImportScripts(string fname)
-        {
-            ImportScripts(System.IO.File.Open(fname, System.IO.FileMode.Open));
-        }
-        public static void ImportScripts(System.IO.Stream s)
-        {
-            System.IO.StreamReader sr = new System.IO.StreamReader(s);
-            string scr = null;
-            StringBuilder sb = new StringBuilder();
-            while (!sr.EndOfStream)
-            {
-                string line = sr.ReadLine();
-                if (line.Trim().StartsWith("#define "))
-                {
-                    if (!string.IsNullOrEmpty(scr))
-                    {
-                        DefineScript(scr, sb.ToString());
-                    }
-                    scr = line.Substring(line.IndexOf("#define ") + 8).Trim();
-                    sb.Remove(0, sb.Length);
-                }
-                else if (!string.IsNullOrEmpty(scr))
-                {
-                    sb.AppendLine(line);
-                }
-            }
-            if (!string.IsNullOrEmpty(scr))
-            {
-                DefineScript(scr, sb.ToString());
-            }
-        }*/
         public static void CompileScripts()
         {
             foreach (ExecutableFunction f in functions.Values)
@@ -147,6 +122,28 @@ namespace GameCreator.Framework.Gml.Interpreter
                     (f as ScriptFunction).Compile();
                 }
             }
+        }
+
+        public static void Enter()
+        {
+            varstack.Push(ExecutionContext.DeclaredVariables);
+            localstack.Push(ExecutionContext.ScopedVariables);
+            argstack.Push(ExecutionContext.Globals.argument);
+            ExecutionContext.DeclaredVariables = new List<string>();
+            ExecutionContext.ScopedVariables = new Dictionary<string, Variable>();
+            ExecutionContext.Globals.argument = new ArgumentList();
+            Returned = Value.Zero;
+        }
+        public static void Leave()
+        {
+            ExecutionContext.DeclaredVariables = varstack.Pop();
+            ExecutionContext.ScopedVariables = localstack.Pop();
+            ExecutionContext.Globals.argument = argstack.Pop();
+        }
+        public static void SetArguments(Value[] args)
+        {
+            for (int i = 0; i < 16 && i < args.Length; i++)
+                ExecutionContext.Globals.argument[i] = args[i];
         }
     }
 }

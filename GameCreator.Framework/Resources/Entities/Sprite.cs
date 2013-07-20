@@ -13,9 +13,9 @@ namespace GameCreator.Framework
             }
         }
 
-        internal Bitmap[] SubImages { get; set; }
-        internal int[] Textures { get; set; }
-        internal int subImagesCount;
+        public Bitmap[] SubImages { get; set; }
+        public int[] Textures { get; set; }
+        public int SubImagesCount;
         internal Sprite(ResourceContext context, string name, int index, int subimages)
             : base(context, name)
         {
@@ -32,10 +32,10 @@ namespace GameCreator.Framework
 
         private void Initialize(int subimages)
         {
-            subImagesCount = subimages;
-            SubImages = new Bitmap[subImagesCount];
-            Textures = new int[subImagesCount];
-            for (int i = 0; i < subImagesCount; i++)
+            SubImagesCount = subimages;
+            SubImages = new Bitmap[SubImagesCount];
+            Textures = new int[SubImagesCount];
+            for (int i = 0; i < SubImagesCount; i++)
                 Textures[i] = -1;
         }
     }

@@ -2,15 +2,13 @@
 using System.Collections;
 using System.Text;
 using System;
-using GameCreator.Runtime;
 using System.Linq;
+using GameCreator.Framework;
 
-namespace GameCreator.Framework.Gml.Interpreter
+namespace GameCreator.Runtime
 {
     public static class ExecutionContext
     {
-        public static bool RunOptimized { get; set; }
-
         public static IEnumerable<RuntimeInstance> Instances { get { return LibraryContext.Current.InstanceFactory.Instances.Values.Cast<RuntimeInstance>(); } }
 
         public static Globals Globals = new Globals();
@@ -21,14 +19,10 @@ namespace GameCreator.Framework.Gml.Interpreter
         public static RuntimeInstance Other = null;
         // Names of variables declared with 'global' keyword
         static List<string> globalvars = new List<string>();
-        // Names of variables declared with 'local' keyword
-        static List<string> localvars;
-        // Stacks for scopes
-        static Stack<ArgumentList> argstack = new Stack<ArgumentList>();
-        static Stack<List<string>> varstack = new Stack<List<string>>();
-        static Stack<Dictionary<string, Variable>> localstack = new Stack<Dictionary<string, Variable>>();
+        // Names of variables declared with 'var' keyword
+        public static List<string> DeclaredVariables;
 
-        static Dictionary<string, Variable> locals;// = new Dictionary<string, Variable>();
+        public static Dictionary<string, Variable> ScopedVariables;// = new Dictionary<string, Variable>();
         // Holds the value of the last returned value. This mimics GM's behavior. If a script does not
         // return a value, it automatically returns the value returned from the last call
         // (Env.Returned is not changed). Upon entry of a script, Env.Return is set to Value(0.d).
@@ -36,7 +30,6 @@ namespace GameCreator.Framework.Gml.Interpreter
         // script returns 0. Also, when a string is executed, i.e. with execute_string(),
         // it has the same behavior as a script (Env.Return -> 0, if return statement is encountered,
         // returns control from string, not script).
-        public static Value Returned;
 
         static ExecutionContext()
         {
@@ -57,27 +50,7 @@ namespace GameCreator.Framework.Gml.Interpreter
             context.DefineConstants(typeof(Constants));
         }
 		
-        public static void Enter()
-        {
-            varstack.Push(localvars);
-            localstack.Push(locals);
-            argstack.Push(Globals.argument);
-            localvars = new List<string>();
-            locals = new Dictionary<string, Variable>();
-            Globals.argument = new ArgumentList();
-            Returned = Value.Zero;
-        }
-        public static void Leave()
-        {
-            localvars = varstack.Pop();
-            locals = localstack.Pop();
-            Globals.argument = argstack.Pop();
-        }
-        public static void SetArguments(Value[] args)
-        {
-            for (int i = 0; i < 16 && i < args.Length; i++)
-                Globals.argument[i] = args[i];
-        }
+
         public static void DefineGlobalObject(object obj)
         {
             (GlobalObjects as List<object>).Add(obj);
@@ -103,7 +76,7 @@ namespace GameCreator.Framework.Gml.Interpreter
         // The interpreter checks array bounds with Variable.CheckIndex().
         public static bool VariableExists(string name)
         {
-            return (locals.ContainsKey(name) || globalvars.Contains(name) || Current.VariableExists(name));
+            return (ScopedVariables.ContainsKey(name) || globalvars.Contains(name) || Current.VariableExists(name));
         }
         // returns whether the name exists as a variable, in the scope of the given instance.
         // example: x = VariableExists(Env.self, "t");
@@ -125,22 +98,22 @@ namespace GameCreator.Framework.Gml.Interpreter
                     return Instances.Any(inst => inst.id == id && !inst.Destroyed && inst.VariableExists(name));
             }
         }
-        static RuntimeInstance GetInstance(int id)
+        public static RuntimeInstance GetInstance(int id)
         {
             return LibraryContext.Current.InstanceFactory.Instances[id] as RuntimeInstance;
         }
 
         public static void SetVar(string name, int i1, int i2, Value val)
         {
-            if (localvars.Contains(name))
+            if (DeclaredVariables.Contains(name))
             {
-                if (locals.ContainsKey(name))
+                if (ScopedVariables.ContainsKey(name))
                 {
-                    if (locals[name].IsReadOnly) throw new ProgramError(Error.CannotAssign);
-                    locals[name][i1, i2] = val;
+                    if (ScopedVariables[name].IsReadOnly) throw new ProgramError(Error.CannotAssign);
+                    ScopedVariables[name][i1, i2] = val;
                 }
                 else
-                    locals.Add(name, new Variable(i1, i2, val));
+                    ScopedVariables.Add(name, new Variable(i1, i2, val));
             }
             else if (GlobalVariableExists(name))
             {
@@ -221,8 +194,8 @@ namespace GameCreator.Framework.Gml.Interpreter
         }
         public static Value GetVar(string name, int i1, int i2)
         {
-            if (localvars.Contains(name))
-                return locals[name][i1, i2];
+            if (DeclaredVariables.Contains(name))
+                return ScopedVariables[name][i1, i2];
             if (globalvars.Contains(name))
                 return GetGlobalVariable(name)[i1, i2];
             return Current.Variable(name)[i1, i2];
@@ -252,8 +225,8 @@ namespace GameCreator.Framework.Gml.Interpreter
         }
         public static GetSetValue Variable(string name)
         {
-            if (localvars.Contains(name))
-                return locals[name];
+            if (DeclaredVariables.Contains(name))
+                return ScopedVariables[name];
             if (globalvars.Contains(name))
                 return GlobalVariables[name];
             return Current.Variable(name);
@@ -291,8 +264,8 @@ namespace GameCreator.Framework.Gml.Interpreter
         {
             foreach (string s in v)
             {
-                if (!localvars.Contains(s))
-                    localvars.Add(s);
+                if (!DeclaredVariables.Contains(s))
+                    DeclaredVariables.Add(s);
             }
         }
     }

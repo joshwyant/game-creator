@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using GameCreator.Runtime;
 
 namespace GameCreator.Framework.Gml.Interpreter
 {
@@ -149,7 +150,7 @@ namespace GameCreator.Framework.Gml.Interpreter
         [Statement(Kind = StatementKind.Return)]
         public static void Return(Statement s)
         {
-            ExecutionContext.Returned = ((Return)s).Expression.Eval();
+            Interpreter.Returned = ((Return)s).Expression.Eval();
             Interpreter.ProgramFlow = FlowType.Exit;
         }
         #endregion
@@ -268,9 +269,9 @@ namespace GameCreator.Framework.Gml.Interpreter
                     break;
                 case InstanceTarget.All:
                     ExecutionContext.Other = c;
-                    foreach (int i in ExecutionContext.Instances.Keys)
+                    foreach (var i in ExecutionContext.Instances)
                     {
-                        ExecutionContext.Current = ExecutionContext.Instances[i];
+                        ExecutionContext.Current = i;
                         switch (Exec(with.Body, FlowType.Continue | FlowType.Break))
                         {
                             case FlowType.None:
@@ -291,19 +292,19 @@ namespace GameCreator.Framework.Gml.Interpreter
                     ThrowError(Error.GlobalWith);
                     return;
                 default:
-                    if (ExecutionContext.Instances.ContainsKey(instance))
+                    if (ExecutionContext.Instances.Any(e => e.id == instance))
                     {
-                        ExecutionContext.Current = ExecutionContext.Instances[instance];
+                        ExecutionContext.Current = LibraryContext.Current.InstanceFactory.Instances[instance] as RuntimeInstance;
                         ExecutionContext.Other = c;
                     }
                     else
                     {
                         ExecutionContext.Other = c;
-                        foreach (int i in ExecutionContext.Instances.Keys)
+                        foreach (var i in ExecutionContext.Instances)
                         {
-                            if (ExecutionContext.GetVar(i, "object_index") == instance)
+                            if (i.object_index == instance)
                             {
-                                ExecutionContext.Current = ExecutionContext.Instances[i];
+                                ExecutionContext.Current = i;
                                 switch (Exec(with.Body, FlowType.Continue | FlowType.Break))
                                 {
                                     case FlowType.None:

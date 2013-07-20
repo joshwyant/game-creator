@@ -16,8 +16,8 @@ namespace GameCreator.Framework.Gml.Interpreter
         {
             using (new ExecutionScope())
             {
-                ExecutionContext.Returned = Delegate(args);
-                return ExecutionContext.Returned;
+                Interpreter.Returned = Delegate(args);
+                return Interpreter.Returned;
             }
         }
     }
