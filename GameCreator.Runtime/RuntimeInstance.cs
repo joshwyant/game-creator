@@ -11,6 +11,7 @@ namespace GameCreator.Runtime
     public class RuntimeInstance : Instance
     {
         #region Private
+        [NoGmlExport]
         Dictionary<string, Variable> instancevars = new Dictionary<string, Variable>();
         #endregion
 
@@ -20,6 +21,7 @@ namespace GameCreator.Runtime
         #endregion
 
         #region Other properties
+        [NoGmlExport]
         public bool Destroyed = false;
         #endregion
 

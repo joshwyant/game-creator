@@ -11,7 +11,7 @@ namespace GameCreator.Framework.Gml
         internal string Newline { get; set; }
         internal string Padding { get; set; }
 
-        public GmlFormatter() : this(2) { }
+        public GmlFormatter() : this(4) { }
 
         public GmlFormatter(int spaces)
         {

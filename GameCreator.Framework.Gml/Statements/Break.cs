@@ -13,9 +13,11 @@ namespace GameCreator.Framework.Gml
             get { return StatementKind.Break; }
         }
 
-        internal override void Write(System.CodeDom.Compiler.IndentedTextWriter writer, GmlFormatter formatter)
+        internal override void Write(System.CodeDom.Compiler.IndentedTextWriter writer, GmlFormatter formatter, bool semicolon)
         {
-            writer.WriteLine("break;");
+            writer.WriteLine("break");
+            if (semicolon)
+                writer.WriteLine(";");
         }
     }
 }

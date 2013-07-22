@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
 
 namespace GameCreator.Framework.Gml
 {
@@ -15,9 +16,13 @@ namespace GameCreator.Framework.Gml
             get { return StatementKind.Var; }
         }
 
-        internal override void Write(System.CodeDom.Compiler.IndentedTextWriter writer, GmlFormatter formatter)
+        internal override void Write(System.CodeDom.Compiler.IndentedTextWriter writer, GmlFormatter formatter, bool semicolon)
         {
-            writer.Write("var ");
+            writer.Write("var");
+
+            if (Variables.Any())
+                writer.Write(" ");
+
             for (var i = 0; i < Variables.Length; i++)
             {
                 if (i != 0)
@@ -25,7 +30,8 @@ namespace GameCreator.Framework.Gml
 
                 writer.Write(Variables[i]);
             }
-            writer.WriteLine(";");
+            if (semicolon)
+                writer.WriteLine(";");
         }
     }
 }

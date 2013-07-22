@@ -1,0 +1,29 @@
+﻿namespace GameCreator.Framework
+{
+    public enum GmVersion
+    {
+        NotSpecified,
+        Version1_1,
+        Version1_2,
+        Version1_3,
+        Version1_4,
+        Version2_0,
+        Version3_0,
+        Version3_1,
+        Version3_2,
+        Version3_3,
+        Version4_0,
+        Version4_1,
+        Version4_2,
+        Version4_3,
+        Version5_0,
+        Version5_1,
+        Version5_2,
+        Version5_3,
+        Version6_0,
+        Version6_1,
+        Version7_0,
+        Version8_0,
+        Version8_1,
+    }
+}

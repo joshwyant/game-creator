@@ -37,6 +37,8 @@ namespace GameCreator.Runtime.Game
 
         private static void InitializeContext(LibraryContext context)
         {
+            ExecutionContext.InitializeContext(context);
+
             //context.DefineGlobalVariables(new [] { "...." });
 
             // Declare additional variable names specific to games

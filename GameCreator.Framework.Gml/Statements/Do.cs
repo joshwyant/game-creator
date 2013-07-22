@@ -28,7 +28,7 @@ namespace GameCreator.Framework.Gml
             Body.Optimize();
         }
 
-        internal override void Write(System.CodeDom.Compiler.IndentedTextWriter writer, GmlFormatter formatter)
+        internal override void Write(System.CodeDom.Compiler.IndentedTextWriter writer, GmlFormatter formatter, bool semicolon)
         {
             writer.Write("do");
             if (Body.Kind != StatementKind.Sequence && string.IsNullOrEmpty(formatter.Newline))
@@ -41,7 +41,9 @@ namespace GameCreator.Framework.Gml
                 writer.Indent--;
             writer.Write(string.Concat("while", formatter.Padding, "("));
             Expression.Write(writer, formatter);
-            writer.WriteLine(");");
+            writer.Write(")");
+            if (semicolon)
+                writer.WriteLine(";");
         }
     }
 }

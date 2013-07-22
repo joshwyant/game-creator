@@ -32,7 +32,17 @@ namespace GameCreator.Test
         {
             var context = new LibraryContext();
 
-            // Todo
+            Assert.IsNotNull(context.Resources);
+            Assert.AreSame(context, context.Resources.Context);
+
+            context.Resources.Sprites.Define("sprite0", 1);
+
+            Assert.IsNotNull(context.Resources.Sprites[0]);
+
+            Assert.IsTrue(context.Resources.Sprites[0].Name == "sprite0");
+
+            var sprite1 = context.Resources.Sprites.Define(null, 0);
+            Assert.AreEqual("sprite1", sprite1.Name);
         }
     }
 }

@@ -25,12 +25,13 @@ namespace GameCreator.Framework.Gml
 
         public virtual string Operator { get { return "="; } }
 
-        internal override void Write(System.CodeDom.Compiler.IndentedTextWriter writer, GmlFormatter formatter)
+        internal override void Write(System.CodeDom.Compiler.IndentedTextWriter writer, GmlFormatter formatter, bool semicolon)
         {
             Lefthand.Write(writer, formatter);
-            writer.Write(string.Format("{1}{0}{1}", formatter.Padding, Operator));
+            writer.Write(string.Format("{1}{0}{1}", Operator, formatter.Padding));
             Expression.Write(writer, formatter);
-            writer.WriteLine(";");
+            if (semicolon)
+                writer.WriteLine(";");
         }
     }
 }

@@ -9,7 +9,7 @@ using GameCreator.Framework.Gml.Interpreter;
 
 namespace GameCreator.Runtime.Library.Interpreted
 {
-    public static class GmlFunctions
+    public static class InterpreterFunctions
     {
         [GmlFunction]
         public static Value execute_string(string code)

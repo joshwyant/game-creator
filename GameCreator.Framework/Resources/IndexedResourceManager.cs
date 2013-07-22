@@ -31,7 +31,7 @@ namespace GameCreator.Framework
             if (index >= NextIndex)
                 NextIndex = index + 1;
 
-            Add(index, i);
+            Add(i.Id, i);
         }
     }
 }

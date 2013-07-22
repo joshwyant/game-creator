@@ -7,7 +7,7 @@ using GameCreator.Framework;
 
 namespace GameCreator.Runtime.Library.Windows
 {
-    public static class GmlFunctions
+    public static class WindowsFunctions
     {
         [GmlFunction]
         public static bool clipboard_has_text()

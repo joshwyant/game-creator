@@ -16,6 +16,7 @@ namespace GameCreator.Framework
             }
         }
 
+        [NoGmlExport]
         public int ObjectIndex { get; set; }
 
         protected internal Instance(ResourceContext context)

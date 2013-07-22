@@ -16,6 +16,10 @@ namespace GameCreator.Framework.Gml
         public virtual void Optimize() { }
 
         internal override void Write(System.CodeDom.Compiler.IndentedTextWriter writer, GmlFormatter formatter)
-        { }
+        {
+            Write(writer, formatter, true);
+        }
+
+        internal abstract void Write(System.CodeDom.Compiler.IndentedTextWriter writer, GmlFormatter formatter, bool semicolon);
     }
 }

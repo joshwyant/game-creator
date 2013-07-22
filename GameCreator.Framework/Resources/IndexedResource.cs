@@ -7,7 +7,9 @@ namespace GameCreator.Framework
 {
     public abstract class IndexedResource
     {
+        [NoGmlExport]
         public ResourceContext Context { get; set; }
+        [NoGmlExport]
         public int Id { get; set; }
 
         protected internal IndexedResource(ResourceContext context)

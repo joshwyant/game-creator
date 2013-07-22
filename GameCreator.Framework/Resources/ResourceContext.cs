@@ -22,11 +22,14 @@ namespace GameCreator.Framework
         {
             Context = context;
             Managers = new Dictionary<Type, IDictionary>();
+
             Sprites = new IndexedResourceManager<Sprite>(this);
             Scripts = new IndexedResourceManager<Script>(this);
             Objects = new IndexedResourceManager<Object>(this);
             Rooms = new IndexedResourceManager<Room>(this);
             Instances = new IndexedResourceManager<Instance>(this, 100001);
+
+            Constants = new Dictionary<string, Value>();
         }
 
         public bool FunctionExists(string n)

@@ -17,7 +17,8 @@ namespace GameCreator.Runtime.Game.Interpreted
                 /* Define all of the built-in functions included in the runtime */
                 var lib = new Type[] { 
                     typeof(GameCreator.Runtime.Library.GmlFunctions),
-                    typeof(GameCreator.Runtime.Library.Windows.GmlFunctions),
+                    typeof(GameCreator.Runtime.Library.Interpreted.InterpreterFunctions),
+                    typeof(GameCreator.Runtime.Library.Windows.WindowsFunctions),
                     typeof(Library.Actions.LibraryFunctions),
                     typeof(Library.GameFunctions), 
                     typeof(Library.FormsFunctions), // experimental

@@ -19,7 +19,7 @@ namespace GameCreator.Framework.Gml
             get { return StatementKind.Case; }
         }
 
-        internal override void Write(System.CodeDom.Compiler.IndentedTextWriter writer, GmlFormatter formatter)
+        internal override void Write(System.CodeDom.Compiler.IndentedTextWriter writer, GmlFormatter formatter, bool semicolon)
         {
             var indent = writer.Indent;
 

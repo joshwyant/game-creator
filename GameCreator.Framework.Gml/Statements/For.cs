@@ -33,14 +33,14 @@ namespace GameCreator.Framework.Gml
             Body.Optimize();
         }
 
-        internal override void Write(System.CodeDom.Compiler.IndentedTextWriter writer, GmlFormatter formatter)
+        internal override void Write(System.CodeDom.Compiler.IndentedTextWriter writer, GmlFormatter formatter, bool semicolon)
         {
             writer.Write(string.Concat("for", formatter.Padding, "("));
-            Initializer.Write(writer, formatter);
+            Initializer.Write(writer, formatter, false);
             writer.Write(";" + formatter.Padding);
             Test.Write(writer, formatter);
             writer.Write(";" + formatter.Padding);
-            Iterator.Write(writer, formatter);
+            Iterator.Write(writer, formatter, false);
             writer.WriteLine(")");
             if (Body.Kind != StatementKind.Sequence)
                 writer.Indent++;

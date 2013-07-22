@@ -26,7 +26,7 @@ namespace GameCreator.Framework.Gml
             Body.Optimize();
         }
 
-        internal override void Write(System.CodeDom.Compiler.IndentedTextWriter writer, GmlFormatter formatter)
+        internal override void Write(System.CodeDom.Compiler.IndentedTextWriter writer, GmlFormatter formatter, bool semicolon)
         {
             writer.Write(string.Concat("while", formatter.Padding, "("));
             Expression.Write(writer, formatter);

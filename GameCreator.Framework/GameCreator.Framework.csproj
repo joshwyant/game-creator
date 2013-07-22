@@ -70,6 +70,7 @@
     <Compile Include="Core\FunctionDelegate.cs" />
     <Compile Include="Core\GmlFunctionAttribute.cs" />
     <Compile Include="Core\IGml.cs" />
+    <Compile Include="Core\NoGmlExportAttribute.cs" />
     <Compile Include="Core\ProgramError.cs" />
     <Compile Include="Core\Error.cs" />
     <Compile Include="Core\ErrorDefinition.cs" />
@@ -84,12 +85,14 @@
     <Compile Include="Events\StepEvents.cs" />
     <Compile Include="Events\VirtualKeyCode.cs" />
     <Compile Include="Resources\IInstanceFactory.cs" />
+    <Compile Include="Resources\ILibraryInitializer.cs" />
+    <Compile Include="Resources\LibraryInitializer.cs" />
     <Compile Include="Resources\ResourceExtensions.cs" />
     <Compile Include="Resources\NamedIndexedResource.cs" />
     <Compile Include="Resources\IndexedResourceManager.cs" />
     <Compile Include="Resources\IndexedResource.cs" />
     <Compile Include="Resources\Entities\Instance.cs" />
-    <Compile Include="Core\GameMakerEmulation.cs" />
+    <Compile Include="Core\GmVersion.cs" />
     <Compile Include="Core\InstanceTarget.cs" />
     <Compile Include="Resources\LibraryContext.cs" />
     <Compile Include="Resources\ResourceContext.cs" />

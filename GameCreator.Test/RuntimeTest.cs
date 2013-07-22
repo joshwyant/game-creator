@@ -49,16 +49,16 @@ namespace GameCreator.Test
             Assert.IsTrue(var2.Value.Real == 0);
 
             var2.Value = "Hello";
-            Assert.AreEqual(var2.Value, Value.Zero);
+            Assert.AreEqual(Value.Zero, var2.Value);
 
             var4.Value = 0;
-            Assert.AreEqual(var4.Value, Value.EmptyString);
+            Assert.AreEqual(Value.EmptyString, var4.Value);
 
             test.a.Value = 3;
-            Assert.AreEqual(test.a.Value, new Value(3));
+            Assert.AreEqual(new Value(3), test.a.Value);
 
             test.b.Value = "Something";
-            Assert.AreEqual(test.b.Value, new Value("Something"));
+            Assert.AreEqual(new Value("Something"), test.b.Value);
 
 
         }

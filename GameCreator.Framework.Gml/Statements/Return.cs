@@ -24,11 +24,12 @@ namespace GameCreator.Framework.Gml
             Expression = Expression.Reduce();
         }
 
-        internal override void Write(System.CodeDom.Compiler.IndentedTextWriter writer, GmlFormatter formatter)
+        internal override void Write(System.CodeDom.Compiler.IndentedTextWriter writer, GmlFormatter formatter, bool semicolon)
         {
             writer.Write("return ");
             Expression.Write(writer, formatter);
-            writer.WriteLine(";");
+            if (semicolon)
+                writer.WriteLine(";");
         }
     }
 }

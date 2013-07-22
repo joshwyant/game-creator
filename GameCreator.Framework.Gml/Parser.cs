@@ -418,10 +418,13 @@ namespace GameCreator.Framework.Gml
             }
             else if (t == TokenKind.For)
             {
+                // "For" is very weird in GM. Any legal statement including control flow and blocks can be used in for.
+                // example of legal "for" statements:
+                // for (i = 0 i<3; {case 3:exit};;;)func();
                 move();
                 match(Token.OpeningParenthesis);
                 s1 = stmt();
-                match(Token.Semicolon);
+                //match(Token.Semicolon); // Taken care of by stmt();
                 e = expr();
                 match(Token.Semicolon);
                 s2 = stmt();

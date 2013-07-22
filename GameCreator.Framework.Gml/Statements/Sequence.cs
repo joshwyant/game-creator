@@ -26,15 +26,21 @@ namespace GameCreator.Framework.Gml
         {
             First.Optimize();
             Second.Optimize();
+
+            if (First.Kind == StatementKind.Nop && Second.Kind == StatementKind.Sequence)
+            {
+                First = (Second as Sequence).First;
+                Second = (Second as Sequence).Second;
+            }
         }
 
-        internal override void Write(IndentedTextWriter writer, GmlFormatter formatter)
+        internal override void Write(IndentedTextWriter writer, GmlFormatter formatter, bool semicolon)
         {
             // Write the sequence with curly braces.
-            Write(writer, formatter, true);
+            Write(writer, formatter, semicolon, true);
         }
 
-        void Write(IndentedTextWriter writer, GmlFormatter formatter, bool curlyBraces)
+        void Write(IndentedTextWriter writer, GmlFormatter formatter, bool semicolon, bool curlyBraces)
         {
             Sequence seq;
             if (curlyBraces)
@@ -46,7 +52,7 @@ namespace GameCreator.Framework.Gml
             {
                 // Write the sequence without curly braces.
                 seq = (Sequence)First;
-                seq.Write(writer, formatter, false);
+                seq.Write(writer, formatter, semicolon, false);
             }
             else
                 First.Write(writer, formatter);
@@ -54,7 +60,7 @@ namespace GameCreator.Framework.Gml
             {
                 // Write the sequence without curly braces.
                 seq = (Sequence)Second;
-                seq.Write(writer, formatter, false);
+                seq.Write(writer, formatter, semicolon, false);
             }
             else
                 Second.Write(writer, formatter);
