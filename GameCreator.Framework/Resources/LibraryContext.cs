@@ -43,13 +43,26 @@ namespace GameCreator.Framework
 
             if (initializer != null)
             {
-                var funcs = initializer.ImportFunctions();
-                foreach (var f in funcs)
-                    Functions.Add(f.Name, f);
+                
+                // Build the list of functions
+                foreach (var mi in 
+                    initializer.FunctionLibraries.SelectMany(
+                        t => t.GetMethods(BindingFlags.Public | BindingFlags.Static))
+                    .Where(mi => 
+                        mi.GetCustomAttributes(typeof(GmlFunctionAttribute), false)
+                          .Any())
+                )
+                {
+                    var fn = (GmlFunctionAttribute)mi.GetCustomAttributes(typeof(GmlFunctionAttribute), false).Single();
+                    string name = string.IsNullOrEmpty(fn.Name) ? mi.Name : fn.Name;
+                    Functions.Add(name, initializer.TransformFunction(mi, name));
+                }
 
+                // Add built-in variables
                 (InstanceVariables as List<string>).AddRange(initializer.InstanceVariables);
                 (BuiltInVariables as List<string>).AddRange(initializer.GlobalVariables);
 
+                // Add constants
                 foreach (var c in initializer.Constants)
                     Constants.Add(c.Key, c.Value);
             }

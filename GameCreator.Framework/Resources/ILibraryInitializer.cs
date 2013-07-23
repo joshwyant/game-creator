@@ -11,7 +11,8 @@ namespace GameCreator.Framework
         IEnumerable<string> GlobalVariables { get; }
         IEnumerable<KeyValuePair<string, Value>> Constants { get; }
         IEnumerable<string> InstanceVariables { get; }
-        IEnumerable<Type> FunctionLibraries { get; }  
+        IEnumerable<Type> FunctionLibraries { get; }
         BaseFunction TransformFunction(MethodInfo fn, string name);
+        IInstanceFactory CreateInstanceFactory(LibraryContext context);
     }
 }

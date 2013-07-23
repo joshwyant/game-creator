@@ -27,8 +27,11 @@ namespace GameCreator.Runtime
 
         #region Constructor
         // use Env.CreateInstance() or Env.CreatePrivateInstance().
-        public RuntimeInstance(ResourceContext context, int object_index, int id)
+        protected internal RuntimeInstance(ResourceContext context, int object_index, int id)
             : base(context, object_index, id) { }
+
+        protected internal RuntimeInstance(ResourceContext context)
+            : base(context) { }
         #endregion
 
         #region Variable Access Methods

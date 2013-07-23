@@ -25,6 +25,27 @@ namespace GameCreator.Runtime.Game.Library
             return sb.ToString();
         }
 
+        public static GameInstance CreateInstance(int id, double x, double y)
+        {
+            Framework.Object o;
+            if (!LibraryContext.Current.Resources.Objects.TryGetValue(id, out o))
+                return null;
+
+            var inst = LibraryContext.Current.InstanceFactory.CreateInstance(o.Id) as GameInstance;
+            inst.sprite_index = o.SpriteIndex;
+            inst.xstart = inst.x = x;
+            inst.ystart = inst.y = y;
+
+            return inst;
+        }
+
+        [GmlFunction]
+        public static int instance_create(double x, double y, int object_index)
+        {
+            var e = CreateInstance(object_index, x, y);
+            LibraryContext.Current.PerformEvent(e, EventType.Create, 0);
+            return e.id;
+        }
         [GmlFunction]
         public static int show_message(string msg)
         {

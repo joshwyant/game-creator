@@ -43,6 +43,8 @@
   <ItemGroup>
     <Compile Include="Game.cs" />
     <Compile Include="GameInstance.cs" />
+    <Compile Include="GameInstanceFactory.cs" />
+    <Compile Include="GameLibraryInitializer.cs" />
     <Compile Include="KeyMapper.cs" />
     <Compile Include="Library\Actions\Common.cs" />
     <Compile Include="Library\Actions\Control.cs" />

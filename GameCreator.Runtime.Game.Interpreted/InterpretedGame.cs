@@ -14,16 +14,7 @@ namespace GameCreator.Runtime.Game.Interpreted
             //System.Windows.Forms.Application
             try
             {
-                /* Define all of the built-in functions included in the runtime */
-                var lib = new Type[] { 
-                    typeof(GameCreator.Runtime.Library.GmlFunctions),
-                    typeof(GameCreator.Runtime.Library.Interpreted.InterpreterFunctions),
-                    typeof(GameCreator.Runtime.Library.Windows.WindowsFunctions),
-                    typeof(Library.Actions.LibraryFunctions),
-                    typeof(Library.GameFunctions), 
-                    typeof(Library.FormsFunctions), // experimental
-                };
-                Interpreter.ImportFunctions(lib);
+                LibraryContext.Current = new LibraryContext(new InterpretedGameLibraryInitializer());
 
                 /* Define all of the scripts */
                 foreach (var s in Script.Manager.Resources.Values)

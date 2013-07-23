@@ -9,7 +9,6 @@ namespace GameCreator.Framework
     {
         Instance CreatePrivateInstance();
         Instance CreateInstance(int object_index);
-        Instance CreateInstance(int object_index, IEnumerable<KeyValuePair<string, Value>> values);
         Instance CreateInstance(int object_index, int id);
         IDictionary<int, Instance> Instances { get; }
         void DestroyInstance(int id);

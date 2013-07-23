@@ -24,7 +24,6 @@ namespace GameCreator.Runtime.Game
         public static void Init()
         {
             System.AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
-            InitializeContext(LibraryContext.Current);
         }
 
         public static GameInstance GetInstance(int id)
@@ -34,21 +33,6 @@ namespace GameCreator.Runtime.Game
 
         public static GameInstance Current
         { get { return ExecutionContext.Current as GameInstance; } }
-
-        private static void InitializeContext(LibraryContext context)
-        {
-            ExecutionContext.InitializeContext(context);
-
-            //context.DefineGlobalVariables(new [] { "...." });
-
-            // Declare additional variable names specific to games
-            context.DefineInstanceVariables(new[] {
-                "alarm", "direction", "speed", "hspeed", "vspeed", "sprite_index", "image_blend",
-                "x", "y", "gravity", "gravity_direction", "friction", "depth", "image_speed", "image_single", "image_index",
-                "image_xscale", "image_yscale", "image_angle", "image_alpha", "xstart", "ystart", "xprevious", "yprevious",
-                 "visible", "solid", "persistent"
-            });
-        }
 
         /* Call GameCreator.Framework.Game.Run after all of the reasources are created using the GameCreator.Framework namespace */
         public static void Run()

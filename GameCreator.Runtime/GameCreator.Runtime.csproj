@@ -39,6 +39,7 @@
     <Compile Include="ArgumentList.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="DefaultInitializer.cs" />
+    <Compile Include="DefaultInstanceFactory.cs" />
     <Compile Include="Dymamic\ArrayAccessor.cs" />
     <Compile Include="Dymamic\FieldAccessor.cs" />
     <Compile Include="Dymamic\GetSetAccessor.cs" />
