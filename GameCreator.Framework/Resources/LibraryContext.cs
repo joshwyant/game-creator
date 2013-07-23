@@ -32,7 +32,6 @@ namespace GameCreator.Framework
 
         public void Initialize(ILibraryInitializer initializer)
         {
-
             Libraries = new Dictionary<int, ActionLibrary>();
             Functions = new Dictionary<string, IFunction>();
             BuiltInVariables = new List<string>();

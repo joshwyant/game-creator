@@ -18,17 +18,6 @@ namespace GameCreator.Framework.Gml
             Lefthand = left; Name = n; Indices = ind;
         }
 
-        // TODO: TRANSFER TO GameCreator.Framework.GML.Interpreter
-        public void Set(Value v)
-        {
-            //int i1, i2;
-            //int left = info(out i1, out i2);
-            //if (Lefthand == null)
-            //    ExecutionContext.SetVar(Name, i1, i2, v);
-            //else
-            //    ExecutionContext.SetVar(left, Name, i1, i2, v);
-        }
-
         public override ExpressionKind Kind
         {
             get { return ExpressionKind.Access; }

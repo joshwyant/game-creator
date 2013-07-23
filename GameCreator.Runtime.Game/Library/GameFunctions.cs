@@ -43,7 +43,10 @@ namespace GameCreator.Runtime.Game.Library
         public static int instance_create(double x, double y, int object_index)
         {
             var e = CreateInstance(object_index, x, y);
+            var current = ExecutionContext.Current;
+            ExecutionContext.Current = e;
             LibraryContext.Current.PerformEvent(e, EventType.Create, 0);
+            ExecutionContext.Current = current;
             return e.id;
         }
         [GmlFunction]

@@ -35,7 +35,8 @@ namespace GameCreator.Framework
         {
             ObjectIndex = objectIndex;
 
-            context.Instances.Install(this, index);
+            if (index != 0)
+                context.Instances.Install(this, index);
         }
     }
 }

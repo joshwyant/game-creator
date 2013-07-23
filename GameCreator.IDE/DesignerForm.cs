@@ -386,14 +386,18 @@ namespace GameCreator.IDE
             // We are generating a dynamic assembly here.
             //
             // Get type information from the runtime assembly
-            Assembly asm_runtime = Assembly.Load("GameCreator.Framework");
-            Type t_game = asm_runtime.GetType("GameCreator.Framework.Game");
-            Type t_script = asm_runtime.GetType("GameCreator.Framework.Script");
-            Type t_sprite = asm_runtime.GetType("GameCreator.Framework.Sprite");
-            Type t_room = asm_runtime.GetType("GameCreator.Framework.Room");
-            Type t_object = asm_runtime.GetType("GameCreator.Framework.Object");
-            Type t_event = asm_runtime.GetType("GameCreator.Framework.Event");
-            Type t_lib = asm_runtime.GetType("GameCreator.Framework.ActionLibrary");
+            var asm_runtime = Assembly.Load("GameCreator.Runtime");
+            var asm_gamei = Assembly.Load("GameCreator.Runtime.Game.Interpreted");
+            var asm_game = Assembly.Load("GameCreator.Runtime.Game");
+            Type t_gamei = asm_gamei.GetType("GameCreator.Runtime.Game.Interpreted.InterpretedGame");
+            Type t_game = asm_game.GetType("GameCreator.Runtime.Game.Game");
+            Type t_ext = typeof(ResourceExtensions);
+            Type t_obj = typeof(Framework.Object);
+            Type t_room = typeof(Room);
+            Type t_event = typeof(Event);
+            Type t_lib = typeof(Framework.ActionLibrary);
+            Type t_context = typeof(LibraryContext);
+            Type t_rcontext = typeof(ResourceContext);
             // Define our dynamic assembly
             System.Reflection.Emit.AssemblyBuilder asm = AppDomain.CurrentDomain.DefineDynamicAssembly(new AssemblyName(asmname), AssemblyBuilderAccess.RunAndSave, pathname);
             ModuleBuilder mod = asm.DefineDynamicModule(exename, exename);
@@ -448,8 +452,9 @@ namespace GameCreator.IDE
             foreach (ActionLibrary lib in Program.Library)
             {
                 // lib = GameCreator.ActionLibrary.Define(id);
+                il.EmitCall(OpCodes.Call, t_context.GetProperty("Current", BindingFlags.Public | BindingFlags.Static).GetGetMethod(), null);
                 il.Emit(OpCodes.Ldc_I4, lib.LibraryID);
-                il.EmitCall(OpCodes.Call, t_lib.GetMethod("Define", BindingFlags.Static | BindingFlags.Public, null, new Type[] { typeof(int) }, null), null);
+                il.EmitCall(OpCodes.Call, t_context.GetMethod("GetActionLibrary", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(int) }, null), null);
                 foreach (ActionDefinition ad in lib.Actions)
                 {
                     // lib.DefineAction(actionid, kind, execution, question, func, code, args);
@@ -485,10 +490,13 @@ namespace GameCreator.IDE
                 foreach (Bitmap b in res.Animation.Frames)
                     resw.AddResource(string.Format("spr_{0}_{1}", res.ResourceID, i++), b);
                 // GameCreator.Runtime.Sprite.Define("name", index, subimages);
+                il.EmitCall(OpCodes.Call, t_context.GetProperty("Current", BindingFlags.Public | BindingFlags.Static).GetGetMethod(), null);
+                il.EmitCall(OpCodes.Call, t_context.GetProperty("Resources", BindingFlags.Public | BindingFlags.Instance).GetGetMethod(), null);
+                il.EmitCall(OpCodes.Call, t_rcontext.GetProperty("Sprites", BindingFlags.Public | BindingFlags.Instance).GetGetMethod(), null);
                 il.Emit(OpCodes.Ldstr, res.Name);
                 il.Emit(OpCodes.Ldc_I4, res.ResourceID);
                 il.Emit(OpCodes.Ldc_I4, res.Animation.FrameCount);
-                il.EmitCall(OpCodes.Call, t_sprite.GetMethod("Define", BindingFlags.Static | BindingFlags.Public, null, new Type[] { typeof(string), typeof(int), typeof(int) }, null), null);
+                il.EmitCall(OpCodes.Call, t_ext.GetMethod("Define", BindingFlags.Static | BindingFlags.Public, null, new Type[] { typeof(IndexedResourceManager<Sprite>), typeof(string), typeof(int), typeof(int) }, null), null);
                 il.Emit(OpCodes.Pop);
             }
             il.Emit(OpCodes.Ret);
@@ -497,10 +505,13 @@ namespace GameCreator.IDE
             foreach (ScriptResourceView res in Program.Scripts.Values)
             {
                 // GameCreator.Runtime.Script.Define("name", index, "code");
+                il.EmitCall(OpCodes.Call, t_context.GetProperty("Current", BindingFlags.Public | BindingFlags.Static).GetGetMethod(), null);
+                il.EmitCall(OpCodes.Call, t_context.GetProperty("Resources", BindingFlags.Public | BindingFlags.Instance).GetGetMethod(), null);
+                il.EmitCall(OpCodes.Call, t_rcontext.GetProperty("Sprites", BindingFlags.Public | BindingFlags.Instance).GetGetMethod(), null);
                 il.Emit(OpCodes.Ldstr, res.Name);
                 il.Emit(OpCodes.Ldc_I4, res.ResourceID);
                 il.Emit(OpCodes.Ldstr, res.Code);
-                il.EmitCall(OpCodes.Call, t_script.GetMethod("Define", BindingFlags.Static | BindingFlags.Public, null, new Type[] { typeof(string), typeof(int), typeof(string) }, null), null);
+                il.EmitCall(OpCodes.Call, t_ext.GetMethod("Define", BindingFlags.Static | BindingFlags.Public, null, new Type[] { typeof(IndexedResourceManager<Script>), typeof(string), typeof(int), typeof(string) }, null), null);
                 il.Emit(OpCodes.Pop);
             }
             il.Emit(OpCodes.Ret);
@@ -509,16 +520,19 @@ namespace GameCreator.IDE
             foreach (ObjectResourceView res in Program.Objects.Values)
             {
                 // obj = GameCreator.Runtime.Object.Define("name", index);
+                il.EmitCall(OpCodes.Call, t_context.GetProperty("Current", BindingFlags.Public | BindingFlags.Static).GetGetMethod(), null);
+                il.EmitCall(OpCodes.Call, t_context.GetProperty("Resources", BindingFlags.Public | BindingFlags.Instance).GetGetMethod(), null);
+                il.EmitCall(OpCodes.Call, t_rcontext.GetProperty("Objects", BindingFlags.Public | BindingFlags.Instance).GetGetMethod(), null);
                 il.Emit(OpCodes.Ldstr, res.Name);
                 il.Emit(OpCodes.Ldc_I4, res.ResourceID);
-                il.EmitCall(OpCodes.Call, t_object.GetMethod("Define", BindingFlags.Static | BindingFlags.Public, null, new Type[] { typeof(string), typeof(int) }, null), null);
+                il.EmitCall(OpCodes.Call, t_ext.GetMethod("Define", BindingFlags.Static | BindingFlags.Public, null, new Type[] { typeof(IndexedResourceManager<Framework.Object>), typeof(string), typeof(int) }, null), null);
                 foreach (ObjectEvent ev in res.Events)
                 {
                     // ev = obj.DefineEvent(event, num);
                     il.Emit(OpCodes.Dup);
                     il.Emit(OpCodes.Ldc_I4, (int)ev.EventType);
                     il.Emit(OpCodes.Ldc_I4, (int)ev.EventNumber);
-                    il.EmitCall(OpCodes.Call, t_object.GetMethod("DefineEvent", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(int), typeof(int) }, null), null);
+                    il.EmitCall(OpCodes.Call, t_obj.GetMethod("DefineEvent", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(int), typeof(int) }, null), null);
                     foreach (ActionDeclaration ad in ev.Actions)
                     {
                         // ev.DefineAction(libid, actionid, args, appliesto, relative, not);
@@ -546,10 +560,10 @@ namespace GameCreator.IDE
                 il.Emit(OpCodes.Dup);
                 // obj.SpriteIndex = ind;
                 il.Emit(OpCodes.Ldc_I4, res.Sprite);
-                il.EmitCall(OpCodes.Call, t_object.GetProperty("SpriteIndex").GetSetMethod(), null);
+                il.EmitCall(OpCodes.Call, t_obj.GetProperty("SpriteIndex").GetSetMethod(), null);
                 //obj.Depth = d;
                 il.Emit(OpCodes.Ldc_R8, res.Depth);
-                il.EmitCall(OpCodes.Call, t_object.GetProperty("Depth").GetSetMethod(), null);
+                il.EmitCall(OpCodes.Call, t_obj.GetProperty("Depth").GetSetMethod(), null);
             }
             il.Emit(OpCodes.Ret);
             MethodBuilder defineRooms = program.DefineMethod("DefineRooms", MethodAttributes.Static);
@@ -566,9 +580,12 @@ namespace GameCreator.IDE
                 {
                     RoomResourceView res = (RoomResourceView)(tn.Tag);
                     // GameCreator.Runtime.Room.Define("name", index).CreationCode = "code";
+                    il.EmitCall(OpCodes.Call, t_context.GetProperty("Current", BindingFlags.Public | BindingFlags.Static).GetGetMethod(), null);
+                    il.EmitCall(OpCodes.Call, t_context.GetProperty("Resources", BindingFlags.Public | BindingFlags.Instance).GetGetMethod(), null);
+                    il.EmitCall(OpCodes.Call, t_rcontext.GetProperty("Rooms", BindingFlags.Public | BindingFlags.Instance).GetGetMethod(), null);
                     il.Emit(OpCodes.Ldstr, res.Name);
                     il.Emit(OpCodes.Ldc_I4, res.ResourceID);
-                    il.EmitCall(OpCodes.Call, t_room.GetMethod("Define", BindingFlags.Static | BindingFlags.Public, null, new Type[] { typeof(string), typeof(int) }, null), null);
+                    il.EmitCall(OpCodes.Call, t_ext.GetMethod("Define", BindingFlags.Static | BindingFlags.Public, null, new Type[] { typeof(IndexedResourceManager<Room>), typeof(string), typeof(int) }, null), null);
                     il.Emit(OpCodes.Ldstr, res.CreationCode);
                     il.EmitCall(OpCodes.Call, t_room.GetProperty("CreationCode").GetSetMethod(), null);
                 }
@@ -583,8 +600,8 @@ namespace GameCreator.IDE
             MethodBuilder main = program.DefineMethod("Main", MethodAttributes.Static);
             main.SetCustomAttribute(new CustomAttributeBuilder(typeof(STAThreadAttribute).GetConstructor(System.Type.EmptyTypes), new object[] { }));
             il = main.GetILGenerator();
-            // GameCreator.Runtime.Game.Init();
-            il.EmitCall(OpCodes.Call, t_game.GetMethod("Init"), null);
+            // GameCreator.Runtime.Game.Interpreted.InterpretedGame.Initialize();
+            il.EmitCall(OpCodes.Call, t_gamei.GetMethod("Initialize"), null);
             // InitLibraries();
             il.EmitCall(OpCodes.Call, initLibraries, null);
             // DefineScripts();
@@ -596,13 +613,13 @@ namespace GameCreator.IDE
             // DefineRooms();
             il.EmitCall(OpCodes.Call, defineRooms, null);
             // GameCreator.Runtime.Game.Name = "name";
-            il.Emit(OpCodes.Ldstr, asmname);
-            il.EmitCall(OpCodes.Call, t_game.GetProperty("Name").GetSetMethod(), null);
+            //il.Emit(OpCodes.Ldstr, asmname);
+            //il.EmitCall(OpCodes.Call, t_game.GetProperty("Name").GetSetMethod(), null);
             // GameCreator.Runtime.Game.ResourceManager = GetResourceManager();
             il.EmitCall(OpCodes.Call, GetResourceManager, null);
             il.EmitCall(OpCodes.Call, t_game.GetProperty("ResourceManager").GetSetMethod(), null);
-            // GameCreator.Runtime.Game.Run();
-            il.EmitCall(OpCodes.Call, t_game.GetMethod("Run"), null);
+            // GameCreator.Runtime.Game.Interpreted.InterpretedGame.Run();
+            il.EmitCall(OpCodes.Call, t_gamei.GetMethod("Run"), null);
             // return statement, required
             il.Emit(OpCodes.Ret);
             program.CreateType();
@@ -621,12 +638,22 @@ namespace GameCreator.IDE
             if (sfd.ShowDialog() == DialogResult.OK)
             {
                 string path = sfd.FileName.Remove(sfd.FileName.LastIndexOfAny(new char[] { '\\', '/' }) + 1).Replace('\\', '/');
-				if (!System.IO.File.Exists(path + "GameCreator.Runtime.dll"))
-                	System.IO.File.Copy("GameCreator.Runtime.dll", path + "GameCreator.Runtime.dll");
-                if (!System.IO.File.Exists(path + "OpenTK.dll"))
-                    System.IO.File.Copy("OpenTK.dll", path + "OpenTK.dll");
-                if (!System.IO.File.Exists(path + "OpenTK.dll.config"))
-                    System.IO.File.Copy("OpenTK.dll.config", path + "OpenTK.dll.config");
+                var dlls = new[] {
+                    "GameCreator.Framework.dll",
+                    "GameCreator.Runtime.dll",
+                    "GameCreator.Framework.Gml.dll",
+                    "GameCreator.Framework.Gml.Interpreter.dll",
+                    "GameCreator.Runtime.Game.dll",
+                    "GameCreator.Runtime.Game.Interpreted.dll",
+                    "GameCreator.Runtime.Library.dll",
+                    "GameCreator.Runtime.Library.Interpreted.dll",
+                    "GameCreator.Runtime.Library.Windows.dll",
+                    "OpenTK.dll",
+                    "OpenTK.dll.config"
+                };
+                foreach (var dll in dlls)
+                    if (!System.IO.File.Exists(path + dll))
+                        System.IO.File.Copy(dll, path + dll);
                 CreateExecutable(sfd.FileName);
             }
         }

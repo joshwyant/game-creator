@@ -413,6 +413,22 @@
       <Project>{6BC89687-EBA6-47F8-ADF0-05C1300D699A}</Project>
       <Name>GameCreator.Framework</Name>
     </ProjectReference>
+    <ProjectReference Include="..\GameCreator.Runtime.Game.Interpreted\GameCreator.Runtime.Game.Interpreted.csproj">
+      <Project>{1D629B47-A821-4030-B680-6E4953A744D7}</Project>
+      <Name>GameCreator.Runtime.Game.Interpreted</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GameCreator.Runtime.Game\GameCreator.Runtime.Game.csproj">
+      <Project>{0BCAA035-D775-47B7-9B6E-12AA6516CDCA}</Project>
+      <Name>GameCreator.Runtime.Game</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GameCreator.Runtime.Library.Interpreted\GameCreator.Runtime.Library.Interpreted.csproj">
+      <Project>{11328C16-7D70-421D-85C6-4EBAA195B1C7}</Project>
+      <Name>GameCreator.Runtime.Library.Interpreted</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GameCreator.Runtime.Library.Windows\GameCreator.Runtime.Library.Windows.csproj">
+      <Project>{8655F06A-A70B-4DB4-A754-BAF2D741A512}</Project>
+      <Name>GameCreator.Runtime.Library.Windows</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

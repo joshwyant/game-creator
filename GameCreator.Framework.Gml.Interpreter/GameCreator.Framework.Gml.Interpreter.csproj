@@ -36,6 +36,7 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Extensions\AccessExtensions.cs" />
     <Compile Include="ScopeHelpers\ExecutionScope.cs" />
     <Compile Include="Extensions\CodeUnitExtensions.cs" />
     <Compile Include="ExecutableFunction.cs" />
