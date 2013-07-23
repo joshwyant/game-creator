@@ -20,15 +20,13 @@ namespace GameCreator.Framework
             : base(context, name)
         {
             context.Sprites.Install(this, index);
+            if (string.IsNullOrEmpty(Name))
+                Name = "sprite" + Id;
             Initialize(subimages);
         }
 
         internal Sprite(ResourceContext context, string name, int subimages)
-            : base(context, name)
-        {
-            context.Sprites.Install(this);
-            Initialize(subimages);
-        }
+            : this(context, name, -1, subimages) { }
 
         private void Initialize(int subimages)
         {
