@@ -1,5 +1,7 @@
 ﻿using System.IO;
 using System;
+using System.Collections.Generic;
+using System.Text;
 namespace GameCreator.Framework.Gml
 {
     class Lexer
@@ -7,12 +9,12 @@ namespace GameCreator.Framework.Gml
         TextReader reader;
         char peek = ' ';
         const char eof = '\xFFFF';
-        System.Collections.Generic.Stack<Token> pushed = new System.Collections.Generic.Stack<Token>();
-        System.Collections.Generic.Stack<char> chars = new System.Collections.Generic.Stack<char>();
+        Stack<Token> pushed = new Stack<Token>();
+        Stack<char> chars = new Stack<char>();
         public int line = 1;
         public int col = 1;
         public int tokencol = 0;
-        public static System.Collections.Hashtable Words = new System.Collections.Hashtable();
+        public readonly static Dictionary<string, Token> Words = new Dictionary<string,Token>();
         static Lexer()
         {
             reserve(Token.Break);
@@ -102,14 +104,14 @@ namespace GameCreator.Framework.Gml
                 } while (char.IsLetterOrDigit(peek) || peek == '_');
                 string s = sb.ToString();
                 // reserve keywords and constants. Return their values literally as tokens
-                if (Words.Contains(s)) return (Token)Words[s];
-                Token t = new Token(TokenKind.Identifier, s, line, tokencol);
+                if (Words.ContainsKey(s)) return Words[s];
+                var t = new Token(TokenKind.Identifier, s, line, tokencol);
                 Words.Add(s, t);
                 return t;
             }
             else if (peek == '\"')
             {
-                System.Text.StringBuilder sb = new System.Text.StringBuilder();
+                var sb = new StringBuilder();
                 do
                 {
                     peek = readch();
@@ -128,7 +130,7 @@ namespace GameCreator.Framework.Gml
             }
             else if (peek == '\'')
             {
-                System.Text.StringBuilder sb = new System.Text.StringBuilder();
+                var sb = new StringBuilder();
                 do
                 {
                     peek = readch();
