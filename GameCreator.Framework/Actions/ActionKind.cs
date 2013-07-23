@@ -13,5 +13,7 @@
         Placeholder = 8,
         Separator = 9,
         Label = 10,
+        CallInherited = 5001,
+        ChangeObject = 5002,
     }
 }

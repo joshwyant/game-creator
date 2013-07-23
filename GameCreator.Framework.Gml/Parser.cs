@@ -32,6 +32,17 @@ namespace GameCreator.Framework.Gml
             phase.VisitNode(Current);
         }
 
+        public void Optimize()
+        {
+            if (Current == null)
+                throw new InvalidOperationException("Statement or expression tree has not yet been parsed.");
+
+            if (Current is Expression)
+                Current = (Current as Expression).Reduce();
+            else
+                (Current as Statement).Optimize();
+        }
+
         void move()
         {
             next = l.Scan();
