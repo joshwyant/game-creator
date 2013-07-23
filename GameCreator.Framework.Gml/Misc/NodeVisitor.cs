@@ -3,11 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace GameCreator.Framework.Gml.Misc
+namespace GameCreator.Framework.Gml
 {
     public abstract class NodeVisitor
     {
         #region Main Traversal
+        public void VisitNode(AstNode node)
+        {
+            if (node is Statement)
+                VisitStatement(node as Statement);
+            else
+                VisitExpression(node as Expression);
+        }
+
         public void VisitExpression(Expression e)
         {
             switch (e.Kind)

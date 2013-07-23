@@ -12,6 +12,8 @@ namespace GameCreator.Framework.Gml
         Lexer l;
         Token next;
         TokenKind t;
+
+        AstNode Current;
         
         internal Parser(LibraryContext context, Lexer lex)
         {
@@ -21,6 +23,14 @@ namespace GameCreator.Framework.Gml
 
         public Parser(LibraryContext context, TextReader r)
             : this(context, new Lexer(r)) { }
+
+        public void Pass(NodeVisitor phase)
+        {
+            if (Current == null)
+                throw new InvalidOperationException("Statement or expression tree has not yet been parsed.");
+
+            phase.VisitNode(Current);
+        }
 
         void move()
         {
@@ -78,6 +88,8 @@ namespace GameCreator.Framework.Gml
             {
                 s = new Sequence(s, stmt(), next.line, next.col); // stmt() throws ProgramError
             }
+
+            Current = s;
             return s;
         }
 
@@ -92,6 +104,7 @@ namespace GameCreator.Framework.Gml
 
             Expression e = expr();
             if (t != TokenKind.Eof) error(Error.UnexpectedSymbol);
+            Current = e;
             return e;
         }
 
