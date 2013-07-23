@@ -4,7 +4,7 @@ using System.Text;
 
 namespace GameCreator.Framework.Gml
 {
-    class Default : Statement
+    public class Default : Statement
     {
         public Default(int l, int c)
             : base(l, c) { }

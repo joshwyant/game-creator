@@ -71,6 +71,7 @@
     <Compile Include="Misc\BinaryExpression.cs" />
     <Compile Include="Misc\Expression.cs" />
     <Compile Include="Misc\ExpressionKind.cs" />
+    <Compile Include="Misc\NodeVisitor.cs" />
     <Compile Include="Misc\Real.cs" />
     <Compile Include="Misc\Statement.cs" />
     <Compile Include="Misc\StatementKind.cs" />

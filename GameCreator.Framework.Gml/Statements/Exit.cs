@@ -4,7 +4,7 @@ using System.Text;
 
 namespace GameCreator.Framework.Gml
 {
-    class Exit : Statement
+    public class Exit : Statement
     {
         public Exit(int l, int c) : base(l, c) { }
 

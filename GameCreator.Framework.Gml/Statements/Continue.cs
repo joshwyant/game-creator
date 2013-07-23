@@ -4,7 +4,7 @@ using System.Text;
 
 namespace GameCreator.Framework.Gml
 {
-    class Continue : Statement
+    public class Continue : Statement
     {
         public Continue(int l, int c) : base(l, c) { }
 
