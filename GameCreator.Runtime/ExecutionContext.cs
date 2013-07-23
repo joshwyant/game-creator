@@ -33,12 +33,6 @@ namespace GameCreator.Runtime
 
         static ExecutionContext()
         {
-            InitializeContext(LibraryContext.Current);
-        }
-
-        public static void InitializeContext(LibraryContext context)
-        {
-            context.Initialize(new DefaultInitializer());
         }
 		
 

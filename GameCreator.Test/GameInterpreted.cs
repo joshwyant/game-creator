@@ -16,7 +16,7 @@ namespace GameCreator.Test
         [TestMethod]
         public void InstanceVars()
         {
-            var context = LibraryContext.Current;
+            var context = new LibraryContext(new GameLibraryInitializer());
 
             Game.Init();
 

@@ -37,7 +37,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DateTimeFunctions.cs" />
-    <Compile Include="InstanceFunctions.cs" />
     <Compile Include="RealFunctions.cs" />
     <Compile Include="StringFunctions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

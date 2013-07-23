@@ -6,21 +6,24 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using GameCreator.Framework.Gml;
 using GameCreator.Framework;
 using System.IO;
+using GameCreator.Runtime.Game;
 
 namespace GameCreator.Test
 {
     [TestClass]
     public class GmlTest
     {
+        LibraryContext Current { get { return LibraryContext.Current = LibraryContext.Current ?? new LibraryContext(new GameLibraryInitializer()); } }
+
         Expression ParseExpression(string str)
         {
-            var p = new Parser(LibraryContext.Current, new StringReader(str));
+            var p = new Parser(Current, new StringReader(str));
 
             return p.ParseExpression();
         }
         Statement ParseStatement(string str)
         {
-            var p = new Parser(LibraryContext.Current, new StringReader(str));
+            var p = new Parser(Current, new StringReader(str));
 
             var stmt = p.Parse() as Sequence;
 
@@ -77,7 +80,9 @@ namespace GameCreator.Test
 
             var generated = "{\r\n    a = 3;\r\n}\r\n";
 
-            var e = ParseStatement(str);
+            var p = new Parser(LibraryContext.Current, new StringReader(str));
+
+            var e = p.Parse();
 
             Assert.AreEqual(generated, e.ToString());
 
@@ -97,8 +102,8 @@ namespace GameCreator.Test
 
             VerifyExpressionString("a <> 1", "a != 1");
             VerifyExpressionString("a mod 3");
-            VerifyStatementString("a and 1", "a && 1)");
-            VerifyStatementString("a xor b", "a ^^ b");
+            VerifyExpressionString("a and 1", "a && 1");
+            VerifyExpressionString("a xor b", "a ^^ b");
         }
 
         [TestMethod]
@@ -109,7 +114,7 @@ namespace GameCreator.Test
             VerifyStatementString("if t then begin x := 3 y = 4 end",                       "if(t){x=3;y=4;}");
             VerifyStatementString("for ({case 2:};0;exit)t=3",                              "for({case 2:};0;exit)t=3;");
             VerifyStatementString("for (repeat 5 i = 0;;;;; i < 3; globalvar;;;;;)a=3",     "for(repeat(5)i=0;;i<3;globalvar)a=3;");
-            VerifyStatementString("for (i = 0 i<3; {case 3:exit};;;)t:=4;",                 "for(i=0;i<3;{case 3:exit;})t=4;");
+            VerifyStatementString("for (i := 0 i<3; {case 3:exit};;;)string(4);",           "for(i=0;i<3;{case 3:exit;})string(4);");
         }
     }
 }

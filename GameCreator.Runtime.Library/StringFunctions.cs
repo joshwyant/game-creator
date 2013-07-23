@@ -165,12 +165,5 @@ namespace GameCreator.Runtime.Library
             return new string(str.Where(c => char.IsLetterOrDigit(c)).ToArray());
         }
         #endregion
-        /*
-        [GmlFunction]
-        public static Value f(params Value[] args)
-        {
-            return new Value();
-        }
-        */
     }
 }

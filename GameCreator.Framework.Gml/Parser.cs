@@ -16,14 +16,11 @@ namespace GameCreator.Framework.Gml
         internal Parser(LibraryContext context, Lexer lex)
         {
             l = lex;
-            Context = context;
+            Context = context ?? new LibraryContext();
         }
 
         public Parser(LibraryContext context, TextReader r)
-        {
-            l = new Lexer(r);
-            Context = context;
-        }
+            : this(context, new Lexer(r)) { }
 
         void move()
         {
