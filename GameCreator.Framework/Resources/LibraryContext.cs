@@ -10,7 +10,7 @@ namespace GameCreator.Framework
     {
         public static LibraryContext Current { get; set; }
 
-        public Dictionary<string, BaseFunction> Functions { get; set; }
+        public Dictionary<string, IFunction> Functions { get; set; }
         public IEnumerable<string> BuiltInVariables { get; private set; }
         public Dictionary<int, ActionLibrary> Libraries { get; set; }
         public Dictionary<string, Value> Constants { get; set; }
@@ -34,10 +34,12 @@ namespace GameCreator.Framework
         {
 
             Libraries = new Dictionary<int, ActionLibrary>();
-            Functions = new Dictionary<string, BaseFunction>();
+            Functions = new Dictionary<string, IFunction>();
             BuiltInVariables = new List<string>();
             InstanceVariables = new List<string>();
             Constants = new Dictionary<string, Value>();
+            InstanceFactory = initializer.CreateInstanceFactory(this);
+            PerformEvent = initializer.PerformEvent;
 
             Resources = Resources ?? new ResourceContext(this);
 

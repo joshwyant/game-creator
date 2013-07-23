@@ -28,19 +28,22 @@ namespace GameCreator.Framework
         public ErrorSeverity Severity { get; set; }
         public object Object { get; set; }
         public Error Error { get; set; }
+        bool wasMessageGiven = false;
 
-        public ProgramError(String message, ErrorSeverity sev, int line, int col) 
+        public ProgramError(string message, ErrorSeverity sev, int line, int col) 
             : base(message) 
         {
             Severity = sev;
             Line = line;
-            Column = col; 
+            Column = col;
+            wasMessageGiven = !string.IsNullOrEmpty(message);
         }
 
         public ProgramError(string msg, ErrorSeverity errorSeverity)
             : base(msg)
         {
             Severity = errorSeverity;
+            wasMessageGiven = !string.IsNullOrEmpty(msg);
         }
 
         public ProgramError(Error error)
@@ -73,11 +76,9 @@ namespace GameCreator.Framework
         {
             get
             {
-                if (string.IsNullOrEmpty(base.Message))
-                {
-                    return string.Format(Errors.ErrorDefinitions[Error].Message, Object);
-                }
-                return base.Message;
+                if (wasMessageGiven)
+                    return base.Message;
+                return string.Format(Errors.ErrorDefinitions[Error].Message, Object);
             }
         }
     }

@@ -8,7 +8,7 @@ namespace GameCreator.Framework.Gml
     {
         public Call Call { get; set; }
 
-        public CallStatement(BaseFunction func, Expression[] expressions, int l, int c)
+        public CallStatement(IFunction func, Expression[] expressions, int l, int c)
             : base(l, c)
         {
             this.Call = new Call(func, expressions, l, c);

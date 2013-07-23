@@ -49,9 +49,9 @@ namespace GameCreator.Framework
                    .FirstOrDefault();
         }
 
-        public BaseFunction GetFunction(string str)
+        public IFunction GetFunction(string str)
         {
-            return Scripts.Values.Cast<BaseFunction>().Union(Context.Functions.Values).FirstOrDefault(f => f.Name == str);
+            return Scripts.Values.Cast<IFunction>().Union(Context.Functions.Values).FirstOrDefault(f => f.Name == str);
         }
 
         public void DefineConstant(string name, Value val)

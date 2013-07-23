@@ -41,10 +41,7 @@ namespace GameCreator.Framework
 
             if (name == null)
                 Name = string.Format("object{0}", Id);
-        }
 
-        void Initialize()
-        {
             Events = new Dictionary<EventType, Dictionary<int, Event>>();
         }
 

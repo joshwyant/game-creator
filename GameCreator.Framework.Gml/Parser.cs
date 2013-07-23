@@ -316,7 +316,7 @@ namespace GameCreator.Framework.Gml
                             exprs.Add(expr());
                         }
                         match(Token.ClosingParenthesis);
-                        BaseFunction f = Context.Resources.GetFunction(str);
+                        IFunction f = Context.Resources.GetFunction(str);
                         if ((f.Argc != -1 && exprs.Count != f.Argc) || exprs.Count > 16)
                             error(Error.WrongArgumentNumber);
                         return new Call(f, exprs.ToArray(), temp.line, temp.col);
@@ -536,7 +536,7 @@ namespace GameCreator.Framework.Gml
                         exprs.Add(expr());
                     }
                     match(Token.ClosingParenthesis);
-                    BaseFunction f = Context.Resources.GetFunction(str);
+                    IFunction f = Context.Resources.GetFunction(str);
                     if ((f.Argc != -1 && exprs.Count != f.Argc) || exprs.Count > 16)
                         error(Error.WrongArgumentNumber);
                     return new CallStatement(f, exprs.ToArray(), l, c);

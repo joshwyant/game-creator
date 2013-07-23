@@ -200,7 +200,10 @@ namespace GameCreator.Framework.Gml.Interpreter
         {
             var f = (Call)e;
 
-            return (f.Function as ExecutableFunction).Execute(f.Expressions.Select(ex => ex.Eval()).ToArray());
+            if (f.Function is ExecutableFunction)
+                return (f.Function as ExecutableFunction).Execute(f.Expressions.Select(ex => ex.Eval()).ToArray());
+            else
+                return (f.Function as Script).ExecutionDelegate(f.Expressions.Select(ex => ex.Eval()).ToArray());
         }
         #endregion
 

@@ -5,6 +5,7 @@ using System.Text;
 using GameCreator.Framework;
 using GameCreator.Framework.Gml.Interpreter;
 using System.Reflection;
+using System.Linq.Expressions;
 
 namespace GameCreator.Runtime.Game.Interpreted
 {
@@ -21,51 +22,66 @@ namespace GameCreator.Runtime.Game.Interpreted
             }
         }
 
-        public override BaseFunction TransformFunction(System.Reflection.MethodInfo m, string n)
+        public override IFunction TransformFunction(System.Reflection.MethodInfo m, string n)
         {
+            // Mayyyybe I should have used Reflection.Emit and DynamicMethod here, this is just too much... ha
+
             var parms = m.GetParameters();
             var argc = parms.Length;
             if (argc == 1 && parms.Any(p => p.GetCustomAttributes(typeof(ParamArrayAttribute), false).Any()))
                 argc = -1;
 
-            var input = System.Linq.Expressions.Expression.Parameter(typeof(Value[]));
+            // For the method passed into TransformFunction():
+            // 1. Compile a wrapper function of the form
+            //      Value fn(Value[] args) {...}
+            //    which has the form...
+            //    {
+            //        return (Value)nativeFunction((T1)arg1, (T2)arg2);
+            //    }
+            //    for example:
+            //    Value show_message_wrapper(Value[] args) {
+            //        show_message((string)args[0]);
+            //        return Value.Null;
+            //    }
+            // 2. Create a delegate from the wrapper and return a new executable function.
+
+            var input = Expression.Parameter(typeof(Value[]));
 
             var e_params = parms.Select(
                 (p, i) =>
                 {
-                    System.Linq.Expressions.Expression param = System.Linq.Expressions.Expression.ArrayAccess(input, System.Linq.Expressions.Expression.Constant(i));
+                    Expression param = Expression.ArrayAccess(input, Expression.Constant(i));
                     if (argc == -1)
                     {
                         if (p.ParameterType.IsAssignableFrom(typeof(Value[])))
                             return input;
                         else
                         {
-                            // Varargs
-                            var label = System.Linq.Expressions.Expression.Label(p.ParameterType);
+                            // Varargs, convert and copy the array
 
-                            var index = System.Linq.Expressions.Expression.Variable(typeof(int));
-                            var array = System.Linq.Expressions.Expression.Variable(p.ParameterType);
-                            var newarray = System.Linq.Expressions.Expression.NewArrayBounds(
+                            var label = Expression.Label(p.ParameterType);
+
+                            var index = Expression.Variable(typeof(int));
+                            var array = Expression.Variable(p.ParameterType);
+                            var newarray = Expression.NewArrayBounds(
                                 p.ParameterType.GetElementType(),
-                                System.Linq.Expressions.Expression.ArrayLength(input));
+                                Expression.ArrayLength(input));
 
-                            return System.Linq.Expressions.Expression.Block(
+                            return Expression.Block(
                                 new [] { index, array },
                                 newarray,
-                                System.Linq.Expressions.Expression.Assign(index, System.Linq.Expressions.Expression.Constant(0)),
-                                System.Linq.Expressions.Expression.Assign(array, newarray),
-                                System.Linq.Expressions.Expression.Loop(
-                                    System.Linq.Expressions.Expression.IfThenElse(
-                                        System.Linq.Expressions.Expression.GreaterThanOrEqual(index, System.Linq.Expressions.Expression.ArrayLength(input)),
-                                        System.Linq.Expressions.Expression.Break(label, array),
-                                        System.Linq.Expressions.Expression.Block(
-                                            System.Linq.Expressions.Expression.Assign(
-                                                System.Linq.Expressions.Expression.ArrayAccess(array, index),
-                                                System.Linq.Expressions.Expression.Convert(
-                                                    System.Linq.Expressions.Expression.ArrayAccess(input, index),
-                                                    p.ParameterType.GetElementType())
+                                Expression.Assign(index, Expression.Constant(0)),
+                                Expression.Assign(array, newarray),
+                                Expression.Loop(
+                                    Expression.IfThenElse(
+                                        Expression.GreaterThanOrEqual(index, Expression.ArrayLength(input)),
+                                        Expression.Break(label, array),
+                                        Expression.Block(
+                                            Expression.Assign(
+                                                Expression.ArrayAccess(array, index),
+                                                Expression.Convert(Expression.ArrayAccess(input, index), p.ParameterType.GetElementType())
                                             ),
-                                            System.Linq.Expressions.Expression.PostIncrementAssign(index)
+                                            Expression.PostIncrementAssign(index)
                                         )),
                                 label)
                             );
@@ -73,32 +89,41 @@ namespace GameCreator.Runtime.Game.Interpreted
                     }
                     if (p.ParameterType.IsAssignableFrom(typeof(Value)))
                         return param;
-                    return System.Linq.Expressions.Expression.Convert(param, p.ParameterType);
+                    return Expression.Convert(param, p.ParameterType);
                 }
                 );
 
-            var call = System.Linq.Expressions.Expression.Call(m, e_params);
+            var call = Expression.Call(m, e_params);
 
-            System.Linq.Expressions.Expression body;
+            Expression body;
 
             if (m.ReturnType == typeof(void))
             {
-                body = System.Linq.Expressions.Expression.Block(
-                    call,
-                    System.Linq.Expressions.Expression.MakeMemberAccess(null, typeof(Value).GetMember("Null", System.Reflection.BindingFlags.Static | BindingFlags.Public).Single())
-                );
+                body = Expression.Block(call, Expression.Constant(Value.Null));
             }
             else
             {
                 if (typeof(Value).IsAssignableFrom(m.ReturnType))
                     body = call;
                 else
-                    body = System.Linq.Expressions.Expression.Convert(call, typeof(Value));
+                    body = Expression.Convert(call, typeof(Value));
             }
 
-            FunctionDelegate del = System.Linq.Expressions.Expression.Lambda<FunctionDelegate>(body, input).Compile();
+            FunctionDelegate del = Expression.Lambda<FunctionDelegate>(body, input).Compile();
 
             return new Function(n, argc, del);
+        }
+
+        public override void PerformEvent(Instance e, EventType et, int num)
+        {
+            var events = e.Context.Objects[e.ObjectIndex].Events;
+
+            if (events.ContainsKey(et))
+            {
+                var ee = events[et];
+                if (ee.ContainsKey(num))
+                    ee[num].Execute();
+            }
         }
     }
 }

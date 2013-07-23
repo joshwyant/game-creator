@@ -3,7 +3,7 @@ namespace GameCreator.Framework
 {
     // the 'resource representation' of a script.
     // as scripts are not allowed to be created on the fly, the script must have an IDE-assigned index.
-    public class Script : NamedIndexedResource, IGml
+    public class Script : NamedIndexedResource, IGml, IFunction
     {
         public static IndexedResourceManager<Script> Manager
         {
@@ -44,5 +44,16 @@ namespace GameCreator.Framework
         }
 
         public FunctionDelegate ExecutionDelegate { get; set; }
+
+
+        public int Argc
+        {
+            get
+            {
+                return -1;
+            }
+            set
+            { }
+        }
     }
 }

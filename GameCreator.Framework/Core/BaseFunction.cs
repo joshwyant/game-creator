@@ -1,20 +1,20 @@
+﻿
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace GameCreator.Framework
 {
-    public class BaseFunction
+    public class BaseFunction : IFunction
     {
         public string Name { get; set; }
-        /// <summary>
-        /// The argument count for the function. Use -1 for a variable argument count.
-        /// </summary>
+
         public int Argc { get; set; }
 
-        public BaseFunction(string n, int argc)
+        public BaseFunction(string name, int argc)
         {
-            Name = n;
+            Name = name;
             Argc = argc;
         }
     }

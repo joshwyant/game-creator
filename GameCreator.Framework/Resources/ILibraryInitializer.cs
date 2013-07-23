@@ -12,7 +12,8 @@ namespace GameCreator.Framework
         IEnumerable<KeyValuePair<string, Value>> Constants { get; }
         IEnumerable<string> InstanceVariables { get; }
         IEnumerable<Type> FunctionLibraries { get; }
-        BaseFunction TransformFunction(MethodInfo fn, string name);
+        IFunction TransformFunction(MethodInfo fn, string name);
         IInstanceFactory CreateInstanceFactory(LibraryContext context);
+        void PerformEvent(Instance e, EventType et, int num);
     }
 }

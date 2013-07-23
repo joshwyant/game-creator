@@ -60,7 +60,7 @@ namespace GameCreator.Runtime.Game
             }
         }
 
-        public override BaseFunction TransformFunction(System.Reflection.MethodInfo m, string n)
+        public override IFunction TransformFunction(System.Reflection.MethodInfo m, string n)
         {
             return base.TransformFunction(m, n);
         }

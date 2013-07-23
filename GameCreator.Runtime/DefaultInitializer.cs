@@ -53,5 +53,10 @@ namespace GameCreator.Runtime
         {
             return new DefaultInstanceFactory(context);
         }
+
+        public override void PerformEvent(Instance e, EventType et, int num)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

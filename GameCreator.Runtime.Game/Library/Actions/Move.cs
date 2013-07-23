@@ -9,19 +9,18 @@ namespace GameCreator.Runtime.Game.Library.Actions
     public static partial class LibraryFunctions
     {
         [GmlFunction]
-        public static Value action_move(params Value[] args)
+        public static int action_move(string direction, double speed)
         {
-            string str = args[0];
             List<double> dirs = new List<double>();
-            if (str[0] == '1') dirs.Add(-135.0);
-            if (str[1] == '1') dirs.Add(- 90.0);
-            if (str[2] == '1') dirs.Add(- 45.0);
-            if (str[3] == '1') dirs.Add( 180.0);
-            if (str[4] == '1') dirs.Add(-  1.0);
-            if (str[5] == '1') dirs.Add(   0.0);
-            if (str[6] == '1') dirs.Add( 135.0);
-            if (str[7] == '1') dirs.Add(  90.0);
-            if (str[8] == '1') dirs.Add(  45.0);
+            if (direction[0] == '1') dirs.Add(-135.0);
+            if (direction[1] == '1') dirs.Add(- 90.0);
+            if (direction[2] == '1') dirs.Add(- 45.0);
+            if (direction[3] == '1') dirs.Add( 180.0);
+            if (direction[4] == '1') dirs.Add(-  1.0);
+            if (direction[5] == '1') dirs.Add(   0.0);
+            if (direction[6] == '1') dirs.Add( 135.0);
+            if (direction[7] == '1') dirs.Add(  90.0);
+            if (direction[8] == '1') dirs.Add(  45.0);
             if (dirs.Count == 0)
                 return 0;
             double dir = dirs[GmlFunctions.rnd.Next(dirs.Count)];
@@ -31,7 +30,7 @@ namespace GameCreator.Runtime.Game.Library.Actions
             }
             else
             {
-                Game.Current.speed = ExecutionContext.Globals.argument_relative ? Game.Current.speed + args[1] : args[1];
+                Game.Current.speed = ExecutionContext.Globals.argument_relative ? Game.Current.speed + speed : speed;
                 Game.Current.direction = dir;
             }
             return 0;

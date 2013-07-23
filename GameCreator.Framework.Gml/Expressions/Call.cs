@@ -6,11 +6,11 @@ namespace GameCreator.Framework.Gml
 {
     public class Call : Expression
     {
-        public BaseFunction Function { get; set; }
+        public IFunction Function { get; set; }
         public Expression[] Expressions { get; set; }
 
 
-        public Call(BaseFunction func, Expression[] expressions, int line, int col)
+        public Call(IFunction func, Expression[] expressions, int line, int col)
             : base(line, col)
         {
             Function = func;

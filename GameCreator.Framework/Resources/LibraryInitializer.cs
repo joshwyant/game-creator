@@ -22,7 +22,7 @@ namespace GameCreator.Framework
                 .Where(fi => fi.IsLiteral && !fi.IsInitOnly).Select(c => new KeyValuePair<string, Value>(c.Name, new Value(c.GetRawConstantValue())));
         }
 
-        public virtual BaseFunction TransformFunction(MethodInfo m, string n)
+        public virtual IFunction TransformFunction(MethodInfo m, string n)
         {
             var parms = m.GetParameters();
             var argc = parms.Length;
@@ -34,5 +34,8 @@ namespace GameCreator.Framework
 
 
         public abstract IInstanceFactory CreateInstanceFactory(LibraryContext context);
+
+
+        public abstract void PerformEvent(Instance e, EventType et, int num);
     }
 }

@@ -1,6 +1,7 @@
 ﻿using GameCreator.Framework;
 using GameCreator.Runtime.Game;
 using GameCreator.Framework.Gml.Interpreter;
+using GameCreator.Runtime.Game.Interpreted;
 
 namespace GameCreator.RuntimeTest
 {
@@ -8,10 +9,9 @@ namespace GameCreator.RuntimeTest
     {
         static void Main()
         {
-            // Initialize the runtime engine
-            Game.Init();
+            InterpretedGame.Initialize();
 
-            var context = new LibraryContext();
+            var context = LibraryContext.Current;
             var resources = context.Resources;
             var lib = context.GetActionLibrary(1);
 
@@ -30,7 +30,7 @@ namespace GameCreator.RuntimeTest
             // Define rooms
             resources.Rooms.Define().CreationCode = "scr_main()";
             // Run the game
-            Game.Run();
+            InterpretedGame.Run();
         }
     }
 }

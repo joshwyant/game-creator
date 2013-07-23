@@ -40,13 +40,19 @@ namespace GameCreator.Framework.Gml.Interpreter
         {
             using (new InstanceScope(inst))
             {
-                return CodeUnit.Get(s).Eval();
+                return CodeUnit.GetExpression(s).Eval();
             }
         }
 
         public static Value ExecuteFunction(string n, params Value[] args)
         {
-            Returned = functions[n].Execute(args);
+            var fn = Context.Functions[n];
+
+            if (fn is ExecutableFunction)
+                Returned = (fn as ExecutableFunction).Execute(args);
+            else
+                Returned = (fn as Script).ExecutionDelegate(args);
+
             return Returned;
         }
 
