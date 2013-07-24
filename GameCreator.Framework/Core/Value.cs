@@ -21,6 +21,15 @@ namespace GameCreator.Framework
             s = val;
             d = 0;
         }
+        public Value(double times, string val)
+        {
+            type = 2;
+            var sb = new StringBuilder();
+            for (int i = 0; i < (int)times; i++)
+                sb.Append(val);
+            s = sb.ToString();
+            d = 0;
+        }
         public Value(double val)
         {
             type = 1;

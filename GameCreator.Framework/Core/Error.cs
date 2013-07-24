@@ -36,6 +36,7 @@ namespace GameCreator.Framework
         ArrayBounds,
         WrongArrayIndexType,
         NegativeArrayIndex,
-        RuntimeReal
+        RuntimeReal,
+        WrongArgumentTypesLogical
     }
 }

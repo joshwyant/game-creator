@@ -218,7 +218,7 @@ namespace GameCreator.Framework.Gml.Interpreter
             if (v1.IsReal && v2.IsReal)
                 return func(v1, v2);
             else
-                throw new ProgramError(Error.WrongArgumentTypes, expr.Operator);
+                throw new ProgramError(Error.WrongArgumentTypesLogical, expr.Operator);
         }
 
         static Value Logical(Expression node, Func<double, double, bool> tester)

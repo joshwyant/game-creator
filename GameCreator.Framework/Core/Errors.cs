@@ -35,10 +35,13 @@ namespace GameCreator.Framework
             Define(Error.Default, ErrorSeverity.Error, 
                 "Default statement only allowed inside switch statement.");
 
-            Define(Error.CannotAssign, ErrorSeverity.Error, 
+            Define(Error.CannotAssign, ErrorSeverity.Error,
                 "Cannot assign to the variable");
 
-            Define(Error.WrongArgumentTypes, ErrorSeverity.Error, 
+            Define(Error.WrongArgumentTypes, ErrorSeverity.Error,
+                "Wrong type of arguments to {0}.");
+
+            Define(Error.WrongArgumentTypesLogical, ErrorSeverity.Error,
                 "Wrong type of arguments for {0}.");
 
             Define(Error.CannotCompare, ErrorSeverity.Error, 
