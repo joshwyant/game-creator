@@ -245,7 +245,7 @@ namespace GameCreator.Runtime
         {
             ValidateArray(v1, v2);
 
-            if (instance != Value.Null)
+            if (!instance.IsNull)
             {
                 if (!instance.IsReal)
                     throw new ProgramError(Error.WrongVariableIndexType);

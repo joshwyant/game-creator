@@ -5,6 +5,7 @@ using System.Text;
 using System.Reflection.Emit;
 using System.Reflection;
 using GameCreator.Runtime;
+using System.Collections;
 
 namespace GameCreator.Framework.Gml.Compiler.Clr
 {
@@ -150,7 +151,7 @@ namespace GameCreator.Framework.Gml.Compiler.Clr
 
                     IL.MarkLabel(continueLabel);
                     IL.Emit(OpCodes.Ldloc, enumerator);
-                    IL.Emit(OpCodes.Callvirt, enumerator_t.GetMethod("MoveNext"));
+                    IL.Emit(OpCodes.Callvirt, typeof(IEnumerator).GetMethod("MoveNext"));
                     IL.Emit(OpCodes.Brtrue, loop);
                 });
             });
@@ -357,7 +358,7 @@ namespace GameCreator.Framework.Gml.Compiler.Clr
 
             EmitForEach(typeof(RuntimeInstance), () =>
             {
-                IL.Emit(OpCodes.Call, typeof(ExecutionContext).GetProperty("Current").GetSetMethod());
+                IL.Emit(OpCodes.Stsfld, typeof(ExecutionContext).GetField("Current"));
 
                 VisitStatement(with.Body);
             });
