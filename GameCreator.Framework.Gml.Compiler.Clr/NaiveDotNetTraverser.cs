@@ -270,7 +270,7 @@ namespace GameCreator.Framework.Gml.Compiler.Clr
             var parms = method.GetParameters();
             var argc = parms.Length;
             Type elemType = null;
-            if (parms.Any(p => p.GetCustomAttributes(typeof(ParamArrayAttribute), false).Any()))
+            if (parms.Any(p => p.GetCustomAttributes(typeof(ParamArrayAttribute), false).Any() || p.ParameterType.IsArray))
             {
                 if (argc != 1)
                     throw new InvalidOperationException("Method signature not supported.");

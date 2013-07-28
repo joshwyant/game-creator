@@ -9,13 +9,16 @@ namespace GameCreator.Runtime.Game.Jited
 {
     public static class JitedGame
     {
+        static DotNetCompiler compiler;
+
         public static void Run()
         {
             try
             {
-                var compiler = new DotNetCompiler(LibraryContext.Current);
+                compiler = new DotNetCompiler(LibraryContext.Current);
 
                 compiler.CompileScripts(true);
+                compiler.CompileRooms(true);
 
                 Game.InitRoom += new Action<Room>(Game_InitRoom);
 
@@ -45,7 +48,9 @@ namespace GameCreator.Runtime.Game.Jited
 
         static void Game_InitRoom(Room room)
         {
-            room.Init();
+            var roomInitialization = compiler.Rooms[room.Id];
+
+            roomInitialization();
         }
     }
 }

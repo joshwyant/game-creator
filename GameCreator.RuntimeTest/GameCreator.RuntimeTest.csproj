@@ -65,6 +65,10 @@
       <Project>{1D629B47-A821-4030-B680-6E4953A744D7}</Project>
       <Name>GameCreator.Runtime.Game.Interpreted</Name>
     </ProjectReference>
+    <ProjectReference Include="..\GameCreator.Runtime.Game.Jited\GameCreator.Runtime.Game.Jited.csproj">
+      <Project>{4FAA8A24-1DEA-4414-B1DD-C7D789DA5FA8}</Project>
+      <Name>GameCreator.Runtime.Game.Jited</Name>
+    </ProjectReference>
     <ProjectReference Include="..\GameCreator.Runtime.Game\GameCreator.Runtime.Game.csproj">
       <Project>{0BCAA035-D775-47B7-9B6E-12AA6516CDCA}</Project>
       <Name>GameCreator.Runtime.Game</Name>

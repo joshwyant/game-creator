@@ -2,6 +2,7 @@
 using GameCreator.Runtime.Game;
 using GameCreator.Framework.Gml.Interpreter;
 using GameCreator.Runtime.Game.Interpreted;
+using GameCreator.Runtime.Game.Jited;
 
 namespace GameCreator.RuntimeTest
 {
@@ -9,7 +10,7 @@ namespace GameCreator.RuntimeTest
     {
         static void Main()
         {
-            InterpretedGame.Initialize();
+            JitedGame.Initialize();
 
             var context = LibraryContext.Current;
             var resources = context.Resources;
@@ -30,7 +31,7 @@ namespace GameCreator.RuntimeTest
             // Define rooms
             resources.Rooms.Define().CreationCode = "scr_main()";
             // Run the game
-            InterpretedGame.Run();
+            JitedGame.Run();
         }
     }
 }
