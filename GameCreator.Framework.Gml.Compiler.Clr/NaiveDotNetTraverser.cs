@@ -57,13 +57,13 @@ namespace GameCreator.Framework.Gml.Compiler.Clr
             if (t != typeof(Value))
                 IL.Emit(OpCodes.Call, value_t.GetMethods().Single(m => m.Name == "op_Implicit" && m.ReturnType == t));
         }
-        void BeginMethod()
+        public void BeginMethod()
         {
             ExitLabel = IL.DefineLabel();
             ContinueLabels.Push(ExitLabel);
             BreakLabels.Push(ExitLabel);
         }
-        void EndMethod(bool returnNull)
+        public void EndMethod(bool returnNull)
         {
             ContinueLabels.Pop();
             BreakLabels.Pop();
@@ -73,6 +73,11 @@ namespace GameCreator.Framework.Gml.Compiler.Clr
                 IL.Emit(OpCodes.Ldsfld, value_t.GetField("Null"));
 
             IL.Emit(OpCodes.Ret);
+        }
+        public void LoadArguments()
+        {
+            IL.Emit(OpCodes.Ldarg_0);
+            IL.Emit(OpCodes.Call, typeof(ExecutionContext).GetMethod("SetArguments"));
         }
         void EmitUsing(LocalBuilder local, System.Action body)
         {

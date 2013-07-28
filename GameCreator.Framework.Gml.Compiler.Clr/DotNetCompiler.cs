@@ -27,7 +27,7 @@ namespace GameCreator.Framework.Gml.Compiler.Clr
                     var script = kvp.Value;
                     var method = new DynamicMethod(script.Name, typeof(Value), new[] { typeof(Value[]) });
 
-                    Compile(script.GetCodeReader(), method.GetILGenerator());
+                    CompileScript(script.GetCodeReader(), method.GetILGenerator());
 
                     Context.Resources.Scripts[kvp.Key].ExecutionDelegate = method.CreateDelegate(typeof(FunctionDelegate)) as FunctionDelegate;
 
@@ -40,7 +40,7 @@ namespace GameCreator.Framework.Gml.Compiler.Clr
             }
         }
 
-        void Compile(TextReader reader, ILGenerator generator)
+        void CompileScript(TextReader reader, ILGenerator generator)
         {
             // Instantiate a parser.
             var p = new Parser(Context, reader);
@@ -54,7 +54,12 @@ namespace GameCreator.Framework.Gml.Compiler.Clr
             // Do the naiive .net compiler pass.
             // This compiler phase is "naiive" because it doesn't do any type checking,
             //   it just uses dynamic values and instance variables.
-            p.Pass(new NaiveDotNetTraverser(this, generator));
+            var t = new NaiveDotNetTraverser(this, generator);
+
+            t.BeginMethod();
+            t.LoadArguments();
+            p.Pass(t);
+            t.EndMethod(true);
         }
     }
 }

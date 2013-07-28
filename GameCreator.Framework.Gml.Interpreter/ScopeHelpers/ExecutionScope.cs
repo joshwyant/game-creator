@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using GameCreator.Runtime;
 
 namespace GameCreator.Framework.Gml.Interpreter
 {
@@ -14,7 +15,7 @@ namespace GameCreator.Framework.Gml.Interpreter
         public ExecutionScope(params Value[] args)
             : this()
         {
-            Interpreter.SetArguments(args);
+            ExecutionContext.SetArguments(args);
         }
 
         public void Dispose()

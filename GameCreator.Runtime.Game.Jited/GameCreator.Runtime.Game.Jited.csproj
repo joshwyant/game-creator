@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{4FAA8A24-1DEA-4414-B1DD-C7D789DA5FA8}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>GameCreator.Runtime.Game.Jited</RootNamespace>
+    <AssemblyName>GameCreator.Runtime.Game.Jited</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="JitedGame.cs" />
+    <Compile Include="JitedGameLibraryInitializer.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\GameCreator.Framework.Gml.Compiler.Clr\GameCreator.Framework.Gml.Compiler.Clr.csproj">
+      <Project>{0E663FE3-8220-469D-8183-8AEEFE909D81}</Project>
+      <Name>GameCreator.Framework.Gml.Compiler.Clr</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GameCreator.Framework.Gml\GameCreator.Framework.Gml.csproj">
+      <Project>{026075FF-7A82-4AEB-B09A-70073D6ED686}</Project>
+      <Name>GameCreator.Framework.Gml</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GameCreator.Framework\GameCreator.Framework.csproj">
+      <Project>{6BC89687-EBA6-47F8-ADF0-05C1300D699A}</Project>
+      <Name>GameCreator.Framework</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GameCreator.Runtime.Game\GameCreator.Runtime.Game.csproj">
+      <Project>{0BCAA035-D775-47B7-9B6E-12AA6516CDCA}</Project>
+      <Name>GameCreator.Runtime.Game</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GameCreator.Runtime\GameCreator.Runtime.csproj">
+      <Project>{8D7F601C-C605-477F-8D67-850A8B6CA23A}</Project>
+      <Name>GameCreator.Runtime</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

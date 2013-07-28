@@ -366,5 +366,10 @@ namespace GameCreator.Runtime
             while (times > 0)
                 yield return --times;
         }
+        public static void SetArguments(Value[] args)
+        {
+            for (int i = 0; i < 16 && i < args.Length; i++)
+                Globals.argument[i] = args[i];
+        }
     }
 }

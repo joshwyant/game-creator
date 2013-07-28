@@ -96,10 +96,5 @@ namespace GameCreator.Framework.Gml.Interpreter
             ExecutionContext.ScopedVariables = localstack.Pop();
             ExecutionContext.Globals.argument = argstack.Pop();
         }
-        public static void SetArguments(Value[] args)
-        {
-            for (int i = 0; i < 16 && i < args.Length; i++)
-                ExecutionContext.Globals.argument[i] = args[i];
-        }
     }
 }
