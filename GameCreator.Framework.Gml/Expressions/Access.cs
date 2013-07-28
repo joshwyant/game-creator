@@ -8,14 +8,14 @@ namespace GameCreator.Framework.Gml
 {
     public class Access : Expression
     {
-        public Expression Lefthand { get; set; }
+        public Expression Instance { get; set; }
         public string Name { get; set; }
         public Expression[] Indices { get; set; }
 
         public Access(Expression left, string n, Expression[] ind, int l, int c)
             : base(l, c)
         {
-            Lefthand = left; Name = n; Indices = ind;
+            Instance = left; Name = n; Indices = ind;
         }
 
         public override ExpressionKind Kind
@@ -25,9 +25,9 @@ namespace GameCreator.Framework.Gml
 
         internal override void Write(System.CodeDom.Compiler.IndentedTextWriter writer, GmlFormatter formatter)
         {
-            if (Lefthand != null)
+            if (Instance != null)
             {
-                Lefthand.Write(writer, formatter);
+                Instance.Write(writer, formatter);
                 writer.Write(".");
             }
             writer.Write(Name);

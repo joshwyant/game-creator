@@ -15,14 +15,18 @@ namespace GameCreator.Runtime.Game.Jited
         {
             try
             {
-                compiler = new DotNetCompiler(LibraryContext.Current);
+                compiler = new DotNetCompiler(LibraryContext.Current, @"game.exe");
 
-                compiler.CompileScripts(true);
-                compiler.CompileRooms(true);
+                compiler.InitCompiler();
+
+                compiler.CompileScripts();
+                compiler.CompileRooms();
+
+                compiler.Save();
 
                 Game.InitRoom += new Action<Room>(Game_InitRoom);
 
-                Game.Run();
+                //Game.Run();
             }
             catch (ProgramError err)
             {

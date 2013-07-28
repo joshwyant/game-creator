@@ -39,7 +39,7 @@ namespace GameCreator.Framework.Gml.Interpreter
             if (i1 >= 32000 || i2 >= 32000)
                 throw new ProgramError(Error.ArrayBounds);
 
-            return a.Lefthand == null ? Value.Null : a.Lefthand.Eval();
+            return a.Instance == null ? Value.Null : a.Instance.Eval();
         }
 
         public static void Set(this Access a, Value v)
@@ -51,7 +51,7 @@ namespace GameCreator.Framework.Gml.Interpreter
             if (!left.IsReal)
                 throw new ProgramError(Error.WrongVariableIndexType);
 
-            if (a.Lefthand == null)
+            if (a.Instance == null)
                 ExecutionContext.SetVar(a.Name, i1, i2, v);
             else
                 ExecutionContext.SetVar(left, a.Name, i1, i2, v);

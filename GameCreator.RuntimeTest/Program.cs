@@ -29,7 +29,7 @@ namespace GameCreator.RuntimeTest
             ev.DefineAction(1, 103, new string[] { "000000001", "4" }, -1, false, false);
             ev.DefineAction(1, 101, new string[] { "show_message(string(hspeed))" }, -1, false, false);
             // Define rooms
-            resources.Rooms.Define().CreationCode = "with(self)show_message(string(id))";
+            resources.Rooms.Define().CreationCode = "while('') t = 2{i = 1; i = 1 << i;}repeat(5)globalvar ttt,fff var aaa, bbb var ccc,ddd do show_message(5) until 1 (1234).t[5].u[6].t[7] += 3 (1234).t[5].u[6].t[7] *= 3";
             // Run the game
             JitedGame.Run();
         }

@@ -143,7 +143,7 @@ namespace GameCreator.Framework.Gml.Interpreter
             if (a.Indices.Length >= 2)
                 v1 = a.Indices[1].Eval();
 
-            return ExecutionContext.Dereference(a.Lefthand == null ? Value.Null : a.Lefthand.Eval(), a.Name, v1, v2);
+            return ExecutionContext.Dereference(a.Instance == null ? Value.Null : a.Instance.Eval(), a.Name, v1, v2);
 
         }
         #endregion
