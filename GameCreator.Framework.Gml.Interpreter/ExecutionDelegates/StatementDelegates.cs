@@ -274,17 +274,9 @@ namespace GameCreator.Framework.Gml.Interpreter
 
             var v = repeat.Expression.Eval();
 
-            if (!v.IsReal)
-                ThrowError(Error.RepeatExpression);
-
-            int times = (int)Math.Round(v.Real);
-
-            while (times > 0)
-            {
+            foreach (var val in ExecutionContext.Repeat(v))
                 if ((Exec(repeat.Body, FlowType.Continue | FlowType.Break) & ~FlowType.Continue) != FlowType.None)
-                    return;
-                times--;
-            }
+                    break;
         }
         #endregion
 
@@ -292,7 +284,7 @@ namespace GameCreator.Framework.Gml.Interpreter
         [MethodImpl(C.MethodImplOptions_AggressiveInlining)]
         static void RealAssignment(Statement s, Func<Value, Value, Value> result)
         {
-            var a = (Assignment)s;
+            var a = s as Assignment;
             
             var v1 = a.Lefthand.Eval();
             var v2 = a.Expression.Eval();

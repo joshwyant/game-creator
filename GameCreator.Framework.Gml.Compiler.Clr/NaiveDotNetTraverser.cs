@@ -17,6 +17,9 @@ namespace GameCreator.Framework.Gml.Compiler.Clr
 
         #region Private
         static readonly Type value_t = typeof(Value);
+        static readonly MethodInfo isReal = typeof(Value).GetProperty("IsReal").GetGetMethod();
+        static readonly MethodInfo isString = typeof(Value).GetProperty("IsString").GetGetMethod();
+        static readonly MethodInfo isNull = typeof(Value).GetProperty("IsNull").GetGetMethod();
         static readonly Type error_t = typeof(ProgramError);
         readonly Stack<Label> ContinueLabels = new Stack<Label>();
         readonly Stack<Label> BreakLabels = new Stack<Label>();
@@ -91,19 +94,19 @@ namespace GameCreator.Framework.Gml.Compiler.Clr
             IL.MarkLabel(endFinally);
             IL.EndExceptionBlock();
         }
-        void EmitLoopSkeleton(Label continueLabel, System.Action<Label> body)
+        void EmitLoopSkeleton(Label? continueLabel, System.Action<Label> body)
         {
             Label breakLabel;
 
-            if (continueLabel != null)
-                ContinueLabels.Push(continueLabel);
+            if (continueLabel.HasValue)
+                ContinueLabels.Push(continueLabel.Value);
             BreakLabels.Push(breakLabel = IL.DefineLabel());
 
             body(breakLabel);
 
             IL.MarkLabel(breakLabel);
 
-            if (continueLabel != null)
+            if (continueLabel.HasValue)
                 ContinueLabels.Pop();
             BreakLabels.Pop();
         }
@@ -154,6 +157,15 @@ namespace GameCreator.Framework.Gml.Compiler.Clr
                 case ExpressionKind.Addition:
                     method = value_t.GetMethod("op_Addition");
                     break;
+                case ExpressionKind.Subtraction:
+                    method = value_t.GetMethod("op_Subtraction");
+                    break;
+                case ExpressionKind.Multiply:
+                    method = value_t.GetMethod("op_Multiply");
+                    break;
+                case ExpressionKind.Divide:
+                    method = value_t.GetMethod("op_Division");
+                    break;
                 case ExpressionKind.BitwiseAnd:
                     method = value_t.GetMethod("op_BitwiseAnd");
                     break;
@@ -165,9 +177,6 @@ namespace GameCreator.Framework.Gml.Compiler.Clr
                     break;
                 case ExpressionKind.Div:
                     method = value_t.GetMethod("IntegerDivision");
-                    break;
-                case ExpressionKind.Divide:
-                    method = value_t.GetMethod("op_Division");
                     break;
                 case ExpressionKind.Equality:
                     method = value_t.GetMethod("op_Equality");
@@ -196,9 +205,6 @@ namespace GameCreator.Framework.Gml.Compiler.Clr
                 case ExpressionKind.Mod:
                     method = value_t.GetMethod("op_Modulus");
                     break;
-                case ExpressionKind.Multiply:
-                    method = value_t.GetMethod("op_Multiply");
-                    break;
                 case ExpressionKind.NotEqual:
                     method = value_t.GetMethod("op_Inequality");
                     break;
@@ -207,9 +213,6 @@ namespace GameCreator.Framework.Gml.Compiler.Clr
                     break;
                 case ExpressionKind.ShiftRight:
                     method = value_t.GetMethod("ShiftRight");
-                    break;
-                case ExpressionKind.Subtraction:
-                    method = value_t.GetMethod("op_Subtraction");
                     break;
             }
 
@@ -336,8 +339,6 @@ namespace GameCreator.Framework.Gml.Compiler.Clr
         #region Statements
         public override void VisitWith(With with)
         {
-            var inst = IL.DeclareLocal(typeof(RuntimeInstance));
-
             VisitExpression(with.Instance);
 
             IL.Emit(OpCodes.Call, typeof(ExecutionContext).GetMethod("WithInstance"));
@@ -389,32 +390,107 @@ namespace GameCreator.Framework.Gml.Compiler.Clr
 
         public override void VisitSwitch(Switch p)
         {
-            throw new NotImplementedException();
+            IL.BeginScope();
+            EmitLoopSkeleton(null, (breakLabel) => {
+
+                // Evaluate the test expression
+                var e = IL.DeclareLocal(typeof(Value));
+                VisitExpression(p.Expression);
+                IL.Emit(OpCodes.Stloc, e);
+
+                // Build an array of cases
+                var cases = p.Statements
+                    .Where(s => s.Kind == StatementKind.Case || s.Kind == StatementKind.Default)
+                    .Select(s => new { s, l = IL.DefineLabel() })
+                    .ToArray();
+
+                // Emit the case tests
+                foreach (var c in cases)
+                {
+                    if (c.s.Kind == StatementKind.Default)
+                        IL.Emit(OpCodes.Br, c.l);
+                    else
+                    {
+                        VisitExpression((c.s as Case).Expression);
+                        IL.Emit(OpCodes.Ldloc, e);
+                        IL.Emit(OpCodes.Call, value_t.GetMethod("op_Equality"));
+                        IL.Emit(OpCodes.Brtrue, c.l);
+                    }
+                }
+
+                // Break if none of the cases were met.
+                IL.Emit(OpCodes.Br, breakLabel);
+
+                int icases = 0;
+
+                // Emit all the case statements
+                foreach (var stmt in p.Statements)
+                {
+                    switch (stmt.Kind)
+                    {
+                        case StatementKind.Case:
+                        case StatementKind.Default:
+                            // Mark case labels
+                            IL.MarkLabel(cases[icases++].l);
+                            break;
+                        default:
+                            // Emit case statement
+                            VisitStatement(stmt);
+                            break;
+                    }
+                }
+            });
+            IL.EndScope();
         }
 
         public override void VisitSequence(Sequence sequence)
         {
-            throw new NotImplementedException();
+            VisitStatement(sequence.First);
+            VisitStatement(sequence.Second);
         }
 
         public override void VisitReturn(Return p)
         {
-            throw new NotImplementedException();
+            VisitExpression(p.Expression);
+
+            IL.Emit(OpCodes.Ret);
         }
 
         public override void VisitRepeat(Repeat repeat)
         {
-            throw new NotImplementedException();
+            VisitExpression(repeat.Expression);
+
+            IL.Emit(OpCodes.Call, typeof(ExecutionContext).GetMethod("Repeat"));
+
+            EmitForEach(typeof(int), () =>
+            {
+                IL.Emit(OpCodes.Pop);
+
+                VisitStatement(repeat.Body);
+            });
         }
 
         public override void VisitNop(Nop nop)
         {
-            throw new NotImplementedException();
+            IL.Emit(OpCodes.Nop);
         }
 
         public override void VisitIf(If p)
         {
-            throw new NotImplementedException();
+            var end = IL.DefineLabel();
+            var elseLabel = IL.DefineLabel();
+
+            VisitExpression(p.Expression);
+            EmitImplicitConversion(typeof(bool));
+            IL.Emit(OpCodes.Br, elseLabel);
+
+            VisitStatement(p.Body);
+
+            IL.MarkLabel(elseLabel);
+
+            VisitStatement(p.Else);
+
+            IL.MarkLabel(end);
         }
 
         public override void VisitGlobalvar(Globalvar globalvar)
@@ -439,47 +515,222 @@ namespace GameCreator.Framework.Gml.Compiler.Clr
 
         public override void VisitFor(For p)
         {
-            throw new NotImplementedException();
+            var continueLabel = IL.DefineLabel();
+
+            VisitStatement(p.Initializer);
+
+            EmitLoopSkeleton(continueLabel, (breakLabel) =>
+            {
+                IL.MarkLabel(continueLabel);
+                VisitExpression(p.Test);
+                EmitImplicitConversion(typeof(bool));
+                IL.Emit(OpCodes.Brfalse, breakLabel);
+
+                VisitStatement(p.Body);
+                VisitStatement(p.Iterator);
+
+                IL.Emit(OpCodes.Br, continueLabel);
+            });
         }
 
         public override void VisitExit(Exit exit)
         {
-            throw new NotImplementedException();
+            IL.Emit(OpCodes.Br, ExitLabel);
         }
 
         public override void VisitDo(Do p)
         {
-            throw new NotImplementedException();
+            var continueLabel = IL.DefineLabel();
+            var loop = IL.DefineLabel();
+
+            EmitLoopSkeleton(continueLabel, (breakLabel) =>
+            {
+                IL.MarkLabel(loop);
+                VisitStatement(p.Body);
+
+                IL.MarkLabel(continueLabel);
+                VisitExpression(p.Expression);
+                EmitImplicitConversion(typeof(bool));
+                IL.Emit(OpCodes.Brfalse, loop);
+            });
         }
 
         public override void VisitDefaultCaseLabel(Default p)
         {
-            throw new NotImplementedException();
+            throw new InvalidOperationException();
         }
 
         public override void VisitContinue(Continue p)
         {
-            throw new NotImplementedException();
+            IL.Emit(OpCodes.Br, ContinueLabels.Peek());
         }
 
         public override void VisitCaseLabel(Case p)
         {
-            throw new NotImplementedException();
+            throw new InvalidOperationException();
         }
 
         public override void VisitCallStatement(CallStatement callStatement)
         {
-            throw new NotImplementedException();
+            VisitCall(callStatement.Call);
+
+            IL.Emit(OpCodes.Pop);
         }
 
         public override void VisitBreak(Break p)
         {
-            throw new NotImplementedException();
+            IL.Emit(OpCodes.Br, BreakLabels.Peek());
         }
 
         public override void VisitAssignment(Assignment assignment)
         {
-            throw new NotImplementedException();
+            IL.BeginScope();
+            var a = IL.DeclareLocal(value_t);
+            var b = IL.DeclareLocal(value_t);
+            var i1 = IL.DeclareLocal(value_t);
+            var i2 = IL.DeclareLocal(value_t);
+
+            // Do we want to evaluate the lefthand side of the access?
+            if (assignment.Lefthand.Lefthand != null)
+            {
+                VisitExpression(assignment.Lefthand.Lefthand);
+                IL.Emit(OpCodes.Stloc, a);
+                IL.Emit(OpCodes.Ldloc, a);
+                EmitImplicitConversion(typeof(int));
+            }
+
+            // Name argument
+            IL.Emit(OpCodes.Ldstr, assignment.Lefthand.Name);
+
+            // Array indices
+
+            if (assignment.Lefthand.Indices.Length != 2)
+                IL.Emit(OpCodes.Ldsfld, value_t.GetField("Zero"));
+            else
+                VisitExpression(assignment.Lefthand.Indices[0]);
+            IL.Emit(OpCodes.Stloc, i1);
+
+            if (assignment.Lefthand.Indices.Length == 0)
+                IL.Emit(OpCodes.Ldsfld, value_t.GetField("Zero"));
+            else
+                VisitExpression(assignment.Lefthand.Indices[assignment.Lefthand.Indices.Length - 1]);
+            IL.Emit(OpCodes.Stloc, i2);
+
+            // Check indices
+            IL.Emit(OpCodes.Ldloc, i1);
+            IL.Emit(OpCodes.Ldloc, i2);
+            IL.Emit(OpCodes.Call, typeof(ExecutionContext).GetMethod("ValidateArray"));
+
+            // Convert indices to int
+            IL.Emit(OpCodes.Ldloc, i1);
+            EmitImplicitConversion(typeof(int));
+            IL.Emit(OpCodes.Ldloc, i2);
+            EmitImplicitConversion(typeof(int));
+
+            // First argument to an operator assignment is the current value.
+            if (assignment.Kind != StatementKind.Assignment)
+                IL.Emit(OpCodes.Ldloc, a);
+            
+            // Right operand to the assignment operator
+            VisitExpression(assignment.Expression);
+            IL.Emit(OpCodes.Stloc, b);
+            IL.Emit(OpCodes.Ldloc, b);
+
+            // Type checks
+            #region
+            var dontAssign = IL.DefineLabel();
+
+            switch (assignment.Kind)
+            {
+                case StatementKind.AndAssignment:
+                case StatementKind.OrAssignment:
+                case StatementKind.SubtractionAssignment:
+                case StatementKind.XorAssignment:
+                    #region A and B are reals
+                    IL.Emit(OpCodes.Ldloc, a);
+                    IL.Emit(OpCodes.Call, isReal);
+                    IL.Emit(OpCodes.Ldloc, b);
+                    IL.Emit(OpCodes.Call, isReal);
+                    IL.Emit(OpCodes.And);
+                    break;
+                    #endregion
+                case StatementKind.AdditionAssignment:
+                    #region A and B are reals or strings
+                    IL.Emit(OpCodes.Ldloc, a);
+                    IL.Emit(OpCodes.Call, isReal);
+                    IL.Emit(OpCodes.Ldloc, b);
+                    IL.Emit(OpCodes.Call, isReal);
+                    IL.Emit(OpCodes.And);
+                    IL.Emit(OpCodes.Ldloc, a);
+                    IL.Emit(OpCodes.Call, isString);
+                    IL.Emit(OpCodes.Ldloc, b);
+                    IL.Emit(OpCodes.Call, isString);
+                    IL.Emit(OpCodes.And);
+                    IL.Emit(OpCodes.Or);
+                    break;
+                    #endregion
+                case StatementKind.MultiplyAssignment:
+                    #region A is real
+                    IL.Emit(OpCodes.Ldloc, a);
+                    IL.Emit(OpCodes.Call, isReal);
+                    IL.Emit(OpCodes.Ldloc, b);
+                    IL.Emit(OpCodes.Call, isNull);
+                    IL.Emit(OpCodes.Not);
+                    IL.Emit(OpCodes.And);
+                    break;
+                    #endregion
+                case StatementKind.DivideAssignment:
+                    #region Reals and B != 0
+                    IL.Emit(OpCodes.Ldloc, a);
+                    IL.Emit(OpCodes.Call, isReal);
+                    IL.Emit(OpCodes.Ldloc, b);
+                    IL.Emit(OpCodes.Call, isReal);
+                    IL.Emit(OpCodes.And);
+                    IL.Emit(OpCodes.Call, value_t.GetProperty("Real").GetGetMethod());
+                    IL.Emit(OpCodes.Ldc_R8, 0.0);
+                    IL.Emit(OpCodes.Ceq);
+                    IL.Emit(OpCodes.And);
+                    break;
+                    #endregion
+            }
+            if (assignment.Kind != StatementKind.Assignment)
+                IL.Emit(OpCodes.Brfalse, dontAssign);
+            #endregion
+
+            // Assignment
+            switch (assignment.Kind)
+            {
+                case StatementKind.AdditionAssignment:
+                    IL.Emit(OpCodes.Call, value_t.GetMethod("op_Addition"));
+                    break;
+                case StatementKind.SubtractionAssignment:
+                    IL.Emit(OpCodes.Call, value_t.GetMethod("op_Subtraction"));
+                    break;
+                case StatementKind.MultiplyAssignment:
+                    IL.Emit(OpCodes.Call, value_t.GetMethod("op_Multiply"));
+                    break;
+                case StatementKind.DivideAssignment:
+                    IL.Emit(OpCodes.Call, value_t.GetMethod("op_Division"));
+                    break;
+                case StatementKind.AndAssignment:
+                    IL.Emit(OpCodes.Call, value_t.GetMethod("op_BitwiseAnd"));
+                    break;
+                case StatementKind.OrAssignment:
+                    IL.Emit(OpCodes.Call, value_t.GetMethod("op_BitwiseOr"));
+                    break;
+                case StatementKind.XorAssignment:
+                    IL.Emit(OpCodes.Call, value_t.GetMethod("op_ExclusiveOr"));
+                    break;
+            }
+
+            // Choose method
+            var instanceTypes = new[] { typeof(int), typeof(string), typeof(int), typeof(int), value_t };
+            var localTypes = new[] { typeof(string), typeof(int), typeof(int), value_t };
+
+            IL.Emit(OpCodes.Call, typeof(ExecutionContext).GetMethod("SetVar", assignment.Lefthand == null ? localTypes : instanceTypes));
+
+            IL.MarkLabel(dontAssign);
+            IL.EndScope();
         }
         #endregion
     }

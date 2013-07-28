@@ -243,14 +243,7 @@ namespace GameCreator.Runtime
         /// </summary>
         public static Value Dereference(Value instance, string name, Value v1, Value v2)
         {
-            if (!(v1.IsReal && v2.IsReal))
-                throw new ProgramError(Error.WrongArrayIndexType);
-                
-            if (v1 < 0 || v2 < 0)
-                throw new ProgramError(Error.NegativeArrayIndex);
-
-            if (v1 >= 32000 || v2 >= 32000)
-                throw new ProgramError(Error.ArrayBounds);
+            ValidateArray(v1, v2);
 
             if (instance != Value.Null)
             {
@@ -285,6 +278,18 @@ namespace GameCreator.Runtime
 
                 return GetVar(name, v1, v2);
             }
+        }
+
+        public static void ValidateArray(Value v1, Value v2)
+        {
+            if (!(v1.IsReal && v2.IsReal))
+                throw new ProgramError(Error.WrongArrayIndexType);
+
+            if (v1 < 0 || v2 < 0)
+                throw new ProgramError(Error.NegativeArrayIndex);
+
+            if (v1 >= 32000 || v2 >= 32000)
+                throw new ProgramError(Error.ArrayBounds);
         }
 
         public static void GlobalVars(string[] v)
@@ -349,6 +354,17 @@ namespace GameCreator.Runtime
                 Current = c;
                 Other = o;
             }
+        }
+
+        public static IEnumerable<int> Repeat(Value v)
+        {
+            if (!v.IsReal)
+                throw new ProgramError(Error.RepeatExpression);
+
+            var times = (int)Math.Round(v.Real);
+
+            while (times > 0)
+                yield return --times;
         }
     }
 }
