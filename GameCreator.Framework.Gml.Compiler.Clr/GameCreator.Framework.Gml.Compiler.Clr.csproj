@@ -53,6 +53,10 @@
       <Project>{6BC89687-EBA6-47F8-ADF0-05C1300D699A}</Project>
       <Name>GameCreator.Framework</Name>
     </ProjectReference>
+    <ProjectReference Include="..\GameCreator.Runtime\GameCreator.Runtime.csproj">
+      <Project>{8D7F601C-C605-477F-8D67-850A8B6CA23A}</Project>
+      <Name>GameCreator.Runtime</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

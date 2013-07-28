@@ -42,27 +42,25 @@ namespace GameCreator.Framework.Gml
                 case ExpressionKind.Subtraction:
                     VisitBinaryExpression(e as BinaryExpression);
                     break;
-                case ExpressionKind.Access:
-                    VisitAccess(e as Access);
-                    break;
-                case ExpressionKind.Call:
-                    VisitCall(e as Call);
-                    break;
                 case ExpressionKind.Complement:
                 case ExpressionKind.Minus:
                 case ExpressionKind.Not:
                 case ExpressionKind.Plus:
                     VisitUnary(e as UnaryExpression);
                     break;
+                case ExpressionKind.Access:
+                    VisitAccess(e as Access);
+                    break;
+                case ExpressionKind.Call:
+                    VisitCall(e as Call);
+                    break;
                 case ExpressionKind.Constant:
                     VisitConstant(e as Constant);
                     break;
                 case ExpressionKind.Grouping:
-                    VisitExpression((e as Grouping).InnerExpression);
+                    VisitGrouping(e as Grouping);
                     break;
                 case ExpressionKind.None:
-                    VisitEmptyExpression(e as Expression);
-                    break;
                 case ExpressionKind.Id:
                     throw new InvalidOperationException();
             }
@@ -151,7 +149,7 @@ namespace GameCreator.Framework.Gml
 
         public abstract void VisitAccess(Access access);
 
-        public abstract void VisitEmptyExpression(Expression expression);
+        public abstract void VisitGrouping(Grouping expression);
         #endregion
 
         #region Abstract Statement Visitors

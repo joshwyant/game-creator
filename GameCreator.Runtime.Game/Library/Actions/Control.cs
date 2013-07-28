@@ -77,9 +77,9 @@ namespace GameCreator.Runtime.Game.Library.Actions
         {
             switch ((int)args[2])
             {
-                case 0: return args[0].IsString == args[1].IsString ? args[0].IsString ? (args[0] == args[1]) : (args[0] == args[1]) : (Value)false;
-                case 1: return args[0].IsString == args[1].IsString ? args[0].IsString ? String.Compare(args[0], args[1]) < 0 : args[0] < args[1] : false;
-                case 2: return args[0].IsString == args[1].IsString ? args[0].IsString ? String.Compare(args[0], args[1]) > 0 : args[0] > args[1] : false;
+                case 0: return args[0].IsString == args[1].IsString ? (args[0] == args[1]) : (Value)false;
+                case 1: return args[0].IsString == args[1].IsString ? args[0].IsString ? (Value)(String.Compare(args[0], args[1]) < 0) : (Value)(args[0] < args[1]) : (Value)false;
+                case 2: return args[0].IsString == args[1].IsString ? args[0].IsString ? (Value)(String.Compare(args[0], args[1]) > 0) : (Value)(args[0] > args[1]) : (Value)false;
             }
             return false;
         }

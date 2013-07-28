@@ -6,10 +6,17 @@ using GameCreator.Runtime;
 namespace GameCreator.Framework.Gml.Interpreter
 {
     // Base class for functions and scripts
-    public class ExecutableFunction : BaseFunction
+    public abstract class ExecutableFunction : IFunction
     {
-        public ExecutableFunction(string n, int argc) 
-            : base(n, argc) { }
+        public int Argc { get; set; }
+
+        public string Name { get; set; }
+
+        public ExecutableFunction(string n, int argc)
+        {
+            Name = n;
+            Argc = argc;
+        }
 
         public virtual Value Execute(params Value[] args)
         {

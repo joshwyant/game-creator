@@ -61,7 +61,10 @@ namespace GameCreator.Runtime
         // The interpreter checks array bounds with Variable.CheckIndex().
         public static bool VariableExists(string name)
         {
-            return (ScopedVariables.ContainsKey(name) || globalvars.Contains(name) || Current.VariableExists(name));
+            if (DeclaredVariables.Contains(name))
+                return ScopedVariables.ContainsKey(name);
+
+            return (globalvars.Contains(name) || Current.VariableExists(name));
         }
         // returns whether the name exists as a variable, in the scope of the given instance.
         // example: x = VariableExists(Env.self, "t");
@@ -234,6 +237,56 @@ namespace GameCreator.Runtime
                     return GetInstance(instance).Variable(name);
             }
         }
+
+        /// <summary>
+        /// Use this at runtime to dereference a variable using dynamically typed values.
+        /// </summary>
+        public static Value Dereference(Value instance, string name, Value v1, Value v2)
+        {
+            if (!(v1.IsReal && v2.IsReal))
+                throw new ProgramError(Error.WrongArrayIndexType);
+                
+            if (v1 < 0 || v2 < 0)
+                throw new ProgramError(Error.NegativeArrayIndex);
+
+            if (v1 >= 32000 || v2 >= 32000)
+                throw new ProgramError(Error.ArrayBounds);
+
+            if (instance != Value.Null)
+            {
+                if (!instance.IsReal)
+                    throw new ProgramError(Error.WrongVariableIndexType);
+
+                if (v1 != 0 || v2 != 0)
+                {
+                    if (!VariableExists(instance, name) || !Variable(instance, name).CheckIndex(v1, v2))
+                        throw new ProgramError(Error.UnknownArray, name);
+                }
+                else
+                {
+                    if (!VariableExists(instance, name))
+                        throw new ProgramError(Error.UnknownVariable, name);
+                }
+
+                return GetVar(instance, name, v1, v2);
+            }
+            else
+            {
+                if (v1 != 0 || v2 != 0)
+                {
+                    if (!VariableExists(name) || !Variable(name).CheckIndex(v1, v2))
+                        throw new ProgramError(Error.UnknownArray, name);
+                }
+                else
+                {
+                    if (!VariableExists(name))
+                        throw new ProgramError(Error.UnknownVariable, name);
+                }
+
+                return GetVar(name, v1, v2);
+            }
+        }
+
         public static void GlobalVars(string[] v)
         {
             foreach (string s in v)
@@ -251,6 +304,50 @@ namespace GameCreator.Runtime
             {
                 if (!DeclaredVariables.Contains(s))
                     DeclaredVariables.Add(s);
+            }
+        }
+
+        public static IEnumerable<RuntimeInstance> WithInstance(Value v)
+        {
+            if (!v.IsReal)
+                throw new ProgramError(Error.ExpectedObjectId);
+
+            // Save the last instances being used
+            var c = Current;
+            var o = Other;
+            Other = c;
+
+            try
+            {
+                switch ((InstanceTarget)(int)v)
+                {
+                    case InstanceTarget.Self:
+                        yield return c;
+                        break;
+                    case InstanceTarget.Other:
+                        if (o != null)
+                            yield return o;
+                        break;
+                    case InstanceTarget.All:
+                        foreach (var i in ExecutionContext.Instances)
+                            yield return i;
+                        break;
+                    case InstanceTarget.Global:
+                        throw new ProgramError(Error.GlobalWith);
+                    default:
+                        if (ExecutionContext.Instances.Any(e => e.id == v))
+                            yield return LibraryContext.Current.InstanceFactory.Instances[v] as RuntimeInstance;
+                        else
+                            foreach (var i in ExecutionContext.Instances.Where(ii => ii.object_index == v))
+                                yield return i;
+                        break;
+                }
+            }
+            finally
+            {
+                // Restore current and other instances
+                Current = c;
+                Other = o;
             }
         }
     }

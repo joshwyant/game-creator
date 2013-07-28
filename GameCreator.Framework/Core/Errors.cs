@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Runtime.CompilerServices;
 
 namespace GameCreator.Framework
 {
@@ -115,6 +116,7 @@ namespace GameCreator.Framework
             #endregion
         }
 
+        [MethodImpl(C.MethodImplOptions_AggressiveInlining)]
         public static void Throw(Error error)
         {
             var err = ErrorDefinitions[error];
@@ -122,6 +124,7 @@ namespace GameCreator.Framework
             throw new ProgramError(err.Message, err.Severity);
         }
 
+        [MethodImpl(C.MethodImplOptions_AggressiveInlining)]
         public static void Throw(Error error, int line, int col)
         {
             var err = ErrorDefinitions[error];
@@ -129,6 +132,7 @@ namespace GameCreator.Framework
             throw new ProgramError(err.Message, err.Severity, line, col);
         }
 
+        [MethodImpl(C.MethodImplOptions_AggressiveInlining)]
         public static void Throw(Error error, object obj, int line, int col)
         {
             var err = ErrorDefinitions[error];

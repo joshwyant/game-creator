@@ -21,15 +21,6 @@ namespace GameCreator.Framework
             s = val;
             d = 0;
         }
-        public Value(double times, string val)
-        {
-            type = 2;
-            var sb = new StringBuilder();
-            for (int i = 0; i < (int)times; i++)
-                sb.Append(val);
-            s = sb.ToString();
-            d = 0;
-        }
         public Value(double val)
         {
             type = 1;
@@ -181,34 +172,164 @@ namespace GameCreator.Framework
         public static Value Null = default(Value);
         #endregion
 
-        #region Functions
-        public Value AddReal(Value b)
+        #region Operator Helpers
+        static Value BinaryReal(Value v1, Value v2, string op, Func<double, double, double> func)
         {
-            return Real + b.Real;
+            if (v1.IsReal && v2.IsReal)
+                return func(v1, v2);
+            else
+                throw new ProgramError(Error.WrongArgumentTypesLogical, op);
         }
-        public Value AddString(Value b)
+
+        static Value Logical(Value v1, Value v2, string op, Func<bool, bool, bool> tester)
         {
-            return String + b.String;
+            if (!(v1.IsReal && v2.IsReal))
+                throw new ProgramError(Error.WrongArgumentTypesLogical, op);
+
+            return tester(v1.Bool, v2.Bool);
+        }
+
+        static Value Bitwise(Value v1, Value v2, string op, Func<long, long, long> twiddler)
+        {
+            return BinaryReal(v1, v2, op, (a, b) => (double)twiddler(Convert.ToInt64(a), Convert.ToInt64(b)));
+        }
+
+        static Value Compare(Value v1, Value v2, Func<double, double, bool> realComparer, Func<int, bool> stringOrdinalComparer)
+        {
+            if (v1.IsReal && v2.IsReal)
+                return realComparer(v1.Real, v2.Real);
+            else if (v1.IsString && v2.IsString)
+                return stringOrdinalComparer(string.CompareOrdinal(v1.String, v2.String));
+            else
+                throw new ProgramError(Error.CannotCompare);
+        }
+
+        static Value Arithmetic(Value v1, Value v2, string op, Func<double, double, double> realOperator)
+        {
+            if (v1.IsReal && v2.IsReal)
+                return realOperator(v1, v2);
+            else
+                throw new ProgramError(Error.WrongArgumentTypes, op);
+        }
+
+        static Value Arithmetic(Value v1, Value v2, string op, Func<double, double, double> realOperator, bool v1String, bool v2String, Func<Value, Value, Value> stringOperator)
+        {
+            if (v1.IsReal && v2.IsReal)
+                return realOperator(v1, v2);
+            else if (v1.IsString == v1String && v2.IsString == v2String)
+                return stringOperator(v1, v2);
+            else
+                throw new ProgramError(Error.WrongArgumentTypes, op);
+        }
+
+        static Value Unary(Value v, Func<double, double> op)
+        {
+            if (!v.IsReal)
+                throw new ProgramError(Error.WrongUnaryTypes);
+
+            return op(v);
         }
         #endregion
 
         #region Operators
         public static Value operator +(Value a, Value b)
-        {
-            return a.IsReal ? (Value)(a.Real + b.Real) : (Value)(a.String + b.String);
-        }
+        { return Arithmetic(a, b, "+", (v1, v2) => v1 + v2, true, true, (s1, s2) => s1.String + s2.String); }
+
         public static Value operator -(Value a, Value b)
-        {
-            return a.IsReal ? (Value)(a.Real - b.Real) : Zero;
-        }
+        { return Arithmetic(a, b, "-", (v1, v2) => v1 - v2); }
+
         public static Value operator *(Value a, Value b)
         {
-            return a.IsReal ? (Value)(a.Real * b.Real) : Zero;
+            return Arithmetic(a, b, "*",
+                (v1, v2) => v1 * v2,
+                false, true, (v1, v2) =>
+                {
+                    var sb = new StringBuilder();
+                    for (int i = 0; i < (int)System.Math.Round(v1.Real); i++)
+                        sb.Append(v2.String);
+                    return sb.ToString();
+                });
         }
+
+        public static Value operator %(Value a, Value b)
+        { return Arithmetic(a, b, "mod", (v1, v2) => (double)((long)v1 % (long)v2)); }
+
         public static Value operator /(Value a, Value b)
+        { return Arithmetic(a, b, "/", (v1, v2) => v1 / v2); }
+
+        public static Value IntegerDivision(Value a, Value b)
+        { return Arithmetic(a, b, "div", (v1, v2) => (double)((long)v1 / (long)v2)); }
+
+        public static Value operator &(Value a, Value b)
+        { return Bitwise(a, b, "&", (v1, v2) => v1 & v2); }
+
+        public static Value operator |(Value a, Value b)
+        { return Bitwise(a, b, "|", (v1, v2) => v1 | v2); }
+
+        public static Value operator ^(Value a, Value b)
+        { return Bitwise(a, b, "^", (v1, v2) => v1 ^ v2); }
+
+        public static Value operator <<(Value a, int b)
         {
-            return a.IsReal ? (Value)(a.Real / b.Real) : Zero;
+            return ShiftLeft(a, (Value)b);
         }
+
+        public static Value operator >>(Value a, int b)
+        {
+            return ShiftRight(a, (Value)b);
+        }
+
+        public static Value ShiftLeft(Value a, Value b)
+        { return Bitwise(a, b, "<<", (v1, v2) => v1 << (int)v2); }
+
+        public static Value ShiftRight(Value a, Value b)
+        { return Bitwise(a, b, ">>", (v1, v2) => v1 >> (int)v2); }
+
+        public static Value operator ~(Value val)
+        { return Unary(val, v => (double)~Convert.ToInt64(v)); }
+
+        public static Value operator +(Value val)
+        { return Unary(val, v => v); }
+
+        public static Value operator -(Value val)
+        { return Unary(val, v => -v); }
+
+        public static Value operator !(Value val)
+        { return Unary(val, v => ((Value)v).Bool ? 1 : 0); }
+
+        public static Value operator >(Value a, Value b)
+        { return Compare(a, b, (v1, v2) => v1 > v2, s => s > 0); }
+
+        public static Value operator >=(Value a, Value b)
+        { return Compare(a, b, (v1, v2) => v1 >= v2, s => s >= 0); }
+
+        public static Value operator <(Value a, Value b)
+        { return Compare(a, b, (v1, v2) => v1 < v2, s => s < 0); }
+
+        public static Value operator <=(Value a, Value b)
+        { return Compare(a, b, (v1, v2) => v1 <= v2, s => s <= 0); }
+
+        public static Value LogicalAnd(Value a, Value b)
+        { return Logical(a, b, "&&", (v1, v2) => v1 && v2); }
+
+        public static Value LogicalOr(Value a, Value b)
+        { return Logical(a, b, "||", (v1, v2) => v1 || v2); }
+
+        public static Value LogicalXor(Value a, Value b)
+        { return Logical(a, b, "^^", (v1, v2) => v1 ^ v2); }
+
+        public static bool operator true(Value v)
+        {
+            return v.Bool;
+        }
+
+        public static bool operator false(Value v)
+        {
+            return !v.Bool;
+        }
+        #endregion
+
+        #region Equality
         public static Value operator ==(Value a, Value b)
         {
             return a.type == b.type &&
@@ -224,7 +345,7 @@ namespace GameCreator.Framework
         }
         #endregion
 
-        #region Conversions
+        #region Implicit Conversions
         public static implicit operator int(Value v)
         {
             return v.Int;

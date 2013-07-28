@@ -66,6 +66,7 @@
     <Compile Include="Actions\ActionKind.cs" />
     <Compile Include="Actions\ActionLibrary.cs" />
     <Compile Include="Core\BaseFunction.cs" />
+    <Compile Include="Core\Constants.cs" />
     <Compile Include="Core\IFunction.cs" />
     <Compile Include="Core\Errors.cs" />
     <Compile Include="Core\FunctionDelegate.cs" />

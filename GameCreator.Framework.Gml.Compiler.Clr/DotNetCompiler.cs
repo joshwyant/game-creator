@@ -11,7 +11,7 @@ namespace GameCreator.Framework.Gml.Compiler.Clr
     public class DotNetCompiler
     {
         public LibraryContext Context { get; set; }
-        readonly Dictionary<string, MethodInfo> Scripts = new Dictionary<string, MethodInfo>();
+        internal readonly Dictionary<string, MethodInfo> Scripts = new Dictionary<string, MethodInfo>();
 
         public DotNetCompiler(LibraryContext context)
         {

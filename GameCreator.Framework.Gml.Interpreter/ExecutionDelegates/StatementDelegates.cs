@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using GameCreator.Runtime;
+using System.Runtime.CompilerServices;
 
 namespace GameCreator.Framework.Gml.Interpreter
 {
@@ -11,28 +12,28 @@ namespace GameCreator.Framework.Gml.Interpreter
         #region Assignments
         [Statement(Kind = StatementKind.Assignment)]
         public static void Assignment(Statement s)
-        { ((Assignment)s).Lefthand.Set(((Assignment)s).Expression.Eval()); }
+        { var a = s as Assignment; a.Lefthand.Set(a.Expression.Eval()); }
 
         [Statement(Kind = StatementKind.AndAssignment)]
         public static void AndAssignment(Statement s)
-        { Assignment(s, (x, y) => (double)(Convert.ToInt64(x) & Convert.ToInt64(y))); }
+        { RealAssignment(s, (x, y) => x & y); }
 
         [Statement(Kind = StatementKind.OrAssignment)]
         public static void OrAssignment(Statement s)
-        { Assignment(s, (x, y) => (double)(Convert.ToInt64(x) | Convert.ToInt64(y))); }
+        { RealAssignment(s, (x, y) => x | y); }
 
         [Statement(Kind = StatementKind.XorAssignment)]
         public static void XorAssignment(Statement s)
-        { Assignment(s, (x, y) => (double)(Convert.ToInt64(x) ^ Convert.ToInt64(y))); }
+        { RealAssignment(s, (x, y) => x ^ y); }
 
         [Statement(Kind = StatementKind.SubtractionAssignment)]
         public static void SubtractionAssignment(Statement s)
-        { Assignment(s, (x, y) => x - y); }
+        { RealAssignment(s, (x, y) => x - y); }
 
         [Statement(Kind = StatementKind.DivideAssignment)]
         public static void DivideAssignment(Statement s)
         {
-            var a = (Assignment)s;
+            var a = s as Assignment;
 
             var v1 = a.Lefthand.Eval();
             var v2 = a.Expression.Eval();
@@ -44,35 +45,25 @@ namespace GameCreator.Framework.Gml.Interpreter
         [Statement(Kind = StatementKind.AdditionAssignment)]
         public static void AdditionAssignment(Statement s)
         {
-            var a = (Assignment)s;
+            var a = s as Assignment;
 
             var v1 = a.Lefthand.Eval();
             var v2 = a.Expression.Eval();
 
-            if (v1.IsReal && v2.IsReal)
-                a.Lefthand.Set(v1.Real + v2.Real);
-
-            if (v1.IsString && v2.IsString)
-                a.Lefthand.Set(v1.String + v2.String);
+            if ((v1.IsReal && v2.IsReal) || (v1.IsString && v2.IsString))
+                a.Lefthand.Set(v1 + v2);
         }
 
         [Statement(Kind = StatementKind.MultiplyAssignment)]
         public static void MultiplyAssignment(Statement s)
         {
-            var a = (Assignment)s;
+            var a = s as Assignment;
 
             var v1 = a.Lefthand.Eval();
             var v2 = a.Expression.Eval();
 
-            if (v1.IsReal && v2.IsReal)
-                a.Lefthand.Set(v1.Real + v2.Real);
-            else if (v1.IsReal && v2.IsString)
-            {
-                var sb = new StringBuilder();
-                for (int i = 0; i < (int)Math.Round(v1.Real); i++)
-                    sb.Append(v2.String);
-                a.Lefthand.Set(sb.ToString());
-            }
+            if (v1.IsReal && (!v2.IsNull))
+                a.Lefthand.Set(v1 * v2);
         }
         #endregion
 
@@ -97,12 +88,12 @@ namespace GameCreator.Framework.Gml.Interpreter
         [Statement(Kind = StatementKind.Switch)]
         public static void Switch(Statement s)
         {
-            var block = (Switch)s;
+            var block = s as Switch;
 
             bool met = false;
             var v1 = block.Expression.Eval();
 
-            foreach (Statement stmt in block.Statements)
+            foreach (var stmt in block.Statements)
             {
                 if (stmt.Kind == StatementKind.Default)
                     met = true;
@@ -110,9 +101,8 @@ namespace GameCreator.Framework.Gml.Interpreter
                 {
                     if (!met) // we don't need to evaluate the case label expression if we are falling through
                     {
-                        var v2 = ((Case)stmt).Expression.Eval();
-                        if ((v1.IsReal && v2.IsReal && v1.Real == v2.Real) ||
-                            (v1.IsString && v2.IsString && v1.String == v2.String))
+                        var v2 = (stmt as Case).Expression.Eval();
+                        if (v1 == v2)
                             met = true;
                     }
                 }
@@ -144,13 +134,13 @@ namespace GameCreator.Framework.Gml.Interpreter
         [Statement(Kind = StatementKind.Call)]
         public static void Call(Statement s)
         {
-            ((CallStatement)s).Call.Eval();
+            (s as CallStatement).Call.Eval();
         }
 
         [Statement(Kind = StatementKind.Return)]
         public static void Return(Statement s)
         {
-            Interpreter.Returned = ((Return)s).Expression.Eval();
+            Interpreter.Returned = (s as Return).Expression.Eval();
             Interpreter.ProgramFlow = FlowType.Exit;
         }
         #endregion
@@ -159,7 +149,7 @@ namespace GameCreator.Framework.Gml.Interpreter
         [Statement(Kind = StatementKind.Sequence)]
         public static void Sequence(Statement s)
         {
-            var seq = (Sequence)s;
+            var seq = s as Sequence;
 
             if (Exec(seq.First) != FlowType.None) return;
             if (Exec(seq.Second) != FlowType.None) return;
@@ -182,7 +172,7 @@ namespace GameCreator.Framework.Gml.Interpreter
         [Statement(Kind = StatementKind.If)]
         public static void If(Statement s)
         {
-            var stmt = (If)s;
+            var stmt = s as If;
 
             var v = stmt.Expression.Eval();
 
@@ -202,7 +192,7 @@ namespace GameCreator.Framework.Gml.Interpreter
         [Statement(Kind = StatementKind.For)]
         public static void For(Statement s)
         {
-            var stmt = (For)s;
+            var stmt = s as For;
 
             // Game Maker allows continues and breaks AFTER the initialization statment.
             if (Exec(stmt.Initializer) != FlowType.None) return;
@@ -212,7 +202,7 @@ namespace GameCreator.Framework.Gml.Interpreter
             if (!v.IsReal)
                 ThrowError(Error.ExpectedExpression);
 
-            if (v <= 0.5) 
+            if (!v) 
                 return;
 
             if ((Exec(stmt.Iterator, FlowType.Continue | FlowType.Break) & ~FlowType.Continue) != FlowType.None) 
@@ -227,7 +217,7 @@ namespace GameCreator.Framework.Gml.Interpreter
         [Statement(Kind = StatementKind.Do)]
         public static void Do(Statement s)
         {
-            var stmt = (Do)s;
+            var stmt = s as Do;
 
             Value v;
             do
@@ -240,102 +230,27 @@ namespace GameCreator.Framework.Gml.Interpreter
                         ThrowError(Error.ExpectedBooleanExpression);
                 }
                 else break;
-            } while (v);
+            } while (!v); // until v
         }
 
         [Statement(Kind = StatementKind.With)]
         public static void With(Statement s)
         {
-            var with = (With)s;
+            var with = s as With;
 
             var v = with.Instance.Eval();
 
-            if (!v.IsReal)
-                ThrowError(Error.ExpectedObjectId);
-
-            var c = ExecutionContext.Current;
-            var o = ExecutionContext.Other;
-
-            int instance = v;
-            switch ((InstanceTarget)instance)
-            {
-                case InstanceTarget.Self:
-                    ExecutionContext.Other = c;
+            foreach (var inst in ExecutionContext.WithInstance(v))
+                if ((Exec(with.Body, FlowType.Break | FlowType.Continue) & ~FlowType.Continue) != FlowType.None)
                     break;
-                case InstanceTarget.Other:
-                    if (ExecutionContext.Other == null) return;
-                    ExecutionContext.Current = ExecutionContext.Other;
-                    ExecutionContext.Other = c;
-                    break;
-                case InstanceTarget.All:
-                    ExecutionContext.Other = c;
-                    foreach (var i in ExecutionContext.Instances)
-                    {
-                        ExecutionContext.Current = i;
-                        switch (Exec(with.Body, FlowType.Continue | FlowType.Break))
-                        {
-                            case FlowType.None:
-                            case FlowType.Continue:
-                                break;
-                            default:
-                                ExecutionContext.Current = c;
-                                ExecutionContext.Other = o;
-                                return;
-                        }
-                    }
-                    ExecutionContext.Current = c;
-                    ExecutionContext.Other = o;
-                    return;
-                case InstanceTarget.Noone:
-                    return;
-                case InstanceTarget.Global:
-                    ThrowError(Error.GlobalWith);
-                    return;
-                default:
-                    if (ExecutionContext.Instances.Any(e => e.id == instance))
-                    {
-                        ExecutionContext.Current = LibraryContext.Current.InstanceFactory.Instances[instance] as RuntimeInstance;
-                        ExecutionContext.Other = c;
-                    }
-                    else
-                    {
-                        ExecutionContext.Other = c;
-                        foreach (var i in ExecutionContext.Instances)
-                        {
-                            if (i.object_index == instance)
-                            {
-                                ExecutionContext.Current = i;
-                                switch (Exec(with.Body, FlowType.Continue | FlowType.Break))
-                                {
-                                    case FlowType.None:
-                                    case FlowType.Continue:
-                                        break;
-                                    default:
-                                        ExecutionContext.Current = c;
-                                        ExecutionContext.Other = o;
-                                        return;
-                                }
-                            }
-                        }
-                        ExecutionContext.Current = c;
-                        ExecutionContext.Other = o;
-                        return;
-                    }
-                    break;
-            }
-            Exec(with.Body, FlowType.Break | FlowType.Continue);
-
-            // Restore current and other instances
-            ExecutionContext.Current = c;
-            ExecutionContext.Other = o;
         }
 
         [Statement(Kind = StatementKind.While)]
         public static void While(Statement s)
         {
-            var w = (While)s;
+            var w = s as While;
 
-            Value v = w.Expression.Eval();
+            var v = w.Expression.Eval();
 
             if (!v.IsReal)
                 ThrowError(Error.ExpectedBooleanExpression);
@@ -355,9 +270,9 @@ namespace GameCreator.Framework.Gml.Interpreter
         [Statement(Kind = StatementKind.Repeat)]
         public static void Repeat(Statement s)
         {
-            var repeat = (Repeat)s;
+            var repeat = s as Repeat;
 
-            Value v = repeat.Expression.Eval();
+            var v = repeat.Expression.Eval();
 
             if (!v.IsReal)
                 ThrowError(Error.RepeatExpression);
@@ -374,7 +289,8 @@ namespace GameCreator.Framework.Gml.Interpreter
         #endregion
 
         #region Helpers
-        static void Assignment(Statement s, Func<double, double, double> result)
+        [MethodImpl(C.MethodImplOptions_AggressiveInlining)]
+        static void RealAssignment(Statement s, Func<Value, Value, Value> result)
         {
             var a = (Assignment)s;
             

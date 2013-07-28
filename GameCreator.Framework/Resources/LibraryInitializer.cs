@@ -29,7 +29,7 @@ namespace GameCreator.Framework
             if (argc == 1 && parms.Any(p => p.GetCustomAttributes(typeof(ParamArrayAttribute), false).Any()))
                 argc = -1;
 
-            return new BaseFunction(n, argc);
+            return new BaseFunction(n, argc, m);
         }
 
 
