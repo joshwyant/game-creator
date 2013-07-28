@@ -12,6 +12,14 @@ namespace GameCreator.Runtime.Game
         public MessageForm()
         {
             InitializeComponent();
+
+            this.KeyDown += new KeyEventHandler(MessageForm_KeyDown);
+        }
+
+        void MessageForm_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+                Close();
         }
         public string Message
         {

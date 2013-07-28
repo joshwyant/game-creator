@@ -29,7 +29,7 @@ namespace GameCreator.RuntimeTest
             ev.DefineAction(1, 103, new string[] { "000000001", "4" }, -1, false, false);
             ev.DefineAction(1, 101, new string[] { "show_message(string(hspeed))" }, -1, false, false);
             // Define rooms
-            resources.Rooms.Define().CreationCode = "scr_main()";
+            resources.Rooms.Define().CreationCode = "if (0.5) switch (4) { case 2: case 3: default: case 5: show_message(string(2 << 4));} game_end()";
             // Run the game
             JitedGame.Run();
         }

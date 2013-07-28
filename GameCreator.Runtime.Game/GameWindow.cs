@@ -18,6 +18,12 @@ namespace GameCreator.Runtime.Game
             : base(640, 480, GraphicsMode.Default, string.Empty)
         {
             current = r;
+            System.Windows.Forms.Application.ApplicationExit += new EventHandler(Application_ApplicationExit);
+        }
+
+        void Application_ApplicationExit(object sender, EventArgs e)
+        {
+            Close();
         }
 
         Queue<byte> keysdown = new Queue<byte>();

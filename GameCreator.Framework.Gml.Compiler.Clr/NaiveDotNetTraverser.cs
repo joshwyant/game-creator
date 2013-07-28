@@ -57,6 +57,11 @@ namespace GameCreator.Framework.Gml.Compiler.Clr
             if (t != typeof(Value))
                 IL.Emit(OpCodes.Call, value_t.GetMethods().Single(m => m.Name == "op_Implicit" && m.ReturnType == t));
         }
+        void EmitImplicitConversionToValue(Type t)
+        {
+            if (t != typeof(Value))
+                IL.Emit(OpCodes.Call, value_t.GetMethod("op_Implicit", new [] { t }));
+        }
         public void BeginMethod()
         {
             ExitLabel = IL.DefineLabel();
@@ -308,6 +313,8 @@ namespace GameCreator.Framework.Gml.Compiler.Clr
 
             if (method.ReturnType == typeof(void))
                 IL.Emit(OpCodes.Ldsfld, value_t.GetField("Null"));
+            else
+                EmitImplicitConversionToValue(method.ReturnType);
         }
 
         public override void VisitAccess(Access access)
@@ -395,7 +402,7 @@ namespace GameCreator.Framework.Gml.Compiler.Clr
 
         public override void VisitSwitch(Switch p)
         {
-            IL.BeginScope();
+            //IL.BeginScope();
             EmitLoopSkeleton(null, (breakLabel) => {
 
                 // Evaluate the test expression
@@ -419,6 +426,7 @@ namespace GameCreator.Framework.Gml.Compiler.Clr
                         VisitExpression((c.s as Case).Expression);
                         IL.Emit(OpCodes.Ldloc, e);
                         IL.Emit(OpCodes.Call, value_t.GetMethod("op_Equality"));
+                        EmitImplicitConversion(typeof(bool));
                         IL.Emit(OpCodes.Brtrue, c.l);
                     }
                 }
@@ -445,7 +453,7 @@ namespace GameCreator.Framework.Gml.Compiler.Clr
                     }
                 }
             });
-            IL.EndScope();
+            //IL.EndScope();
         }
 
         public override void VisitSequence(Sequence sequence)
@@ -487,7 +495,7 @@ namespace GameCreator.Framework.Gml.Compiler.Clr
 
             VisitExpression(p.Expression);
             EmitImplicitConversion(typeof(bool));
-            IL.Emit(OpCodes.Br, elseLabel);
+            IL.Emit(OpCodes.Brfalse, elseLabel);
 
             VisitStatement(p.Body);
 
@@ -589,7 +597,7 @@ namespace GameCreator.Framework.Gml.Compiler.Clr
 
         public override void VisitAssignment(Assignment assignment)
         {
-            IL.BeginScope();
+            //IL.BeginScope();
             var a = IL.DeclareLocal(value_t);
             var b = IL.DeclareLocal(value_t);
             var i1 = IL.DeclareLocal(value_t);
@@ -735,7 +743,7 @@ namespace GameCreator.Framework.Gml.Compiler.Clr
             IL.Emit(OpCodes.Call, typeof(ExecutionContext).GetMethod("SetVar", assignment.Lefthand == null ? localTypes : instanceTypes));
 
             IL.MarkLabel(dontAssign);
-            IL.EndScope();
+            //IL.EndScope();
         }
         #endregion
     }
