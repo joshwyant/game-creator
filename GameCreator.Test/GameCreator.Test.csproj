@@ -49,6 +49,7 @@
     <Compile Include="GameInterpreted.cs" />
     <Compile Include="GmlTest.cs" />
     <Compile Include="InterpreterTest.cs" />
+    <Compile Include="JavaScriptTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RuntimeTest.cs" />
   </ItemGroup>
@@ -88,6 +89,10 @@
     <ProjectReference Include="..\GameCreator.Runtime\GameCreator.Runtime.csproj">
       <Project>{8D7F601C-C605-477F-8D67-850A8B6CA23A}</Project>
       <Name>GameCreator.Runtime</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\JavaScriptBuilder\JavaScriptBuilder.csproj">
+      <Project>{9130BD3E-88D7-4E4E-BCB7-CEB9FA8EA4FE}</Project>
+      <Name>JavaScriptBuilder</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

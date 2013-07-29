@@ -42,6 +42,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameCreator.Framework.Gml.C
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameCreator.Runtime.Game.Jited", "GameCreator.Runtime.Game.Jited\GameCreator.Runtime.Game.Jited.csproj", "{4FAA8A24-1DEA-4414-B1DD-C7D789DA5FA8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JavaScriptBuilder", "JavaScriptBuilder\JavaScriptBuilder.csproj", "{9130BD3E-88D7-4E4E-BCB7-CEB9FA8EA4FE}"
+EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = GameCreator.vsmdi
@@ -225,6 +227,16 @@ Global
 		{4FAA8A24-1DEA-4414-B1DD-C7D789DA5FA8}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{4FAA8A24-1DEA-4414-B1DD-C7D789DA5FA8}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{4FAA8A24-1DEA-4414-B1DD-C7D789DA5FA8}.Release|x86.ActiveCfg = Release|Any CPU
+		{9130BD3E-88D7-4E4E-BCB7-CEB9FA8EA4FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9130BD3E-88D7-4E4E-BCB7-CEB9FA8EA4FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9130BD3E-88D7-4E4E-BCB7-CEB9FA8EA4FE}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{9130BD3E-88D7-4E4E-BCB7-CEB9FA8EA4FE}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{9130BD3E-88D7-4E4E-BCB7-CEB9FA8EA4FE}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{9130BD3E-88D7-4E4E-BCB7-CEB9FA8EA4FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9130BD3E-88D7-4E4E-BCB7-CEB9FA8EA4FE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9130BD3E-88D7-4E4E-BCB7-CEB9FA8EA4FE}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{9130BD3E-88D7-4E4E-BCB7-CEB9FA8EA4FE}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{9130BD3E-88D7-4E4E-BCB7-CEB9FA8EA4FE}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
