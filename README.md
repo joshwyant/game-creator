@@ -3,12 +3,14 @@ An open-source clone of Game Maker.
 
 Originally hosted on Google Code (https://code.google.com/p/game-creator)
 
-Started in 2008 and added to version control in 2009, this project has been stored 
+Started in June of 2008 and added to version control in 2009, this project has been stored 
 in 3 different version control systems. I've converted the old original SVN and 
 replacement Mercurial repoitory to GIT and concatenated them. As such, this repo 
 on GitHub has the entire commit history.
+SVN history starts on August 9th, 2009, Mercurial history starts on December 30th, 2011, 
+and everything else is pure Git as of July 29th, 2015.
 
-I was 16 when I started this project, and I've worked on it since then when I have the time.
+I was 16 when I started this project, and I've worked on it since then when I have had the time.
 
 From Google Code:
 
