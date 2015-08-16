@@ -1,6 +1,8 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.23107.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameCreator.Framework", "GameCreator.Framework\GameCreator.Framework.csproj", "{6BC89687-EBA6-47F8-ADF0-05C1300D699A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameCreator.IDE", "GameCreator.IDE\GameCreator.IDE.csproj", "{2A260ABF-219E-49A2-81BD-0ED30F9B8825}"
@@ -44,10 +46,15 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameCreator.Runtime.Game.Ji
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JavaScriptBuilder", "JavaScriptBuilder\JavaScriptBuilder.csproj", "{9130BD3E-88D7-4E4E-BCB7-CEB9FA8EA4FE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameCreator.Contracts", "GameCreator.Contracts\GameCreator.Contracts.csproj", "{B7E4BE34-18C9-4350-AA1D-0EEACB691963}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Contracts", "Contracts", "{CA91CCF0-B948-444B-AC45-B8273C8B73E3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameCreator.Contracts.Services", "GameCreator.Contracts.Services\GameCreator.Contracts.Services.csproj", "{EB3457C6-7007-43F9-B4C1-2D44747CDBDB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameCreator.Contracts.Resources", "GameCreator.Contracts.Resources\GameCreator.Contracts.Resources.csproj", "{E923B911-C95C-4D7D-A48D-3380E6217D8C}"
+EndProject
 Global
-	GlobalSection(TestCaseManagementSettings) = postSolution
-		CategoryFile = GameCreator.vsmdi
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Debug|Mixed Platforms = Debug|Mixed Platforms
@@ -237,9 +244,53 @@ Global
 		{9130BD3E-88D7-4E4E-BCB7-CEB9FA8EA4FE}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{9130BD3E-88D7-4E4E-BCB7-CEB9FA8EA4FE}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{9130BD3E-88D7-4E4E-BCB7-CEB9FA8EA4FE}.Release|x86.ActiveCfg = Release|Any CPU
+		{B7E4BE34-18C9-4350-AA1D-0EEACB691963}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B7E4BE34-18C9-4350-AA1D-0EEACB691963}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B7E4BE34-18C9-4350-AA1D-0EEACB691963}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{B7E4BE34-18C9-4350-AA1D-0EEACB691963}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{B7E4BE34-18C9-4350-AA1D-0EEACB691963}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{B7E4BE34-18C9-4350-AA1D-0EEACB691963}.Debug|x86.Build.0 = Debug|Any CPU
+		{B7E4BE34-18C9-4350-AA1D-0EEACB691963}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B7E4BE34-18C9-4350-AA1D-0EEACB691963}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B7E4BE34-18C9-4350-AA1D-0EEACB691963}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{B7E4BE34-18C9-4350-AA1D-0EEACB691963}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{B7E4BE34-18C9-4350-AA1D-0EEACB691963}.Release|x86.ActiveCfg = Release|Any CPU
+		{B7E4BE34-18C9-4350-AA1D-0EEACB691963}.Release|x86.Build.0 = Release|Any CPU
+		{EB3457C6-7007-43F9-B4C1-2D44747CDBDB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EB3457C6-7007-43F9-B4C1-2D44747CDBDB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EB3457C6-7007-43F9-B4C1-2D44747CDBDB}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{EB3457C6-7007-43F9-B4C1-2D44747CDBDB}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{EB3457C6-7007-43F9-B4C1-2D44747CDBDB}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{EB3457C6-7007-43F9-B4C1-2D44747CDBDB}.Debug|x86.Build.0 = Debug|Any CPU
+		{EB3457C6-7007-43F9-B4C1-2D44747CDBDB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EB3457C6-7007-43F9-B4C1-2D44747CDBDB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EB3457C6-7007-43F9-B4C1-2D44747CDBDB}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{EB3457C6-7007-43F9-B4C1-2D44747CDBDB}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{EB3457C6-7007-43F9-B4C1-2D44747CDBDB}.Release|x86.ActiveCfg = Release|Any CPU
+		{EB3457C6-7007-43F9-B4C1-2D44747CDBDB}.Release|x86.Build.0 = Release|Any CPU
+		{E923B911-C95C-4D7D-A48D-3380E6217D8C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E923B911-C95C-4D7D-A48D-3380E6217D8C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E923B911-C95C-4D7D-A48D-3380E6217D8C}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{E923B911-C95C-4D7D-A48D-3380E6217D8C}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{E923B911-C95C-4D7D-A48D-3380E6217D8C}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{E923B911-C95C-4D7D-A48D-3380E6217D8C}.Debug|x86.Build.0 = Debug|Any CPU
+		{E923B911-C95C-4D7D-A48D-3380E6217D8C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E923B911-C95C-4D7D-A48D-3380E6217D8C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E923B911-C95C-4D7D-A48D-3380E6217D8C}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{E923B911-C95C-4D7D-A48D-3380E6217D8C}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{E923B911-C95C-4D7D-A48D-3380E6217D8C}.Release|x86.ActiveCfg = Release|Any CPU
+		{E923B911-C95C-4D7D-A48D-3380E6217D8C}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{B7E4BE34-18C9-4350-AA1D-0EEACB691963} = {CA91CCF0-B948-444B-AC45-B8273C8B73E3}
+		{EB3457C6-7007-43F9-B4C1-2D44747CDBDB} = {CA91CCF0-B948-444B-AC45-B8273C8B73E3}
+		{E923B911-C95C-4D7D-A48D-3380E6217D8C} = {CA91CCF0-B948-444B-AC45-B8273C8B73E3}
+	EndGlobalSection
+	GlobalSection(TestCaseManagementSettings) = postSolution
+		CategoryFile = GameCreator.vsmdi
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		version = 0.1

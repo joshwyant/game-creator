@@ -96,7 +96,6 @@
     <Compile Include="Resources\IndexedResourceManager.cs" />
     <Compile Include="Resources\IndexedResource.cs" />
     <Compile Include="Resources\Entities\Instance.cs" />
-    <Compile Include="Core\GmVersion.cs" />
     <Compile Include="Core\InstanceTarget.cs" />
     <Compile Include="Resources\LibraryContext.cs" />
     <Compile Include="Resources\ResourceContext.cs" />
