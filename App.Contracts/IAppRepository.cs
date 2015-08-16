@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace App.Contracts
+﻿namespace App.Contracts
 {
     /// <summary>
     /// Interface for a repository of app resources.
