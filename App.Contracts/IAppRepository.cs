@@ -1,20 +1,20 @@
 ﻿using System.Collections.Generic;
 
-namespace GameCreator.Contracts.Resources
+namespace App.Contracts
 {
     /// <summary>
-    /// Interface for a repository of game resources.
+    /// Interface for a repository of app resources.
     /// </summary>
-    public interface IGameRepository
+    public interface IAppRepository
     {
         /// <summary>
         /// Gets or sets the resource manager for objects.
         /// </summary>
-        IIndexedResourceManager<IGameObject> Objects { get; set; }
+        IIndexedResourceManager<IAppObject> Objects { get; set; }
 
         /// <summary>
         /// Gets or sets the resource manager for rooms.
         /// </summary>
-        IIndexedResourceManager<IGameRoom> Rooms { get; set; }
+        IIndexedResourceManager<IAppRoom> Rooms { get; set; }
     }
 }

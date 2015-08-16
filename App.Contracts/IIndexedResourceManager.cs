@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace GameCreator.Contracts.Resources
+namespace App.Contracts
 {
     /// <summary>
     /// Interface for indexed resource managers.

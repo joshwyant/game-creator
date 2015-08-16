@@ -1,4 +1,4 @@
-﻿namespace GameCreator.Contracts.Resources
+﻿namespace App.Contracts
 {
     /// <summary>
     /// Interface for named indexed resources.

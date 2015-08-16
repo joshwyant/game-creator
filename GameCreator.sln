@@ -52,7 +52,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Contracts", "Contracts", "{
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameCreator.Contracts.Services", "GameCreator.Contracts.Services\GameCreator.Contracts.Services.csproj", "{EB3457C6-7007-43F9-B4C1-2D44747CDBDB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameCreator.Contracts.Resources", "GameCreator.Contracts.Resources\GameCreator.Contracts.Resources.csproj", "{E923B911-C95C-4D7D-A48D-3380E6217D8C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "App.Contracts", "App.Contracts\App.Contracts.csproj", "{E923B911-C95C-4D7D-A48D-3380E6217D8C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

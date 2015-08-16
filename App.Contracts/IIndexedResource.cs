@@ -1,4 +1,4 @@
-﻿namespace GameCreator.Contracts.Resources
+﻿namespace App.Contracts
 {
     /// <summary>
     /// Interface for indexed resources. For named resources, use <see cref="INamedIndexedResource"/>.

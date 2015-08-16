@@ -53,9 +53,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\GameCreator.Contracts.Resources\GameCreator.Contracts.Resources.csproj">
+    <ProjectReference Include="..\App.Contracts\App.Contracts.csproj">
       <Project>{e923b911-c95c-4d7d-a48d-3380e6217d8c}</Project>
-      <Name>GameCreator.Contracts.Resources</Name>
+      <Name>Game.Contracts</Name>
     </ProjectReference>
     <ProjectReference Include="..\GameCreator.Contracts\GameCreator.Contracts.csproj">
       <Project>{b7e4be34-18c9-4350-aa1d-0eeacb691963}</Project>

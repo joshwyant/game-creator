@@ -7,8 +7,8 @@
     <ProjectGuid>{E923B911-C95C-4D7D-A48D-3380E6217D8C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>GameCreator.Contracts.Resources</RootNamespace>
-    <AssemblyName>GameCreator.Contracts.Resources</AssemblyName>
+    <RootNamespace>App.Resources</RootNamespace>
+    <AssemblyName>App.Resources</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -41,13 +41,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IGameInstance.cs" />
+    <Compile Include="IAppInstance.cs" />
     <Compile Include="INamedIndexedResource.cs" />
-    <Compile Include="IGameObject.cs" />
-    <Compile Include="IGameRepository.cs" />
+    <Compile Include="IAppObject.cs" />
+    <Compile Include="IAppRepository.cs" />
     <Compile Include="IIndexedResource.cs" />
     <Compile Include="IIndexedResourceManager.cs" />
-    <Compile Include="IGameRoom.cs" />
+    <Compile Include="IAppRoom.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
