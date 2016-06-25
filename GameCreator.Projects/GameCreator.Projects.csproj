@@ -38,9 +38,36 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Gm6ProjectType.cs" />
+    <Compile Include="GmdProjectType.cs" />
+    <Compile Include="Gm8ProjectType.cs" />
+    <Compile Include="GmFileProjectReader.cs" />
+    <Compile Include="GmFileProjectService.cs" />
+    <Compile Include="GmFileProjectWriter.cs" />
+    <Compile Include="GMKIn.cs" />
+    <Compile Include="GMKOut.cs" />
+    <Compile Include="GmkProjectType.cs" />
+    <Compile Include="GmFileProjectType.cs" />
+    <Compile Include="IGmFileProjectType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\App.Contracts\App.Contracts.csproj">
+      <Project>{e923b911-c95c-4d7d-a48d-3380e6217d8c}</Project>
+      <Name>App.Contracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\App.Resources\App.Resources.csproj">
+      <Project>{8d3b44e4-d6cf-4ea2-893d-d01b1f227d92}</Project>
+      <Name>App.Resources</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GameCreator.Contracts.Services\GameCreator.Contracts.Services.csproj">
+      <Project>{eb3457c6-7007-43f9-b4c1-2d44747cdbdb}</Project>
+      <Name>GameCreator.Contracts.Services</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GameCreator.Contracts\GameCreator.Contracts.csproj">
+      <Project>{b7e4be34-18c9-4350-aa1d-0eeacb691963}</Project>
+      <Name>GameCreator.Contracts</Name>
+    </ProjectReference>
     <ProjectReference Include="..\GameCreator.Framework\GameCreator.Framework.csproj">
       <Project>{6BC89687-EBA6-47F8-ADF0-05C1300D699A}</Project>
       <Name>GameCreator.Framework</Name>

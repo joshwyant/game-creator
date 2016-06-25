@@ -43,6 +43,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AppPath.cs" />
+    <Compile Include="AppFont.cs" />
+    <Compile Include="AppDataFile.cs" />
+    <Compile Include="AppTimeline.cs" />
+    <Compile Include="AppScript.cs" />
+    <Compile Include="AppSound.cs" />
+    <Compile Include="AppBackground.cs" />
+    <Compile Include="AppSprite.cs" />
     <Compile Include="AppRoom.cs" />
     <Compile Include="AppObject.cs" />
     <Compile Include="AppRepository.cs" />

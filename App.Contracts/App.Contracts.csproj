@@ -41,7 +41,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IAppTimeline.cs" />
+    <Compile Include="IAppFont.cs" />
+    <Compile Include="IAppScript.cs" />
+    <Compile Include="IAppPath.cs" />
+    <Compile Include="IAppDataFile.cs" />
     <Compile Include="IAppInstance.cs" />
+    <Compile Include="IAppSound.cs" />
+    <Compile Include="IAppBackground.cs" />
+    <Compile Include="IAppSprite.cs" />
     <Compile Include="INamedIndexedResource.cs" />
     <Compile Include="IAppObject.cs" />
     <Compile Include="IAppRepository.cs" />

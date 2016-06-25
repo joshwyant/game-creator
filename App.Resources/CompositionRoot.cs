@@ -11,6 +11,14 @@ namespace App.Resources
             serviceRegistry.Register<IAppRepository, AppRepository>();
 
             // Register the app resource types
+            serviceRegistry.Register<IAppSprite, AppSprite>();
+            serviceRegistry.Register<IAppSound, AppSound>();
+            serviceRegistry.Register<IAppBackground, AppBackground>();
+            serviceRegistry.Register<IAppPath, AppPath>();
+            serviceRegistry.Register<IAppScript, AppScript>();
+            serviceRegistry.Register<IAppDataFile, AppDataFile>();
+            serviceRegistry.Register<IAppFont, AppFont>();
+            serviceRegistry.Register<IAppTimeline, AppTimeLine>();
             serviceRegistry.Register<IAppObject, AppObject>();
             serviceRegistry.Register<IAppRoom, AppRoom>();
         }
