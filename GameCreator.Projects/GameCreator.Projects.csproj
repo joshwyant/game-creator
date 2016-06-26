@@ -42,32 +42,31 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Gm6ProjectType.cs" />
-    <Compile Include="GmdProjectType.cs" />
-    <Compile Include="Gm8ProjectType.cs" />
-    <Compile Include="GmFileExtensions.cs" />
-    <Compile Include="GmFileProjectReader.Fonts.cs" />
-    <Compile Include="GmFileProjectReader.Paths.cs" />
-    <Compile Include="GmFileProjectReader.Actions.cs" />
-    <Compile Include="GmFileProjectReader.GameInformation.cs" />
-    <Compile Include="GmFileProjectReader.ResourceTree.cs" />
-    <Compile Include="GmFileProjectReader.Timelines.cs" />
-    <Compile Include="GmFileProjectReader.Objects.cs" />
-    <Compile Include="GmFileProjectReader.Rooms.cs" />
-    <Compile Include="GmFileProjectReader.Scripts.cs" />
-    <Compile Include="GmFileProjectReader.Backgrounds.cs" />
-    <Compile Include="GmFileProjectReader.Sprites.cs" />
-    <Compile Include="GmFileProjectReader.Sounds.cs" />
-    <Compile Include="GmFileProjectReader.Settings.cs" />
-    <Compile Include="GmFileProjectReader.cs" />
-    <Compile Include="GmFileProjectService.cs" />
-    <Compile Include="GmFileProjectWriter.cs" />
-    <Compile Include="GMKIn.cs" />
-    <Compile Include="GMKOut.cs" />
-    <Compile Include="GmkProjectType.cs" />
-    <Compile Include="GmFileProjectType.cs" />
+    <Compile Include="GmFiles\Gm6ProjectType.cs" />
+    <Compile Include="GmFiles\GmdProjectType.cs" />
+    <Compile Include="GmFiles\Gm8ProjectType.cs" />
+    <Compile Include="GmFiles\GmFileExtensions.cs" />
+    <Compile Include="GmFiles\Reader\GmFileProjectReader.Fonts.cs" />
+    <Compile Include="GmFiles\Reader\GmFileProjectReader.Paths.cs" />
+    <Compile Include="GmFiles\Reader\GmFileProjectReader.Actions.cs" />
+    <Compile Include="GmFiles\Reader\GmFileProjectReader.GameInformation.cs" />
+    <Compile Include="GmFiles\Reader\GmFileProjectReader.ResourceTree.cs" />
+    <Compile Include="GmFiles\Reader\GmFileProjectReader.Timelines.cs" />
+    <Compile Include="GmFiles\Reader\GmFileProjectReader.Objects.cs" />
+    <Compile Include="GmFiles\Reader\GmFileProjectReader.Rooms.cs" />
+    <Compile Include="GmFiles\Reader\GmFileProjectReader.Scripts.cs" />
+    <Compile Include="GmFiles\Reader\GmFileProjectReader.Backgrounds.cs" />
+    <Compile Include="GmFiles\Reader\GmFileProjectReader.Sprites.cs" />
+    <Compile Include="GmFiles\Reader\GmFileProjectReader.Sounds.cs" />
+    <Compile Include="GmFiles\Reader\GmFileProjectReader.Settings.cs" />
+    <Compile Include="GmFiles\Reader\GmFileProjectReader.cs" />
+    <Compile Include="GmFiles\GmFileProjectService.cs" />
+    <Compile Include="GmFiles\Writer\GmFileProjectWriter.cs" />
+    <Compile Include="GmFiles\GMKIn.cs" />
+    <Compile Include="GmFiles\GMKOut.cs" />
+    <Compile Include="GmFiles\GmkProjectType.cs" />
+    <Compile Include="GmFiles\GmFileProjectType.cs" />
     <Compile Include="GmProject.cs" />
-    <Compile Include="GmSettings.cs" />
     <Compile Include="IGmFileProjectType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -92,6 +91,9 @@
       <Project>{6BC89687-EBA6-47F8-ADF0-05C1300D699A}</Project>
       <Name>GameCreator.Framework</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="JsonProjects\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

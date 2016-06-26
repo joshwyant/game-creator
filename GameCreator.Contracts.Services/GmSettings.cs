@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GameCreator.Projects
+namespace GameCreator.Contracts.Services
 {
     public class GmSettings : IGameMakerSettings
     {

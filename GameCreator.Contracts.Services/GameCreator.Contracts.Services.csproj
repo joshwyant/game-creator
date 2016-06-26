@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="ColorDepth.cs" />
     <Compile Include="GameInformation.cs" />
+    <Compile Include="GmSettings.cs" />
     <Compile Include="IGameMakerSettings.cs" />
     <Compile Include="IProject.cs" />
     <Compile Include="IProjectService.cs" />
