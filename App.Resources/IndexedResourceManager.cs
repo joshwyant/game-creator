@@ -7,5 +7,16 @@ namespace App.Resources
         where T : IIndexedResource
     {
         public int NextIndex { get; set; }
+
+        public T Add()
+        {
+            var index = NextIndex++;
+
+            T resource = AppRepository.Container.GetInstance<T>();
+
+            (resource as NamedResource).Index = index;
+
+            return resource;
+        }
     }
 }

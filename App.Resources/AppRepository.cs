@@ -1,4 +1,5 @@
 ﻿using App.Contracts;
+using LightInject;
 
 namespace App.Resources
 {
@@ -7,6 +8,8 @@ namespace App.Resources
     /// </summary>
     public class AppRepository : IAppRepository
     {
+        public static ServiceContainer Container { get; set; }
+
         public IIndexedResourceManager<IAppSprite> Sprites { get; set; }
 
         public IIndexedResourceManager<IAppSound> Sounds { get; set; }
@@ -26,5 +29,14 @@ namespace App.Resources
         public IIndexedResourceManager<IAppObject> Objects { get; set; }
 
         public IIndexedResourceManager<IAppRoom> Rooms { get; set; }
+
+        static AppRepository()
+        {
+            Container = new ServiceContainer();
+
+            var compositionRoot = new CompositionRoot();
+
+            compositionRoot.Compose(Container);
+        }
     }
 }

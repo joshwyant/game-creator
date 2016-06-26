@@ -13,5 +13,11 @@ namespace App.Contracts
         /// Gets or sets the zero-based index that will be assigned to the next created resource.
         /// </summary>
         int NextIndex { get; set; }
+
+        /// <summary>
+        /// Adds a new resource.
+        /// </summary>
+        /// <returns>Returns a new resource with an auto-assigned index and name.</returns>
+        T Add();
     }
 }

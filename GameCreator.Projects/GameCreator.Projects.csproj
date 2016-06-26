@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -10,8 +10,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>GameCreator.Projects</RootNamespace>
     <AssemblyName>GameCreator.Projects</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -21,6 +22,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -29,8 +31,10 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="LightInject, Version=3.0.2.7, Culture=neutral, PublicKeyToken=null" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -41,6 +45,17 @@
     <Compile Include="Gm6ProjectType.cs" />
     <Compile Include="GmdProjectType.cs" />
     <Compile Include="Gm8ProjectType.cs" />
+    <Compile Include="GmFileExtensions.cs" />
+    <Compile Include="GmFileProjectReader.Fonts.cs" />
+    <Compile Include="GmFileProjectReader.Paths.cs" />
+    <Compile Include="GmFileProjectReader.Timelines.cs" />
+    <Compile Include="GmFileProjectReader.Objects.cs" />
+    <Compile Include="GmFileProjectReader.Rooms.cs" />
+    <Compile Include="GmFileProjectReader.Scripts.cs" />
+    <Compile Include="GmFileProjectReader.Backgrounds.cs" />
+    <Compile Include="GmFileProjectReader.Sprites.cs" />
+    <Compile Include="GmFileProjectReader.Sounds.cs" />
+    <Compile Include="GmFileProjectReader.Settings.cs" />
     <Compile Include="GmFileProjectReader.cs" />
     <Compile Include="GmFileProjectService.cs" />
     <Compile Include="GmFileProjectWriter.cs" />
@@ -48,6 +63,8 @@
     <Compile Include="GMKOut.cs" />
     <Compile Include="GmkProjectType.cs" />
     <Compile Include="GmFileProjectType.cs" />
+    <Compile Include="GmProject.cs" />
+    <Compile Include="GmSettings.cs" />
     <Compile Include="IGmFileProjectType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -18,9 +18,21 @@ namespace App.Resources
             serviceRegistry.Register<IAppScript, AppScript>();
             serviceRegistry.Register<IAppDataFile, AppDataFile>();
             serviceRegistry.Register<IAppFont, AppFont>();
-            serviceRegistry.Register<IAppTimeline, AppTimeLine>();
+            serviceRegistry.Register<IAppTimeline, AppTimeline>();
             serviceRegistry.Register<IAppObject, AppObject>();
             serviceRegistry.Register<IAppRoom, AppRoom>();
+
+            // Register teh resource managers
+            serviceRegistry.Register<IIndexedResourceManager<IAppSprite>, IndexedResourceManager<IAppSprite>>();
+            serviceRegistry.Register<IIndexedResourceManager<IAppSound>, IndexedResourceManager<IAppSound>>();
+            serviceRegistry.Register<IIndexedResourceManager<IAppBackground>, IndexedResourceManager<IAppBackground>>();
+            serviceRegistry.Register<IIndexedResourceManager<IAppPath>, IndexedResourceManager<IAppPath>>();
+            serviceRegistry.Register<IIndexedResourceManager<IAppScript>, IndexedResourceManager<IAppScript>>();
+            serviceRegistry.Register<IIndexedResourceManager<IAppDataFile>, IndexedResourceManager<IAppDataFile>>();
+            serviceRegistry.Register<IIndexedResourceManager<IAppFont>, IndexedResourceManager<IAppFont>>();
+            serviceRegistry.Register<IIndexedResourceManager<IAppTimeline>, IndexedResourceManager<IAppTimeline>>();
+            serviceRegistry.Register<IIndexedResourceManager<IAppObject>, IndexedResourceManager<IAppObject>>();
+            serviceRegistry.Register<IIndexedResourceManager<IAppRoom>, IndexedResourceManager<IAppRoom>>();
         }
     }
 }

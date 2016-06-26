@@ -2,7 +2,7 @@
 
 namespace App.Resources
 {
-    public class AppTimeLine : NamedResource, IAppTimeline
+    public class AppTimeline : NamedResource, IAppTimeline
     {
         public override string DefaultPrefix { get { return "timeline"; } }
     }

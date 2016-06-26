@@ -1,4 +1,5 @@
-﻿using App.Contracts;
+﻿using System;
+using App.Contracts;
 
 namespace GameCreator.Contracts.Services
 {
@@ -7,9 +8,13 @@ namespace GameCreator.Contracts.Services
     /// </summary>
     public interface IProject
     {
+        IGameMakerSettings Settings { get; set; }
+
         /// <summary>
         /// Gets or sets the repository for this project's resources.
         /// </summary>
         IAppRepository Repository { get; set; }
+
+
     }
 }

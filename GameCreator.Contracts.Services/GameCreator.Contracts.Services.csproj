@@ -41,6 +41,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ColorDepth.cs" />
+    <Compile Include="IGameMakerSettings.cs" />
     <Compile Include="IProject.cs" />
     <Compile Include="IProjectService.cs" />
     <Compile Include="IProjectManager.cs" />
@@ -50,7 +52,11 @@
     <Compile Include="ILibraryResource.cs" />
     <Compile Include="ILibraryService.cs" />
     <Compile Include="LibraryResourceType.cs" />
+    <Compile Include="LoadingProgressBarMode.cs" />
+    <Compile Include="ProcessPriority.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ScalingMode.cs" />
+    <Compile Include="ScreenResolution.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\App.Contracts\App.Contracts.csproj">

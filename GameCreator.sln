@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.23107.0
+VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameCreator.Framework", "GameCreator.Framework\GameCreator.Framework.csproj", "{6BC89687-EBA6-47F8-ADF0-05C1300D699A}"
 EndProject
@@ -55,6 +55,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "App.Contracts", "App.Contracts\App.Contracts.csproj", "{E923B911-C95C-4D7D-A48D-3380E6217D8C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "App.Resources", "App.Resources\App.Resources.csproj", "{8D3B44E4-D6CF-4EA2-893D-D01B1F227D92}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GmFileTester", "GmFileTester\GmFileTester.csproj", "{A6EAB14C-F619-4A13-948A-04EAFE4A4FD4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -294,6 +296,18 @@ Global
 		{8D3B44E4-D6CF-4EA2-893D-D01B1F227D92}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{8D3B44E4-D6CF-4EA2-893D-D01B1F227D92}.Release|x86.ActiveCfg = Release|Any CPU
 		{8D3B44E4-D6CF-4EA2-893D-D01B1F227D92}.Release|x86.Build.0 = Release|Any CPU
+		{A6EAB14C-F619-4A13-948A-04EAFE4A4FD4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A6EAB14C-F619-4A13-948A-04EAFE4A4FD4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A6EAB14C-F619-4A13-948A-04EAFE4A4FD4}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{A6EAB14C-F619-4A13-948A-04EAFE4A4FD4}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{A6EAB14C-F619-4A13-948A-04EAFE4A4FD4}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{A6EAB14C-F619-4A13-948A-04EAFE4A4FD4}.Debug|x86.Build.0 = Debug|Any CPU
+		{A6EAB14C-F619-4A13-948A-04EAFE4A4FD4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A6EAB14C-F619-4A13-948A-04EAFE4A4FD4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A6EAB14C-F619-4A13-948A-04EAFE4A4FD4}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{A6EAB14C-F619-4A13-948A-04EAFE4A4FD4}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{A6EAB14C-F619-4A13-948A-04EAFE4A4FD4}.Release|x86.ActiveCfg = Release|Any CPU
+		{A6EAB14C-F619-4A13-948A-04EAFE4A4FD4}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
