@@ -74,10 +74,13 @@ namespace GameCreator.Projects
         {
             var data = new byte[reader.ReadUInt32()];
 
+            reader.Read(data, 0, data.Length);
+
             using (var ims = new MemoryStream(data))
             using (var oms = new MemoryStream())
-            using (var ds = new DeflateStream(reader.BaseStream, CompressionMode.Decompress, true))
+            using (var ds = new DeflateStream(ims, CompressionMode.Decompress, true))
             {
+                ims.Position = 2; // Skip past the zlib header
                 ds.CopyTo(oms);
                 return oms.ToArray();
             }

@@ -46,6 +46,7 @@
     <Compile Include="ActionKind.cs" />
     <Compile Include="ActionType.cs" />
     <Compile Include="BoundingBoxMode.cs" />
+    <Compile Include="EventType.cs" />
     <Compile Include="IAppAction.cs" />
     <Compile Include="IAppObjectEvent.cs" />
     <Compile Include="IAppTimeline.cs" />

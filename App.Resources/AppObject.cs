@@ -8,7 +8,7 @@ namespace App.Resources
         public override string DefaultPrefix { get { return "object"; } }
 
         public int Depth { get; set; }
-        public List<IAppObjectEvent> Events { get; set; }
+        public Dictionary<EventType, List<IAppObjectEvent>> Events { get; set; }
         public int MaskSpriteIndex { get; set; }
         public int Parent { get; set; }
         public bool Persistent { get; set; }

@@ -36,17 +36,22 @@ namespace GameCreator.Projects
                     obj.Parent = getInt();
                     obj.MaskSpriteIndex = getInt();
 
-                    var evtTypeIdx = getInt(); // Event type count minus 1
+                    var topEvtTypeIdx = getInt(); // Event type count minus 1
+                    var evtTypeIdx = topEvtTypeIdx;
 
-                    obj.Events = new List<IAppObjectEvent>();
+                    obj.Events = new Dictionary<EventType, List<IAppObjectEvent>>();
 
                     while (evtTypeIdx >= 0)
                     {
-                        int numb; // This will continue being the same until we go to the next evtTypeIdx.
+                        var eventType = (EventType)(topEvtTypeIdx - evtTypeIdx);
+
+                        obj.Events.Add(eventType, new List<IAppObjectEvent>());
+
+                        int numb;
                         while ((numb = getInt()) != -1) // Once we get to -1, we can decrement evtTypeIdx.
                         {
-                            var evt = new AppObjectEvent(numb, getActions());
-                            obj.Events.Add(evt);
+                            var evt = new AppObjectEvent(eventType, numb, getActions());
+                            obj.Events[eventType].Add(evt);
                         }
 
                         evtTypeIdx--;

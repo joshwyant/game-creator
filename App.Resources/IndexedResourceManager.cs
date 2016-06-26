@@ -16,6 +16,8 @@ namespace App.Resources
 
             (resource as NamedResource).Index = index;
 
+            Add(index, resource);
+
             return resource;
         }
     }

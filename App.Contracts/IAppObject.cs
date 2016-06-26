@@ -8,7 +8,7 @@ namespace App.Contracts
     public interface IAppObject : INamedIndexedResource
     {
         int Depth { get; set; }
-        List<IAppObjectEvent> Events { get; set; }
+        Dictionary<EventType, List<IAppObjectEvent>> Events { get; set; }
         int MaskSpriteIndex { get; set; }
         int Parent { get; set; }
         bool Persistent { get; set; }
