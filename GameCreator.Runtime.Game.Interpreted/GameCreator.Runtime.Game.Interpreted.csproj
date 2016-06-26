@@ -42,6 +42,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\App.Contracts\App.Contracts.csproj">
+      <Project>{e923b911-c95c-4d7d-a48d-3380e6217d8c}</Project>
+      <Name>App.Contracts</Name>
+    </ProjectReference>
     <ProjectReference Include="..\GameCreator.Framework.Gml.Interpreter\GameCreator.Framework.Gml.Interpreter.csproj">
       <Project>{86EA9620-4ED5-47C0-8805-EED429AE86AD}</Project>
       <Name>GameCreator.Framework.Gml.Interpreter</Name>

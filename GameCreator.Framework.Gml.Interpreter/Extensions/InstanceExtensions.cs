@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using GameCreator.Runtime;
+using App.Contracts;
 
 namespace GameCreator.Framework.Gml.Interpreter
 {

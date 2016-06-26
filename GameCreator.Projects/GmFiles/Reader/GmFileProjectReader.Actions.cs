@@ -31,7 +31,7 @@ namespace GameCreator.Projects
                 action.MayBeRelative = getBool();
                 action.IsQuestion = getBool();
                 action.AppliesToSomething = getBool();
-                action.Type = (ActionType)getInt();
+                action.Type = (ActionExecutionType)getInt();
                 action.FunctionName = getString();
                 action.Code = getString();
                 action.ArgumentsUsed = getInt();

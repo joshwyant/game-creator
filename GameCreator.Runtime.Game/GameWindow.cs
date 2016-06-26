@@ -8,6 +8,7 @@ using OpenTK.Graphics.OpenGL;
 using System.Drawing;
 using GameCreator.Runtime.Library;
 using GameCreator.Framework;
+using App.Contracts;
 
 namespace GameCreator.Runtime.Game
 {

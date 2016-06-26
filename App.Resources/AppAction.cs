@@ -22,6 +22,6 @@ namespace App.Resources
         public bool MayBeRelative { get; set; }
         public bool Not { get; set; }
         public bool Relative { get; set; }
-        public ActionType Type { get; set; }
+        public ActionExecutionType Type { get; set; }
     }
 }

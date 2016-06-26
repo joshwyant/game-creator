@@ -8,6 +8,7 @@ using System.Windows.Forms;
 using System.Reflection;
 using System.Reflection.Emit;
 using GameCreator.Framework;
+using App.Contracts;
 
 namespace GameCreator.IDE
 {

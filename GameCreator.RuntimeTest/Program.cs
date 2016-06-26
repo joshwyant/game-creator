@@ -3,6 +3,7 @@ using GameCreator.Runtime.Game;
 using GameCreator.Framework.Gml.Interpreter;
 using GameCreator.Runtime.Game.Interpreted;
 using GameCreator.Runtime.Game.Jited;
+using App.Contracts;
 
 namespace GameCreator.RuntimeTest
 {

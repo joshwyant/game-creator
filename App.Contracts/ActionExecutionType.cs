@@ -5,9 +5,9 @@ using System.Text;
 
 namespace App.Contracts
 {
-    public enum ActionType
+    public enum ActionExecutionType
     {
-        Nothing,
+        None,
         Function,
         Code
     }

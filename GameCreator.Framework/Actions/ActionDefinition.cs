@@ -1,4 +1,6 @@
-﻿namespace GameCreator.Framework
+﻿using App.Contracts;
+
+namespace GameCreator.Framework
 {
     public class ActionDefinition
     {

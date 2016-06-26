@@ -76,6 +76,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\App.Contracts\App.Contracts.csproj">
+      <Project>{e923b911-c95c-4d7d-a48d-3380e6217d8c}</Project>
+      <Name>App.Contracts</Name>
+    </ProjectReference>
     <ProjectReference Include="..\GameCreator.Framework\GameCreator.Framework.csproj">
       <Project>{6BC89687-EBA6-47F8-ADF0-05C1300D699A}</Project>
       <Name>GameCreator.Framework</Name>

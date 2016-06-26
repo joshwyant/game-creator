@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.IO;
 using GameCreator.Framework;
+using App.Contracts;
 
 namespace GameCreator.Runtime.Game.Library
 {

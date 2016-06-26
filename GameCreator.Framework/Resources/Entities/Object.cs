@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System;
+using App.Contracts;
 
 namespace GameCreator.Framework
 {

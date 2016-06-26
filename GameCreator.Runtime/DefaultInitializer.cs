@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using GameCreator.Framework;
 using System.Reflection;
+using App.Contracts;
 
 namespace GameCreator.Runtime
 {

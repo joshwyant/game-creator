@@ -6,6 +6,7 @@ using GameCreator.Framework;
 using GameCreator.Framework.Gml.Interpreter;
 using System.Reflection;
 using System.Linq.Expressions;
+using App.Contracts;
 
 namespace GameCreator.Runtime.Game.Interpreted
 {

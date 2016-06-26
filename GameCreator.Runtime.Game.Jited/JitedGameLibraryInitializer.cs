@@ -5,6 +5,7 @@ using System.Text;
 using GameCreator.Framework;
 using System.Reflection;
 using System.Linq.Expressions;
+using App.Contracts;
 
 namespace GameCreator.Runtime.Game.Jited
 {
