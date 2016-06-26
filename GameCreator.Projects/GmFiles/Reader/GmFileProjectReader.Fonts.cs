@@ -18,6 +18,8 @@ namespace GameCreator.Projects
 
             for (var i = 0; i < count; i++)
             {
+                project.Repository.Fonts.NextIndex = i;
+
                 if (getInt() != 0)
                 {
                     var font = project.Repository.Fonts.Add();
@@ -34,8 +36,6 @@ namespace GameCreator.Projects
                     font.CharacterRangeEnd = getInt();
                 }
             }
-
-            project.Repository.Fonts.NextIndex = count;
         }
     }
 }

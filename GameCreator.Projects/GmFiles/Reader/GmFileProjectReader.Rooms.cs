@@ -19,6 +19,8 @@ namespace GameCreator.Projects
 
             for (var i = 0; i < count; i++)
             {
+                project.Repository.Rooms.NextIndex = i;
+
                 if (getInt() != 0)
                 {
                     var room = project.Repository.Rooms.Add();
@@ -159,8 +161,6 @@ namespace GameCreator.Projects
                     room.ScrollbarY = getInt();
                 }
             }
-            
-            project.Repository.Rooms.NextIndex = count;
         }
     }
 }

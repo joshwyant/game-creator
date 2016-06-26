@@ -19,6 +19,8 @@ namespace GameCreator.Projects
 
             for (var i = 0; i < count; i++)
             {
+                project.Repository.Paths.NextIndex = i;
+
                 if (getInt() != 0)
                 {
                     var path = project.Repository.Paths.Add();
@@ -42,8 +44,6 @@ namespace GameCreator.Projects
                     }
                 }
             }
-
-            project.Repository.Paths.NextIndex = count;
         }
     }
 }

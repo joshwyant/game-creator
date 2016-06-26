@@ -20,10 +20,12 @@ namespace GameCreator.Projects
 
             for (var i = 0; i < count; i++)
             {
-                var obj = project.Repository.Objects.Add();
-
+                project.Repository.Objects.NextIndex = i;
+                
                 if (getInt() != 0)
                 {
+                    var obj = project.Repository.Objects.Add();
+
                     obj.Name = getString();
 
                     version = getInt();
@@ -57,8 +59,6 @@ namespace GameCreator.Projects
                         evtTypeIdx--;
                     }
                 }
-
-                project.Repository.Objects.NextIndex = count;
             }
         }
     }

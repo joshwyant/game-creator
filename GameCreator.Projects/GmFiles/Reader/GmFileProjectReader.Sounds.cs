@@ -19,6 +19,8 @@ namespace GameCreator.Projects
 
             for (var i = 0; i < count; i++)
             {
+                project.Repository.Sounds.NextIndex = i;
+
                 if (getInt() != 0)
                 {
                     var sound = project.Repository.Sounds.Add();
@@ -69,8 +71,6 @@ namespace GameCreator.Projects
                     }
                 }
             }
-
-            project.Repository.Sounds.NextIndex = count;
         }
     }
 }

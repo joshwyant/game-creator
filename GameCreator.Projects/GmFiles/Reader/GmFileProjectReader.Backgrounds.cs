@@ -18,6 +18,8 @@ namespace GameCreator.Projects
 
             for (var i = 0; i < count; i++)
             {
+                project.Repository.Backgrounds.NextIndex = i;
+
                 if (getInt() != 0)
                 {
                     var background = project.Repository.Backgrounds.Add();
@@ -65,8 +67,6 @@ namespace GameCreator.Projects
                     }
                 }
             }
-            
-            project.Repository.Backgrounds.NextIndex = count;
         }
     }
 }

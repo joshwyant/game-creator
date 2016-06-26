@@ -15,9 +15,11 @@ namespace GameCreator.Projects
         {
             int version = getInt();
 
-            for (int count = getInt(), i = 0; i < count; i++)
+            int count = getInt();
+
+            for (var i = 0; i < count; i++)
             {
-                project.Repository.Timelines.NextIndex = count;
+                project.Repository.Timelines.NextIndex = i;
 
                 if (getInt() != 0)
                 {

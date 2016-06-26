@@ -19,6 +19,8 @@ namespace GameCreator.Projects
 
             for (var i = 0; i < count; i++)
             {
+                project.Repository.Sprites.NextIndex = i;
+
                 if (getInt() != 0)
                 {
                     var sprite = project.Repository.Sprites.Add();
@@ -70,9 +72,8 @@ namespace GameCreator.Projects
                         }
                     }
                 }
+                else project.Repository.Sprites.NextIndex++;
             }
-
-            project.Repository.Sprites.NextIndex = count;
         }
     }
 }

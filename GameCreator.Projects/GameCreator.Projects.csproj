@@ -35,6 +35,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="LightInject, Version=3.0.2.7, Culture=neutral, PublicKeyToken=null" />
+    <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.8.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -42,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Git\GitHelper.cs" />
     <Compile Include="GmFiles\Gm6ProjectType.cs" />
     <Compile Include="GmFiles\GmdProjectType.cs" />
     <Compile Include="GmFiles\Gm8ProjectType.cs" />
@@ -67,7 +72,12 @@
     <Compile Include="GmFiles\GmkProjectType.cs" />
     <Compile Include="GmFiles\GmFileProjectType.cs" />
     <Compile Include="GmProject.cs" />
-    <Compile Include="IGmFileProjectType.cs" />
+    <Compile Include="GmFiles\IGmFileProjectType.cs" />
+    <Compile Include="JsonProjects\JsonProjectService.cs" />
+    <Compile Include="JsonProjects\JsonProjectType.cs" />
+    <Compile Include="JsonProjects\Models\JsonRootProject.cs" />
+    <Compile Include="JsonProjects\Models\Reader\JsonProjectType.Reader.cs" />
+    <Compile Include="JsonProjects\Models\Writer\JsonProjectType.Writer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -93,8 +103,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="JsonProjects\" />
+    <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
