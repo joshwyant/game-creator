@@ -1,4 +1,5 @@
-﻿using GameCreator.Contracts.Services;
+﻿using App.Contracts;
+using GameCreator.Contracts.Services;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -68,6 +69,44 @@ namespace GameCreator.Projects
             readObjects();
 
             readRooms();
+
+            project.LastInstanceIdPlaced = getInt();
+            project.LastTileIdPlaced = getInt();
+
+            readGameInformation();
+
+            var versionForFollowing = getInt();
+            var libraryDependencyCount = getInt();
+            var libraryCreationCodes = new List<string>();
+            for (var i = 0; i < libraryDependencyCount; i++)
+            {
+                libraryCreationCodes.Add(getString());
+            }
+            project.LibraryCreationCodes = libraryCreationCodes;
+
+            versionForFollowing = getInt();
+            var executableRoomCount = getInt();
+            var executableRoomList = new List<int>();
+            for (var i = 0; i < executableRoomCount; i++)
+            {
+                executableRoomList.Add(getInt());
+            }
+            project.ExecutableRoomList = executableRoomList;
+            
+            int rootCount = 11;
+
+            if (version == 500 || version == 540)
+                rootCount = 11;
+            else if (version >= 700)
+                rootCount = 12;
+
+            var items = new List<TreeResource>();
+            for (var i = 0; i < rootCount; i++)
+            {
+                items.Add(readTreeResource());
+            }
+
+            project.ResourceTree = items;
         }
 
         byte[] getZipped()

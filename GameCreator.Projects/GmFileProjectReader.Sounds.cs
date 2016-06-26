@@ -14,11 +14,11 @@ namespace GameCreator.Projects
         void readSounds()
         {
             int version = getInt();
-            
-            for (int count = getInt(), i = 0; i < count; i++)
-            {
-                project.Repository.Sounds.NextIndex = i;
 
+            int count = getInt();
+
+            for (var i = 0; i < count; i++)
+            {
                 if (getInt() != 0)
                 {
                     var sound = project.Repository.Sounds.Add();
@@ -69,6 +69,8 @@ namespace GameCreator.Projects
                     }
                 }
             }
+
+            project.Repository.Sounds.NextIndex = count;
         }
     }
 }

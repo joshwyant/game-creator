@@ -67,6 +67,10 @@
     <Compile Include="PathVertex.cs" />
     <Compile Include="PathKind.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RoomBackground.cs" />
+    <Compile Include="RoomTile.cs" />
+    <Compile Include="RoomInstance.cs" />
+    <Compile Include="RoomView.cs" />
     <Compile Include="SoundEffects.cs" />
     <Compile Include="SoundFileType.cs" />
     <Compile Include="SoundKind.cs" />

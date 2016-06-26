@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using App.Contracts;
 
 namespace GameCreator.Contracts.Services
@@ -15,6 +16,11 @@ namespace GameCreator.Contracts.Services
         /// </summary>
         IAppRepository Repository { get; set; }
 
-
+        int LastInstanceIdPlaced { get; set; }
+        int LastTileIdPlaced { get; set; }
+        GameInformation GameInformation { get; set; }
+        List<string> LibraryCreationCodes { get; set; }
+        List<int> ExecutableRoomList { get; set; }
+        List<TreeResource> ResourceTree { get; set; }
     }
 }

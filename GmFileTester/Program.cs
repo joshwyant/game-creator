@@ -12,7 +12,7 @@ namespace GmFileTester
     {
         static void Main(string[] args)
         {
-            var file = @"\\psf\Home\Google Drive\To Organize\gm\2.gm6";
+            var file = @"\\psf\Home\Google Drive\To Organize\gm\1.gm6";
 
             var project = new GmProject();
 

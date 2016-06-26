@@ -17,7 +17,7 @@ namespace GameCreator.Projects
 
             for (int count = getInt(), i = 0; i < count; i++)
             {
-                project.Repository.Timelines.NextIndex = i;
+                project.Repository.Timelines.NextIndex = count;
 
                 if (getInt() != 0)
                 {

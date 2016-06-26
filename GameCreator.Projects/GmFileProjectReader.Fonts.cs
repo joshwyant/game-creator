@@ -14,10 +14,10 @@ namespace GameCreator.Projects
         {
             int version = getInt();
 
-            for (int count = getInt(), i = 0; i < count; i++)
-            {
-                project.Repository.Fonts.NextIndex = i;
+            int count = getInt();
 
+            for (var i = 0; i < count; i++)
+            {
                 if (getInt() != 0)
                 {
                     var font = project.Repository.Fonts.Add();
@@ -34,6 +34,8 @@ namespace GameCreator.Projects
                     font.CharacterRangeEnd = getInt();
                 }
             }
+
+            project.Repository.Fonts.NextIndex = count;
         }
     }
 }

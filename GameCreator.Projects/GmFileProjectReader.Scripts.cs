@@ -14,9 +14,10 @@ namespace GameCreator.Projects
         {
             int version = getInt();
 
-            for (int count = getInt(), i = 0; i < count; i++)
+            int count = getInt();
+
+            for (var i = 0; i < count; i++)
             {
-                project.Repository.Scripts.NextIndex = i;
 
                 if (getInt() != 0)
                 {
@@ -29,6 +30,8 @@ namespace GameCreator.Projects
                     script.Code = getString();
                 }
             }
+
+            project.Repository.Scripts.NextIndex = count;
         }
     }
 }

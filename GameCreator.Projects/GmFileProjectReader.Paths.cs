@@ -15,10 +15,10 @@ namespace GameCreator.Projects
         {
             int version = getInt();
 
-            for (int count = getInt(), i = 0; i < count; i++)
-            {
-                project.Repository.Paths.NextIndex = i;
+            int count = getInt();
 
+            for (var i = 0; i < count; i++)
+            {
                 if (getInt() != 0)
                 {
                     var path = project.Repository.Paths.Add();
@@ -42,6 +42,8 @@ namespace GameCreator.Projects
                     }
                 }
             }
+
+            project.Repository.Paths.NextIndex = count;
         }
     }
 }

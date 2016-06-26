@@ -49,6 +49,8 @@
     <Compile Include="GmFileProjectReader.Fonts.cs" />
     <Compile Include="GmFileProjectReader.Paths.cs" />
     <Compile Include="GmFileProjectReader.Actions.cs" />
+    <Compile Include="GmFileProjectReader.GameInformation.cs" />
+    <Compile Include="GmFileProjectReader.ResourceTree.cs" />
     <Compile Include="GmFileProjectReader.Timelines.cs" />
     <Compile Include="GmFileProjectReader.Objects.cs" />
     <Compile Include="GmFileProjectReader.Rooms.cs" />
