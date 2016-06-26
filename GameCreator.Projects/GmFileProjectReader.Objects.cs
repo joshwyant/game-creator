@@ -1,4 +1,6 @@
-﻿using GameCreator.Contracts.Services;
+﻿using App.Contracts;
+using App.Resources;
+using GameCreator.Contracts.Services;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -12,23 +14,45 @@ namespace GameCreator.Projects
     {
         void readObjects()
         {
-            //int version = reader.ReadInt32();
+            int version = getInt();
 
-            //for (int count = reader.ReadInt32(), i = 0; i < count; i++)
-            //{
-            //    project.Repository.Objects.NextIndex = i;
+            for (int count = getInt(), i = 0; i < count; i++)
+            {
+                project.Repository.Objects.NextIndex = i;
 
-            //    if (reader.ReadInt32() != 0)
-            //    {
-            //        var obj = project.Repository.Objects.Add();
+                if (getInt() != 0)
+                {
+                    var obj = project.Repository.Objects.Add();
 
-            //        obj.Name = readString();
+                    obj.Name = getString();
 
-            //        version = reader.ReadInt32();
+                    version = getInt();
 
+                    obj.SpriteIndex = getInt();
+                    obj.Solid = getBool();
+                    obj.Visible = getBool();
+                    obj.Depth = getInt();
+                    obj.Persistent = getBool();
+                    obj.Parent = getInt();
+                    obj.MaskSpriteIndex = getInt();
 
-            //    }
-            //}
+                    var evtTypeIdx = getInt(); // Event type count minus 1
+
+                    obj.Events = new List<IAppObjectEvent>();
+
+                    while (evtTypeIdx >= 0)
+                    {
+                        int numb; // This will continue being the same until we go to the next evtTypeIdx.
+                        while ((numb = getInt()) != -1) // Once we get to -1, we can decrement evtTypeIdx.
+                        {
+                            var evt = new AppObjectEvent(numb, getActions());
+                            obj.Events.Add(evt);
+                        }
+
+                        evtTypeIdx--;
+                    }
+                }
+            }
         }
     }
 }

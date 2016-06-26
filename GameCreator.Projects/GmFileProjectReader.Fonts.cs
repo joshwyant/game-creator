@@ -12,23 +12,28 @@ namespace GameCreator.Projects
     {
         void readFonts()
         {
-            //int version = reader.ReadInt32();
+            int version = getInt();
 
-            //for (int count = reader.ReadInt32(), i = 0; i < count; i++)
-            //{
-            //    project.Repository.Fonts.NextIndex = i;
+            for (int count = getInt(), i = 0; i < count; i++)
+            {
+                project.Repository.Fonts.NextIndex = i;
 
-            //    if (reader.ReadInt32() != 0)
-            //    {
-            //        var font = project.Repository.Fonts.Add();
+                if (getInt() != 0)
+                {
+                    var font = project.Repository.Fonts.Add();
 
-            //        font.Name = readString();
+                    font.Name = getString();
 
-            //        version = reader.ReadInt32();
+                    version = getInt();
 
-
-            //    }
-            //}
+                    font.FontName = getString();
+                    font.Size = getInt();
+                    font.IsBold = getBool();
+                    font.IsItalic = getBool();
+                    font.CharacterRangeBegin = getInt();
+                    font.CharacterRangeEnd = getInt();
+                }
+            }
         }
     }
 }

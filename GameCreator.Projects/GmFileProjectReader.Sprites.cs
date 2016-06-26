@@ -1,4 +1,5 @@
-﻿using GameCreator.Contracts.Services;
+﻿using App.Contracts;
+using GameCreator.Contracts.Services;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -12,23 +13,64 @@ namespace GameCreator.Projects
     {
         void readSprites()
         {
-            //int version = reader.ReadInt32();
+            int version = getInt();
 
-            //for (int count = reader.ReadInt32(), i = 0; i < count; i++)
-            //{
-            //    project.Repository.Sprites.NextIndex = i;
+            for (int count = getInt(), i = 0; i < count; i++)
+            {
+                project.Repository.Sprites.NextIndex = i;
 
-            //    if (reader.ReadInt32() != 0)
-            //    {
-            //        var sprite = project.Repository.Sprites.Add();
+                if (getInt() != 0)
+                {
+                    var sprite = project.Repository.Sprites.Add();
 
-            //        sprite.Name = readString();
+                    sprite.Name = getString();
 
-            //        version = reader.ReadInt32();
+                    version = getInt();
 
+                    if (version >= 400 && version <= 542)
+                    {
+                        sprite.Width = getInt();
+                        sprite.Height = getInt();
+                        sprite.BoundingBoxLeft = getInt();
+                        sprite.BoundingBoxRight = getInt();
+                        sprite.BoundingBoxBottom = getInt();
+                        sprite.BoundingBoxTop = getInt();
+                        sprite.IsTransparent = getBool();
 
-            //    }
-            //}
+                        if (version == 542)
+                        {
+                            sprite.SmoothEdges = getBool();
+                            sprite.PreloadTexture = getBool();
+                        }
+
+                        sprite.BoundingBoxMode = (BoundingBoxMode)getInt();
+                        sprite.PreciseCollisionChecking = getBool();
+
+                        if (version == 400)
+                        {
+                            sprite.UseVideoMemory = getBool();
+                            sprite.LoadOnlyOnUse = getBool();
+                        }
+                    }
+
+                    sprite.XOrigin = getInt();
+                    sprite.YOrigin = getInt();
+
+                    if (version >= 400 && version <= 542)
+                    {
+                        sprite.NextSubImage = getInt();
+                        sprite.SubImages = new Dictionary<int, byte[]>();
+
+                        for (var j = 0; j < sprite.NextSubImage; j++)
+                        {
+                            if (getInt() != 0)
+                            {
+                                sprite.SubImages.Add(j, getZipped());
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 }

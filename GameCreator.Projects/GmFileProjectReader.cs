@@ -70,8 +70,10 @@ namespace GameCreator.Projects
             readRooms();
         }
 
-        byte[] deflate(byte[] data)
+        byte[] getZipped()
         {
+            var data = new byte[reader.ReadUInt32()];
+
             using (var ims = new MemoryStream(data))
             using (var oms = new MemoryStream())
             using (var ds = new DeflateStream(reader.BaseStream, CompressionMode.Decompress, true))
@@ -81,7 +83,14 @@ namespace GameCreator.Projects
             }
         }
 
-        string readString()
+        byte[] getBlob()
+        {
+            var data = new byte[reader.ReadInt32()];
+            reader.Read(data, 0, data.Length);
+            return data;
+        }
+
+        string getString()
         {
             var sb = new StringBuilder();
 
@@ -92,5 +101,14 @@ namespace GameCreator.Projects
 
             return sb.ToString();
         }
+
+        DateTime getDate()
+        {
+            return reader.ReadDouble().ToDateTime();
+        }
+
+        bool getBool() { return Convert.ToBoolean(reader.ReadInt32()); }
+
+        int getInt() { return reader.ReadInt32(); }
     }
 }

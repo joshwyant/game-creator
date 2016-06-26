@@ -5,5 +5,6 @@
     /// </summary>
     public interface IAppScript : INamedIndexedResource
     {
+        string Code { get; set; }
     }
 }

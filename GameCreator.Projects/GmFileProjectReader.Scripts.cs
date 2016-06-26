@@ -12,23 +12,23 @@ namespace GameCreator.Projects
     {
         void readScripts()
         {
-            //int version = reader.ReadInt32();
+            int version = getInt();
 
-            //for (int count = reader.ReadInt32(), i = 0; i < count; i++)
-            //{
-            //    project.Repository.Scripts.NextIndex = i;
+            for (int count = getInt(), i = 0; i < count; i++)
+            {
+                project.Repository.Scripts.NextIndex = i;
 
-            //    if (reader.ReadInt32() != 0)
-            //    {
-            //        var script = project.Repository.Scripts.Add();
+                if (getInt() != 0)
+                {
+                    var script = project.Repository.Scripts.Add();
 
-            //        script.Name = readString();
+                    script.Name = getString();
 
-            //        version = reader.ReadInt32();
+                    version = getInt();
 
-
-            //    }
-            //}
+                    script.Code = getString();
+                }
+            }
         }
     }
 }

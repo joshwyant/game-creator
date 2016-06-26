@@ -41,6 +41,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ActionArgument.cs" />
+    <Compile Include="ActionArgumentType.cs" />
+    <Compile Include="ActionKind.cs" />
+    <Compile Include="ActionType.cs" />
+    <Compile Include="BoundingBoxMode.cs" />
+    <Compile Include="IAppAction.cs" />
+    <Compile Include="IAppObjectEvent.cs" />
     <Compile Include="IAppTimeline.cs" />
     <Compile Include="IAppFont.cs" />
     <Compile Include="IAppScript.cs" />
@@ -56,7 +63,12 @@
     <Compile Include="IIndexedResource.cs" />
     <Compile Include="IIndexedResourceManager.cs" />
     <Compile Include="IAppRoom.cs" />
+    <Compile Include="PathVertex.cs" />
+    <Compile Include="PathKind.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SoundEffects.cs" />
+    <Compile Include="SoundFileType.cs" />
+    <Compile Include="SoundKind.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

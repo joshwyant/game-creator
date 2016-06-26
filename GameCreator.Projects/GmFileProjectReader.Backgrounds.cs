@@ -12,23 +12,59 @@ namespace GameCreator.Projects
     {
         void readBackgrounds()
         {
-            //int version = reader.ReadInt32();
+            int version = getInt();
 
-            //for (int count = reader.ReadInt32(), i = 0; i < count; i++)
-            //{
-            //    project.Repository.Backgrounds.NextIndex = i;
+            for (int count = getInt(), i = 0; i < count; i++)
+            {
+                project.Repository.Backgrounds.NextIndex = i;
 
-            //    if (reader.ReadInt32() != 0)
-            //    {
-            //        var background = project.Repository.Backgrounds.Add();
+                if (getInt() != 0)
+                {
+                    var background = project.Repository.Backgrounds.Add();
 
-            //        background.Name = readString();
+                    background.Name = getString();
 
-            //        version = reader.ReadInt32();
+                    version = getInt();
 
+                    if (version >= 400 && version <= 543)
+                    {
+                        background.Width = getInt();
+                        background.Height = getInt();
+                        background.IsTransparent = getInt();
 
-            //    }
-            //}
+                        if (version == 400)
+                        {
+                            background.UseVideoMemory = getBool();
+                            background.LoadOnlyOnUse = getBool();
+                        }
+
+                        if (version == 543)
+                        {
+                            background.SmoothEdges = getBool();
+                            background.PreloadTexture = getBool();
+                        }
+
+                        if (version >= 543)
+                        {
+                            background.UseAsTileset = getBool();
+                            background.TileWidth = getInt();
+                            background.TileHeight = getInt();
+                            background.HorizontalOffset = getInt();
+                            background.VerticalOffset = getInt();
+                            background.HorizontalSeparation = getInt();
+                            background.VerticalSeparation = getInt();
+                        }
+
+                        if (getBool())
+                        {
+                            if (getInt() != -1)
+                            {
+                                background.Data = getZipped();
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 }

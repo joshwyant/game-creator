@@ -43,6 +43,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AppAction.cs" />
+    <Compile Include="AppObjectEvent.cs" />
     <Compile Include="AppPath.cs" />
     <Compile Include="AppFont.cs" />
     <Compile Include="AppDataFile.cs" />

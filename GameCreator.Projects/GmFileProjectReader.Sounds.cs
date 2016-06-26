@@ -1,4 +1,5 @@
-﻿using GameCreator.Contracts.Services;
+﻿using App.Contracts;
+using GameCreator.Contracts.Services;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -12,21 +13,60 @@ namespace GameCreator.Projects
     {
         void readSounds()
         {
-            int version = reader.ReadInt32();
+            int version = getInt();
             
-            for (int count = reader.ReadInt32(), i = 0; i < count; i++)
+            for (int count = getInt(), i = 0; i < count; i++)
             {
                 project.Repository.Sounds.NextIndex = i;
 
-                if (reader.ReadInt32() != 0)
+                if (getInt() != 0)
                 {
                     var sound = project.Repository.Sounds.Add();
 
-                    sound.Name = readString();
+                    sound.Name = getString();
 
-                    version = reader.ReadInt32();
+                    version = getInt();
 
+                    if (version == 440)
+                        sound.Type = (SoundFileType)getInt();
 
+                    if (version >= 600)
+                        sound.Kind = (SoundKind)reader.ReadUInt32();
+
+                    sound.Extension = getString();
+
+                    if (version >= 600)
+                    {
+                        sound.Filename = getString();
+
+                        if (reader.ReadUInt32() != 0)
+                        {
+                            if (version == 600)
+                            {
+                                sound.MusicData = getZipped();
+                            }
+                        }
+                    }
+
+                    if (version == 440)
+                    {
+                        if (sound.Type != SoundFileType.None)
+                        {
+                            sound.MusicData = getZipped();
+                        }
+
+                        sound.AllowSoundEffects = getBool();
+                        sound.Buffers = getInt();
+                        sound.LoadOnlyOnUse = getInt();
+                    }
+
+                    if (version >= 600)
+                    {
+                        sound.Effects = (SoundEffects)getInt();
+                        sound.Volume = reader.ReadDouble();
+                        sound.Pan = reader.ReadDouble();
+                        sound.Preload = getBool();
+                    }
                 }
             }
         }

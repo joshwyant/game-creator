@@ -12,19 +12,19 @@ namespace GameCreator.Projects
     {
         void readRooms()
         {
-            //int version = reader.ReadInt32();
+            //int version = getInt();
 
-            //for (int count = reader.ReadInt32(), i = 0; i < count; i++)
+            //for (int count = getInt(), i = 0; i < count; i++)
             //{
             //    project.Repository.Rooms.NextIndex = i;
 
-            //    if (reader.ReadInt32() != 0)
+            //    if (getInt() != 0)
             //    {
             //        var room = project.Repository.Rooms.Add();
 
-            //        room.Name = readString();
+            //        room.Name = getString();
 
-            //        version = reader.ReadInt32();
+            //        version = getInt();
 
 
             //    }

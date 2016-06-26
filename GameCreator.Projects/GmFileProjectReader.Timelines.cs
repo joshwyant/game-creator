@@ -1,4 +1,5 @@
-﻿using GameCreator.Contracts.Services;
+﻿using App.Contracts;
+using GameCreator.Contracts.Services;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -12,23 +13,28 @@ namespace GameCreator.Projects
     {
         void readTimelines()
         {
-            //int version = reader.ReadInt32();
+            int version = getInt();
 
-            //for (int count = reader.ReadInt32(), i = 0; i < count; i++)
-            //{
-            //    project.Repository.Timelines.NextIndex = i;
+            for (int count = getInt(), i = 0; i < count; i++)
+            {
+                project.Repository.Timelines.NextIndex = i;
 
-            //    if (reader.ReadInt32() != 0)
-            //    {
-            //        var timeline = project.Repository.Timelines.Add();
+                if (getInt() != 0)
+                {
+                    var timeline = project.Repository.Timelines.Add();
 
-            //        timeline.Name = readString();
+                    timeline.Name = getString();
 
-            //        version = reader.ReadInt32();
+                    version = getInt();
 
+                    timeline.Moments = new Dictionary<int, List<IAppAction>>();
 
-            //    }
-            //}
+                    for (int momentCount = getInt(), j = 0; j < momentCount; j++)
+                    {
+                        timeline.Moments.Add(getInt(), getActions());
+                    }
+                }
+            }
         }
     }
 }

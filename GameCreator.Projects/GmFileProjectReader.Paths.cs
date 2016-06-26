@@ -1,4 +1,5 @@
-﻿using GameCreator.Contracts.Services;
+﻿using App.Contracts;
+using GameCreator.Contracts.Services;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -12,23 +13,35 @@ namespace GameCreator.Projects
     {
         void readPaths()
         {
-            //int version = reader.ReadInt32();
+            int version = getInt();
 
-            //for (int count = reader.ReadInt32(), i = 0; i < count; i++)
-            //{
-            //    project.Repository.Paths.NextIndex = i;
+            for (int count = getInt(), i = 0; i < count; i++)
+            {
+                project.Repository.Paths.NextIndex = i;
 
-            //    if (reader.ReadInt32() != 0)
-            //    {
-            //        var path = project.Repository.Paths.Add();
+                if (getInt() != 0)
+                {
+                    var path = project.Repository.Paths.Add();
 
-            //        path.Name = readString();
+                    path.Name = getString();
 
-            //        version = reader.ReadInt32();
+                    version = getInt();
 
+                    path.ConnectionKind = (PathKind)getInt();
+                    path.IsClosed = getBool();
+                    path.Precision = getInt();
+                    path.RoomReference = getInt();
+                    path.SnapX = getInt();
+                    path.SnapY = getInt();
 
-            //    }
-            //}
+                    var points = getInt();
+                    path.Points = new List<PathVertex>(points);
+                    for (int j = 0; j < points; j++)
+                    {
+                        path.Points.Add(new PathVertex(reader.ReadDouble(), reader.ReadDouble(), reader.ReadDouble()));
+                    }
+                }
+            }
         }
     }
 }
