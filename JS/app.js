@@ -1,4 +1,6 @@
 var lex = require ('./Lexer.js');
+var parse = require('./Parser.js');
+var libs = require('./LibraryContext.js');
 
 var tr = new lex.TextReader("globalvar t, u; x /= 3.14159; /*comment*/ t = \"Hello, world!\"");
 
@@ -6,9 +8,8 @@ console.log(tr.text);
 
 var lexer = new lex.Lexer(tr);
 
-var tok = lexer.Scan();
-while (tok.t != lex.Token.Eof.t) {
-    console.log(tok);
+var parser = new parse.Parser(new libs.LibraryContext(), lexer);
 
-    tok = lexer.Scan();
-}
+var tree = parser.Parse();
+
+console.log(tree);

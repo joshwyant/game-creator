@@ -1,74 +1,8 @@
-var _enum = require("./Enum.js");
+var enums = require("./ParseEnums.js");
 
-exports.TokenKind = new _enum.Enum([
-    "None",
-    "Eof",
-    "Unknown",
-    "Identifier",
-    "Real",
-    "StringLiteral",
-    "Break",
-    "Continue",
-    "If",
-    "Then",
-    "Else",
-    "While",
-    "Do",
-    "Until",
-    "For",
-    "BitwiseComplement",
-    "Not",
-    "Inequality",
-    "Mod",
-    "BitwiseXor",
-    "LogicalXor",
-    "XorAssignment",
-    "BitwiseAnd",
-    "LogicalAnd",
-    "AndAssignment",
-    "Multiply",
-    "MultiplyAssignment",
-    "OpeningParenthesis",
-    "ClosingParenthesis",
-    "Minus",
-    "SubtractionAssignment",
-    "Plus",
-    "AdditionAssignment",
-    "Assignment",
-    "Equality",
-    "OpeningCurlyBrace",
-    "ClosingCurlyBrace",
-    "OpeningSquareBracket",
-    "ClosingSquareBracket",
-    "BitwiseOr",
-    "LogicalOr",
-    "OrAssignment",
-    "Colon",
-    "Semicolon",
-    "LessThan",
-    "LessThanOrEqual",
-    "ShiftLeft",
-    "ShiftRight",
-    "GreaterThan",
-    "GreaterThanOrEqual",
-    "Comma",
-    "Dot",
-    "Divide",
-    "DivideAssignment",
-    "Div",
-    "Var",
-    "Globalvar",
-    "Repeat",
-    "Switch",
-    "Case",
-    "Default",
-    "Exit",
-    "With",
-    "Return",
-]);
 
 exports.Token = (function() {
-    var TokenKind = exports.TokenKind;
+    var TokenKind = enums.TokenKind;
 
     function Token(x, l, c) { 
         this.t = x; 
@@ -90,7 +24,7 @@ exports.Token = (function() {
     exports.TokenLexeme = TokenLexeme;
     
     function Real(d, l, line, col) {
-        Token.call(this, TokenKind.Real, this.line, col);
+        Token.call(this, TokenKind.Real, line, col);
         this.lexeme = l;
         this.value = d;
     }
@@ -108,7 +42,7 @@ exports.Token = (function() {
     exports.Real = Real;
     
     function StringLiteral(l, val, line, col) {
-        Token.call(this, TokenKind.StringLiteral, this.line, col);
+        Token.call(this, TokenKind.StringLiteral, line, col);
         this.lexeme = l;
         this.value = val;
     }
@@ -220,22 +154,24 @@ exports.TextReader = function(text) {
 exports.Lexer = (function() {
     var Token = exports.Token,
         TokenLexeme = exports.TokenLexeme,
-        TokenKind = exports.TokenKind,
+        TokenKind = enums.TokenKind,
         Real = exports.Real,
         StringLiteral = exports.StringLiteral,
         Words = {};
 
     function Lexer(reader) {
+        var self = this;
+
         var peek = ' ',
             eof = '\uFFFF', 
             pushed = [],
             chars = [];
         
-        this.line = 1;
-        this.col = 1;
-        this.tokencol = 0;
+        self.line = 1;
+        self.col = 1;
+        self.tokencol = 0;
         
-        this.Putback = function(tok) {
+        this.PutBack = function(tok) {
             pushed.push(tok);
         };
         
@@ -254,7 +190,7 @@ exports.Lexer = (function() {
                 
                 if (peek == eof) return Token.Eof;
                 
-                this.tokencol = this.col;
+                self.tokencol = self.col;
                 // [A-Za-z_][A-Za-z0-9_]*
                 if (letter.test(peek) || peek == '_')
                 {
@@ -267,7 +203,7 @@ exports.Lexer = (function() {
                     var s = sb.join('');
                     // reserve keywords and constants. Return their values literally as tokens
                     if (Words.hasOwnProperty(s)) return Words[s];
-                    var t = new Token(TokenKind.Identifier, this.line, this.tokencol);
+                    var t = new Token(TokenKind.Identifier, self.line, self.tokencol);
                     t.lexeme = s;
                     Words[s] = t;
                     return t;
@@ -290,7 +226,7 @@ exports.Lexer = (function() {
                     } while (peek != '\"' && peek != eof);
                     peek = ' ';
                     var val = sb.join('');
-                    return new StringLiteral('\"'+val+'\"', val, this.line, this.tokencol);
+                    return new StringLiteral('\"'+val+'\"', val, self.line, self.tokencol);
                 }
                 else if (peek == '\'')
                 {
@@ -310,7 +246,7 @@ exports.Lexer = (function() {
                     } while (peek != '\'' && peek != eof);
                     peek = ' ';
                     var val = sb.join('');
-                    return new StringLiteral('\''+val+'\'', val, this.line, this.tokencol);
+                    return new StringLiteral('\''+val+'\'', val, self.line, self.tokencol);
                 }
                 else if (peek == '.' || digit.test(peek))
                 {
@@ -321,7 +257,7 @@ exports.Lexer = (function() {
                         peek = readch();
                         if (!digit.test(peek))
                         {
-                            return new Token(TokenKind.Dot, this.line, this.tokencol);
+                            return new Token(TokenKind.Dot, self.line, self.tokencol);
                         }
                         // Fall through to the fractional part: peek holds the first digit
                     }
@@ -346,7 +282,7 @@ exports.Lexer = (function() {
                         }
                         peek = readch();
                     }
-                    return new Real(d, this.line, this.tokencol);
+                    return new Real(d, self.line, self.tokencol);
                 }
                 else if (peek == '$')
                 {
@@ -358,7 +294,7 @@ exports.Lexer = (function() {
                         d = d * 16 + hex.indexOf(peek.toUpperCase);
                         peek = readch();
                     }
-                    return new Real(d, this.line, this.tokencol);
+                    return new Real(d, self.line, self.tokencol);
                 }
                 else if (peek == '/')
                 {
@@ -366,7 +302,7 @@ exports.Lexer = (function() {
                     switch (peek)
                     {
                         case '=':
-                            peek = readch(); return new Token(TokenKind.DivideAssignment, this.line, this.tokencol);
+                            peek = readch(); return new Token(TokenKind.DivideAssignment, self.line, self.tokencol);
                         case '/':
                             do peek = readch(); while (peek != '\n' && peek != '\r' && peek != eof);
                             skipwhite = true;
@@ -389,70 +325,70 @@ exports.Lexer = (function() {
                             skipwhite = true;
                             break;
                         default:
-                            return new Token(TokenKind.Divide, this.line, this.tokencol);
+                            return new Token(TokenKind.Divide, self.line, self.tokencol);
                     }
                 }
                 else
                 {
                     switch (peek)
                     {
-                        case '~': peek = readch(); return new Token(TokenKind.BitwiseComplement, this.line, this.tokencol);
-                        case '(': peek = readch(); return new Token(TokenKind.OpeningParenthesis, this.line, this.tokencol);
-                        case ')': peek = readch(); return new Token(TokenKind.ClosingParenthesis, this.line, this.tokencol);
-                        case '{': peek = readch(); return new Token(TokenKind.OpeningCurlyBrace, this.line, this.tokencol);
-                        case '}': peek = readch(); return new Token(TokenKind.ClosingCurlyBrace, this.line, this.tokencol);
-                        case '[': peek = readch(); return new Token(TokenKind.OpeningSquareBracket, this.line, this.tokencol);
-                        case ']': peek = readch(); return new Token(TokenKind.ClosingSquareBracket, this.line, this.tokencol);
-                        case ';': peek = readch(); return new Token(TokenKind.Semicolon, this.line, this.tokencol);
-                        case ',': peek = readch(); return new Token(TokenKind.Comma, this.line, this.tokencol);
-                        case ':': peek = readch(); if (peek == '=') { peek = readch(); return TokenLexeme(TokenKind.Assignment, ":=", this.line, this.tokencol); } return new Token(TokenKind.Colon, this.line, this.tokencol);
-                        case '=': peek = readch(); if (peek == '=') { peek = readch(); return new Token(TokenKind.Equality, this.line, this.tokencol); } return TokenLexeme(TokenKind.Assignment, "=", this.line, this.tokencol);
-                        case '!': peek = readch(); if (peek == '=') { peek = readch(); return new Token(TokenKind.Inequality, this.line, this.tokencol); } return new Token(TokenKind.Not, this.line, this.tokencol);
-                        case '*': peek = readch(); if (peek == '=') { peek = readch(); return new Token(TokenKind.MultiplyAssignment, this.line, this.tokencol); } return new Token(TokenKind.Multiply, this.line, this.tokencol);
-                        case '+': peek = readch(); if (peek == '=') { peek = readch(); return new Token(TokenKind.AdditionAssignment, this.line, this.tokencol); } return new Token(TokenKind.Plus, this.line, this.tokencol);
-                        case '-': peek = readch(); if (peek == '=') { peek = readch(); return new Token(TokenKind.SubtractionAssignment, this.line, this.tokencol); } return new Token(TokenKind.Minus, this.line, this.tokencol);
-                        case '&': peek = readch(); if (peek == '=') { peek = readch(); return new Token(TokenKind.AndAssignment, this.line, this.tokencol); }
+                        case '~': peek = readch(); return new Token(TokenKind.BitwiseComplement, self.line, self.tokencol);
+                        case '(': peek = readch(); return new Token(TokenKind.OpeningParenthesis, self.line, self.tokencol);
+                        case ')': peek = readch(); return new Token(TokenKind.ClosingParenthesis, self.line, self.tokencol);
+                        case '{': peek = readch(); return new Token(TokenKind.OpeningCurlyBrace, self.line, self.tokencol);
+                        case '}': peek = readch(); return new Token(TokenKind.ClosingCurlyBrace, self.line, self.tokencol);
+                        case '[': peek = readch(); return new Token(TokenKind.OpeningSquareBracket, self.line, self.tokencol);
+                        case ']': peek = readch(); return new Token(TokenKind.ClosingSquareBracket, self.line, self.tokencol);
+                        case ';': peek = readch(); return new Token(TokenKind.Semicolon, self.line, self.tokencol);
+                        case ',': peek = readch(); return new Token(TokenKind.Comma, self.line, self.tokencol);
+                        case ':': peek = readch(); if (peek == '=') { peek = readch(); return TokenLexeme(TokenKind.Assignment, ":=", self.line, self.tokencol); } return new Token(TokenKind.Colon, self.line, self.tokencol);
+                        case '=': peek = readch(); if (peek == '=') { peek = readch(); return new Token(TokenKind.Equality, self.line, self.tokencol); } return TokenLexeme(TokenKind.Assignment, "=", self.line, self.tokencol);
+                        case '!': peek = readch(); if (peek == '=') { peek = readch(); return new Token(TokenKind.Inequality, self.line, self.tokencol); } return new Token(TokenKind.Not, self.line, self.tokencol);
+                        case '*': peek = readch(); if (peek == '=') { peek = readch(); return new Token(TokenKind.MultiplyAssignment, self.line, self.tokencol); } return new Token(TokenKind.Multiply, self.line, self.tokencol);
+                        case '+': peek = readch(); if (peek == '=') { peek = readch(); return new Token(TokenKind.AdditionAssignment, self.line, self.tokencol); } return new Token(TokenKind.Plus, self.line, self.tokencol);
+                        case '-': peek = readch(); if (peek == '=') { peek = readch(); return new Token(TokenKind.SubtractionAssignment, self.line, self.tokencol); } return new Token(TokenKind.Minus, self.line, self.tokencol);
+                        case '&': peek = readch(); if (peek == '=') { peek = readch(); return new Token(TokenKind.AndAssignment, self.line, self.tokencol); }
                             else
-                                if (peek == '&') { peek = readch(); return new Token(TokenKind.LogicalAnd, this.line, this.tokencol); } return new Token(TokenKind.BitwiseAnd, this.line, this.tokencol);
-                        case '|': peek = readch(); if (peek == '=') { peek = readch(); return new Token(TokenKind.OrAssignment, this.line, this.tokencol); }
+                                if (peek == '&') { peek = readch(); return new Token(TokenKind.LogicalAnd, self.line, self.tokencol); } return new Token(TokenKind.BitwiseAnd, self.line, self.tokencol);
+                        case '|': peek = readch(); if (peek == '=') { peek = readch(); return new Token(TokenKind.OrAssignment, self.line, self.tokencol); }
                             else
-                                if (peek == '|') { peek = readch(); return new Token(TokenKind.LogicalOr, this.line, this.tokencol); } return new Token(TokenKind.BitwiseOr, this.line, this.tokencol);
-                        case '^': peek = readch(); if (peek == '=') { peek = readch(); return new Token(TokenKind.XorAssignment, this.line, this.tokencol); }
+                                if (peek == '|') { peek = readch(); return new Token(TokenKind.LogicalOr, self.line, self.tokencol); } return new Token(TokenKind.BitwiseOr, self.line, self.tokencol);
+                        case '^': peek = readch(); if (peek == '=') { peek = readch(); return new Token(TokenKind.XorAssignment, self.line, self.tokencol); }
                             else
-                                if (peek == '^') { peek = readch(); return new Token(TokenKind.LogicalXor, this.line, this.tokencol); } return new Token(TokenKind.BitwiseXor, this.line, this.tokencol);
+                                if (peek == '^') { peek = readch(); return new Token(TokenKind.LogicalXor, self.line, self.tokencol); } return new Token(TokenKind.BitwiseXor, self.line, self.tokencol);
                         case '<':
                             peek = readch();
                             if (peek == '=')
                             {
                                 peek = readch();
-                                return new Token(TokenKind.LessThanOrEqual, this.line, this.tokencol);
+                                return new Token(TokenKind.LessThanOrEqual, self.line, self.tokencol);
                             }
                             else if (peek == '<')
                             {
                                 peek = readch();
-                                return new Token(TokenKind.ShiftLeft, this.line, this.tokencol);
+                                return new Token(TokenKind.ShiftLeft, self.line, self.tokencol);
                             }
                             else if (peek == '>')
                             {
                                 peek = readch();
-                                return TokenLexeme(TokenKind.Inequality, "<>", this.line, this.tokencol);
+                                return TokenLexeme(TokenKind.Inequality, "<>", self.line, self.tokencol);
                             }
-                            else return new Token(TokenKind.LessThan, this.line, this.tokencol);
+                            else return new Token(TokenKind.LessThan, self.line, self.tokencol);
                         case '>':
                             peek = readch();
                             if (peek == '=')
                             {
                                 peek = readch();
-                                return new Token(TokenKind.GreaterThanOrEqual, this.line, this.tokencol);
+                                return new Token(TokenKind.GreaterThanOrEqual, self.line, self.tokencol);
                             }
                             else if (peek == '>')
                             {
                                 peek = readch();
-                                return new Token(TokenKind.ShiftRight, this.line, this.tokencol);
+                                return new Token(TokenKind.ShiftRight, self.line, self.tokencol);
                             }
-                            else return new Token(TokenKind.GreaterThan, this.line, this.tokencol);
+                            else return new Token(TokenKind.GreaterThan, self.line, self.tokencol);
                         default:
-                            throw new ProgramError(Error.UnexpectedSymbol, this.line, this.tokencol);
+                            throw new ProgramError(Error.UnexpectedSymbol, self.line, self.tokencol);
                     }
                 }
             } while (skipwhite);
@@ -462,10 +398,10 @@ exports.Lexer = (function() {
             if (chars.length) return chars.pop();
             if (reader.Peek() == -1) return eof;
             var c = String.fromCharCode(reader.Read());
-            this.col++;
+            self.col++;
             if (c == '\n') {
             		line++;
-                this.col = 1;
+                self.col = 1;
             }
             return c;
         }
