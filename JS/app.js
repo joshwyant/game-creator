@@ -1,20 +1,14 @@
-var lex = require ('./Lexer.js');
-var parse = require('./Parser.js');
 var libs = require('./LibraryContext.js');
-var visit = require('./NodeVisitor.js');
+var runtime = require('./Runtime.js');
+var compiler = require('./Compiler.js');
 
-var tr = new lex.TextReader("globalvar t, u; x /= 3.14159; /*comment*/ t = \"Hello, world!\"");
+var code = "globalvar t, u; x /= 3.14159; /*comment*/ t = \"Hello, world!\"";
 
-console.log(tr.text);
+console.log(code);
 
-var lexer = new lex.Lexer(tr);
+var context = new libs.LibraryContext();
+var runtime = new runtime.Runtime(context);
 
-var parser = new parse.Parser(new libs.LibraryContext(), lexer);
+var compiler = new compiler.Compiler(runtime);
 
-var tree = parser.Parse();
-
-var visitor = new visit.NodeVisitor();
-
-visitor.VisitNode(tree);
-
-console.log(tree);
+var delegate = compiler.Compile(code);

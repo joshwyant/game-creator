@@ -915,7 +915,7 @@
                         move();
                         return new If(e, s, stmt(), l, c);
                     }
-                    return new If(e, s, l, c);
+                    return IfNoElse(e, s, l, c);
                 }
                 else if (t.t == TokenKind.While)
                 {

@@ -189,6 +189,11 @@ exports.NodeVisitor = function () {
         }
     }
 
+    this.VisitSequence = function(sequence) {
+        self.VisitNode(sequence.First);
+        self.VisitNode(sequence.Second);
+    };
+
     /*
      * The following are abstract functions. Copy-paste them to use them in your implementation.
      */
@@ -234,11 +239,6 @@ exports.NodeVisitor = function () {
 
     this.VisitSwitch = function(p) {
 
-    };
-
-    this.VisitSequence = function(sequence) {
-        self.VisitNode(sequence.First);
-        self.VisitNode(sequence.Second);
     };
 
     this.VisitReturn = function(p) {
