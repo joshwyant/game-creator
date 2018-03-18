@@ -11,6 +11,8 @@ namespace GameCreator.Projects
 {
     partial class GmFileProjectReader
     {
+        private static HashSet<int> supportedVersions = new HashSet<int>(new[] {500, 510, 520, 530, 600});
+        
         IProject project;
 
         BinaryReader reader;
@@ -33,14 +35,12 @@ namespace GameCreator.Projects
             var magic = reader.ReadInt32();
 
             if (magic != 1234321)
-                throw new Exception("File is not a valid Game Maker file.");
+                throw new InvalidDataException("File is not a valid Game Maker file.");
 
             var version = reader.ReadInt32();
 
-            var supportedVersions = new[] { 500, 510, 520, 530, 600 };
-
             if (!supportedVersions.Contains(version))
-                throw new Exception("Unsuppoerted version.");
+                throw new NotSupportedException("Unsupported version.");
 
             project.Settings.GameID = reader.ReadInt32();
 
