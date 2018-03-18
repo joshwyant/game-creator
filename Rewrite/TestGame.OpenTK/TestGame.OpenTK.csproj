@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\GameCreator.Core\GameCreator.Core.csproj" />
+    <ProjectReference Include="..\GameCreator.Engine\GameCreator.Engine.csproj" />
+    <ProjectReference Include="..\GameCreator.Plugins.OpenTK\GameCreator.Plugins.OpenTK.csproj" />
+    <ProjectReference Include="..\TestGame\TestGame.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Ninject" Version="3.3.4" />
+  </ItemGroup>
+</Project>
