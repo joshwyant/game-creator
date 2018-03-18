@@ -6,12 +6,22 @@ namespace GameCreator.Engine
     public abstract class GameObject : IIndexedResource
     {
         public IGameContext Context { get; }
-        public int Id { get; set; }
-        public int Depth { get; set; }
+        public int Id { get; set; } = -1;
+        public double Depth { get; set; }
+        public abstract GameSprite Sprite { get; }
         
         protected internal GameObject(IGameContext context)
         {
             Context = context;
+        }
+
+        public void InitializeInstance(GameInstance instance)
+        {
+            if (Sprite != null)
+            {
+                instance.SpriteIndex = Sprite.Id;
+            }
+            instance.Depth = Depth;
         }
 
         protected virtual void OnCreate(GameInstance instance, ref bool handled)

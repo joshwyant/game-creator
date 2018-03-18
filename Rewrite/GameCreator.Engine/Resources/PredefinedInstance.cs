@@ -11,7 +11,7 @@ namespace GameCreator.Engine
         
         public PredefinedInstance(int id, int x, int y, GameObject gameObject)
         {
-            if (Id < 100001)
+            if (id < 100001)
             {
                 throw new ArgumentOutOfRangeException("id");
             }

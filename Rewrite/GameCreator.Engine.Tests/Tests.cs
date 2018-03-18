@@ -28,31 +28,20 @@ namespace GameCreator.Engine.Tests
                     new[] { new pacman(ctx) }
                 );
             resources.Setup(r => r.GetPredefinedRooms(It.IsAny<IGameContext>())).Returns(new GameRoom[0]);
+            resources.Setup(r => r.GetPredefinedSprites(It.IsAny<IGameContext>())).Returns(new GameSprite[0]);
             resources.Setup(r => r.GetPredefinedTriggers(It.IsAny<IGameContext>())).Returns(new ITrigger[0]);
             
             
             c = new FakeGameContext(graphics.Object, input.Object, audio.Object, _timerPlugin, resources.Object);
         }
         
-        enum Objects
-        {
-            pacman,
-            monster,
-            scared,
-            wall,
-            point,
-            pil,
-            bonus,
-            NEXT
-        }
-        
         class pacman : GameObject
         {
-            private const int ObjectIndex = (int) Objects.pacman;
-
             public pacman(IGameContext context) : base(context)
             {
             }
+
+            public override GameSprite Sprite => null;
 
             protected override void OnCreate(GameInstance instance, ref bool handled)
             {
@@ -63,7 +52,6 @@ namespace GameCreator.Engine.Tests
         [Test]
         public void Test1()
         {
-            c.Objects.SetNextIndex((int)Objects.NEXT);
             c.CreateInstance(0, 0, c.Objects[0]);
         }
 

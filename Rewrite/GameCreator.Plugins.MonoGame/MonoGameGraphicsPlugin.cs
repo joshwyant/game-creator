@@ -75,11 +75,11 @@ namespace GameCreator.Plugins.MonoGame
         }
 
         public void DrawSprite(ITexture t, float x, float y, float z, float w, float h, float originx, float originy, 
-            float xscale, float yscale, float angle, int r, int g, int b)
+            float xscale, float yscale, float angle, int r, int g, int b, int a)
         {
             var tex = (TextureWrapper) t;
 
-            var color = new Color(r, g, b);
+            var color = new Color(r, g, b, a);
 
             Game.BasicEffect.World = Matrix.CreateTranslation(-originx, -originy, 0)
                 * Matrix.CreateScale(xscale, yscale, 1)

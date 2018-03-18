@@ -13,6 +13,6 @@ namespace GameCreator.Engine
             float yup, float zup, float angle, float aspect, float znear, float zfar);
         void Clear(byte r, byte g, byte b);
         void DrawSprite(ITexture t, float x, float y, float z, float w, float h, float originx, float originy,
-            float xscale, float yscale, float angle, int r, int g, int b);
+            float xscale, float yscale, float angle, int r, int g, int b, int a);
     }
 }

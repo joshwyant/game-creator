@@ -6,6 +6,8 @@
         GameRoom CurrentRoom { get; set; }
         IndexedResourceManager<GameInstance> Instances { get; }
         IndexedResourceManager<GameObject> Objects { get; }
+        IndexedResourceManager<GameRoom> Rooms { get; }
+        IndexedResourceManager<GameSprite> Sprites { get; }
         IndexedResourceManager<ITrigger> Triggers { get; }
         IGraphicsPlugin Graphics { get; }
         IInputPlugin Input { get; }

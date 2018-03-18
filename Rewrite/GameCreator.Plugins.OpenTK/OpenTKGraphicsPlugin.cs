@@ -74,7 +74,7 @@ namespace GameCreator.Plugins.OpenTK
         }
 
         public void DrawSprite(ITexture t, float x, float y, float z, float w, float h, float originx, float originy, float xscale,
-            float yscale, float angle, int r, int g, int b)
+            float yscale, float angle, int r, int g, int b, int a)
         {
             GL.MatrixMode(MatrixMode.Modelview);
             GL.PushMatrix();
@@ -83,12 +83,12 @@ namespace GameCreator.Plugins.OpenTK
             GL.Scale(xscale, yscale, 1);
             GL.Translate(-originx, -originy, 0);
             
-            var color = new Vector3(r / 255f, g / 255f, b / 255f);
+            var color = new Vector4(r / 255f, g / 255f, b / 255f, a / 255f);
             
             var texId = ((TextureInfo) t).Id;
             GL.BindTexture(TextureTarget.Texture2D, texId);
             GL.Begin(PrimitiveType.Quads);
-            GL.Color3(color);
+            GL.Color4(color);
             GL.TexCoord2(0.0, 0.0);
             GL.Vertex3(0, 0, z);
             GL.TexCoord2(1.0, 0.0);

@@ -38,7 +38,12 @@ namespace GameCreator.Engine
 
         public void SetNextIndex(int nextIndex)
         {
-            this.nextIndex = nextIndex;
+            this.nextIndex = Math.Max(this.nextIndex, nextIndex);
+        }
+
+        public int GenerateId()
+        {
+            return nextIndex++;
         }
 
         public int Add(T obj)
