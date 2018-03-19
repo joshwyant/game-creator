@@ -43,7 +43,7 @@ namespace GameCreator.Plugins.MonoGame
                 Map((VirtualKeyCode) (112 + i), Keys.F1 + i);
             }
             // Keypad
-            for (int m = 0; m <= 9; m++)
+            for (var m = 0; m <= 9; m++)
             {
                 Map((VirtualKeyCode) (96 + m), Keys.NumPad0 + m);
             }
