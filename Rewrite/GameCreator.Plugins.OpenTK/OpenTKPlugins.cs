@@ -1,5 +1,6 @@
 ﻿using System;
 using GameCreator.Engine;
+using OpenTK;
 
 namespace GameCreator.Plugins.OpenTK
 {
@@ -13,6 +14,10 @@ namespace GameCreator.Plugins.OpenTK
 
         public OpenTKPlugins()
         {
+            var options = new ToolkitOptions();
+            options.Backend = PlatformBackend.PreferNative;
+            Toolkit.Init(options);
+
             _gameWindow = new GameCreatorOpenTKGameWindow();
             Graphics = new OpenTKGraphicsPlugin(_gameWindow);
             Audio = new OpenTKAudioPlugin(_gameWindow);
