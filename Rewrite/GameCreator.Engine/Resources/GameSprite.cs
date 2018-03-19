@@ -2,7 +2,7 @@
 {
     public class GameSprite : IIndexedResource
     {
-        public IGameContext Context { get; }
+        public GameContext Context { get; }
         public int Id { get; set; } = -1;
         public ITexture[] Textures { get; internal set; }
         public IImage[] SubImages { get; }
@@ -11,7 +11,7 @@
         public int XOrigin { get; }
         public int YOrigin { get; }
 
-        public GameSprite(IGameContext context, int w, int h, int xorigin, int yorigin, IImage[] subImages)
+        public GameSprite(GameContext context, int w, int h, int xorigin, int yorigin, IImage[] subImages)
         {
             Context = context;
             Width = w;

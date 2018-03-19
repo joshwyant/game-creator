@@ -23,13 +23,13 @@ namespace GameCreator.Engine.Tests
             audio = new Mock<IAudioPlugin>();
             input = new Mock<IInputPlugin>();
             resources = new Mock<IResourceContext>();
-            resources.Setup(r => r.GetPredefinedObjects(It.IsAny<IGameContext>()))
-                .Returns<IGameContext>(ctx =>
+            resources.Setup(r => r.GetPredefinedObjects(It.IsAny<GameContext>()))
+                .Returns<GameContext>(ctx =>
                     new[] { new pacman(ctx) }
                 );
-            resources.Setup(r => r.GetPredefinedRooms(It.IsAny<IGameContext>())).Returns(new GameRoom[0]);
-            resources.Setup(r => r.GetPredefinedSprites(It.IsAny<IGameContext>())).Returns(new GameSprite[0]);
-            resources.Setup(r => r.GetPredefinedTriggers(It.IsAny<IGameContext>())).Returns(new ITrigger[0]);
+            resources.Setup(r => r.GetPredefinedRooms(It.IsAny<GameContext>())).Returns(new GameRoom[0]);
+            resources.Setup(r => r.GetPredefinedSprites(It.IsAny<GameContext>())).Returns(new GameSprite[0]);
+            resources.Setup(r => r.GetPredefinedTriggers(It.IsAny<GameContext>())).Returns(new ITrigger[0]);
             
             
             c = new FakeGameContext(graphics.Object, input.Object, audio.Object, _timerPlugin, resources.Object);
@@ -37,7 +37,7 @@ namespace GameCreator.Engine.Tests
         
         class pacman : GameObject
         {
-            public pacman(IGameContext context) : base(context)
+            public pacman(GameContext context) : base(context)
             {
             }
 

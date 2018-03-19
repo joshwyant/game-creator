@@ -7,13 +7,13 @@ namespace GameCreator.Engine
     public sealed class GameRunner : IDisposable
     {
         private StandardKernel _kernel;
-        private IGameContext _game;
+        private GameContext _game;
 
         public GameRunner()
         {
             _kernel = new StandardKernel();
             _kernel.Load("*.dll");
-            _game = _kernel.Get<IGameContext>();
+            _game = _kernel.Get<GameContext>();
         }
         
         public void Run()

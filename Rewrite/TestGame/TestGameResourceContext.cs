@@ -16,7 +16,7 @@ namespace TestGame
         
         private class TestObject : GameObject
         {
-            internal TestObject(IGameContext context) : base(context)
+            internal TestObject(GameContext context) : base(context)
             {
             }
 
@@ -100,7 +100,7 @@ namespace TestGame
 
         private class TestRoom : GameRoom
         {
-            public TestRoom(IGameContext context) : base(context)
+            public TestRoom(GameContext context) : base(context)
             {
                 BackgroundColor = 0xED9564; // Cornflower Blue
                 Width = 800;
@@ -120,7 +120,7 @@ namespace TestGame
         public int NextInstanceId => -1;
         public int NextSpriteId => -1;
         
-        public IList<GameSprite> GetPredefinedSprites(IGameContext context)
+        public IList<GameSprite> GetPredefinedSprites(GameContext context)
         {
             var loader = new ImageLoader();
             
@@ -134,7 +134,7 @@ namespace TestGame
             };
         }
 
-        public IList<GameObject> GetPredefinedObjects(IGameContext context)
+        public IList<GameObject> GetPredefinedObjects(GameContext context)
         {
             return new[]
             {
@@ -142,7 +142,7 @@ namespace TestGame
             };
         }
         
-        public IList<GameRoom> GetPredefinedRooms(IGameContext context)
+        public IList<GameRoom> GetPredefinedRooms(GameContext context)
         {
             return new []
             {
@@ -150,7 +150,7 @@ namespace TestGame
             };
         }
 
-        public IList<ITrigger> GetPredefinedTriggers(IGameContext gameContext)
+        public IList<ITrigger> GetPredefinedTriggers(GameContext gameContext)
         {
             return new ITrigger[0];
         }

@@ -8,7 +8,7 @@ namespace TestGame
         public override void Load()
         {
             Bind<IResourceContext>().To<TestGameResourceContext>().InSingletonScope();
-            Bind<IGameContext>().To<TestGame>().InSingletonScope();
+            Bind<GameContext>().To<TestGame>().InSingletonScope();
         }
     }
 }

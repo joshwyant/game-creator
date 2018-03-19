@@ -2,7 +2,7 @@
 {
     public interface IIndexedResource
     {
-        IGameContext Context { get; }
+        GameContext Context { get; }
         int Id { get; set; }
     }
 }

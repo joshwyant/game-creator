@@ -7,7 +7,7 @@ namespace GameCreator.Engine
     {
         private double _direction, _speed, _hspeed, _vspeed;
         
-        public IGameContext Context { get; }
+        public GameContext Context { get; }
         public int Id { get; set; } = -1;
         public int InstanceId => Id;
         public int ObjectIndex => AssignedObject.Id;
@@ -75,7 +75,7 @@ namespace GameCreator.Engine
         public GameSprite Sprite => Context.Sprites[SpriteIndex];
         public GameObject AssignedObject { get; private set; }
 
-        internal GameInstance(IGameContext context, double x, double y, GameObject assignedObject)
+        internal GameInstance(GameContext context, double x, double y, GameObject assignedObject)
         {
             Context = context;
             X = XPrevious = XStart = x;
@@ -163,7 +163,7 @@ namespace GameCreator.Engine
             {
                 var subImage = (int) Math.Floor(ImageIndex) % Sprite.SubImages.Length;
                 
-                Context.Graphics.DrawSprite(
+                Context.Library.DrawingFunctions.DrawSprite(
                     Sprite.Textures[subImage],
                     (float) X,
                     (float) Y,

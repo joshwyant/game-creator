@@ -7,6 +7,15 @@ namespace GameCreator.Engine
 {
     public abstract partial class GameContext
     {
+        public IndexedResourceManager<ITrigger> Triggers { get; }
+        public ITimerPlugin Timer { get; }
+        public GameInstance OtherInstance { get; private set; }
+        
+        /// <summary>
+        /// This can be accessed in a loop, but don't use foreach if you are creating new instances!
+        /// </summary>
+        private List<GameInstance> PresortedInstances { get; set; }
+        
         /// <summary>
         /// Loop through non-destroyed instances, including those created during the loop.
         /// Instances are only sorted immediately before drawing.
@@ -136,7 +145,7 @@ namespace GameCreator.Engine
 
             if (Enable3dMode)
             {
-                SetProjectionPerspective(0, 0, CurrentRoom.Width, CurrentRoom.Height, 0);
+                Library.D3dFunctions.SetProjectionPerspective(0, 0, CurrentRoom.Width, CurrentRoom.Height, 0);
             }
             else
             {

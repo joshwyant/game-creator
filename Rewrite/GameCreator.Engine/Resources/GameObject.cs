@@ -5,12 +5,12 @@ namespace GameCreator.Engine
 {
     public abstract class GameObject : IIndexedResource
     {
-        public IGameContext Context { get; }
+        public GameContext Context { get; }
         public int Id { get; set; } = -1;
         public double Depth { get; set; }
         public abstract GameSprite Sprite { get; }
         
-        protected internal GameObject(IGameContext context)
+        protected internal GameObject(GameContext context)
         {
             Context = context;
         }
