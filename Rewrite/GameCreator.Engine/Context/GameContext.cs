@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using GameCreator.Core;
+﻿using System.Linq;
 using GameCreator.Engine.Library;
-using Ninject.Activation;
 
 namespace GameCreator.Engine
 {
