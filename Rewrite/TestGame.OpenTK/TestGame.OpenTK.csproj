@@ -4,7 +4,6 @@
     <TargetFramework>netcoreapp2.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\GameCreator.Core\GameCreator.Core.csproj" />
     <ProjectReference Include="..\GameCreator.Engine\GameCreator.Engine.csproj" />
     <ProjectReference Include="..\GameCreator.Plugins.OpenTK\GameCreator.Plugins.OpenTK.csproj" />
     <ProjectReference Include="..\TestGame\TestGame.csproj" />

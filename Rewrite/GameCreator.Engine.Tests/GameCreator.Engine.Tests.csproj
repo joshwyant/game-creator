@@ -10,7 +10,6 @@
     <PackageReference Include="NUnit3TestAdapter" Version="3.10.0" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\GameCreator.Core\GameCreator.Core.csproj" />
     <ProjectReference Include="..\GameCreator.Engine\GameCreator.Engine.csproj" />
   </ItemGroup>
 </Project>

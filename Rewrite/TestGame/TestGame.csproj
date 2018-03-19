@@ -4,7 +4,6 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\GameCreator.Core\GameCreator.Core.csproj" />
     <ProjectReference Include="..\GameCreator.Engine\GameCreator.Engine.csproj" />
   </ItemGroup>
   <ItemGroup>

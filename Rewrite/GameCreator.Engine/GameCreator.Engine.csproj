@@ -3,12 +3,9 @@
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\GameCreator.Core\GameCreator.Core.csproj">
-      <Project>{A761207E-75A5-476D-A38F-8AA4E13C212A}</Project>
-      <Name>GameCreator.Core</Name>
-    </ProjectReference>
+    <PackageReference Include="Ninject" Version="3.3.4" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Ninject" Version="3.3.4" />
+    <ProjectReference Include="..\GameCreator.Engine.Common\GameCreator.Engine.Common.csproj" />
   </ItemGroup>
 </Project>

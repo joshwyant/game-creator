@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.0.0
 MinimumVisualStudioVersion = 10.0.0.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameCreator.Core", "Rewrite/GameCreator.Core/GameCreator.Core.csproj", "{A761207E-75A5-476D-A38F-8AA4E13C212A}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameCreator.Engine", "Rewrite\GameCreator.Engine\GameCreator.Engine.csproj", "{C1EF4835-4F4D-4965-AC8F-DC54DB61A519}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameCreator.Plugins.MonoGame", "Rewrite\GameCreator.Plugins.MonoGame\GameCreator.Plugins.MonoGame.csproj", "{31EAFE14-057B-4DF5-AA4D-D4FDC3D13808}"
@@ -18,6 +16,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestGame.OpenTK", "Rewrite\TestGame.OpenTK\TestGame.OpenTK.csproj", "{780CB8F7-2E2D-4B92-9767-AF2E55BC19B6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestGame.MonoGame", "Rewrite\TestGame.MonoGame\TestGame.MonoGame.csproj", "{4BD29805-7C58-469A-9B54-0833E9010527}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameCreator.Engine.Common", "Rewrite\GameCreator.Engine.Common\GameCreator.Engine.Common.csproj", "{729CA8B1-286E-46E1-A622-018BBA00CDE3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -57,6 +57,10 @@ Global
 		{4BD29805-7C58-469A-9B54-0833E9010527}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4BD29805-7C58-469A-9B54-0833E9010527}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4BD29805-7C58-469A-9B54-0833E9010527}.Release|Any CPU.Build.0 = Release|Any CPU
+		{729CA8B1-286E-46E1-A622-018BBA00CDE3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{729CA8B1-286E-46E1-A622-018BBA00CDE3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{729CA8B1-286E-46E1-A622-018BBA00CDE3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{729CA8B1-286E-46E1-A622-018BBA00CDE3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
