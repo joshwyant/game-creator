@@ -7,7 +7,6 @@ namespace GameCreator.Engine
         public IGraphicsPlugin Graphics { get; }
         private bool _3dMode;
         public bool Enable3dMode => _3dMode;
-        public double DrawDepth3d { get; set; }
 
         private void Graphics_Update(object sender, EventArgs eventArgs)
         {

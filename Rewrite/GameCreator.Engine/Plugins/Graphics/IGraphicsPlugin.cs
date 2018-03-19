@@ -13,9 +13,10 @@ namespace GameCreator.Engine
             float yup, float zup, float angle, float aspect, float znear, float zfar);
         void SetOrthographicProjection(float x, float y, float w, float h, float angle);
         void Clear(byte r, byte g, byte b);
-        void DrawSprite(ITexture t, float x, float y, float z, float w, float h, float originx, float originy,
-            float xscale, float yscale, float angle, int r, int g, int b, float a);
+        void DrawSprite(GameSprite s, int subimg, float left, float top, float w, float h, float x, float y,
+            float xscale, float yscale, float angle, uint c1, uint c2, uint c3, uint c4, float a);
 
         bool DepthStencilEnable { get; set; }
+        float DrawDepth3d { get; set; }
     }
 }

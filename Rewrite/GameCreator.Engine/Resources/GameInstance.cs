@@ -164,20 +164,14 @@ namespace GameCreator.Engine
                 var subImage = (int) Math.Floor(ImageIndex) % Sprite.SubImages.Length;
                 
                 Context.Library.DrawingFunctions.DrawSprite(
-                    Sprite.Textures[subImage],
+                    Sprite,
+                    subImage,
                     (float) X,
                     (float) Y,
-                    (float) Context.DrawDepth3d,
-                    Sprite.Width,
-                    Sprite.Height,
-                    Sprite.XOrigin,
-                    Sprite.YOrigin,
                     (float) ImageXScale,
                     (float) ImageYScale,
                     (float) ImageAngle,
-                    (int) (ImageBlend & 0xFF),
-                    (int) (ImageBlend & 0xFF00) >> 8,
-                    (int) (ImageBlend & 0xFF0000) >> 16,
+                    ImageBlend,
                     (float) ImageAlpha);
             }
         }

@@ -55,6 +55,10 @@ namespace GameCreator.Engine.Library
         {
             Context.Graphics.SetOrthographicProjection(x, y, w, h, angle);
         }
-        
+
+        public void Set3dDrawDepth(float depth)
+        {
+            Context.Graphics.DrawDepth3d = depth;
+        }
     }
 }

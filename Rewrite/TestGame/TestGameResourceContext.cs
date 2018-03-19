@@ -102,7 +102,7 @@ namespace TestGame
         {
             public TestRoom(GameContext context) : base(context)
             {
-                BackgroundColor = 0xED9564; // Cornflower Blue
+                BackgroundColor = 0x303030;// 0xED9564; // Cornflower Blue
                 Width = 800;
                 Height = 600;
                 

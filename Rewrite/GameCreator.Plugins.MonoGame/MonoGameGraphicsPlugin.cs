@@ -85,13 +85,33 @@ namespace GameCreator.Plugins.MonoGame
             Game.GraphicsDevice.Clear(new Color(r, g, b));
         }
 
-        public void DrawSprite(ITexture t, float x, float y, float z, float w, float h, float originx, float originy, float xscale, float yscale, float angle, int r, int g, int b, float a)
+        private void makeColor(uint c, float alpha, out Color color)
         {
-            var tex = (TextureWrapper) t;
+            color = new Color(c) {A = (byte) (alpha * 255f)};
+        }
+        
+        private void makeTexCoord(GameSprite s, float x, float y, out Vector2 texCoord)
+        {
+            texCoord = default(Vector2);
+            texCoord.X = x / s.Width;
+            texCoord.Y = y / s.Height;
+        }
+        
+        public void DrawSprite(GameSprite s, int subimg, float left, float top, float w, float h, float x, float y,
+            float xscale, float yscale, float angle, uint c1, uint c2, uint c3, uint c4, float a)
+        {
+            var tex = (TextureWrapper) s.Textures[subimg];
 
-            var color = new Color(r / 255f, g / 255f, b / 255f, a);
+            makeColor(c1, a, out var color1);
+            makeColor(c2, a, out var color2);
+            makeColor(c3, a, out var color3);
+            makeColor(c4, a, out var color4);
+            makeTexCoord(s, left, top, out var tc1);
+            makeTexCoord(s, left+w, top, out var tc2);
+            makeTexCoord(s, left+w, top+h, out var tc3);
+            makeTexCoord(s, left, top+h, out var tc4);
 
-            Game.BasicEffect.World = Matrix.CreateTranslation(-originx, -originy, 0)
+            Game.BasicEffect.World = Matrix.CreateTranslation(-s.XOrigin, -s.YOrigin, 0)
                 * Matrix.CreateScale(xscale, yscale, 1)
                 * Matrix.CreateRotationZ(-angle * MathHelper.Pi / 180)
                 * Matrix.CreateTranslation(x, y, 0);
@@ -106,40 +126,40 @@ namespace GameCreator.Plugins.MonoGame
             {
                 new VertexPositionColorTexture
                 {
-                    Color = color,
-                    Position = new Vector3(0, 0, z),
-                    TextureCoordinate = new Vector2(0, 0)
+                    Color = color1,
+                    Position = new Vector3(0, 0, DrawDepth3d),
+                    TextureCoordinate = tc1
                 },
                 new VertexPositionColorTexture
                 {
-                    Color = color,
-                    Position = new Vector3(w, h, z),
-                    TextureCoordinate = new Vector2(1, 1)
+                    Color = color3,
+                    Position = new Vector3(w, h, DrawDepth3d),
+                    TextureCoordinate = tc3
                 },
                 new VertexPositionColorTexture
                 {
-                    Color = color,
-                    Position = new Vector3(w, 0, z),
-                    TextureCoordinate = new Vector2(1, 0)
+                    Color = color2,
+                    Position = new Vector3(w, 0, DrawDepth3d),
+                    TextureCoordinate = tc2
                 },
                 
                 new VertexPositionColorTexture
                 {
-                    Color = color,
-                    Position = new Vector3(0, 0, z),
-                    TextureCoordinate = new Vector2(0, 0)
+                    Color = color1,
+                    Position = new Vector3(0, 0, DrawDepth3d),
+                    TextureCoordinate = tc1
                 },
                 new VertexPositionColorTexture
                 {
-                    Color = color,
-                    Position = new Vector3(0, h, z),
-                    TextureCoordinate = new Vector2(0, 1)
+                    Color = color4,
+                    Position = new Vector3(0, h, DrawDepth3d),
+                    TextureCoordinate = tc4
                 },
                 new VertexPositionColorTexture
                 {
-                    Color = color,
-                    Position = new Vector3(w, h, z),
-                    TextureCoordinate = new Vector2(1, 1)
+                    Color = color3,
+                    Position = new Vector3(w, h, DrawDepth3d),
+                    TextureCoordinate = tc3
                 },
             };
             
@@ -163,5 +183,7 @@ namespace GameCreator.Plugins.MonoGame
             set => Game.GraphicsDevice.DepthStencilState = 
                 value ? DepthStencilState.Default : DepthStencilState.None;
         }
+
+        public float DrawDepth3d { get; set; }
     }
 }

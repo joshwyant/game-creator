@@ -163,7 +163,7 @@ namespace GameCreator.Engine
                     i.ImageIndex += i.ImageSpeed;
                 }
                 
-                DrawDepth3d = i.Depth;
+                Graphics.DrawDepth3d = (float) i.Depth;
                 if (!i.AssignedObject.PerformEvent(i, EventType.Draw))
                 {
                     i.DrawSprite();
