@@ -26,10 +26,21 @@ namespace GameCreator.Engine
         public IInputPlugin Input { get; }
         public IAudioPlugin Audio { get; }
         public ITimerPlugin Timer { get; }
-        
+
+        private bool _3dMode;
+        public bool Enable3dMode => _3dMode;
+        public double DrawDepth3d { get; set; }
+
         public abstract int GameId { get; }
         
+        private Queue<VirtualKeyCode> KeysPressed = new Queue<VirtualKeyCode>();
+        private HashSet<VirtualKeyCode> KeysDown = new HashSet<VirtualKeyCode>();
+        
         private List<int> RoomOrder { get; }
+        /// <summary>
+        /// This can be accessed in a loop, but don't use foreach if you are creating new instances!
+        /// </summary>
+        private List<GameInstance> PresortedInstances { get; set; }
 
         protected GameContext(IGraphicsPlugin graphics, IInputPlugin input, IAudioPlugin audio,
             ITimerPlugin timer, IResourceContext predefinedResources)
@@ -62,6 +73,7 @@ namespace GameCreator.Engine
 
             Graphics.Load += Graphics_Load;
             Graphics.Draw += Graphics_Update;
+            Input.KeyPress += Input_KeyPress;
 
             Init();
         }
@@ -125,17 +137,21 @@ namespace GameCreator.Engine
                 instInfo.GameObject.InitializeInstance(instance);
                 Instances[instInfo.Id] = instance;
                 _currentRoom.CreatedInstances.Add(instInfo.Id);
-                instance.PerformEvent(EventType.Create);
             }
 
-            var roomInstances = GetRoomInstances();
+            PresortedInstances = GetRoomInstances();
+            
+            for (var i = 0; i < PresortedInstances.Count; i++)
+            {
+                PresortedInstances[i].PerformEvent(EventType.Create);
+            }
 
             // When this is the first room, for all instances the game-start event is generated.
             if (gameStart)
             { 
-                foreach (var instance in roomInstances)
+                for (var i = 0; i < PresortedInstances.Count; i++)
                 {
-                    instance.PerformEvent(EventType.Other, (int) OtherEventKind.GameStart);
+                    PresortedInstances[i].PerformEvent(EventType.Other, (int) OtherEventKind.GameStart);
                 }
             }
             
@@ -143,9 +159,9 @@ namespace GameCreator.Engine
             room.Creation();
             
             // Finally, all instances get a room-start event.
-            foreach (var instance in roomInstances)
+            for (var i = 0; i < PresortedInstances.Count; i++)
             {
-                instance.PerformEvent(EventType.Other, (int) OtherEventKind.RoomStart);
+                PresortedInstances[i].PerformEvent(EventType.Other, (int) OtherEventKind.RoomStart);
             }
         }
 
@@ -157,6 +173,12 @@ namespace GameCreator.Engine
         private void Graphics_Load(object sender, EventArgs eventArgs)
         {
             LoadContent();
+        }
+
+        private void Input_KeyPress(object sender, KeyboardEventArgs e)
+        {
+            KeysDown.Add(e.KeyCode);
+            KeysPressed.Enqueue(e.KeyCode);
         }
 
         private void LoadContent()
@@ -177,13 +199,14 @@ namespace GameCreator.Engine
             assignedObject.InitializeInstance(inst);
             Instances.Add(inst);
             CurrentRoom?.CreatedInstances?.Add(inst.Id);
+            PresortedInstances.Add(inst);
             return inst;
         }
 
-        private IList<GameInstance> GetRoomInstances()
+        private List<GameInstance> GetRoomInstances()
         {
             if (CurrentRoom == null)
-                return new GameInstance[0];
+                return new List<GameInstance>();
             
             return Instances
                 .Where(i => CurrentRoom.CreatedInstances.Contains(i.Id))
@@ -195,6 +218,42 @@ namespace GameCreator.Engine
         public void Run()
         {
             Graphics.Run();
+        }
+
+        public void Start3dMode()
+        {
+            _3dMode = true;
+            Graphics.DepthStencilEnable = true;
+        }
+
+        public void End3dMode()
+        {
+            _3dMode = false;
+            Graphics.DepthStencilEnable = false;
+        }
+
+        public void SetProjectionPerspective(float x, float y, float w, float h, float angle)
+        {
+            var aspectRatio = w / h;
+            var xcenter = x + w * 0.5f;
+            var ycenter = y + h * 0.5f;
+            var c = (float)Math.Cos(angle * Math.PI / 180.0);
+            var s = (float)Math.Sin(angle * Math.PI / 180.0);
+            
+            Graphics.SetProjection(
+                xcenter, 
+                ycenter, 
+                -w, 
+                xcenter, 
+                ycenter, 
+                0, 
+                -s, // xup = 0, rotated by angle
+                c, // yup = 1, rotated by angle
+                0, 
+                (float)(2*Math.Atan(0.5 / aspectRatio)), 
+                aspectRatio, 
+                1, 
+                32000);
         }
     }
 }

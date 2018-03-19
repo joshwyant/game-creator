@@ -2,7 +2,6 @@
 {
     public interface IGameContext
     {
-        GameInstance OtherInstance { get; }
         GameRoom CurrentRoom { get; set; }
         IndexedResourceManager<GameInstance> Instances { get; }
         IndexedResourceManager<GameObject> Objects { get; }
@@ -14,7 +13,15 @@
         IAudioPlugin Audio { get; }
         ITimerPlugin Timer { get; }
         int GameId { get; }
+        GameInstance OtherInstance { get; }
+        bool Enable3dMode { get; }
+        double DrawDepth3d { get; set; }
         [Gml("instance_create")] GameInstance CreateInstance(double x, double y, GameObject assignedObject);
         void Run();
+        void ProcessEvents();
+        void DrawScreen();
+        void Start3dMode();
+        void End3dMode();
+        void SetProjectionPerspective(float x, float y, float w, float h, float angle);
     }
 }

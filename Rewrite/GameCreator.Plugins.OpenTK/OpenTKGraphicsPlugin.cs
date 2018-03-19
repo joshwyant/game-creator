@@ -63,8 +63,22 @@ namespace GameCreator.Plugins.OpenTK
             var perspective = Matrix4.CreatePerspectiveFieldOfView(angle, aspect, znear, zfar);
             GL.LoadMatrix(ref perspective);
             GL.MatrixMode(MatrixMode.Modelview);
-            var view = Matrix4.LookAt(xfrom, yfrom, zfrom, xto, yto, zto, xup, yup, zup);
+            var view = Matrix4.LookAt(xfrom, yfrom, -zfrom, xto, yto, -zto, xup, yup, -zup);
             GL.LoadMatrix(ref view);
+            GL.Scale(1, 1, -1); // Convert to left-handed coordinate system for primitives
+        }
+
+        public void SetOrthographicProjection(float x, float y, float w, float h, float angle)
+        {
+            GL.MatrixMode(MatrixMode.Projection);
+            GL.LoadIdentity();
+            GL.Rotate(angle, 0, 0, 1);
+            var ortho = Matrix4.CreateOrthographicOffCenter(x, x + w, y + h, y, float.MinValue, float.MaxValue);
+            GL.MultMatrix(ref ortho);
+
+            GL.MatrixMode(MatrixMode.Modelview);
+            GL.LoadIdentity();
+            GL.Scale(1, 1, -1); // Convert to left-handed coordinate system
         }
 
         public void Clear(byte r, byte g, byte b)
@@ -73,8 +87,7 @@ namespace GameCreator.Plugins.OpenTK
             GL.Clear(ClearBufferMask.ColorBufferBit);
         }
 
-        public void DrawSprite(ITexture t, float x, float y, float z, float w, float h, float originx, float originy, float xscale,
-            float yscale, float angle, int r, int g, int b, int a)
+        public void DrawSprite(ITexture t, float x, float y, float z, float w, float h, float originx, float originy, float xscale, float yscale, float angle, int r, int g, int b, float a)
         {
             GL.MatrixMode(MatrixMode.Modelview);
             GL.PushMatrix();
@@ -83,7 +96,7 @@ namespace GameCreator.Plugins.OpenTK
             GL.Scale(xscale, yscale, 1);
             GL.Translate(-originx, -originy, 0);
             
-            var color = new Vector4(r / 255f, g / 255f, b / 255f, a / 255f);
+            var color = new Vector4(r / 255f, g / 255f, b / 255f, a);
             
             var texId = ((TextureInfo) t).Id;
             GL.BindTexture(TextureTarget.Texture2D, texId);
@@ -100,6 +113,17 @@ namespace GameCreator.Plugins.OpenTK
             GL.End();
             
             GL.PopMatrix();
+        }
+
+        private bool _depthStencilEnable;
+        public bool DepthStencilEnable
+        {
+            get => _depthStencilEnable;
+            set
+            {
+                _depthStencilEnable = value;
+                GL.DepthFunc(value ? DepthFunction.Lequal : DepthFunction.Always);
+            }
         }
     }
 }

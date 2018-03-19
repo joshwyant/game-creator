@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 
 namespace GameCreator.Plugins.MonoGame
 {
@@ -10,10 +11,13 @@ namespace GameCreator.Plugins.MonoGame
     {
         public GraphicsDeviceManager Graphics { get; }
         public BasicEffect BasicEffect { get; private set; }
-        public RasterizerState RasterizerState { get; private set; }
 
         public double Fps = 0;
         public double SleepTime = 0;
+
+        public KeyboardState KeyboardState { get; set; }
+
+        public event Action<Keys> KeyPressed;
 
         public GameCreatorXnaGame()
         {
@@ -23,8 +27,6 @@ namespace GameCreator.Plugins.MonoGame
         protected override void Initialize()
         {
             BasicEffect = new BasicEffect(GraphicsDevice);
-            RasterizerState = new RasterizerState();
-            GraphicsDevice.RasterizerState = RasterizerState;
             base.Initialize();
         }
 
@@ -35,6 +37,28 @@ namespace GameCreator.Plugins.MonoGame
 
         public event EventHandler<EventArgs> Load;
         public event EventHandler<EventArgs> GameCreatorDraw;
+
+        protected override void Update(GameTime gameTime)
+        {
+            UpdateInput();
+            
+            base.Update(gameTime);
+        }
+
+        private void UpdateInput()
+        {
+            var oldState = KeyboardState;
+            KeyboardState = Keyboard.GetState();
+
+            foreach (var key in KeyboardState.GetPressedKeys())
+            {
+                // oldState is a struct, so by default, no keys are pressed.
+                if (!oldState.IsKeyDown(key))
+                {
+                    KeyPressed?.Invoke(key);
+                }
+            }
+        }
 
         protected override void Draw(GameTime gameTime)
         {

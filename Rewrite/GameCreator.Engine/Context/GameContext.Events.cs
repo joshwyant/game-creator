@@ -1,17 +1,130 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using GameCreator.Core;
 
 namespace GameCreator.Engine
 {
     public abstract partial class GameContext
     {
+        /// <summary>
+        /// Loop through non-destroyed instances, including those created during the loop.
+        /// Instances are only sorted immediately before drawing.
+        /// </summary>
+        private void ForInstances(Action<GameInstance> handler)
+        {
+            // Don't use a foreach in case the collection changes during the loop.
+            for (var i = 0; i < PresortedInstances.Count; i++)
+            {
+                var instance = PresortedInstances[i];
+                if (instance.Destroyed) continue;
+                handler(instance);
+            }
+        }
+        
         public void ProcessEvents()
         {
-            // ...
+            // Process begin step events
+            ForInstances(i => i.PerformEvent(EventType.Step, (int) StepKind.BeginStep));
 
+            // Process alarm events
+            ForInstances(i =>
+            {
+                for (var j = 0; j < 12; j++)
+                {
+                    if (i.Alarm[j] >= 0 && --i.Alarm[j] == 0)
+                    {
+                        i.PerformEvent(EventType.Alarm, j);
+                    }
+                }
+            });
+
+            // Process keyboard events
+            {
+                var anyKey = false;
+                foreach (var keyCode in KeysDown)
+                {
+                    if (!Input.CheckKeyPressed(keyCode))
+                        continue;
+                    anyKey = true;
+
+                    ForInstances(i => i.PerformEvent(EventType.Keyboard, (int) keyCode));
+                }
+                
+                // vk_any/vk_none
+                ForInstances(i =>
+                    i.PerformEvent(EventType.KeyPress,
+                        anyKey ? (int) VirtualKeyCode.AnyKey : (int) VirtualKeyCode.NoKey));
+            }
+
+            // Process key press events
+            if (KeysPressed.Count > 0)
+            {
+                while (KeysPressed.Count > 0)
+                {
+                    var keyCode = KeysPressed.Dequeue();
+                    ForInstances(i => i.PerformEvent(EventType.KeyPress, (int) keyCode));
+                }
+                
+                // vk_any
+                ForInstances(i => i.PerformEvent(EventType.KeyPress, (int) VirtualKeyCode.AnyKey));
+            }
+            else
+            {
+                // vk_none
+                ForInstances(i => i.PerformEvent(EventType.KeyPress, (int) VirtualKeyCode.NoKey));
+            }
+            
+            // Process key release events
+            {
+                var released = new HashSet<VirtualKeyCode>();
+                foreach (var key in KeysDown)
+                {
+                    if (!Input.CheckKeyPressed(key))
+                    {
+                        released.Add(key);
+                        ForInstances(i => i.PerformEvent(EventType.KeyRelease, (int) key));
+                    }
+                }
+                
+                // vk_any/vk_none
+                ForInstances(i =>
+                    i.PerformEvent(EventType.KeyRelease,
+                        released.Any() ? (int) VirtualKeyCode.AnyKey : (int) VirtualKeyCode.NoKey));
+                
+                // update KeysDown
+                KeysDown.ExceptWith(released);
+            }
+            
+            // Process step events
+            ForInstances(i => i.PerformEvent(EventType.Step, (int) StepKind.Normal));
+            
+            // Set instances to their new positions
+            ForInstances(i =>
+            {
+                i.XPrevious = i.X;
+                i.YPrevious = i.Y;
+                
+                // friction first
+                i.Speed = i.Friction > 0 && Math.Abs(i.Speed) < i.Friction
+                    ? 0
+                    : i.Speed - i.Friction * Math.Sign(i.Speed);
+                
+                // then gravity
+                i.AddSpeedVector(
+                    i.Gravity * Math.Cos(i.GravityDirection * Math.PI / 180),
+                    -i.Gravity * Math.Sin(i.GravityDirection * Math.PI / 180));
+                
+                // move the object
+                i.X += i.HSpeed;
+                i.Y += i.VSpeed;
+            });
+            
+            // Process end step events
+            ForInstances(i => i.PerformEvent(EventType.Step, (int) StepKind.EndStep));
+            
+            // Draw the screen and process draw events
             DrawScreen();
-
-            // ...
         }
 
         public void DrawScreen()
@@ -21,46 +134,32 @@ namespace GameCreator.Engine
                 (byte) ((CurrentRoom.BackgroundColor & 0xFF00) >> 8),
                 (byte) ((CurrentRoom.BackgroundColor & 0xFF0000) >> 16));
 
-            var aspectRatio = (double) CurrentRoom.Width / CurrentRoom.Height;
+            if (Enable3dMode)
+            {
+                SetProjectionPerspective(0, 0, CurrentRoom.Width, CurrentRoom.Height, 0);
+            }
+            else
+            {
+                Graphics.SetOrthographicProjection(0, 0, CurrentRoom.Width, CurrentRoom.Height, 0);
+            }
 
-            Graphics.SetProjection(
-                CurrentRoom.Width / 2,
-                CurrentRoom.Height / 2,
-                -CurrentRoom.Width,
-                CurrentRoom.Width / 2,
-                CurrentRoom.Height / 2,
-                0f,
-                0f, -1f, 0f,
-                2f * (float) Math.Atan(0.5 / aspectRatio), (float) aspectRatio, 1.0f, 32000f);
-
-            var roomInstances = GetRoomInstances();
+            // Re-sort all the instances by depth now.
+            PresortedInstances = GetRoomInstances();
 
             // Process draw events
-            foreach (var instance in roomInstances)
+            ForInstances(i =>
             {
-                if (!instance.AssignedObject.PerformEvent(instance, EventType.Draw))
+                if (i.ImageSingle < 0)
                 {
-                    if (Sprites.ContainsKey(instance.SpriteIndex))
-                    {
-                        Graphics.DrawSprite(
-                            instance.Sprite.Textures[instance.ImageIndex],
-                            (float) instance.X,
-                            (float) instance.Y,
-                            (float) instance.Depth,
-                            instance.Sprite.Width,
-                            instance.Sprite.Height,
-                            instance.Sprite.XOrigin,
-                            instance.Sprite.YOrigin,
-                            (float) instance.ImageXScale,
-                            (float) instance.ImageYScale,
-                            (float) instance.ImageAngle,
-                            (int) (instance.ImageBlend & 0xFF),
-                            (int) (instance.ImageBlend & 0xFF00) >> 8,
-                            (int) (instance.ImageBlend & 0xFF0000) >> 16,
-                            instance.ImageAlpha);
-                    }
+                    i.ImageIndex += i.ImageSpeed;
                 }
-            }
+                
+                DrawDepth3d = i.Depth;
+                if (!i.AssignedObject.PerformEvent(i, EventType.Draw))
+                {
+                    i.DrawSprite();
+                }
+            });
         }
     }
 }

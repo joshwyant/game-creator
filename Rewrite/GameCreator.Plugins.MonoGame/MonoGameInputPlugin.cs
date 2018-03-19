@@ -1,4 +1,6 @@
-﻿using GameCreator.Engine;
+﻿using GameCreator.Core;
+using GameCreator.Engine;
+using Microsoft.Xna.Framework.Input;
 
 namespace GameCreator.Plugins.MonoGame
 {
@@ -9,6 +11,20 @@ namespace GameCreator.Plugins.MonoGame
         public MonoGameInputPlugin(GameCreatorXnaGame game)
         {
             Game = game;
+            
+            Game.KeyPressed += Game_KeyPressed;
         }
+
+        private void Game_KeyPressed(Keys key)
+        {
+            KeyPress?.Invoke(this, new KeyboardEventArgs(KeyMapper.GetMap(key)));
+        }
+
+        public bool CheckKeyPressed(VirtualKeyCode key)
+        {
+            return Game.KeyboardState.IsKeyDown(KeyMapper.GetMap(key));
+        }
+
+        public event KeyboardEventHandler KeyPress;
     }
 }

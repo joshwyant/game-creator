@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Linq;
 using GameCreator.Engine;
 using SixLabors.ImageSharp.Advanced;
 using Image = SixLabors.ImageSharp.Image;
@@ -19,6 +20,17 @@ namespace TestGame
                 Height = height;
                 ImageData = imageData;
             }
+        }
+
+        public IImage[] LoadImages(params string[] fileNames)
+        {
+            return fileNames.Select(fileName =>
+            {
+                using (var fs = File.Open(fileName, FileMode.Open))
+                {
+                    return FromStream(fs);
+                }
+            }).ToArray();
         }
 
         public unsafe IImage FromStream(Stream s)

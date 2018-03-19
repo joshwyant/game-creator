@@ -76,46 +76,50 @@ namespace GameCreator.Engine
         public bool PerformEvent(GameInstance instance, EventType eventType, int eventNumber = 0)
         {
             var handled = true;
-            switch (eventType)
+
+            if (!instance.Destroyed || eventType == EventType.Destroy)
             {
-                case EventType.Create:
-                    OnCreate(instance, ref handled);
-                    break;
-                case EventType.Destroy:
-                    OnDestroy(instance, ref handled);
-                    break;
-                case EventType.Step:
-                    OnStep(instance, (StepKind)eventNumber, ref handled);
-                    break;
-                case EventType.Alarm:
-                    OnAlarm(instance, eventNumber, ref handled);
-                    break;
-                case EventType.Keyboard:
-                    OnKeyboard(instance, (VirtualKeyCode)eventNumber, ref handled);
-                    break;
-                case EventType.Mouse:
-                    OnMouse(instance, (MouseEventKind)eventNumber, ref handled);
-                    break;
-                case EventType.Collision:
-                    OnCollision(instance, Context.Objects[eventNumber], ref handled);
-                    break;
-                case EventType.Other:
-                    OnOtherEvent(instance, (OtherEventKind)eventNumber, ref handled);
-                    break;
-                case EventType.Draw:
-                    OnDraw(instance, ref handled);
-                    break;
-                case EventType.KeyPress:
-                    OnKeyPress(instance, (VirtualKeyCode)eventNumber, ref handled);
-                    break;
-                case EventType.KeyRelease:
-                    OnKeyRelease(instance, (VirtualKeyCode)eventNumber, ref handled);
-                    break;
-                case EventType.Trigger:
-                    OnTrigger(instance, Context.Triggers[eventNumber], ref handled);
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(eventType), eventType, null);
+                switch (eventType)
+                {
+                    case EventType.Create:
+                        OnCreate(instance, ref handled);
+                        break;
+                    case EventType.Destroy:
+                        OnDestroy(instance, ref handled);
+                        break;
+                    case EventType.Step:
+                        OnStep(instance, (StepKind) eventNumber, ref handled);
+                        break;
+                    case EventType.Alarm:
+                        OnAlarm(instance, eventNumber, ref handled);
+                        break;
+                    case EventType.Keyboard:
+                        OnKeyboard(instance, (VirtualKeyCode) eventNumber, ref handled);
+                        break;
+                    case EventType.Mouse:
+                        OnMouse(instance, (MouseEventKind) eventNumber, ref handled);
+                        break;
+                    case EventType.Collision:
+                        OnCollision(instance, Context.Objects[eventNumber], ref handled);
+                        break;
+                    case EventType.Other:
+                        OnOtherEvent(instance, (OtherEventKind) eventNumber, ref handled);
+                        break;
+                    case EventType.Draw:
+                        OnDraw(instance, ref handled);
+                        break;
+                    case EventType.KeyPress:
+                        OnKeyPress(instance, (VirtualKeyCode) eventNumber, ref handled);
+                        break;
+                    case EventType.KeyRelease:
+                        OnKeyRelease(instance, (VirtualKeyCode) eventNumber, ref handled);
+                        break;
+                    case EventType.Trigger:
+                        OnTrigger(instance, Context.Triggers[eventNumber], ref handled);
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException(nameof(eventType), eventType, null);
+                }
             }
             return handled;
         }

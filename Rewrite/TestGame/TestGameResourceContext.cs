@@ -1,44 +1,114 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Http.Headers;
+using GameCreator.Core;
 using GameCreator.Engine;
 
 namespace TestGame
 {
     public class TestGameResourceContext : IResourceContext
     {
-        class TestObject : GameObject
+        private static GameSprite PacmanSprite;
+        private static GameObject PacmanObject;
+        private static GameRoom MainRoom;
+        
+        private class TestObject : GameObject
         {
             internal TestObject(IGameContext context) : base(context)
             {
             }
 
-            public override GameSprite Sprite => Context.Sprites[0];
+            public override GameSprite Sprite => PacmanSprite;
 
             protected override void OnCreate(GameInstance instance, ref bool handled)
             {
-                instance.X = 400;
-                instance.Y = 300;
-                instance.ImageAlpha = 128;
-                instance.ImageBlend = 0x808080;
-                instance.ImageXScale = 1.5;
-                instance.ImageAngle = 45;
-                instance.Depth = -400;
+                Context.Start3dMode();
+                
+                instance.X = 64;
+                instance.Y = 64;
+                instance.ImageAlpha = 0.5;
+                instance.ImageSpeed = 0;
+            }
+
+            protected override void OnDraw(GameInstance instance, ref bool handled)
+            {
+                // How GM SHOULD project by default (default is yup 1, from -room_height, and corresponding angle).
+                // I think GM does it this way in order to use depth as z
+                Context.Graphics.SetProjection(
+                        Context.CurrentRoom.Width * 0.5f,
+                        Context.CurrentRoom.Height * 0.5f,
+                        Context.CurrentRoom.Height,
+                        Context.CurrentRoom.Width * 0.5f,
+                        Context.CurrentRoom.Height * 0.5f,
+                        0,
+                        0,
+                        -1,
+                        0,
+                        (float) (2*Math.Atan(0.5)),
+                        (float) Context.CurrentRoom.Width / Context.CurrentRoom.Height,
+                        1,
+                        32000
+                    );
+                
+                instance.DrawSprite();
+            }
+
+            protected override void OnKeyboard(GameInstance instance, VirtualKeyCode keyCode, ref bool handled)
+            {
+                switch (keyCode)
+                {
+                    case VirtualKeyCode.Left:
+                        instance.Speed = 5;
+                        instance.Direction = 180;
+                        instance.ImageAngle = 0;
+                        instance.ImageSpeed = 0.5;
+                        break;
+                    case VirtualKeyCode.Right:
+                        instance.Speed = 5;
+                        instance.Direction = 0;
+                        instance.ImageAngle = 180;
+                        instance.ImageSpeed = 0.5;
+                        break;
+                    case VirtualKeyCode.Up:
+                        instance.Speed = 5;
+                        instance.Direction = 90;
+                        instance.ImageAngle = 270;
+                        instance.ImageSpeed = 0.5;
+                        break;
+                    case VirtualKeyCode.Down:
+                        instance.Speed = 5;
+                        instance.Direction = 270;
+                        instance.ImageAngle = 90;
+                        instance.ImageSpeed = 0.5;
+                        break;
+                }
+            }
+
+            protected override void OnKeyRelease(GameInstance instance, VirtualKeyCode keyCode, ref bool handled)
+            {
+                switch (keyCode)
+                {
+                    case VirtualKeyCode.AnyKey:
+                        instance.Speed = 0;
+                        instance.ImageSpeed = 0;
+                        break;
+                }
             }
         }
 
-        class TestRoom : GameRoom
+        private class TestRoom : GameRoom
         {
             public TestRoom(IGameContext context) : base(context)
             {
-                BackgroundColor = 0xED9564;
+                BackgroundColor = 0xED9564; // Cornflower Blue
                 Width = 800;
                 Height = 600;
                 
                 PredefinedInstances = new[]
                 {
-                    new PredefinedInstance(context.Instances.GenerateId(), 64, 64, context.Objects[0])
+                    new PredefinedInstance(context.Instances.GenerateId(), 64, 64, PacmanObject)
                 };
             }
 
@@ -49,25 +119,26 @@ namespace TestGame
         public int NextObjectId => -1;
         public int NextInstanceId => -1;
         public int NextSpriteId => -1;
-
+        
         public IList<GameSprite> GetPredefinedSprites(IGameContext context)
         {
             var loader = new ImageLoader();
-            using (var fs = new FileStream("pacman.png", FileMode.Open))
+            
+            return new[]
             {
-                return new[]
-                {
-                    new GameSprite(context, 32, 32, 0, 0, new[] { loader.FromStream(fs) })
-                };
-                
-            }
+                PacmanSprite = new GameSprite(context, 32, 32, 16, 16, loader.LoadImages(
+                    "../TestGame/sprites/pacman/pacman1.png",
+                    "../TestGame/sprites/pacman/pacman2.png",
+                    "../TestGame/sprites/pacman/pacman3.png",
+                    "../TestGame/sprites/pacman/pacman2.png"))
+            };
         }
 
         public IList<GameObject> GetPredefinedObjects(IGameContext context)
         {
             return new[]
             {
-                new TestObject(context)
+                PacmanObject = new TestObject(context)
             };
         }
         
@@ -75,7 +146,7 @@ namespace TestGame
         {
             return new []
             {
-                new TestRoom(context) 
+                MainRoom = new TestRoom(context) 
             };
         }
 

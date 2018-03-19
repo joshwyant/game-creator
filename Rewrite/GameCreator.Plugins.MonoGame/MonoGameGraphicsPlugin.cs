@@ -50,16 +50,27 @@ namespace GameCreator.Plugins.MonoGame
         public void SetProjection(float xfrom, float yfrom, float zfrom, float xto, float yto, float zto, float xup, float yup,
             float zup, float angle, float aspect, float znear, float zfar)
         {
-            Game.BasicEffect.View = Matrix.CreateLookAt(
-                new Vector3(xfrom, yfrom, zfrom), 
-                new Vector3(xto, yto, zto), 
-                new Vector3(xup, yup, zup));
+            Game.BasicEffect.View = 
+                Matrix.CreateScale(1, 1, -1) // convert to left-handed
+                * Matrix.CreateLookAt(
+                    new Vector3(xfrom, yfrom, -zfrom), 
+                    new Vector3(xto, yto, -zto), 
+                    new Vector3(xup, yup, -zup));
             Game.BasicEffect.Projection = Matrix.CreatePerspectiveFieldOfView(angle, aspect, znear, zfar);
+        }
+
+        public void SetOrthographicProjection(float x, float y, float w, float h, float angle)
+        {
+            Game.BasicEffect.View =
+                Matrix.CreateScale(1, 1, -1); // convert to left-handed
+            
+            Game.BasicEffect.Projection =
+                Matrix.CreateOrthographicOffCenter(x, x + w, y + h, y, float.MinValue, float.MaxValue)
+                * Matrix.CreateRotationZ(angle * MathHelper.Pi / 180f);
         }
 
         private void WithDrawingSettings(Action draw)
         {
-            Game.GraphicsDevice.RasterizerState = Game.RasterizerState;
             foreach (var pass in Game.BasicEffect.CurrentTechnique.Passes)
             {
                 pass.Apply();
@@ -74,12 +85,11 @@ namespace GameCreator.Plugins.MonoGame
             Game.GraphicsDevice.Clear(new Color(r, g, b));
         }
 
-        public void DrawSprite(ITexture t, float x, float y, float z, float w, float h, float originx, float originy, 
-            float xscale, float yscale, float angle, int r, int g, int b, int a)
+        public void DrawSprite(ITexture t, float x, float y, float z, float w, float h, float originx, float originy, float xscale, float yscale, float angle, int r, int g, int b, float a)
         {
             var tex = (TextureWrapper) t;
 
-            var color = new Color(r, g, b, a);
+            var color = new Color(r / 255f, g / 255f, b / 255f, a);
 
             Game.BasicEffect.World = Matrix.CreateTranslation(-originx, -originy, 0)
                 * Matrix.CreateScale(xscale, yscale, 1)
@@ -91,11 +101,6 @@ namespace GameCreator.Plugins.MonoGame
             Game.BasicEffect.VertexColorEnabled = true;
             Game.BasicEffect.Texture = tex;
             
-            var prevRasterizerState = Game.RasterizerState;
-            Game.GraphicsDevice.RasterizerState = new RasterizerState
-            {
-                CullMode = CullMode.None
-            };
 
             var vertices = new[]
             {
@@ -108,14 +113,14 @@ namespace GameCreator.Plugins.MonoGame
                 new VertexPositionColorTexture
                 {
                     Color = color,
-                    Position = new Vector3(w, 0, z),
-                    TextureCoordinate = new Vector2(1, 0)
+                    Position = new Vector3(w, h, z),
+                    TextureCoordinate = new Vector2(1, 1)
                 },
                 new VertexPositionColorTexture
                 {
                     Color = color,
-                    Position = new Vector3(w, h, z),
-                    TextureCoordinate = new Vector2(1, 1)
+                    Position = new Vector3(w, 0, z),
+                    TextureCoordinate = new Vector2(1, 0)
                 },
                 
                 new VertexPositionColorTexture
@@ -127,15 +132,21 @@ namespace GameCreator.Plugins.MonoGame
                 new VertexPositionColorTexture
                 {
                     Color = color,
-                    Position = new Vector3(w, h, z),
-                    TextureCoordinate = new Vector2(1, 1)
+                    Position = new Vector3(0, h, z),
+                    TextureCoordinate = new Vector2(0, 1)
                 },
                 new VertexPositionColorTexture
                 {
                     Color = color,
-                    Position = new Vector3(0, h, z),
-                    TextureCoordinate = new Vector2(0, 1)
+                    Position = new Vector3(w, h, z),
+                    TextureCoordinate = new Vector2(1, 1)
                 },
+            };
+            
+            var prevRasterizerState = Game.GraphicsDevice.RasterizerState;
+            Game.GraphicsDevice.RasterizerState = new RasterizerState
+            {
+                CullMode = CullMode.None
             };
             
             WithDrawingSettings(() =>
@@ -144,6 +155,13 @@ namespace GameCreator.Plugins.MonoGame
             });
 
             Game.GraphicsDevice.RasterizerState = prevRasterizerState;
+        }
+
+        public bool DepthStencilEnable
+        {
+            get => Game.GraphicsDevice.DepthStencilState != DepthStencilState.None;
+            set => Game.GraphicsDevice.DepthStencilState = 
+                value ? DepthStencilState.Default : DepthStencilState.None;
         }
     }
 }
