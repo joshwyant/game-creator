@@ -8,6 +8,6 @@ flib.FunctionLibrary.BasicFunctions.Functions = {
     }
 };
 
-flib.FunctionLibrary.BasicFunctions.Constants = {}
+flib.FunctionLibrary.BasicFunctions.Constants = {
     c_red: 0x0000FF
 };

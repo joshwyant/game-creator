@@ -291,7 +291,7 @@ exports.Lexer = (function() {
                     while (digit.test(peek) || (peek >= 'a' && peek <= 'f') || (peek >= 'A' && peek <= 'F'))
                     {
                         var hex = "0123456789ABCDEF"
-                        d = d * 16 + hex.indexOf(peek.toUpperCase);
+                        d = d * 16 + hex.indexOf(peek.toUpperCase());
                         peek = readch();
                     }
                     return new Real(d, self.line, self.tokencol);
