@@ -91,6 +91,7 @@ namespace GameCreator.Engine
                 PerformEvent(EventType.Destroy);
             }
             AssignedObject = assignedObject;
+            assignedObject.InitializeInstance(this);
             if (performEvents)
             {
                 PerformEvent(EventType.Create);

@@ -10,19 +10,32 @@ namespace GameCreator.Engine
         public int Id { get; set; } = -1;
         public double Depth { get; set; }
         public abstract GameSprite Sprite { get; }
+        public bool Solid { get; protected set; }
+        public bool Persistent { get; protected set; }
         
         protected internal GameObject(GameContext context)
         {
             Context = context;
         }
 
+        /// <summary>
+        /// Used when an instance is created, or changed to another object.
+        /// </summary>
         public void InitializeInstance(GameInstance instance)
         {
             if (Sprite != null)
             {
                 instance.SpriteIndex = Sprite.Id;
             }
+
+            instance.Solid = Solid;
             instance.Depth = Depth;
+            instance.Persistent = Persistent || instance.Persistent;
+            instance.ImageIndex = 0;
+            instance.ImageSingle = -1;
+            instance.ImageAlpha = 1.0;
+            instance.ImageAngle = 0;
+            instance.ImageBlend = 0xFFFFFF;
         }
 
         protected virtual void OnCreate(GameInstance instance, ref bool handled)

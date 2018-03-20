@@ -12,8 +12,12 @@ namespace TestGame
     {
         private static GameSprite PacmanSprite;
         private static GameSprite WallSprite;
+        private static GameSprite CircleSprite;
+        private static GameSprite DiamondSprite;
         private static GameObject PacmanObject;
         private static GameObject WallObject;
+        private static GameObject CircleObject;
+        private static GameObject DiamondObject;
         private static GameRoom MainRoom;
 
         private class WallImage : IImage
@@ -21,12 +25,19 @@ namespace TestGame
             public int Width { get; } = 32;
             public int Height { get; } = 32;
             // Generate a black square
-            public uint[] ImageData { get; } = GenerateDiamond();
+            public uint[] ImageData { get; } = GenerateSquare();
 
             private static uint[] GenerateSquare()
             {
                 return Enumerable.Repeat(0xFF000000, 32 * 32).ToArray();
             }
+        }
+        private class CircleImage : IImage
+        {
+            public int Width { get; } = 32;
+            public int Height { get; } = 32;
+            // Generate a black square
+            public uint[] ImageData { get; } = GenerateCircle();
 
             private static uint[] GenerateCircle()
             {
@@ -42,6 +53,13 @@ namespace TestGame
 
                 return data;
             }
+        }
+        private class DiamondImage : IImage
+        {
+            public int Width { get; } = 32;
+            public int Height { get; } = 32;
+            // Generate a black square
+            public uint[] ImageData { get; } = GenerateDiamond();
 
             private static uint[] GenerateDiamond()
             {
@@ -75,16 +93,17 @@ namespace TestGame
                 instance.Y = 64;
                 instance.ImageAlpha = 0.5;
                 instance.ImageSpeed = 0;
-                instance.ImageXScale = 2;
-                instance.ImageAngle = 15;
             }
 
             private Random r = new Random();
             protected override void OnCollision(GameInstance instance, GameObject other, ref bool handled)
             {
-                if (other.Id == WallObject.Id)
+                if (other.Id == WallObject.Id 
+                    || other.Id == CircleObject.Id 
+                    || other.Id == DiamondObject.Id)
                 {
-                    instance.ImageBlend = (uint) r.Next(0xFFFFFF);
+                    Context.Library.CollisionFunctions.MoveContactPosition(instance, true);
+                    instance.Speed = 0;
                 }
             }
 
@@ -118,25 +137,25 @@ namespace TestGame
                     case VirtualKeyCode.Left:
                         instance.HSpeed = -5;
                         instance.VSpeed = 0;
-                        instance.ImageAngle = 0+15;
+                        instance.ImageAngle = 0;
                         instance.ImageSpeed = 0.5;
                         break;
                     case VirtualKeyCode.Right:
                         instance.HSpeed = 5;
                         instance.VSpeed = 0;
-                        instance.ImageAngle = 180+15;
+                        instance.ImageAngle = 180;
                         instance.ImageSpeed = 0.5;
                         break;
                     case VirtualKeyCode.Up:
                         instance.HSpeed = 0;
                         instance.VSpeed = -5;
-                        instance.ImageAngle = 270+15;
+                        instance.ImageAngle = 270;
                         instance.ImageSpeed = 0.5;
                         break;
                     case VirtualKeyCode.Down:
                         instance.HSpeed = 0;
                         instance.VSpeed = 5;
-                        instance.ImageAngle = 90+15;
+                        instance.ImageAngle = 90;
                         instance.ImageSpeed = 0.5;
                         break;
                 }
@@ -158,9 +177,51 @@ namespace TestGame
         {
             internal WallObjectClass(GameContext context) : base(context)
             {
+                Solid = true;
             }
 
             public override GameSprite Sprite => WallSprite;
+
+            protected override void OnStep(GameInstance instance, StepKind stepKind, ref bool handled)
+            {
+                if (stepKind == StepKind.Normal)
+                {
+                    // Don't do this
+                    // instance.ImageAngle += 3;
+                }
+            }
+        }
+
+        private class CircleObjectClass : GameObject
+        {
+            internal CircleObjectClass(GameContext context) : base(context)
+            {
+                Solid = true;
+            }
+
+            public override GameSprite Sprite => CircleSprite;
+
+            protected override void OnCreate(GameInstance instance, ref bool handled)
+            {
+                instance.ImageXScale = 2;
+                instance.ImageYScale = 2;
+            }
+        }
+
+        private class DiamondObjectClass : GameObject
+        {
+            internal DiamondObjectClass(GameContext context) : base(context)
+            {
+                Solid = true;
+            }
+
+            public override GameSprite Sprite => DiamondSprite;
+
+            protected override void OnCreate(GameInstance instance, ref bool handled)
+            {
+                instance.ImageXScale = 2;
+                instance.ImageYScale = 2;
+            }
         }
 
         private class TestRoom : GameRoom
@@ -186,6 +247,10 @@ namespace TestGame
                     instances.Add(new PredefinedInstance(context.Instances.GenerateId(), 0, 32 + i*32, WallObject));
                     instances.Add(new PredefinedInstance(context.Instances.GenerateId(), 608, 32 + i*32, WallObject));
                 }
+                
+                // Add random objects
+                instances.Add(new PredefinedInstance(context.Instances.GenerateId(), 224, 240, DiamondObject));
+                instances.Add(new PredefinedInstance(context.Instances.GenerateId(), 416, 240, CircleObject));
                 
                 // Add pacman
                 instances.Add(new PredefinedInstance(context.Instances.GenerateId(), 64, 64, PacmanObject));
@@ -215,6 +280,12 @@ namespace TestGame
                     CollisionMaskFunction.Precise, true, 0, false),
                 
                 WallSprite = new GameSprite(context, 32, 32, 0, 0, new[] { new WallImage() }, 
+                    CollisionMaskFunction.Precise, true, 0, true),
+                
+                CircleSprite = new GameSprite(context, 32, 32, 16, 16, new[] { new CircleImage() }, 
+                    CollisionMaskFunction.Precise, true, 0, true),
+                
+                DiamondSprite = new GameSprite(context, 32, 32, 16, 16, new[] { new DiamondImage() }, 
                     CollisionMaskFunction.Precise, true, 0, true)
             };
         }
@@ -224,7 +295,9 @@ namespace TestGame
             return new[]
             {
                 PacmanObject = new PacmanObjectClass(context),
-                WallObject = new WallObjectClass(context)
+                WallObject = new WallObjectClass(context),
+                CircleObject = new CircleObjectClass(context),
+                DiamondObject = new DiamondObjectClass(context)
             };
         }
         

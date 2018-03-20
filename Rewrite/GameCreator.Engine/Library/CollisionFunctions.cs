@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using GameCreator.Engine.Common;
 
 namespace GameCreator.Engine.Library
 {
@@ -108,6 +109,64 @@ namespace GameCreator.Engine.Library
                     }
                 }
             }
+        }
+
+        public IEnumerable<GameInstance> GetCollisions(GameInstance i, IEnumerable<GameInstance> instances, 
+            bool onlySolid)
+        {
+            if (i.Sprite == null) yield break;
+
+            foreach (var other in instances)
+            {
+                if (other.Id == i.Id) continue;
+                if (other.Sprite == null) continue; // Can change, so check again
+                if (onlySolid && !other.Solid) continue;
+
+                var transform1 = GetSpriteTransform(i);
+                var transform2 = GetSpriteTransform(other);
+
+                if (CheckSpriteCollision(i.Sprite, i.ComputeSubimage(), transform1, other.Sprite, 
+                    other.ComputeSubimage(), transform2))
+                {
+                    yield return other;
+                }
+            }
+        }
+
+        public void MoveContactPosition(GameInstance i, bool onlySolid)
+        {
+            if (i.Speed == 0)
+                return;
+            
+            var targetX = i.X;
+            var targetY = i.Y;
+            var newx = i.XPrevious;
+            var newy = i.YPrevious;
+            var xdiff = i.X - i.XPrevious;
+            var ydiff = i.Y - i.YPrevious;
+            var speed = Math.Sqrt(xdiff * xdiff + ydiff * ydiff);
+            var invSpeed = 1.0 / speed;
+            var xstep = xdiff * invSpeed;
+            var ystep = ydiff * invSpeed;
+
+            for (var j = 0; j < (int) speed; j++)
+            {
+                var prevx = newx;
+                var prevy = newy;
+                newx = prevx + xstep;
+                newy = prevy + ystep;
+                i.X = newx;
+                i.Y = newy;
+                if (GetCollisions(i, Context.PresortedInstances, onlySolid).Any())
+                {
+                    i.X = prevx;
+                    i.Y = prevy;
+                    return;
+                }
+            }
+
+            i.X = targetX;
+            i.Y = targetY;
         }
     }
 }
