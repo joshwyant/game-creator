@@ -5,6 +5,7 @@ using System.Linq;
 using GameCreator.Engine;
 using GameCreator.Engine.Api;
 using GameCreator.Engine.Common;
+using SixLabors.ImageSharp;
 
 namespace TestGame
 {
@@ -89,8 +90,9 @@ namespace TestGame
             {
                 Context.Start3dMode();
                 
-                instance.X = 64;
-                instance.Y = 64;
+                instance.X = 128;
+                instance.Y = 128;
+                instance.ImageXScale = instance.ImageYScale = 3;
                 instance.ImageAlpha = 0.5;
                 instance.ImageSpeed = 0;
             }
@@ -102,7 +104,11 @@ namespace TestGame
                     || other.Id == CircleObject.Id 
                     || other.Id == DiamondObject.Id)
                 {
-                    Context.Library.CollisionFunctions.MoveContactPosition(instance, true);
+                    if (!Context.Input.CheckKeyPressed(VirtualKeyCode.LShift))
+                    {
+                        Context.Library.CollisionFunctions.MoveContactPosition(instance, true);
+                    }
+
                     instance.Speed = 0;
                 }
             }
@@ -277,7 +283,7 @@ namespace TestGame
                     "../TestGame/sprites/pacman/pacman2.png",
                     "../TestGame/sprites/pacman/pacman3.png",
                     "../TestGame/sprites/pacman/pacman2.png"),
-                    CollisionMaskFunction.Precise, true, 0, false),
+                    CollisionMaskFunction.Precise, true, 0, true),
                 
                 WallSprite = new GameSprite(context, 32, 32, 0, 0, new[] { new WallImage() }, 
                     CollisionMaskFunction.Precise, true, 0, true),
