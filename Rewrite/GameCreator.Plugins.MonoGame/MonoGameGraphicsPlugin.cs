@@ -1,5 +1,6 @@
 ﻿using System;
 using GameCreator.Engine;
+using GameCreator.Engine.Api;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -90,14 +91,14 @@ namespace GameCreator.Plugins.MonoGame
             color = new Color(c) {A = (byte) (alpha * 255f)};
         }
         
-        private void makeTexCoord(GameSprite s, float x, float y, out Vector2 texCoord)
+        private void makeTexCoord(IGameSprite s, float x, float y, out Vector2 texCoord)
         {
             texCoord = default(Vector2);
             texCoord.X = x / s.Width;
             texCoord.Y = y / s.Height;
         }
         
-        public void DrawSprite(GameSprite s, int subimg, float left, float top, float w, float h, float x, float y,
+        public void DrawSprite(IGameSprite s, int subimg, float left, float top, float w, float h, float x, float y,
             float xscale, float yscale, float angle, uint c1, uint c2, uint c3, uint c4, float a)
         {
             var tex = (TextureWrapper) s.Textures[subimg];

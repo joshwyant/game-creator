@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using GameCreator.Runtime.Api;
 
 namespace GameCreator.Engine
 {
-    public class IndexedResourceManager<T> : IEnumerable<T> where T : IIndexedResource
+    public class IndexedResourceManager<T> : IIndexedResourceManager<T> where T : IIndexedResource
     {
         private readonly SortedDictionary<int, T> instances = new SortedDictionary<int, T>();
         private int nextIndex;

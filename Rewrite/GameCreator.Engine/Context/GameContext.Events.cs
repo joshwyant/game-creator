@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using GameCreator.Core;
+using GameCreator.Engine.Api;
+using GameCreator.Engine.Common;
 
 namespace GameCreator.Engine
 {

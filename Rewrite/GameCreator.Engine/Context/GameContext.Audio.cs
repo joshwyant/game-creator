@@ -1,4 +1,6 @@
-﻿namespace GameCreator.Engine
+﻿using GameCreator.Engine.Api;
+
+namespace GameCreator.Engine
 {
     public abstract partial class GameContext
     {

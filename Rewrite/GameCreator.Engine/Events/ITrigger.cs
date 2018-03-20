@@ -1,4 +1,6 @@
-﻿namespace GameCreator.Engine
+﻿using GameCreator.Runtime.Api;
+
+namespace GameCreator.Engine
 {
     public interface ITrigger : IIndexedResource
     {

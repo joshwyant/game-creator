@@ -1,8 +1,10 @@
-﻿namespace GameCreator.Engine
+﻿using GameCreator.Runtime.Api;
+
+namespace GameCreator.Engine
 {
     public abstract partial class GameContext
     {
-        public IndexedResourceManager<GameInstance> Instances { get; }
+        public IIndexedResourceManager<IInstance> Instances { get; }
 
         public GameInstance CreateInstance(double x, double y, GameObject assignedObject)
         {

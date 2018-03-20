@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using GameCreator.Core;
+using GameCreator.Engine.Common;
 using Microsoft.Xna.Framework.Input;
 
 namespace GameCreator.Plugins.MonoGame

@@ -6,6 +6,8 @@
     <PackageReference Include="Ninject" Version="3.3.4" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\GameCreator.Engine.Api\GameCreator.Engine.Api.csproj" />
     <ProjectReference Include="..\GameCreator.Engine.Common\GameCreator.Engine.Common.csproj" />
+    <ProjectReference Include="..\GameCreator.Runtime.Api\GameCreator.Runtime.Api.csproj" />
   </ItemGroup>
 </Project>

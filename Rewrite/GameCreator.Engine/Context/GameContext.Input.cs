@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
-using GameCreator.Core;
+using GameCreator.Engine.Api;
+using GameCreator.Engine.Common;
 
 namespace GameCreator.Engine
 {

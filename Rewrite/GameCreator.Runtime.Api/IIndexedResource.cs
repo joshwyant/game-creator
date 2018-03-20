@@ -1,8 +1,7 @@
-﻿namespace GameCreator.Engine
+﻿namespace GameCreator.Runtime.Api
 {
     public interface IIndexedResource
     {
-        GameContext Context { get; }
         int Id { get; set; }
     }
 }

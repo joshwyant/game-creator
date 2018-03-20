@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using System.Linq;
 using GameCreator.Engine;
+using GameCreator.Engine.Api;
 using SixLabors.ImageSharp.Advanced;
 using Image = SixLabors.ImageSharp.Image;
 

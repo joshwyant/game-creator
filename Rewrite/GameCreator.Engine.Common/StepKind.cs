@@ -1,4 +1,4 @@
-﻿namespace GameCreator.Core
+﻿namespace GameCreator.Engine.Common
 {
     public enum StepKind
     {

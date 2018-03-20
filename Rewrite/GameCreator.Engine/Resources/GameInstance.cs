@@ -1,12 +1,13 @@
 ﻿using System;
-using GameCreator.Core;
+using GameCreator.Engine.Common;
+using GameCreator.Runtime.Api;
 
 namespace GameCreator.Engine
 {
-    public sealed class GameInstance : IInstanceVars, IIndexedResource
+    public sealed class GameInstance : IInstanceVars, IInstance
     {
         private double _direction, _speed, _hspeed, _vspeed;
-        
+
         public GameContext Context { get; }
         public int Id { get; set; } = -1;
         public int InstanceId => Id;

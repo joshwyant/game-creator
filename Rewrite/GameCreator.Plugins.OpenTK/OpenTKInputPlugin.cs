@@ -1,5 +1,6 @@
-﻿using GameCreator.Core;
-using GameCreator.Engine;
+﻿using GameCreator.Engine;
+using GameCreator.Engine.Api;
+using GameCreator.Engine.Common;
 using OpenTK.Input;
 
 namespace GameCreator.Plugins.OpenTK

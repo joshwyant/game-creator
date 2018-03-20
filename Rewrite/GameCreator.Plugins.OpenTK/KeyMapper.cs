@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using GameCreator.Core;
+using GameCreator.Engine.Common;
 using OpenTK.Input;
 
 namespace GameCreator.Plugins.OpenTK

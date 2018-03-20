@@ -1,7 +1,6 @@
-﻿using System.Collections.Generic;
-using GameCreator.Core;
+﻿using GameCreator.Engine.Common;
 
-namespace GameCreator.Engine
+namespace GameCreator.Engine.Api
 {
     public interface IInputPlugin
     {

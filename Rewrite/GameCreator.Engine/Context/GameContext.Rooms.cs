@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using GameCreator.Core;
+using GameCreator.Engine.Common;
 
 namespace GameCreator.Engine
 {
@@ -23,6 +23,7 @@ namespace GameCreator.Engine
                 return new List<GameInstance>();
 
             return Instances
+                .Cast<GameInstance>()
                 .Where(i => CurrentRoom.CreatedInstances.Contains(i.Id))
                 .OrderBy(i => i.Depth)
                 .ThenBy(i => i.Id)

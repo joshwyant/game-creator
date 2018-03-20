@@ -1,5 +1,6 @@
 ﻿using System;
-using GameCreator.Core;
+using GameCreator.Engine.Common;
+using GameCreator.Runtime.Api;
 
 namespace GameCreator.Engine
 {

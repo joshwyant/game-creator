@@ -1,7 +1,7 @@
 ﻿using System;
-using GameCreator.Core;
+using GameCreator.Engine.Common;
 
-namespace GameCreator.Engine
+namespace GameCreator.Engine.Api
 {
     public delegate void KeyboardEventHandler (object sender, KeyboardEventArgs e);
     

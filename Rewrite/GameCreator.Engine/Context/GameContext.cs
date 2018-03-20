@@ -1,9 +1,11 @@
 ﻿using System.Linq;
+using GameCreator.Engine.Api;
 using GameCreator.Engine.Library;
+using GameCreator.Runtime.Api;
 
 namespace GameCreator.Engine
 {
-    public abstract partial class GameContext
+    public abstract partial class GameContext : IGameContext
     {
         public StandardLibrary Library { get; }
 
@@ -21,7 +23,7 @@ namespace GameCreator.Engine
             var objects = predefinedResources.GetPredefinedObjects(this);
             Objects = new IndexedResourceManager<GameObject>(objects);
             
-            Instances = new IndexedResourceManager<GameInstance>(100001);
+            Instances = new IndexedResourceManager<IInstance>(100001);
             
             var rooms = predefinedResources.GetPredefinedRooms(this);
             Rooms = new IndexedResourceManager<GameRoom>(rooms);

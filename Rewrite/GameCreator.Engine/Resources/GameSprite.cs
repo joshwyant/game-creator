@@ -1,6 +1,9 @@
-﻿namespace GameCreator.Engine
+﻿using GameCreator.Engine.Api;
+using GameCreator.Runtime.Api;
+
+namespace GameCreator.Engine
 {
-    public class GameSprite : IIndexedResource
+    public class GameSprite : IGameSprite
     {
         public GameContext Context { get; }
         public int Id { get; set; } = -1;
