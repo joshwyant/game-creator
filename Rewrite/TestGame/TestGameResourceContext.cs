@@ -75,6 +75,8 @@ namespace TestGame
                 instance.Y = 64;
                 instance.ImageAlpha = 0.5;
                 instance.ImageSpeed = 0;
+                instance.ImageXScale = 2;
+                instance.ImageAngle = 15;
             }
 
             private Random r = new Random();
@@ -116,25 +118,25 @@ namespace TestGame
                     case VirtualKeyCode.Left:
                         instance.HSpeed = -5;
                         instance.VSpeed = 0;
-                        instance.ImageAngle = 0;
+                        instance.ImageAngle = 0+15;
                         instance.ImageSpeed = 0.5;
                         break;
                     case VirtualKeyCode.Right:
                         instance.HSpeed = 5;
                         instance.VSpeed = 0;
-                        instance.ImageAngle = 180;
+                        instance.ImageAngle = 180+15;
                         instance.ImageSpeed = 0.5;
                         break;
                     case VirtualKeyCode.Up:
                         instance.HSpeed = 0;
                         instance.VSpeed = -5;
-                        instance.ImageAngle = 270;
+                        instance.ImageAngle = 270+15;
                         instance.ImageSpeed = 0.5;
                         break;
                     case VirtualKeyCode.Down:
                         instance.HSpeed = 0;
                         instance.VSpeed = 5;
-                        instance.ImageAngle = 90;
+                        instance.ImageAngle = 90+15;
                         instance.ImageSpeed = 0.5;
                         break;
                 }

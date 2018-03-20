@@ -23,7 +23,7 @@ namespace GameCreator.Engine.Library
             if (i.ImageXScale != 1f || i.ImageYScale != 1f)
                 m *= Matrix3x2.CreateScale((float) i.ImageXScale, (float) i.ImageYScale);
             if (i.ImageAngle != 0f)
-                m *= Matrix3x2.CreateRotation((float) (i.ImageAngle * Math.PI / 180));
+                m *= Matrix3x2.CreateRotation((float) (-i.ImageAngle * Math.PI / 180));
             m *= Matrix3x2.CreateTranslation((float) i.X, (float) i.Y);
             // Todo: Transform by a world matrix in the graphics context
             return m;
