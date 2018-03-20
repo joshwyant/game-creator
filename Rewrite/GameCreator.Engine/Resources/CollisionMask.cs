@@ -110,7 +110,7 @@ namespace GameCreator.Engine
             var centery = Top + halfh;
             var newx = (x - centerx) / halfw;
             var newy = (y - centery) / halfh;
-            return Math.Abs(newx+newy) < 1.0;
+            return Math.Abs(newx)+Math.Abs(newy) < 1.0;
         }
 
         private bool HitTestRectangle(int x, int y)
