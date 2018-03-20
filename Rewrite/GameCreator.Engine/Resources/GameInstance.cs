@@ -158,15 +158,15 @@ namespace GameCreator.Engine
             UpdateHSpeedVSpeed();
         }
 
+        public int ComputeSubimage() => (int) Math.Floor(ImageIndex) % Sprite.SubImages.Length;
+        
         public void DrawSprite()
         {
             if (Context.Sprites.ContainsKey(SpriteIndex))
             {
-                var subImage = (int) Math.Floor(ImageIndex) % Sprite.SubImages.Length;
-                
                 Context.Library.DrawingFunctions.DrawSprite(
                     Sprite,
-                    subImage,
+                    ComputeSubimage(),
                     (float) X,
                     (float) Y,
                     (float) ImageXScale,

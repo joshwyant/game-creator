@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
+using System.Linq;
 using GameCreator.Engine;
+using GameCreator.Engine.Api;
 using GameCreator.Engine.Common;
 
 namespace TestGame
@@ -8,12 +11,57 @@ namespace TestGame
     public class TestGameResourceContext : IResourceContext
     {
         private static GameSprite PacmanSprite;
+        private static GameSprite WallSprite;
         private static GameObject PacmanObject;
+        private static GameObject WallObject;
         private static GameRoom MainRoom;
-        
-        private class TestObject : GameObject
+
+        private class WallImage : IImage
         {
-            internal TestObject(GameContext context) : base(context)
+            public int Width { get; } = 32;
+            public int Height { get; } = 32;
+            // Generate a black square
+            public uint[] ImageData { get; } = GenerateDiamond();
+
+            private static uint[] GenerateSquare()
+            {
+                return Enumerable.Repeat(0xFF000000, 32 * 32).ToArray();
+            }
+
+            private static uint[] GenerateCircle()
+            {
+                var data = new uint[32*32];
+                
+                for (var i = 0; i < 32 * 32; i++)
+                {
+                    var x = (i % 32 - 16) / 16f;
+                    var y = (i / 32 - 16) / 16f;
+
+                    data[i] = x * x + y * y < 1f ? 0xFF000000 : 0;
+                }
+
+                return data;
+            }
+
+            private static uint[] GenerateDiamond()
+            {
+                var data = new uint[32*32];
+                
+                for (var i = 0; i < 32 * 32; i++)
+                {
+                    var x = (i % 32 - 16) / 16f;
+                    var y = (i / 32 - 16) / 16f;
+
+                    data[i] = Math.Abs(x) + Math.Abs(y) < 1f ? 0xFF000000 : 0;
+                }
+
+                return data;
+            }
+        }
+        
+        private class PacmanObjectClass : GameObject
+        {
+            internal PacmanObjectClass(GameContext context) : base(context)
             {
             }
 
@@ -27,6 +75,15 @@ namespace TestGame
                 instance.Y = 64;
                 instance.ImageAlpha = 0.5;
                 instance.ImageSpeed = 0;
+            }
+
+            private Random r = new Random();
+            protected override void OnCollision(GameInstance instance, GameObject other, ref bool handled)
+            {
+                if (other.Id == WallObject.Id)
+                {
+                    instance.ImageBlend = (uint) r.Next(0xFFFFFF);
+                }
             }
 
             protected override void OnDraw(GameInstance instance, ref bool handled)
@@ -57,22 +114,26 @@ namespace TestGame
                 switch (keyCode)
                 {
                     case VirtualKeyCode.Left:
-                        instance.X -= 5;
+                        instance.HSpeed = -5;
+                        instance.VSpeed = 0;
                         instance.ImageAngle = 0;
                         instance.ImageSpeed = 0.5;
                         break;
                     case VirtualKeyCode.Right:
-                        instance.X += 5;
+                        instance.HSpeed = 5;
+                        instance.VSpeed = 0;
                         instance.ImageAngle = 180;
                         instance.ImageSpeed = 0.5;
                         break;
                     case VirtualKeyCode.Up:
-                        instance.Y -= 5;
+                        instance.HSpeed = 0;
+                        instance.VSpeed = -5;
                         instance.ImageAngle = 270;
                         instance.ImageSpeed = 0.5;
                         break;
                     case VirtualKeyCode.Down:
-                        instance.Y += 5;
+                        instance.HSpeed = 0;
+                        instance.VSpeed = 5;
                         instance.ImageAngle = 90;
                         instance.ImageSpeed = 0.5;
                         break;
@@ -91,18 +152,43 @@ namespace TestGame
             }
         }
 
+        private class WallObjectClass : GameObject
+        {
+            internal WallObjectClass(GameContext context) : base(context)
+            {
+            }
+
+            public override GameSprite Sprite => WallSprite;
+        }
+
         private class TestRoom : GameRoom
         {
             public TestRoom(GameContext context) : base(context)
             {
                 BackgroundColor = 0x303030;// 0xED9564; // Cornflower Blue
-                Width = 800;
-                Height = 600;
-                
-                PredefinedInstances = new[]
+                Width = 640;
+                Height = 480;
+
+                var instances = new List<PredefinedInstance>();
+
+                // Add horizontal walls
+                for (var i = 0; i < 20; i++)
                 {
-                    new PredefinedInstance(context.Instances.GenerateId(), 64, 64, PacmanObject)
-                };
+                    instances.Add(new PredefinedInstance(context.Instances.GenerateId(), i*32, 0, WallObject));
+                    instances.Add(new PredefinedInstance(context.Instances.GenerateId(), i*32, 448, WallObject));
+                }
+
+                // Add vertical walls
+                for (var i = 0; i < 13; i++)
+                {   
+                    instances.Add(new PredefinedInstance(context.Instances.GenerateId(), 0, 32 + i*32, WallObject));
+                    instances.Add(new PredefinedInstance(context.Instances.GenerateId(), 608, 32 + i*32, WallObject));
+                }
+                
+                // Add pacman
+                instances.Add(new PredefinedInstance(context.Instances.GenerateId(), 64, 64, PacmanObject));
+
+                PredefinedInstances = instances.ToArray();
             }
 
             public override IList<PredefinedInstance> PredefinedInstances { get; }
@@ -124,7 +210,10 @@ namespace TestGame
                     "../TestGame/sprites/pacman/pacman2.png",
                     "../TestGame/sprites/pacman/pacman3.png",
                     "../TestGame/sprites/pacman/pacman2.png"),
-                    CollisionMaskFunction.Rectangle, true, 0, false)
+                    CollisionMaskFunction.Precise, true, 0, false),
+                
+                WallSprite = new GameSprite(context, 32, 32, 0, 0, new[] { new WallImage() }, 
+                    CollisionMaskFunction.Precise, true, 0, true)
             };
         }
 
@@ -132,7 +221,8 @@ namespace TestGame
         {
             return new[]
             {
-                PacmanObject = new TestObject(context)
+                PacmanObject = new PacmanObjectClass(context),
+                WallObject = new WallObjectClass(context)
             };
         }
         

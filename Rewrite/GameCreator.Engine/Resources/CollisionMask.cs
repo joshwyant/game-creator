@@ -36,9 +36,9 @@ namespace GameCreator.Engine
             {
                 for (var i = 0; i < w * h; i++)
                 {
-                    var x = Left + i % w;
-                    var y = Top + i / w;
-                    var ptr = y * image.Width + x;
+                    var x = i % w;
+                    var y = i / w;
+                    var ptr = (Top + y) * image.Width + (Left + x);
 
                     var alpha = (image.ImageData[ptr] & 0xFF000000) >> 24;
 

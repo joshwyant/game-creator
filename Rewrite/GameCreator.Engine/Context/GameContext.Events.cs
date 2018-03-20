@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using GameCreator.Engine.Api;
 using GameCreator.Engine.Common;
+using GameCreator.Engine.Library;
 
 namespace GameCreator.Engine
 {
@@ -109,6 +110,40 @@ namespace GameCreator.Engine
             // Process step events
             ForInstances(i => i.PerformEvent(EventType.Step, (int) StepKind.Normal));
             
+            // Process collision events
+            // TODO: Reorder and refine based on actual logic
+            //    (if instances are created during the loop, are they checked for collisions?)
+            {
+                var remainingCollisionInstances = new SortedDictionary<int, GameInstance>();
+                PresortedInstances.ForEach(i => remainingCollisionInstances.Add(i.Id, i));
+                
+                ForInstances(i =>
+                {
+                    remainingCollisionInstances.Remove(i.Id);
+
+                    if (i.Sprite == null) return;
+
+                    foreach (var other in remainingCollisionInstances.Values)
+                    {
+                        if (other.Sprite == null) continue; // Can change, so check again
+
+                        var transform1 = Library.CollisionFunctions.GetSpriteTransform(i);
+                        var transform2 = Library.CollisionFunctions.GetSpriteTransform(other);
+
+                        if (Library.CollisionFunctions.CheckSpriteCollision(i.Sprite, i.ComputeSubimage(), transform1,
+                            other.Sprite, other.ComputeSubimage(), transform2))
+                        {
+                            // Generate collision events in both instances
+                            OtherInstance = other;
+                            i.PerformEvent(EventType.Collision, other.ObjectIndex);
+                            OtherInstance = i;
+                            other.PerformEvent(EventType.Collision, i.ObjectIndex);
+                            OtherInstance = null;
+                        }
+                    }
+                });
+            }
+
             // Set instances to their new positions
             ForInstances(i =>
             {

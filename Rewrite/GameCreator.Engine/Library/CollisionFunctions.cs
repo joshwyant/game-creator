@@ -15,15 +15,16 @@ namespace GameCreator.Engine.Library
             Context = context;
         }
         
-        public Matrix3x2 GetSpriteTransform(GameSprite sprite, float angle, float xscale, float yscale, float x, 
-            float y)
+        public Matrix3x2 GetSpriteTransform(GameInstance i)
         {
-            var m = Matrix3x2.CreateTranslation(-sprite.XOrigin, -sprite.YOrigin);
-            if (xscale != 1f || yscale != 1f)
-                m *= Matrix3x2.CreateScale(xscale, yscale);
-            if (angle != 0f)
-                m *= Matrix3x2.CreateRotation((float) (angle * Math.PI / 180));
-            m *= Matrix3x2.CreateTranslation(x, y);
+            if (i.Sprite == null) return Matrix3x2.Identity;;
+            
+            var m = Matrix3x2.CreateTranslation(-i.Sprite.XOrigin, -i.Sprite.YOrigin);
+            if (i.ImageXScale != 1f || i.ImageYScale != 1f)
+                m *= Matrix3x2.CreateScale((float) i.ImageXScale, (float) i.ImageYScale);
+            if (i.ImageAngle != 0f)
+                m *= Matrix3x2.CreateRotation((float) (i.ImageAngle * Math.PI / 180));
+            m *= Matrix3x2.CreateTranslation((float) i.X, (float) i.Y);
             // Todo: Transform by a world matrix in the graphics context
             return m;
         }
@@ -54,7 +55,7 @@ namespace GameCreator.Engine.Library
         public bool CheckSpriteCollision(GameSprite sprite1, int subImage1, Matrix3x2 modelWorldTransform1,
             GameSprite sprite2, int subImage2, Matrix3x2 modelWorldTransform2)
         {
-            return !GetSpriteCollisions(sprite1, subImage1, modelWorldTransform1, sprite2, subImage2, modelWorldTransform2).Any();
+            return GetSpriteCollisions(sprite1, subImage1, modelWorldTransform1, sprite2, subImage2, modelWorldTransform2).Any();
         }
 
         /// <summary>
