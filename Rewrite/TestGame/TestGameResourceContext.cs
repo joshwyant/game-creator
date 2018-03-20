@@ -57,26 +57,22 @@ namespace TestGame
                 switch (keyCode)
                 {
                     case VirtualKeyCode.Left:
-                        instance.Speed = 5;
-                        instance.Direction = 180;
+                        instance.X -= 5;
                         instance.ImageAngle = 0;
                         instance.ImageSpeed = 0.5;
                         break;
                     case VirtualKeyCode.Right:
-                        instance.Speed = 5;
-                        instance.Direction = 0;
+                        instance.X += 5;
                         instance.ImageAngle = 180;
                         instance.ImageSpeed = 0.5;
                         break;
                     case VirtualKeyCode.Up:
-                        instance.Speed = 5;
-                        instance.Direction = 90;
+                        instance.Y -= 5;
                         instance.ImageAngle = 270;
                         instance.ImageSpeed = 0.5;
                         break;
                     case VirtualKeyCode.Down:
-                        instance.Speed = 5;
-                        instance.Direction = 270;
+                        instance.Y += 5;
                         instance.ImageAngle = 90;
                         instance.ImageSpeed = 0.5;
                         break;
@@ -127,7 +123,8 @@ namespace TestGame
                     "../TestGame/sprites/pacman/pacman1.png",
                     "../TestGame/sprites/pacman/pacman2.png",
                     "../TestGame/sprites/pacman/pacman3.png",
-                    "../TestGame/sprites/pacman/pacman2.png"))
+                    "../TestGame/sprites/pacman/pacman2.png"),
+                    CollisionMaskFunction.Rectangle, true, 0, false)
             };
         }
 
