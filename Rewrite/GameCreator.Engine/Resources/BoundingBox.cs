@@ -18,20 +18,22 @@ namespace GameCreator.Engine
             Bottom = b;
         }
 
-        public static BoundingBox Intersection(ref BoundingBox bb1, ref BoundingBox bb2)
+        public BoundingBox Intersection(ref BoundingBox other)
         {
-            return new BoundingBox(Math.Max(bb1.Left, bb2.Left),
-                Math.Max(bb1.Top, bb2.Top),
-                Math.Min(bb1.Right, bb2.Right),
-                Math.Min(bb1.Bottom, bb2.Bottom));
+            return new BoundingBox(Math.Max(Left, other.Left),
+                Math.Max(Top, other.Top),
+                Math.Min(Right, other.Right),
+                Math.Min(Bottom, other.Bottom));
         }
 
-        public static bool Overlap(ref BoundingBox bb1, ref BoundingBox bb2)
+        public bool Overlap(ref BoundingBox other)
         {
-            var i = Intersection(ref bb1, ref bb2);
+            var i = Intersection(ref other);
 
-            return i.Right >= i.Left && i.Bottom >= i.Top;
+            return i.IsValid;
         }
+
+        public bool IsValid => Right >= Left && Bottom >= Top;
 
         public static BoundingBox Detect(IImage[] images, int alphaTolerance = 0)
         {

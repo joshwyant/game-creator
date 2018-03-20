@@ -8,7 +8,14 @@ namespace GameCreator.Engine.Library
 {
     public class CollisionFunctions
     {
-        public static Matrix3x2 GetSpriteTransform(GameSprite sprite, float angle, float xscale, float yscale, float x, 
+        public GameContext Context { get; }
+
+        public CollisionFunctions(GameContext context)
+        {
+            Context = context;
+        }
+        
+        public Matrix3x2 GetSpriteTransform(GameSprite sprite, float angle, float xscale, float yscale, float x, 
             float y)
         {
             var m = Matrix3x2.CreateTranslation(-sprite.XOrigin, -sprite.YOrigin);
@@ -17,10 +24,11 @@ namespace GameCreator.Engine.Library
             if (angle != 0f)
                 m *= Matrix3x2.CreateRotation((float) (angle * Math.PI / 180));
             m *= Matrix3x2.CreateTranslation(x, y);
+            // Todo: Transform by a world matrix in the graphics context
             return m;
         }
 
-        public static BoundingBox GetSpriteTransformedBoundingBox(GameSprite s, Matrix3x2 transform)
+        public BoundingBox GetSpriteTransformedBoundingBox(GameSprite s, Matrix3x2 transform)
         {
             if (s.BoundingBox.Right < s.BoundingBox.Left || s.BoundingBox.Bottom < s.BoundingBox.Top)
                 return s.BoundingBox;
@@ -43,55 +51,57 @@ namespace GameCreator.Engine.Library
                 (int)transformedVectors.Max(v => v.Y - 1));
         }
 
-        public static bool CheckSpriteCollision(GameSprite s1, int subImage1, Matrix3x2 t1,
-            GameSprite s2, int subImage2, Matrix3x2 t2)
+        public bool CheckSpriteCollision(GameSprite sprite1, int subImage1, Matrix3x2 modelWorldTransform1,
+            GameSprite sprite2, int subImage2, Matrix3x2 modelWorldTransform2)
         {
-            return !GetSpriteCollisions(s1, subImage1, t1, s2, subImage2, t2).Any();
+            return !GetSpriteCollisions(sprite1, subImage1, modelWorldTransform1, sprite2, subImage2, modelWorldTransform2).Any();
         }
 
         /// <summary>
         /// Gets the individual pixel coordinates of a collision between two sprites.
         /// </summary>
-        /// <param name="s1">The first sprite.</param>
+        /// <param name="sprite1">The first sprite.</param>
         /// <param name="subImage1">The subimage of the first sprite.</param>
-        /// <param name="t1">The transformation matrix of the first sprite.</param>
-        /// <param name="s2">The second sprite.</param>
+        /// <param name="modelWorldTransform1">The transformation matrix of the first sprite.</param>
+        /// <param name="sprite2">The second sprite.</param>
         /// <param name="subImage2">The subimage of the second sprite.</param>
-        /// <param name="t2">The transformation matrix of the second sprite.</param>
+        /// <param name="modelWorldTransform2">The transformation matrix of the second sprite.</param>
         /// <returns>An enumerable of (x, y) tuple values representing the pixels in the collision.</returns>
-        public static IEnumerable<(int x, int y)> GetSpriteCollisions(GameSprite s1, int subImage1, Matrix3x2 t1, 
-            GameSprite s2, int subImage2, Matrix3x2 t2)
+        public IEnumerable<(int x, int y)> GetSpriteCollisions(GameSprite sprite1, int subImage1, 
+            Matrix3x2 modelWorldTransform1, GameSprite sprite2, int subImage2, Matrix3x2 modelWorldTransform2)
         {
             // First, transform the bounding boxes to account for sprite origin, rotations, scaling, and position.
-            var bb1 = GetSpriteTransformedBoundingBox(s1, t1);
-            var bb2 = GetSpriteTransformedBoundingBox(s2, t2);
+            var bb1 = GetSpriteTransformedBoundingBox(sprite1, modelWorldTransform1);
+            var bb2 = GetSpriteTransformedBoundingBox(sprite2, modelWorldTransform2);
             
             // Invert the transformation matrixes so we can map world coordinates into sprite coordinates.
-            Matrix3x2.Invert(t1, out var inv1);
-            Matrix3x2.Invert(t2, out var inv2);
-
-            // If the bounding boxes don't overlap, there is no collision.
-            if (!BoundingBox.Overlap(ref bb1, ref bb2))
-                yield break;
+            Matrix3x2.Invert(modelWorldTransform1, out var spriteLocalTransform1);
+            Matrix3x2.Invert(modelWorldTransform2, out var spriteLocalTransform2);
 
             // Get the intersection of both bounding boxes.
-            var bb = BoundingBox.Intersection(ref bb1, ref bb2);
+            var bbIntersection = bb1.Intersection(ref bb2);
+
+            // If the bounding boxes don't overlap, there is no collision.
+            if (!bbIntersection.IsValid)
+                yield break;
 
             // Get the collision mask for each sprite.
-            var mask1 = s1.SeparateCollisionMasks ? s1.CollisionMasks[subImage1] : s1.CollisionMasks[0];
-            var mask2 = s2.SeparateCollisionMasks ? s2.CollisionMasks[subImage2] : s2.CollisionMasks[0];
+            var mask1 = sprite1.SeparateCollisionMasks ? sprite1.CollisionMasks[subImage1] : sprite1.CollisionMasks[0];
+            var mask2 = sprite2.SeparateCollisionMasks ? sprite2.CollisionMasks[subImage2] : sprite2.CollisionMasks[0];
             
             // Look at each pixel in the bounding box intersection.
-            for (var x = bb.Left; x <= bb.Right; x++)
+            for (var x = bbIntersection.Left; x <= bbIntersection.Right; x++)
             {
-                for (var y = bb.Top; y <= bb.Bottom; y++)
+                for (var y = bbIntersection.Top; y <= bbIntersection.Bottom; y++)
                 {
-                    // Invert the pixel to sprite coordinates for both sprites.
-                    var v1 = Vector2.Transform(new Vector2(x, y), inv1);
-                    var v2 = Vector2.Transform(new Vector2(x, y), inv2);
+                    // Transform the pixel coordinate to sprite coordinates for both sprites
+                    // using the inverted world matrix.
+                    var localV1 = Vector2.Transform(new Vector2(x, y), spriteLocalTransform1);
+                    var localV2 = Vector2.Transform(new Vector2(x, y), spriteLocalTransform2);
 
-                    // Check if the sprite coordinates overlap solid pixels in both sprites.
-                    if (mask1.HitTest((int) v1.X, (int) v1.Y) && mask2.HitTest((int) v2.X, (int) v2.Y))
+                    // Check if the respective sprite coordinates overlap solid pixels in both sprites.
+                    if (mask1.HitTest((int) localV1.X, (int) localV1.Y) 
+                        && mask2.HitTest((int) localV2.X, (int) localV2.Y))
                     {
                         yield return (x, y);
                     }
