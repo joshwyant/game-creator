@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
+using System.IO;
 using System.Linq;
 using GameCreator.Engine;
 using GameCreator.Engine.Api;
@@ -19,6 +20,7 @@ namespace TestGame
         private static GameObject WallObject;
         private static GameObject CircleObject;
         private static GameObject DiamondObject;
+        private static GameSound ClickSound;
         private static GameRoom MainRoom;
 
         private class WallImage : IImage
@@ -30,7 +32,7 @@ namespace TestGame
 
             private static uint[] GenerateSquare()
             {
-                return Enumerable.Repeat(0xFF000000, 32 * 32).ToArray();
+                return Enumerable.Repeat(0xFF800000, 32 * 32).ToArray();
             }
         }
         private class CircleImage : IImage
@@ -49,7 +51,7 @@ namespace TestGame
                     var x = (i % 32 - 16) / 16f;
                     var y = (i / 32 - 16) / 16f;
 
-                    data[i] = x * x + y * y < 1f ? 0xFF000000 : 0;
+                    data[i] = x * x + y * y < 1f ? 0xFF000080 : 0;
                 }
 
                 return data;
@@ -71,7 +73,7 @@ namespace TestGame
                     var x = (i % 32 - 16) / 16f;
                     var y = (i / 32 - 16) / 16f;
 
-                    data[i] = Math.Abs(x) + Math.Abs(y) < 1f ? 0xFF000000 : 0;
+                    data[i] = Math.Abs(x) + Math.Abs(y) < 1f ? 0xFF008000 : 0;
                 }
 
                 return data;
@@ -107,6 +109,8 @@ namespace TestGame
                     {
                         Context.Library.CollisionFunctions.MoveContactPosition(self, true);
                     }
+                    
+                    Context.Library.MainFunctions.PlaySound(ClickSound);
 
                     self.Speed = 0;
                 }
@@ -230,7 +234,7 @@ namespace TestGame
         {
             public TestRoom(GameContext context) : base(context)
             {
-                BackgroundColor = 0x303030;// 0xED9564; // Cornflower Blue
+                BackgroundColor = 0xED9564; // Cornflower Blue
                 Width = 640;
                 Height = 480;
 
@@ -290,6 +294,19 @@ namespace TestGame
                 DiamondSprite = new GameSprite(context, 32, 32, 16, 16, new[] { new DiamondImage() }, 
                     CollisionMaskFunction.Precise, true, 0, true)
             };
+        }
+
+        public IList<GameSound> GetPredefinedSounds(GameContext context)
+        {
+            var sounds = new List<GameSound>();
+
+            using (var fs = File.Open("../TestGame/sounds/click.wav", FileMode.Open))
+            {
+                var effect = context.Audio.LoadSound(fs);
+                sounds.Add(ClickSound = new GameSound(context, effect));
+            }
+
+            return sounds;
         }
 
         public IList<GameObject> GetPredefinedObjects(GameContext context)

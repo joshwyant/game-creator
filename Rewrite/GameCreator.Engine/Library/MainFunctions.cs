@@ -18,5 +18,10 @@
         {
             return Context.CreateInstance(x, y, assignedObject);
         }
+
+        public void PlaySound(GameSound sound)
+        {
+            Context.Audio.PlaySound(sound.Effect);
+        }
     }
 }

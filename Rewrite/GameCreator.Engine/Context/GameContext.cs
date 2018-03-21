@@ -20,6 +20,9 @@ namespace GameCreator.Engine
             var sprites = predefinedResources.GetPredefinedSprites(this);
             Sprites = new IndexedResourceManager<GameSprite>(sprites);
             
+            var sounds = predefinedResources.GetPredefinedSounds(this);
+            Sounds = new IndexedResourceManager<GameSound>(sounds);
+            
             var objects = predefinedResources.GetPredefinedObjects(this);
             Objects = new IndexedResourceManager<GameObject>(objects);
             foreach (var gameObject in Objects)

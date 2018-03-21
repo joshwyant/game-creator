@@ -10,4 +10,7 @@
     <PackageReference Include="Ninject" Version="3.3.4" />
     <PackageReference Include="SixLabors.ImageSharp" Version="1.0.0-beta0002" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="sounds" />
+  </ItemGroup>
 </Project>

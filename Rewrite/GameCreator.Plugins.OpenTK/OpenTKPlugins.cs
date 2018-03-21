@@ -21,7 +21,7 @@ namespace GameCreator.Plugins.OpenTK
 
             _gameWindow = new GameCreatorOpenTKGameWindow();
             Graphics = new OpenTKGraphicsPlugin(_gameWindow);
-            Audio = new OpenTKAudioPlugin(_gameWindow);
+            Audio = new OpenTKAudioPlugin();
             Input = new OpenTKInputPlugin(_gameWindow);
             Timer = new OpenTKTimerPlugin(_gameWindow);
         }
@@ -29,6 +29,7 @@ namespace GameCreator.Plugins.OpenTK
         public void Dispose()
         {
             _gameWindow?.Dispose();
+            (Audio as OpenTKAudioPlugin)?.Dispose();
         }
     }
 }

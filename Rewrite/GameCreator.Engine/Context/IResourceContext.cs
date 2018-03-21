@@ -11,6 +11,7 @@ namespace GameCreator.Engine
         IList<GameRoom> GetPredefinedRooms(GameContext context);
         IList<GameObject> GetPredefinedObjects(GameContext context);
         IList<GameSprite> GetPredefinedSprites(GameContext context);
+        IList<GameSound> GetPredefinedSounds(GameContext context);
         IList<ITrigger> GetPredefinedTriggers(GameContext gameContext);
     }
 }
