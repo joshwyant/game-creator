@@ -16,8 +16,13 @@ namespace GameCreator.Engine.Library
         {
             Context = context;
         }
-        
+
         public Matrix3x2 GetSpriteTransform(GameInstance i)
+        {
+            return GetSpriteTransform(i, i.X, i.Y);
+        }
+        
+        public Matrix3x2 GetSpriteTransform(GameInstance i, double x, double y)
         {
             if (i.Sprite == null) return Matrix3x2.Identity;
             
@@ -26,7 +31,7 @@ namespace GameCreator.Engine.Library
                 m *= Matrix3x2.CreateScale((float) i.ImageXScale, (float) i.ImageYScale);
             if (i.ImageAngle != 0f)
                 m *= Matrix3x2.CreateRotation((float) (-i.ImageAngle * Math.PI / 180));
-            m *= Matrix3x2.CreateTranslation((float) i.X, (float) i.Y);
+            m *= Matrix3x2.CreateTranslation((float) x, (float) y);
             // Todo: Transform by a world matrix in the graphics context
             return m;
         }
@@ -154,10 +159,18 @@ namespace GameCreator.Engine.Library
             }
         }
 
-        public IEnumerable<GameInstance> GetCollisions(GameInstance i, IEnumerable<GameInstance> instances, 
+        public IEnumerable<GameInstance> GetCollisions(GameInstance i, IEnumerable<GameInstance> instances,
             bool onlySolid)
         {
+            return GetCollisions(i, i.X, i.Y, instances, onlySolid);
+        }
+        
+        public IEnumerable<GameInstance> GetCollisions(GameInstance i, double x, double y, 
+            IEnumerable<GameInstance> instances, bool onlySolid)
+        {
             if (i.Sprite == null) yield break;
+
+            var transform1 = GetSpriteTransform(i, x, y);
 
             foreach (var other in instances)
             {
@@ -166,8 +179,6 @@ namespace GameCreator.Engine.Library
                 if (onlySolid && !other.Solid) continue;
                 if (!(i.AssignedObject.IsEventRegistered(other.AssignedObject)
                       || other.AssignedObject.IsEventRegistered(i.AssignedObject))) continue;
-
-                var transform1 = GetSpriteTransform(i);
                 var transform2 = GetSpriteTransform(other);
 
                 if (CheckSpriteCollision(i.Sprite, i.ComputeSubimage(), transform1, other.Sprite, 
@@ -176,6 +187,11 @@ namespace GameCreator.Engine.Library
                     yield return other;
                 }
             }
+        }
+
+        public bool PlaceFree(GameInstance i, double x, double y, bool onlySolid)
+        {
+            return !GetCollisions(i, x, y, Context.PresortedInstances, onlySolid).Any();
         }
 
         public void MoveContactPosition(GameInstance i, bool onlySolid)
@@ -196,16 +212,14 @@ namespace GameCreator.Engine.Library
 
             for (var j = 0; j < (int) speed; j++)
             {
+                i.X = newx;
+                i.Y = newy;
                 var prevx = newx;
                 var prevy = newy;
                 newx = prevx + xstep;
                 newy = prevy + ystep;
-                i.X = newx;
-                i.Y = newy;
-                if (GetCollisions(i, Context.PresortedInstances, onlySolid).Any())
+                if (GetCollisions(i, newx, newy, Context.PresortedInstances, onlySolid).Any())
                 {
-                    i.X = prevx;
-                    i.Y = prevy;
                     return;
                 }
             }

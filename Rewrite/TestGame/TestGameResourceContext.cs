@@ -37,21 +37,21 @@ namespace TestGame
         }
         private class CircleImage : IImage
         {
-            public int Width { get; } = 32;
-            public int Height { get; } = 32;
+            public int Width { get; } = 128;
+            public int Height { get; } = 128;
             // Generate a black square
             public uint[] ImageData { get; } = GenerateCircle();
 
             private static uint[] GenerateCircle()
             {
-                var data = new uint[32*32];
+                var data = new uint[128*128];
                 
-                for (var i = 0; i < 32 * 32; i++)
+                for (var i = 0; i < 128*128; i++)
                 {
-                    var x = (i % 32 - 16) / 16f;
-                    var y = (i / 32 - 16) / 16f;
+                    var x = (i % 128 - 64) / 64f;
+                    var y = (i / 128 - 64) / 64f;
 
-                    data[i] = x * x + y * y < 1f ? 0xFF000080 : 0;
+                    data[i] = x * x + y * y < 1f ? 0x0000A0U + ((uint)(255-(x*x+y*y)*255)<<24) : 0;
                 }
 
                 return data;
@@ -59,21 +59,21 @@ namespace TestGame
         }
         private class DiamondImage : IImage
         {
-            public int Width { get; } = 32;
-            public int Height { get; } = 32;
+            public int Width { get; } = 128;
+            public int Height { get; } = 128;
             // Generate a black square
             public uint[] ImageData { get; } = GenerateDiamond();
 
             private static uint[] GenerateDiamond()
             {
-                var data = new uint[32*32];
+                var data = new uint[128*128];
                 
-                for (var i = 0; i < 32 * 32; i++)
+                for (var i = 0; i < 128*128; i++)
                 {
-                    var x = (i % 32 - 16) / 16f;
-                    var y = (i / 32 - 16) / 16f;
+                    var x = (i % 128 - 64) / 64f;
+                    var y = (i / 128 - 64) / 64f;
 
-                    data[i] = Math.Abs(x) + Math.Abs(y) < 1f ? 0xFF008000 : 0;
+                    data[i] = Math.Abs(x) + Math.Abs(y) < 1f ? 0x008000U+((uint)(255-(Math.Abs(x)+Math.Abs(y))*255)<<24) : 0;
                 }
 
                 return data;
@@ -113,6 +113,7 @@ namespace TestGame
                     Context.Library.MainFunctions.PlaySound(ClickSound);
 
                     self.Speed = 0;
+                    self.ImageSpeed = 0;
                 }
 
                 RegisterEvent(WallObject, Collision);
@@ -144,34 +145,46 @@ namespace TestGame
                 
                 RegisterEvent(EventType.Keyboard, VirtualKeyCode.Left, self =>
                 {
-                    self.HSpeed = -5;
-                    self.VSpeed = 0;
-                    self.ImageAngle = 0;
-                    self.ImageSpeed = 0.5;
+                    if (Context.Library.CollisionFunctions.PlaceFree(self, self.X - 5, self.Y, true))
+                    {
+                        self.HSpeed = -5;
+                        self.VSpeed = 0;
+                        self.ImageAngle = 0;
+                        self.ImageSpeed = 0.5;
+                    }
                 });
                 
                 RegisterEvent(EventType.Keyboard, VirtualKeyCode.Right, self =>
                 {
-                    self.HSpeed = 5;
-                    self.VSpeed = 0;
-                    self.ImageAngle = 180;
-                    self.ImageSpeed = 0.5;
+                    if (Context.Library.CollisionFunctions.PlaceFree(self, self.X + 5, self.Y, true))
+                    {
+                        self.HSpeed = 5;
+                        self.VSpeed = 0;
+                        self.ImageAngle = 180;
+                        self.ImageSpeed = 0.5;
+                    }
                 });
                 
                 RegisterEvent(EventType.Keyboard, VirtualKeyCode.Up, self =>
                 {
-                    self.HSpeed = 0;
-                    self.VSpeed = -5;
-                    self.ImageAngle = 270;
-                    self.ImageSpeed = 0.5;
+                    if (Context.Library.CollisionFunctions.PlaceFree(self, self.X, self.Y - 5, true))
+                    {
+                        self.HSpeed = 0;
+                        self.VSpeed = -5;
+                        self.ImageAngle = 270;
+                        self.ImageSpeed = 0.5;
+                    }
                 });
                 
                 RegisterEvent(EventType.Keyboard, VirtualKeyCode.Down, self =>
                 {
-                    self.HSpeed = 0;
-                    self.VSpeed = 5;
-                    self.ImageAngle = 90;
-                    self.ImageSpeed = 0.5;
+                    if (Context.Library.CollisionFunctions.PlaceFree(self, self.X, self.Y + 5, true))
+                    {
+                        self.HSpeed = 0;
+                        self.VSpeed = 5;
+                        self.ImageAngle = 90;
+                        self.ImageSpeed = 0.5;
+                    }
                 });
                 
                 RegisterEvent(EventType.KeyRelease, VirtualKeyCode.AnyKey, self =>
@@ -205,8 +218,8 @@ namespace TestGame
             {
                 RegisterEvent(EventType.Create, self =>
                 {
-                    self.ImageXScale = 2;
-                    self.ImageYScale = 2;
+                    self.ImageXScale = 1;
+                    self.ImageYScale = 1;
                 });
             }
         }
@@ -224,8 +237,8 @@ namespace TestGame
             {
                 RegisterEvent(EventType.Create, self =>
                 {
-                    self.ImageXScale = 2;
-                    self.ImageYScale = 2;
+                    self.ImageXScale = 1;
+                    self.ImageYScale = 1;
                 });
             }
         }
@@ -288,10 +301,10 @@ namespace TestGame
                 WallSprite = new GameSprite(context, 32, 32, 0, 0, new[] { new WallImage() }, 
                     CollisionMaskFunction.Precise, true, 0, true),
                 
-                CircleSprite = new GameSprite(context, 32, 32, 16, 16, new[] { new CircleImage() }, 
+                CircleSprite = new GameSprite(context, 128, 128, 64, 64, new[] { new CircleImage() }, 
                     CollisionMaskFunction.Precise, true, 0, true),
                 
-                DiamondSprite = new GameSprite(context, 32, 32, 16, 16, new[] { new DiamondImage() }, 
+                DiamondSprite = new GameSprite(context, 128, 128, 64, 64, new[] { new DiamondImage() }, 
                     CollisionMaskFunction.Precise, true, 0, true)
             };
         }
