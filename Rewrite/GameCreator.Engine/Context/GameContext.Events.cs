@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using GameCreator.Engine.Api;
 using GameCreator.Engine.Common;
-using GameCreator.Engine.Library;
 
 namespace GameCreator.Engine
 {
@@ -135,17 +134,19 @@ namespace GameCreator.Engine
             // TODO: Reorder and refine based on actual logic
             //    (if instances are created during the loop, are they checked for collisions?)
             {
-                var remainingCollisionInstances = new SortedDictionary<int, GameInstance>();
-                PresortedInstances.ForEach(i => remainingCollisionInstances.Add(i.Id, i));
+                var collisionTree = Library.CollisionFunctions.GenerateCollisionTree(PresortedInstances);
                 
                 ForInstances(i =>
                 {
-                    remainingCollisionInstances.Remove(i.Id);
-
+                    Library.CollisionFunctions.RemoveFromRTree(i, collisionTree);
+                    
                     if (i.Sprite == null) return;
 
-                    var collisions = Library.CollisionFunctions
-                        .GetCollisions(i, remainingCollisionInstances.Values, false);
+                    var overlapping = Library.CollisionFunctions
+                        .InstancesInBoundingBox(i, collisionTree)
+                        .Select(o => (GameInstance) Instances[o]);
+                    
+                    var collisions = Library.CollisionFunctions.GetCollisions(i, overlapping, false);
                     
                     foreach (var other in collisions)
                     {

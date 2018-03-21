@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using GameCreator.Engine.Common;
+using RTree;
 
 namespace GameCreator.Engine.Library
 {
@@ -18,7 +19,7 @@ namespace GameCreator.Engine.Library
         
         public Matrix3x2 GetSpriteTransform(GameInstance i)
         {
-            if (i.Sprite == null) return Matrix3x2.Identity;;
+            if (i.Sprite == null) return Matrix3x2.Identity;
             
             var m = Matrix3x2.CreateTranslation(-i.Sprite.XOrigin, -i.Sprite.YOrigin);
             if (i.ImageXScale != 1f || i.ImageYScale != 1f)
@@ -57,6 +58,48 @@ namespace GameCreator.Engine.Library
             GameSprite sprite2, int subImage2, Matrix3x2 modelWorldTransform2)
         {
             return GetSpriteCollisions(sprite1, subImage1, modelWorldTransform1, sprite2, subImage2, modelWorldTransform2).Any();
+        }
+
+        public RTree<int> GenerateCollisionTree(IEnumerable<GameInstance> instances)
+        {
+            var tree = new RTree<int>();
+
+            foreach (var instance in instances)
+            {
+                var rect = GetInstanceRTreeRectangle(instance);
+                
+                if (rect == null) continue;
+                
+                tree.Add(rect, instance.Id);
+            }
+
+            return tree;
+        }
+
+        public Rectangle GetInstanceRTreeRectangle(GameInstance instance)
+        {
+            if (instance.Sprite == null) return null;
+                
+            var transform = GetSpriteTransform(instance);
+            var bb = GetSpriteTransformedBoundingBox(instance.Sprite, transform);
+                
+            if (!bb.IsValid) return null;
+
+            return new Rectangle(bb.Left, bb.Top, bb.Right + 1, bb.Bottom + 1, 0, 0);
+        }
+
+        public IEnumerable<int> InstancesInBoundingBox(GameInstance i, RTree<int> tree)
+        {
+            var rect = GetInstanceRTreeRectangle(i);
+            if (rect == null) return new int[] { };
+
+            return tree.Intersects(rect);
+        }
+
+        public void RemoveFromRTree(GameInstance i, RTree<int> tree)
+        {
+            var rect = GetInstanceRTreeRectangle(i);
+            tree.Delete(rect, i.Id);
         }
 
         /// <summary>
