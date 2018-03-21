@@ -22,6 +22,10 @@ namespace GameCreator.Engine
             
             var objects = predefinedResources.GetPredefinedObjects(this);
             Objects = new IndexedResourceManager<GameObject>(objects);
+            foreach (var gameObject in Objects)
+            {
+                gameObject.OnRegisterEvents();
+            }
             
             Instances = new IndexedResourceManager<IInstance>(100001);
             

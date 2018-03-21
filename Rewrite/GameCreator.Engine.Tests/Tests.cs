@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.Design;
 using GameCreator.Engine;
 using GameCreator.Engine.Api;
+using GameCreator.Engine.Common;
 using Moq;
 using NUnit.Framework;
 
@@ -40,14 +41,13 @@ namespace GameCreator.Engine.Tests
         {
             public pacman(GameContext context) : base(context)
             {
+                RegisterEvent(EventType.Create, instance =>
+                {
+                    instance.X += 3;
+                });
             }
 
             public override GameSprite Sprite => null;
-
-            protected override void OnCreate(GameInstance instance, ref bool handled)
-            {
-                instance.X += 3;
-            }
         }
         
         [Test]

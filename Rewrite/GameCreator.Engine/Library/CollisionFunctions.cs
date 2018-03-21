@@ -121,6 +121,8 @@ namespace GameCreator.Engine.Library
                 if (other.Id == i.Id) continue;
                 if (other.Sprite == null) continue; // Can change, so check again
                 if (onlySolid && !other.Solid) continue;
+                if (!(i.AssignedObject.IsEventRegistered(other.AssignedObject)
+                      || other.AssignedObject.IsEventRegistered(i.AssignedObject))) continue;
 
                 var transform1 = GetSpriteTransform(i);
                 var transform2 = GetSpriteTransform(other);

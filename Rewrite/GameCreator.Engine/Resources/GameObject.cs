@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using GameCreator.Engine.Common;
 using GameCreator.Runtime.Api;
 
@@ -38,104 +40,107 @@ namespace GameCreator.Engine
             instance.ImageBlend = 0xFFFFFF;
         }
 
-        protected virtual void OnCreate(GameInstance instance, ref bool handled)
+        private readonly Dictionary<(EventType, int), Action<GameInstance>> RegisteredEvents
+            = new Dictionary<(EventType, int), Action<GameInstance>>();
+
+        #region IsEventRegistered
+        public bool IsEventRegistered(EventType eventType, int eventNumber)
         {
-            handled = false;
-        }
-        protected virtual void OnDestroy(GameInstance instance, ref bool handled)
-        {
-            handled = false;
-        }
-        protected virtual void OnStep(GameInstance instance, StepKind stepKind, ref bool handled) 
-        { 
-            handled = false;
-        }
-        protected virtual void OnAlarm(GameInstance instance, int alarmNumber, ref bool handled)
-        { 
-            handled = false;
-        }
-        protected virtual void OnKeyboard(GameInstance intstance, VirtualKeyCode keyCode, ref bool handled) 
-        { 
-            handled = false;
-        }
-        protected virtual void OnMouse(GameInstance instance, MouseEventKind eventKind, ref bool handled)
-        { 
-            handled = false;
-        }
-        protected virtual void OnCollision(GameInstance instance, GameObject other, ref bool handled)
-        { 
-            handled = false;
-        }
-        protected virtual void OnOtherEvent(GameInstance instance, OtherEventKind eventKind, ref bool handled)
-        { 
-            handled = false;
-        }
-        protected virtual void OnDraw(GameInstance instance, ref bool handled)
-        { 
-            handled = false;
-        }
-        protected virtual void OnKeyPress(GameInstance instance, VirtualKeyCode keyCode, ref bool handled)
-        { 
-            handled = false;
-        }
-        protected virtual void OnKeyRelease(GameInstance instance, VirtualKeyCode keyCode, ref bool handled)
-        { 
-            handled = false;
-        }
-        protected virtual void OnTrigger(GameInstance instance, ITrigger trigger, ref bool handled)
-        { 
-            handled = false;
+            return RegisteredEvents.ContainsKey((eventType, eventNumber));
         }
 
-        public bool PerformEvent(GameInstance instance, EventType eventType, int eventNumber = 0)
+        public bool IsEventRegistered(EventType eventType)
         {
-            var handled = true;
+            return RegisteredEvents.ContainsKey((eventType, 0));
+        }
 
+        public bool IsEventRegistered(StepKind stepKind)
+        {
+            return RegisteredEvents.ContainsKey((EventType.Step, (int) stepKind));
+        }
+
+        public bool IsEventRegistered(EventType eventType, VirtualKeyCode keyCode)
+        {
+            return RegisteredEvents.ContainsKey((eventType, (int) keyCode));
+        }
+
+        public bool IsEventRegistered(EventType eventType, MouseEventKind mouseKind)
+        {
+            return RegisteredEvents.ContainsKey((eventType, (int) mouseKind));
+        }
+
+        public bool IsEventRegistered(GameObject otherCollisionObject)
+        {
+            return RegisteredEvents.ContainsKey((EventType.Collision, otherCollisionObject.Id));
+        }
+
+        public bool IsEventRegistered(OtherEventKind otherKind)
+        {
+            return RegisteredEvents.ContainsKey((EventType.Other, (int) otherKind));
+        }
+
+        public bool IsEventRegistered(ITrigger trigger)
+        {
+            return RegisteredEvents.ContainsKey((EventType.Trigger, trigger.Id));
+        }
+        #endregion
+
+        #region RegisterEvent
+        
+        protected void RegisterEvent(EventType eventType, int eventNumber, Action<GameInstance> handler)
+        {
+            RegisteredEvents.Add((eventType, eventNumber), handler);
+        }
+
+        protected void RegisterEvent(EventType eventType, Action<GameInstance> handler)
+        {
+            RegisterEvent(eventType, 0, handler);
+        }
+
+        protected void RegisterEvent(StepKind stepKind, Action<GameInstance> handler)
+        {
+            RegisterEvent(EventType.Step, (int) stepKind, handler);
+        }
+
+        protected void RegisterEvent(EventType eventType, VirtualKeyCode keyCode, Action<GameInstance> handler)
+        {
+            RegisterEvent(eventType, (int) keyCode, handler);
+        }
+        
+        protected void RegisterEvent(EventType eventType, MouseEventKind mouseKind, Action<GameInstance> handler)
+        {
+            RegisterEvent(eventType, (int) mouseKind, handler);
+        }
+        
+        protected void RegisterEvent(GameObject otherCollisionObject, Action<GameInstance> handler)
+        {
+            RegisterEvent(EventType.Collision, otherCollisionObject.Id, handler);
+        }
+        
+        protected void RegisterEvent(OtherEventKind otherKind, Action<GameInstance> handler)
+        {
+            RegisterEvent(EventType.Other, (int) otherKind, handler);
+        }
+        
+        protected void RegisterEvent(ITrigger trigger, Action<GameInstance> handler)
+        {
+            RegisterEvent(EventType.Trigger, trigger.Id, handler);
+        }
+        #endregion
+
+        public void PerformEvent(GameInstance instance, EventType eventType, int eventNumber = 0)
+        {
             if (!instance.Destroyed || eventType == EventType.Destroy)
             {
-                switch (eventType)
+                if (IsEventRegistered(eventType, eventNumber))
                 {
-                    case EventType.Create:
-                        OnCreate(instance, ref handled);
-                        break;
-                    case EventType.Destroy:
-                        OnDestroy(instance, ref handled);
-                        break;
-                    case EventType.Step:
-                        OnStep(instance, (StepKind) eventNumber, ref handled);
-                        break;
-                    case EventType.Alarm:
-                        OnAlarm(instance, eventNumber, ref handled);
-                        break;
-                    case EventType.Keyboard:
-                        OnKeyboard(instance, (VirtualKeyCode) eventNumber, ref handled);
-                        break;
-                    case EventType.Mouse:
-                        OnMouse(instance, (MouseEventKind) eventNumber, ref handled);
-                        break;
-                    case EventType.Collision:
-                        OnCollision(instance, Context.Objects[eventNumber], ref handled);
-                        break;
-                    case EventType.Other:
-                        OnOtherEvent(instance, (OtherEventKind) eventNumber, ref handled);
-                        break;
-                    case EventType.Draw:
-                        OnDraw(instance, ref handled);
-                        break;
-                    case EventType.KeyPress:
-                        OnKeyPress(instance, (VirtualKeyCode) eventNumber, ref handled);
-                        break;
-                    case EventType.KeyRelease:
-                        OnKeyRelease(instance, (VirtualKeyCode) eventNumber, ref handled);
-                        break;
-                    case EventType.Trigger:
-                        OnTrigger(instance, Context.Triggers[eventNumber], ref handled);
-                        break;
-                    default:
-                        throw new ArgumentOutOfRangeException(nameof(eventType), eventType, null);
+                    RegisteredEvents[(eventType, eventNumber)](instance);
                 }
             }
-            return handled;
+        }
+
+        protected internal virtual void OnRegisterEvents()
+        {
         }
     }
 }

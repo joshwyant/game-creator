@@ -194,7 +194,11 @@ namespace GameCreator.Engine
                 }
                 
                 Graphics.DrawDepth3d = (float) i.Depth;
-                if (!i.AssignedObject.PerformEvent(i, EventType.Draw))
+                if (i.AssignedObject.IsEventRegistered(EventType.Draw))
+                {
+                    i.PerformEvent(EventType.Draw);
+                }
+                else
                 {
                     i.DrawSprite();
                 }

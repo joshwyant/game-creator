@@ -80,44 +80,46 @@ namespace TestGame
         
         private class PacmanObjectClass : GameObject
         {
+            public override GameSprite Sprite => PacmanSprite;
+
             internal PacmanObjectClass(GameContext context) : base(context)
             {
             }
 
-            public override GameSprite Sprite => PacmanSprite;
-
-            protected override void OnCreate(GameInstance instance, ref bool handled)
+            protected override void OnRegisterEvents()
             {
-                Context.Start3dMode();
-                
-                instance.X = 128;
-                instance.Y = 128;
-                instance.ImageXScale = instance.ImageYScale = 3;
-                instance.ImageAlpha = 0.5;
-                instance.ImageSpeed = 0;
-            }
+                var r = new Random();
+            
+                RegisterEvent(EventType.Create, self =>
+                {
+                    Context.Start3dMode();
+                    
+                    self.X = 128;
+                    self.Y = 128;
+                    self.ImageXScale = self.ImageYScale = 3;
+                    self.ImageAlpha = 0.5;
+                    self.ImageSpeed = 0;
+                });
 
-            private Random r = new Random();
-            protected override void OnCollision(GameInstance instance, GameObject other, ref bool handled)
-            {
-                if (other.Id == WallObject.Id 
-                    || other.Id == CircleObject.Id 
-                    || other.Id == DiamondObject.Id)
+                void Collision(GameInstance self)
                 {
                     if (!Context.Input.CheckKeyPressed(VirtualKeyCode.LShift))
                     {
-                        Context.Library.CollisionFunctions.MoveContactPosition(instance, true);
+                        Context.Library.CollisionFunctions.MoveContactPosition(self, true);
                     }
 
-                    instance.Speed = 0;
+                    self.Speed = 0;
                 }
-            }
 
-            protected override void OnDraw(GameInstance instance, ref bool handled)
-            {
-                // How GM SHOULD project by default (default is yup 1, from -room_height, and corresponding angle).
-                // I think GM does it this way in order to use depth as z
-                Context.Graphics.SetProjection(
+                RegisterEvent(WallObject, Collision);
+                RegisterEvent(CircleObject, Collision);
+                RegisterEvent(DiamondObject, Collision);
+                
+                RegisterEvent(EventType.Draw, self =>
+                {
+                    // How GM SHOULD project by default (default is yup 1, from -room_height, and corresponding angle).
+                    // I think GM does it this way in order to use depth as z
+                    Context.Graphics.SetProjection(
                         Context.CurrentRoom.Width * 0.5f,
                         Context.CurrentRoom.Height * 0.5f,
                         Context.CurrentRoom.Height,
@@ -133,49 +135,46 @@ namespace TestGame
                         32000
                     );
                 
-                instance.DrawSprite();
-            }
-
-            protected override void OnKeyboard(GameInstance instance, VirtualKeyCode keyCode, ref bool handled)
-            {
-                switch (keyCode)
+                    self.DrawSprite();
+                });
+                
+                RegisterEvent(EventType.Keyboard, VirtualKeyCode.Left, self =>
                 {
-                    case VirtualKeyCode.Left:
-                        instance.HSpeed = -5;
-                        instance.VSpeed = 0;
-                        instance.ImageAngle = 0;
-                        instance.ImageSpeed = 0.5;
-                        break;
-                    case VirtualKeyCode.Right:
-                        instance.HSpeed = 5;
-                        instance.VSpeed = 0;
-                        instance.ImageAngle = 180;
-                        instance.ImageSpeed = 0.5;
-                        break;
-                    case VirtualKeyCode.Up:
-                        instance.HSpeed = 0;
-                        instance.VSpeed = -5;
-                        instance.ImageAngle = 270;
-                        instance.ImageSpeed = 0.5;
-                        break;
-                    case VirtualKeyCode.Down:
-                        instance.HSpeed = 0;
-                        instance.VSpeed = 5;
-                        instance.ImageAngle = 90;
-                        instance.ImageSpeed = 0.5;
-                        break;
-                }
-            }
-
-            protected override void OnKeyRelease(GameInstance instance, VirtualKeyCode keyCode, ref bool handled)
-            {
-                switch (keyCode)
+                    self.HSpeed = -5;
+                    self.VSpeed = 0;
+                    self.ImageAngle = 0;
+                    self.ImageSpeed = 0.5;
+                });
+                
+                RegisterEvent(EventType.Keyboard, VirtualKeyCode.Right, self =>
                 {
-                    case VirtualKeyCode.AnyKey:
-                        instance.Speed = 0;
-                        instance.ImageSpeed = 0;
-                        break;
-                }
+                    self.HSpeed = 5;
+                    self.VSpeed = 0;
+                    self.ImageAngle = 180;
+                    self.ImageSpeed = 0.5;
+                });
+                
+                RegisterEvent(EventType.Keyboard, VirtualKeyCode.Up, self =>
+                {
+                    self.HSpeed = 0;
+                    self.VSpeed = -5;
+                    self.ImageAngle = 270;
+                    self.ImageSpeed = 0.5;
+                });
+                
+                RegisterEvent(EventType.Keyboard, VirtualKeyCode.Down, self =>
+                {
+                    self.HSpeed = 0;
+                    self.VSpeed = 5;
+                    self.ImageAngle = 90;
+                    self.ImageSpeed = 0.5;
+                });
+                
+                RegisterEvent(EventType.KeyRelease, VirtualKeyCode.AnyKey, self =>
+                {
+                    self.Speed = 0;
+                    self.ImageSpeed = 0;
+                });
             }
         }
 
@@ -187,15 +186,6 @@ namespace TestGame
             }
 
             public override GameSprite Sprite => WallSprite;
-
-            protected override void OnStep(GameInstance instance, StepKind stepKind, ref bool handled)
-            {
-                if (stepKind == StepKind.Normal)
-                {
-                    // Don't do this
-                    // instance.ImageAngle += 3;
-                }
-            }
         }
 
         private class CircleObjectClass : GameObject
@@ -207,10 +197,13 @@ namespace TestGame
 
             public override GameSprite Sprite => CircleSprite;
 
-            protected override void OnCreate(GameInstance instance, ref bool handled)
+            protected override void OnRegisterEvents()
             {
-                instance.ImageXScale = 2;
-                instance.ImageYScale = 2;
+                RegisterEvent(EventType.Create, self =>
+                {
+                    self.ImageXScale = 2;
+                    self.ImageYScale = 2;
+                });
             }
         }
 
@@ -223,10 +216,13 @@ namespace TestGame
 
             public override GameSprite Sprite => DiamondSprite;
 
-            protected override void OnCreate(GameInstance instance, ref bool handled)
+            protected override void OnRegisterEvents()
             {
-                instance.ImageXScale = 2;
-                instance.ImageYScale = 2;
+                RegisterEvent(EventType.Create, self =>
+                {
+                    self.ImageXScale = 2;
+                    self.ImageYScale = 2;
+                });
             }
         }
 
@@ -283,7 +279,7 @@ namespace TestGame
                     "../TestGame/sprites/pacman/pacman2.png",
                     "../TestGame/sprites/pacman/pacman3.png",
                     "../TestGame/sprites/pacman/pacman2.png"),
-                    CollisionMaskFunction.Precise, true, 0, true),
+                    CollisionMaskFunction.Precise, true, 0, false),
                 
                 WallSprite = new GameSprite(context, 32, 32, 0, 0, new[] { new WallImage() }, 
                     CollisionMaskFunction.Precise, true, 0, true),
