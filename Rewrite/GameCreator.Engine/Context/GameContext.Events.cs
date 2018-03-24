@@ -35,7 +35,13 @@ namespace GameCreator.Engine
         public void ProcessEvents()
         {
             // Process begin step events
-            ForInstances(i => i.PerformEvent(EventType.Step, (int) StepKind.BeginStep));
+            ForInstances(i =>
+            {
+                i.XPrevious = i.X;
+                i.YPrevious = i.Y;
+                
+                i.PerformEvent(EventType.Step, (int) StepKind.BeginStep);
+            });
 
             // Process alarm events
             ForInstances(i =>
@@ -106,14 +112,10 @@ namespace GameCreator.Engine
                 KeysDown.ExceptWith(released);
             }
             
-            // Process step events
-            ForInstances(i => i.PerformEvent(EventType.Step, (int) StepKind.Normal));
-
-            // Set instances to their new positions
+            // Process step events and set instances to their new positions
             ForInstances(i =>
-            {
-                i.XPrevious = i.X;
-                i.YPrevious = i.Y;
+            {   
+                i.PerformEvent(EventType.Step, (int) StepKind.Normal);
                 
                 // friction first
                 i.Speed = i.Friction > 0 && Math.Abs(i.Speed) < i.Friction
