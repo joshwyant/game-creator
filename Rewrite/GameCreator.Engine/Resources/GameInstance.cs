@@ -27,7 +27,7 @@ namespace GameCreator.Engine
         public double ImageSingle { get; set; } = -1;
         public double ImageIndex { get; set; }
         public double ImageAngle { get; set; }
-        public uint ImageBlend { get; set; } = 0xFFFFFF;
+        public int ImageBlend { get; set; } = 0xFFFFFF;
         public double ImageAlpha { get; set; } = 1;
         public double ImageXScale { get; set; } = 1.0;
         public double ImageYScale { get; set; } = 1.0;
@@ -168,13 +168,13 @@ namespace GameCreator.Engine
                 Context.Library.DrawingFunctions.DrawSprite(
                     Sprite,
                     ComputeSubimage(),
-                    (float) X,
-                    (float) Y,
-                    (float) ImageXScale,
-                    (float) ImageYScale,
-                    (float) ImageAngle,
+                    X,
+                    Y,
+                    ImageXScale,
+                    ImageYScale,
+                    ImageAngle,
                     ImageBlend,
-                    (float) ImageAlpha);
+                    ImageAlpha);
             }
         }
     }

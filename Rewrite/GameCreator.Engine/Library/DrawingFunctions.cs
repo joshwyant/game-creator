@@ -9,19 +9,19 @@
             Context = context;
         }
 
-        public void ClearScreen(byte r, byte g, byte b)
+        public void ClearScreen(int color)
         {
-            Context.Graphics.Clear(r, g, b);
+            Context.Graphics.Clear(color);
         }
 
-        void DrawSprite(GameSprite s, int subimg, float left, float top, float w, float h, float x, float y,
-            float xscale, float yscale, float angle, uint c1, uint c2, uint c3, uint c4, float a)
+        void DrawSprite(GameSprite s, int subimg, double left, double top, double w, double h, double x, double y,
+            double xscale, double yscale, double angle, int c1, int c2, int c3, int c4, double a)
         {
             Context.Graphics.DrawSprite(s, subimg, left, top, w, h, x, y, xscale, yscale, angle, c1, c2, c3, c4, a);
         }
 
-        public void DrawSprite(GameSprite s, int subimage, float x, float y, float xscale, float yscale, 
-            float angle, uint color, float a)
+        public void DrawSprite(GameSprite s, int subimage, double x, double y, double xscale, double yscale, 
+            double angle, int color, double a)
         {
             Context.Graphics.DrawSprite(s, subimage, 0, 0, s.Width, s.Height, x, y, xscale, yscale, angle, color, 
                 color, color, color, a);

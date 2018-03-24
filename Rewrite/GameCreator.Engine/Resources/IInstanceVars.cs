@@ -21,7 +21,7 @@ namespace GameCreator.Engine
         [Gml("image_single")] double ImageSingle { get; set; }
         [Gml("image_index")] double ImageIndex { get; set; }
         [Gml("image_angle")] double ImageAngle { get; set; }
-        [Gml("image_blend")] uint ImageBlend { get; set; }
+        [Gml("image_blend")] int ImageBlend { get; set; }
         [Gml("image_alpha")] double ImageAlpha { get; set; }
         [Gml("image_xscale")] double ImageXScale { get; set; }
         [Gml("image_yscale")] double ImageYScale { get; set; }

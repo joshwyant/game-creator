@@ -2,6 +2,7 @@
 using GameCreator.Engine;
 using GameCreator.Engine.Api;
 using OpenTK;
+using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
 
 namespace GameCreator.Plugins.OpenTK
@@ -55,24 +56,26 @@ namespace GameCreator.Plugins.OpenTK
             return new TextureInfo(texId);
         }
 
-        public void SetProjection(float xfrom, float yfrom, float zfrom, float xto, float yto, float zto, float xup, float yup,
-            float zup, float angle, float aspect, float znear, float zfar)
+        public void SetProjection(double xfrom, double yfrom, double zfrom, double xto, double yto, double zto, double xup, double yup, double zup, double angle, double aspect, double znear, double zfar)
         {
             GL.MatrixMode(MatrixMode.Projection);
-            var perspective = Matrix4.CreatePerspectiveFieldOfView(angle, aspect, znear, zfar);
+            var perspective = 
+                Matrix4.CreatePerspectiveFieldOfView((float)angle, (float)aspect, (float)znear, (float)zfar);
             GL.LoadMatrix(ref perspective);
             GL.MatrixMode(MatrixMode.Modelview);
-            var view = Matrix4.LookAt(xfrom, yfrom, -zfrom, xto, yto, -zto, xup, yup, -zup);
+            var view = Matrix4.LookAt((float)xfrom, (float)yfrom, (float)-zfrom, (float)xto, (float)yto, (float)-zto, 
+                (float)xup, (float)yup, (float)-zup);
             GL.LoadMatrix(ref view);
             GL.Scale(1, 1, -1); // Convert to left-handed coordinate system for primitives
         }
 
-        public void SetOrthographicProjection(float x, float y, float w, float h, float angle)
+        public void SetOrthographicProjection(double x, double y, double w, double h, double angle)
         {
             GL.MatrixMode(MatrixMode.Projection);
             GL.LoadIdentity();
             GL.Rotate(angle, 0, 0, 1);
-            var ortho = Matrix4.CreateOrthographicOffCenter(x, x + w, y + h, y, float.MinValue, float.MaxValue);
+            var ortho = Matrix4.CreateOrthographicOffCenter((float)x, (float)(x + w), (float)(y + h), (float)y, 
+                float.MinValue, float.MaxValue);
             GL.MultMatrix(ref ortho);
 
             GL.MatrixMode(MatrixMode.Modelview);
@@ -80,30 +83,31 @@ namespace GameCreator.Plugins.OpenTK
             GL.Scale(1, 1, -1); // Convert to left-handed coordinate system
         }
 
-        public void Clear(byte r, byte g, byte b)
+        public void Clear(int color)
         {
-            GL.ClearColor(1f/255f*r, 1f/255f*g, 1f/255f*b, 1.0f);
-            GL.Clear(ClearBufferMask.ColorBufferBit);
+            makeColor(color, 1.0, out var vc);
+            GL.ClearColor(vc);
+            GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
         }
 
-        private void makeColor(uint color, float alpha, out Vector4 v)
+        private const float inv255 = 1f / 255f;
+        private void makeColor(int color, double alpha, out Color4 v)
         {
-            v = default(Vector4);
-            v.X = (color & 0xFF) / 255f;
-            v.Y = ((color & 0xFF00) >> 8) / 255f;
-            v.Z = ((color & 0xFF0000) >> 16) / 255f;
-            v.W = alpha;
+            v = default(Color4);
+            v.R = (color & 0xFF) * inv255;
+            v.G = ((color & 0xFF00) >> 8) * inv255;
+            v.B = ((color & 0xFF0000) >> 16) * inv255;
+            v.A = (float)alpha;
         }
 
-        private void makeTexCoord(IGameSprite s, float x, float y, out Vector2 texCoord)
+        private void makeTexCoord(IGameSprite s, double x, double y, out Vector2 texCoord)
         {
             texCoord = default(Vector2);
-            texCoord.X = x / s.Width;
-            texCoord.Y = y / s.Height;
+            texCoord.X = (float)x / s.Width;
+            texCoord.Y = (float)y / s.Height;
         }
 
-        public void DrawSprite(IGameSprite s, int subimg, float left, float top, float w, float h, float x, float y,
-            float xscale, float yscale, float angle, uint c1, uint c2, uint c3, uint c4, float a)
+        public void DrawSprite(IGameSprite s, int subimg, double left, double top, double w, double h, double x, double y, double xscale, double yscale, double angle, int c1, int c2, int c3, int c4, double a)
         {
             GL.MatrixMode(MatrixMode.Modelview);
             GL.PushMatrix();
@@ -152,6 +156,6 @@ namespace GameCreator.Plugins.OpenTK
             }
         }
 
-        public float DrawDepth3d { get; set; }
+        public double DrawDepth3d { get; set; }
     }
 }

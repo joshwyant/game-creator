@@ -27,9 +27,9 @@ namespace GameCreator.Engine.Library
             if (i.Sprite == null) return Matrix3x2.Identity;
             
             var m = Matrix3x2.CreateTranslation(-i.Sprite.XOrigin, -i.Sprite.YOrigin);
-            if (i.ImageXScale != 1f || i.ImageYScale != 1f)
+            if (i.ImageXScale != 1.0 || i.ImageYScale != 1.0)
                 m *= Matrix3x2.CreateScale((float) i.ImageXScale, (float) i.ImageYScale);
-            if (i.ImageAngle != 0f)
+            if (i.ImageAngle != 0.0)
                 m *= Matrix3x2.CreateRotation((float) (-i.ImageAngle * Math.PI / 180));
             m *= Matrix3x2.CreateTranslation((float) x, (float) y);
             // Todo: Transform by a world matrix in the graphics context

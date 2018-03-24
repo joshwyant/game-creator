@@ -169,10 +169,7 @@ namespace GameCreator.Engine
 
         public void DrawScreen()
         {
-            Graphics.Clear(
-                (byte) (CurrentRoom.BackgroundColor & 0xFF),
-                (byte) ((CurrentRoom.BackgroundColor & 0xFF00) >> 8),
-                (byte) ((CurrentRoom.BackgroundColor & 0xFF0000) >> 16));
+            Graphics.Clear(CurrentRoom.BackgroundColor);
 
             if (Enable3dMode)
             {
@@ -194,7 +191,7 @@ namespace GameCreator.Engine
                     i.ImageIndex += i.ImageSpeed;
                 }
                 
-                Graphics.DrawDepth3d = (float) i.Depth;
+                Graphics.DrawDepth3d = i.Depth;
                 if (i.AssignedObject.IsEventRegistered(EventType.Draw))
                 {
                     i.PerformEvent(EventType.Draw);

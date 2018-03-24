@@ -21,13 +21,13 @@ namespace GameCreator.Engine.Library
             Context.End3dMode();
         }
         
-        public void SetProjectionPerspective(float x, float y, float w, float h, float angle)
+        public void SetProjectionPerspective(double x, double y, double w, double h, double angle)
         {
             var aspectRatio = w / h;
-            var xcenter = x + w * 0.5f;
-            var ycenter = y + h * 0.5f;
-            var c = (float)Math.Cos(angle * Math.PI / 180.0);
-            var s = (float)Math.Sin(angle * Math.PI / 180.0);
+            var xcenter = x + w * 0.5;
+            var ycenter = y + h * 0.5;
+            var c = Math.Cos(angle * Math.PI / 180.0);
+            var s = Math.Sin(angle * Math.PI / 180.0);
             
             Context.Graphics.SetProjection(
                 xcenter, 
@@ -39,24 +39,24 @@ namespace GameCreator.Engine.Library
                 -s, // xup = 0, rotated by angle
                 c, // yup = 1, rotated by angle
                 0, 
-                (float)(2*Math.Atan(0.5 / aspectRatio)), 
+                2*Math.Atan(0.5 / aspectRatio), 
                 aspectRatio, 
                 1, 
                 32000);
         }
 
 
-        public void SetProjection(float xfrom, float yfrom, float zfrom, float xto, float yto, float zto, float xup,
-            float yup, float zup, float angle, float aspect, float znear, float zfar)
+        public void SetProjection(double xfrom, double yfrom, double zfrom, double xto, double yto, double zto, double xup,
+            double yup, double zup, double angle, double aspect, double znear, double zfar)
         {
             Context.Graphics.SetProjection(xfrom, yfrom, zfrom, xto, yto, zto, xup, yup, zup, angle, aspect, znear, zfar);
         }
-        public void SetOrthographicProjection(float x, float y, float w, float h, float angle)
+        public void SetOrthographicProjection(double x, double y, double w, double h, double angle)
         {
             Context.Graphics.SetOrthographicProjection(x, y, w, h, angle);
         }
 
-        public void Set3dDrawDepth(float depth)
+        public void Set3dDrawDepth(double depth)
         {
             Context.Graphics.DrawDepth3d = depth;
         }

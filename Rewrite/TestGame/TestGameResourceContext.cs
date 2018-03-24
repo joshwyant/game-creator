@@ -48,10 +48,10 @@ namespace TestGame
                 
                 for (var i = 0; i < 128*128; i++)
                 {
-                    var x = (i % 128 - 64) / 64f;
-                    var y = (i / 128 - 64) / 64f;
+                    var x = (i % 128 - 64) / 64.0;
+                    var y = (i / 128 - 64) / 64.0;
 
-                    data[i] = x * x + y * y < 1f ? 0x0000A0U + ((uint)(255-(x*x+y*y)*255)<<24) : 0;
+                    data[i] = x * x + y * y < 1 ? 0x0000A0U + ((uint)(255-(x*x+y*y)*255)<<24) : 0;
                 }
 
                 return data;
@@ -70,10 +70,10 @@ namespace TestGame
                 
                 for (var i = 0; i < 128*128; i++)
                 {
-                    var x = (i % 128 - 64) / 64f;
-                    var y = (i / 128 - 64) / 64f;
+                    var x = (i % 128 - 64) / 64.0;
+                    var y = (i / 128 - 64) / 64.0;
 
-                    data[i] = Math.Abs(x) + Math.Abs(y) < 1f ? 0x008000U+((uint)(255-(Math.Abs(x)+Math.Abs(y))*255)<<24) : 0;
+                    data[i] = Math.Abs(x) + Math.Abs(y) < 1 ? 0x008000U+((uint)(255-(Math.Abs(x)+Math.Abs(y))*255)<<24) : 0;
                 }
 
                 return data;
@@ -125,17 +125,17 @@ namespace TestGame
                     // How GM SHOULD project by default (default is yup 1, from -room_height, and corresponding angle).
                     // I think GM does it this way in order to use depth as z
                     Context.Graphics.SetProjection(
-                        Context.CurrentRoom.Width * 0.5f,
-                        Context.CurrentRoom.Height * 0.5f,
+                        Context.CurrentRoom.Width * 0.5,
+                        Context.CurrentRoom.Height * 0.5,
                         Context.CurrentRoom.Height,
-                        Context.CurrentRoom.Width * 0.5f,
-                        Context.CurrentRoom.Height * 0.5f,
+                        Context.CurrentRoom.Width * 0.5,
+                        Context.CurrentRoom.Height * 0.5,
                         0,
                         0,
                         -1,
                         0,
-                        (float) (2*Math.Atan(0.5)),
-                        (float) Context.CurrentRoom.Width / Context.CurrentRoom.Height,
+                        2*Math.Atan(0.5),
+                        (double) Context.CurrentRoom.Width / Context.CurrentRoom.Height,
                         1,
                         32000
                     );

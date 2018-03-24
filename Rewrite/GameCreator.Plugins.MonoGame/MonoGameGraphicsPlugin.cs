@@ -48,26 +48,27 @@ namespace GameCreator.Plugins.MonoGame
             return tex;
         }
 
-        public void SetProjection(float xfrom, float yfrom, float zfrom, float xto, float yto, float zto, float xup, float yup,
-            float zup, float angle, float aspect, float znear, float zfar)
+        public void SetProjection(double xfrom, double yfrom, double zfrom, double xto, double yto, double zto, double xup, double yup, double zup, double angle, double aspect, double znear, double zfar)
         {
             Game.BasicEffect.View = 
                 Matrix.CreateScale(1, 1, -1) // convert to left-handed
                 * Matrix.CreateLookAt(
-                    new Vector3(xfrom, yfrom, -zfrom), 
-                    new Vector3(xto, yto, -zto), 
-                    new Vector3(xup, yup, -zup));
-            Game.BasicEffect.Projection = Matrix.CreatePerspectiveFieldOfView(angle, aspect, znear, zfar);
+                    new Vector3((float)xfrom, (float)yfrom, (float)-zfrom), 
+                    new Vector3((float)xto, (float)yto, (float)-zto), 
+                    new Vector3((float)xup, (float)yup, (float)-zup));
+            Game.BasicEffect.Projection = 
+                Matrix.CreatePerspectiveFieldOfView((float)angle, (float)aspect, (float)znear, (float)zfar);
         }
 
-        public void SetOrthographicProjection(float x, float y, float w, float h, float angle)
+        public void SetOrthographicProjection(double x, double y, double w, double h, double angle)
         {
             Game.BasicEffect.View =
                 Matrix.CreateScale(1, 1, -1); // convert to left-handed
             
             Game.BasicEffect.Projection =
-                Matrix.CreateOrthographicOffCenter(x, x + w, y + h, y, float.MinValue, float.MaxValue)
-                * Matrix.CreateRotationZ(angle * MathHelper.Pi / 180f);
+                Matrix.CreateOrthographicOffCenter((float)x, (float)(x + w), (float)(y + h), (float)y, 
+                    float.MinValue, float.MaxValue)
+                * Matrix.CreateRotationZ((float)angle * MathHelper.Pi / 180f);
         }
 
         private void WithDrawingSettings(Action draw)
@@ -81,25 +82,24 @@ namespace GameCreator.Plugins.MonoGame
             
         }
 
-        public void Clear(byte r, byte g, byte b)
+        public void Clear(int color)
         {
-            Game.GraphicsDevice.Clear(new Color(r, g, b));
+            Game.GraphicsDevice.Clear(new Color((uint)color));
         }
 
-        private void makeColor(uint c, float alpha, out Color color)
+        private void makeColor(int c, double alpha, out Color color)
         {
-            color = new Color(c) {A = (byte) (alpha * 255f)};
+            color = new Color((uint)c) {A = (byte) (alpha * 255)};
         }
         
-        private void makeTexCoord(IGameSprite s, float x, float y, out Vector2 texCoord)
+        private void makeTexCoord(IGameSprite s, double x, double y, out Vector2 texCoord)
         {
             texCoord = default(Vector2);
-            texCoord.X = x / s.Width;
-            texCoord.Y = y / s.Height;
+            texCoord.X = (float)x / s.Width;
+            texCoord.Y = (float)y / s.Height;
         }
         
-        public void DrawSprite(IGameSprite s, int subimg, float left, float top, float w, float h, float x, float y,
-            float xscale, float yscale, float angle, uint c1, uint c2, uint c3, uint c4, float a)
+        public void DrawSprite(IGameSprite s, int subimg, double left, double top, double w, double h, double x, double y, double xscale, double yscale, double angle, int c1, int c2, int c3, int c4, double a)
         {
             var tex = (TextureWrapper) s.Textures[subimg];
 
@@ -113,53 +113,53 @@ namespace GameCreator.Plugins.MonoGame
             makeTexCoord(s, left, top+h, out var tc4);
 
             Game.BasicEffect.World = Matrix.CreateTranslation(-s.XOrigin, -s.YOrigin, 0)
-                * Matrix.CreateScale(xscale, yscale, 1)
-                * Matrix.CreateRotationZ(-angle * MathHelper.Pi / 180)
-                * Matrix.CreateTranslation(x, y, 0);
+                * Matrix.CreateScale((float)xscale, (float)yscale, 1)
+                * Matrix.CreateRotationZ((float)-angle * MathHelper.Pi / 180)
+                * Matrix.CreateTranslation((float)x, (float)y, 0);
             
             Game.GraphicsDevice.BlendState = BlendState.NonPremultiplied;
             Game.BasicEffect.TextureEnabled = true;
             Game.BasicEffect.VertexColorEnabled = true;
             Game.BasicEffect.Texture = tex;
-            
 
+            var z = (float) DrawDepth3d;
             var vertices = new[]
             {
                 new VertexPositionColorTexture
                 {
                     Color = color1,
-                    Position = new Vector3(0, 0, DrawDepth3d),
+                    Position = new Vector3(0, 0, z),
                     TextureCoordinate = tc1
                 },
                 new VertexPositionColorTexture
                 {
                     Color = color3,
-                    Position = new Vector3(w, h, DrawDepth3d),
+                    Position = new Vector3((float)w, (float)h, z),
                     TextureCoordinate = tc3
                 },
                 new VertexPositionColorTexture
                 {
                     Color = color2,
-                    Position = new Vector3(w, 0, DrawDepth3d),
+                    Position = new Vector3((float)w, 0, z),
                     TextureCoordinate = tc2
                 },
                 
                 new VertexPositionColorTexture
                 {
                     Color = color1,
-                    Position = new Vector3(0, 0, DrawDepth3d),
+                    Position = new Vector3(0, 0, z),
                     TextureCoordinate = tc1
                 },
                 new VertexPositionColorTexture
                 {
                     Color = color4,
-                    Position = new Vector3(0, h, DrawDepth3d),
+                    Position = new Vector3(0, (float)h, z),
                     TextureCoordinate = tc4
                 },
                 new VertexPositionColorTexture
                 {
                     Color = color3,
-                    Position = new Vector3(w, h, DrawDepth3d),
+                    Position = new Vector3((float)w, (float)h, z),
                     TextureCoordinate = tc3
                 },
             };
@@ -185,6 +185,6 @@ namespace GameCreator.Plugins.MonoGame
                 value ? DepthStencilState.Default : DepthStencilState.None;
         }
 
-        public float DrawDepth3d { get; set; }
+        public double DrawDepth3d { get; set; }
     }
 }

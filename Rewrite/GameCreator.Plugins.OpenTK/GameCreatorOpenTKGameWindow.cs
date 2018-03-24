@@ -10,14 +10,14 @@ namespace GameCreator.Plugins.OpenTK
 {
     internal sealed class GameCreatorOpenTKGameWindow : GameWindow
     {
-        private readonly float _scale;
+        private readonly double _scale;
         
         public GameCreatorOpenTKGameWindow() 
             : base(640, 480) // Hack
         {
             // Workaround for DPI issue https://github.com/opentk/opentk/issues/47
             // This would be cleaner if we could get the width/height from a room in IResourceContext
-            _scale = (float)Width / 640; 
+            _scale = (double)Width / 640; 
             WindowBorder = WindowBorder.Fixed;
         }
 

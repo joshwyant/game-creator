@@ -9,14 +9,14 @@ namespace GameCreator.Engine.Api
         event EventHandler<EventArgs> Load;
         event EventHandler<EventArgs> Draw;
         ITexture LoadTexture(IImage image);
-        void SetProjection(float xfrom, float yfrom, float zfrom, float xto, float yto, float zto, float xup,
-            float yup, float zup, float angle, float aspect, float znear, float zfar);
-        void SetOrthographicProjection(float x, float y, float w, float h, float angle);
-        void Clear(byte r, byte g, byte b);
-        void DrawSprite(IGameSprite s, int subimg, float left, float top, float w, float h, float x, float y,
-            float xscale, float yscale, float angle, uint c1, uint c2, uint c3, uint c4, float a);
+        void SetProjection(double xfrom, double yfrom, double zfrom, double xto, double yto, double zto, double xup,
+            double yup, double zup, double angle, double aspect, double znear, double zfar);
+        void SetOrthographicProjection(double x, double y, double w, double h, double angle);
+        void Clear(int color);
+        void DrawSprite(IGameSprite s, int subimg, double left, double top, double w, double h, double x, double y,
+            double xscale, double yscale, double angle, int c1, int c2, int c3, int c4, double a);
 
         bool DepthStencilEnable { get; set; }
-        float DrawDepth3d { get; set; }
+        double DrawDepth3d { get; set; }
     }
 }
