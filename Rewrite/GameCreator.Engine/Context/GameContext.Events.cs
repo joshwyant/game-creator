@@ -131,8 +131,6 @@ namespace GameCreator.Engine
             });
             
             // Process collision events
-            // TODO: Reorder and refine based on actual logic
-            //    (if instances are created during the loop, are they checked for collisions?)
             {
                 var collisionTree = Library.CollisionFunctions.GenerateCollisionTree(PresortedInstances);
                 
@@ -151,13 +149,36 @@ namespace GameCreator.Engine
                     foreach (var other in collisions)
                     {
                         // Generate collision events in both instances
-                        OtherInstance = other;
-                        i.PerformEvent(EventType.Collision, other.ObjectIndex);
-                        OtherInstance = i;
-                        other.PerformEvent(EventType.Collision, i.ObjectIndex);
+                        CollideInstances(i, other);
+                        CollideInstances(other, i);
                         OtherInstance = null;
                     }
                 });
+
+                void CollideInstances(GameInstance i, GameInstance other)
+                {
+                    if (!i.AssignedObject.IsEventRegistered(other.AssignedObject)) return;
+
+                    if (other.Solid)
+                    {
+                        i.X = i.XPrevious;
+                        i.Y = i.YPrevious;
+                    }
+                    
+                    OtherInstance = other;
+                    i.PerformEvent(EventType.Collision, other.ObjectIndex);
+
+                    if (other.Solid)
+                    {
+                        var destx = i.X + i.HSpeed; // Direction may have changed in collision event
+                        var desty = i.Y + i.VSpeed;
+                        if (Library.CollisionFunctions.PlaceFree(i, destx, desty, true))
+                        {
+                            i.X = destx;
+                            i.Y = desty;
+                        }
+                    }
+                }
             }
             
             // Process end step events

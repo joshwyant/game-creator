@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Numerics;
 using GameCreator.Engine.Common;
@@ -164,6 +165,17 @@ namespace GameCreator.Engine.Library
         {
             return GetCollisions(i, i.X, i.Y, instances, onlySolid);
         }
+
+        public bool PlaceFree(GameInstance i, double x, double y, bool onlySolid)
+        {
+            return PlaceFree(i, x, y, Context.PresortedInstances, onlySolid);
+        }
+
+        public bool PlaceFree(GameInstance i, double x, double y, IEnumerable<GameInstance> instances,
+            bool onlySolid)
+        {
+            return !GetCollisions(i, x, y, instances, onlySolid).Any();
+        }
         
         public IEnumerable<GameInstance> GetCollisions(GameInstance i, double x, double y, 
             IEnumerable<GameInstance> instances, bool onlySolid)
@@ -189,43 +201,28 @@ namespace GameCreator.Engine.Library
             }
         }
 
-        public bool PlaceFree(GameInstance i, double x, double y, bool onlySolid)
+        public void MoveContactPosition(GameInstance i, double direction, double maxDist, bool onlySolid)
         {
-            return !GetCollisions(i, x, y, Context.PresortedInstances, onlySolid).Any();
-        }
-
-        public void MoveContactPosition(GameInstance i, bool onlySolid)
-        {
-            if (i.Speed == 0)
+            if (i.Speed == 0 || !PlaceFree(i, i.X, i.Y, onlySolid))
                 return;
             
-            var targetX = i.X;
-            var targetY = i.Y;
-            var newx = i.XPrevious;
-            var newy = i.YPrevious;
-            var xdiff = i.X - i.XPrevious;
-            var ydiff = i.Y - i.YPrevious;
-            var speed = Math.Sqrt(xdiff * xdiff + ydiff * ydiff);
-            var invSpeed = 1.0 / speed;
-            var xstep = xdiff * invSpeed;
-            var ystep = ydiff * invSpeed;
+            var xstart = i.X;
+            var ystart = i.Y;
+            var xstep = Math.Cos(direction * Math.PI / 180);
+            var ystep = -Math.Sin(direction * Math.PI / 180);
 
-            for (var j = 0; j < (int) speed; j++)
+            for (var j = 0; j <= (int) Math.Ceiling(maxDist); j++)
             {
+                var dist = Math.Min(j, maxDist);
+                var newx = xstart + dist * xstep;
+                var newy = ystart + dist * ystep;
+                if (!PlaceFree(i, newx, newy, onlySolid))
+                {
+                    break;
+                }
                 i.X = newx;
                 i.Y = newy;
-                var prevx = newx;
-                var prevy = newy;
-                newx = prevx + xstep;
-                newy = prevy + ystep;
-                if (GetCollisions(i, newx, newy, Context.PresortedInstances, onlySolid).Any())
-                {
-                    return;
-                }
             }
-
-            i.X = targetX;
-            i.Y = targetY;
         }
     }
 }

@@ -107,7 +107,7 @@ namespace TestGame
                 {
                     if (!Context.Input.CheckKeyPressed(VirtualKeyCode.LShift))
                     {
-                        Context.Library.CollisionFunctions.MoveContactPosition(self, true);
+                        Context.Library.CollisionFunctions.MoveContactPosition(self, self.Direction, self.Speed, true);
                     }
                     
                     Context.Library.MainFunctions.PlaySound(ClickSound);
@@ -147,7 +147,7 @@ namespace TestGame
                 {
                     if (Context.Library.CollisionFunctions.PlaceFree(self, self.X - 5, self.Y, true))
                     {
-                        self.HSpeed = -5;
+                        self.HSpeed = -32;
                         self.VSpeed = 0;
                         self.ImageAngle = 0;
                         self.ImageSpeed = 0.5;
@@ -158,7 +158,7 @@ namespace TestGame
                 {
                     if (Context.Library.CollisionFunctions.PlaceFree(self, self.X + 5, self.Y, true))
                     {
-                        self.HSpeed = 5;
+                        self.HSpeed = 32;
                         self.VSpeed = 0;
                         self.ImageAngle = 180;
                         self.ImageSpeed = 0.5;
@@ -170,7 +170,7 @@ namespace TestGame
                     if (Context.Library.CollisionFunctions.PlaceFree(self, self.X, self.Y - 5, true))
                     {
                         self.HSpeed = 0;
-                        self.VSpeed = -5;
+                        self.VSpeed = -32;
                         self.ImageAngle = 270;
                         self.ImageSpeed = 0.5;
                     }
@@ -181,7 +181,7 @@ namespace TestGame
                     if (Context.Library.CollisionFunctions.PlaceFree(self, self.X, self.Y + 5, true))
                     {
                         self.HSpeed = 0;
-                        self.VSpeed = 5;
+                        self.VSpeed = 32;
                         self.ImageAngle = 90;
                         self.ImageSpeed = 0.5;
                     }
