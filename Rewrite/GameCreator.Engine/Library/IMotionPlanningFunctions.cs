@@ -9,16 +9,13 @@ namespace GameCreator.Engine.Library
         bool LinearStep([GmlBinding(CurrentInstance)] GameInstance self, double x, double y, double stepsize, 
             bool checkall);
         
-        
         [Gml("mp_linear_step_object")]
         bool LinearStepObject([GmlBinding(CurrentInstance)] GameInstance self, double x, double y, double stepsize, 
             int anyId);
         
-        
         [Gml("mp_potential_step")]
         bool PotentialStep([GmlBinding(CurrentInstance)] GameInstance self, double x, double y, double stepsize, 
             bool checkall);
-        
         
         [Gml("mp_potential_step_object")]
         bool PotentialStepObject([GmlBinding(CurrentInstance)] GameInstance self, double x, double y, double stepsize, 

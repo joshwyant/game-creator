@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using GameCreator.Runtime.Api;
+﻿using System.Collections.Generic;
 using static GameCreator.Engine.Library.MoveDirections;
-using static System.Math;
 
 namespace GameCreator.Engine.Library
 {

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace GameCreator.Engine.Api
+﻿namespace GameCreator.Engine.Api
 {
     public interface ITimerPlugin
     {

@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.Design;
-using GameCreator.Engine;
 using GameCreator.Engine.Api;
 using GameCreator.Engine.Common;
 using Moq;

@@ -1,6 +1,5 @@
 ﻿using System;
 using Ninject;
-using Ninject.Modules;
 
 namespace GameCreator.Engine
 {

@@ -1,6 +1,4 @@
-﻿using System;
-using System.IO;
-using GameCreator.Engine;
+﻿using GameCreator.Engine;
 using GameCreator.Engine.Api;
 
 namespace TestGame

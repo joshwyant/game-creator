@@ -1,5 +1,4 @@
-﻿using GameCreator.Engine;
-using GameCreator.Engine.Api;
+﻿using GameCreator.Engine.Api;
 using Ninject.Modules;
 
 namespace GameCreator.Plugins.OpenTK

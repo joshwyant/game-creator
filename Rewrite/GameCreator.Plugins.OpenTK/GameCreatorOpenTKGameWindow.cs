@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using GameCreator.Engine;
 using OpenTK;
-using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
+using static OpenTK.Graphics.OpenGL.GL;
 
 namespace GameCreator.Plugins.OpenTK
 {
@@ -28,10 +27,10 @@ namespace GameCreator.Plugins.OpenTK
 
         protected override void OnLoad(EventArgs e)
         {
-            GL.Enable(EnableCap.Texture2D);
-            GL.Enable(EnableCap.Blend);
-            GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
-            GL.Hint(HintTarget.PerspectiveCorrectionHint, HintMode.Nicest);
+            Enable(EnableCap.Texture2D);
+            Enable(EnableCap.Blend);
+            BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
+            Hint(HintTarget.PerspectiveCorrectionHint, HintMode.Nicest);
             
             GameCreatorLoad?.Invoke(this, EventArgs.Empty);
         }
@@ -64,7 +63,7 @@ namespace GameCreator.Plugins.OpenTK
 
         protected override void OnUnload(EventArgs e)
         {
-            GL.DeleteTextures(_loadedTextures.Count, _loadedTextures.ToArray());
+            DeleteTextures(_loadedTextures.Count, _loadedTextures.ToArray());
         }
     }
 }

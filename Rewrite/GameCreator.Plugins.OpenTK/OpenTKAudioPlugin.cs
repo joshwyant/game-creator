@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using GameCreator.Engine.Api;
 using OpenTK.Audio;
 using OpenTK.Audio.OpenAL;
+using static OpenTK.Audio.OpenAL.AL;
 
 namespace GameCreator.Plugins.OpenTK
 {
@@ -17,6 +17,8 @@ namespace GameCreator.Plugins.OpenTK
     // https://web.archive.org/web/20141213140451/https://ccrma.stanford.edu/courses/422/projects/WaveFormat/
     internal sealed class OpenTKAudioPlugin : IAudioPlugin, IDisposable
     {
+        private const bool disabled = true;
+        
         private AudioContext Context { get; }
         
         List<int> buffers = new List<int>();
@@ -24,32 +26,45 @@ namespace GameCreator.Plugins.OpenTK
         
         public OpenTKAudioPlugin()
         {
-            Context = new AudioContext();
+            if (!disabled)
+            {
+                Context = new AudioContext();
+            }
         }
 
         public ISoundEffect LoadSound(Stream stream)
         {
+            if (disabled)
+            {
+                return new SoundInfo(-1, TimeSpan.Zero);
+            }
+            
             var data = LoadWave(stream, out var channels, out var bits, out var rate);
             var length = CalculateLength(channels, bits, rate, data.Length);
 
-            var bufferId = AL.GenBuffer();
+            var bufferId = GenBuffer();
             buffers.Add(bufferId);
             var soundInfo = new SoundInfo(bufferId, length);
             
-            AL.BufferData(bufferId, GetSoundFormat(channels, bits), data, data.Length, rate);
+            BufferData(bufferId, GetSoundFormat(channels, bits), data, data.Length, rate);
 
             return soundInfo;
         }
 
         public void PlaySound(ISoundEffect sound)
         {
+            if (disabled)
+            {
+                return;
+            }
+            
             var soundInfo = (SoundInfo) sound;
-            var sourceId = AL.GenSource();
+            var sourceId = GenSource();
             var source = new Source(sourceId);
             sources.Add(source);
             soundInfo.Sources.TryAdd(sourceId, source);
-            AL.Source(sourceId, ALSourcei.Buffer, soundInfo.BufferId);
-            AL.SourcePlay(sourceId);
+            Source(sourceId, ALSourcei.Buffer, soundInfo.BufferId);
+            SourcePlay(sourceId);
 
             Task.Delay(soundInfo.Length).ContinueWith(_ =>
             {
@@ -125,7 +140,7 @@ namespace GameCreator.Plugins.OpenTK
         {
             sources.ForEach(s => s.Dispose());
             sources.Clear();
-            AL.DeleteBuffers(buffers.ToArray());
+            DeleteBuffers(buffers.ToArray());
             buffers.Clear();
         }
 

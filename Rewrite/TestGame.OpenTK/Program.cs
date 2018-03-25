@@ -1,6 +1,4 @@
-﻿using System;
-using GameCreator.Engine;
-using GameCreator.Plugins.OpenTK;
+﻿using GameCreator.Engine;
 
 namespace TestGame.OpenTK
 {
