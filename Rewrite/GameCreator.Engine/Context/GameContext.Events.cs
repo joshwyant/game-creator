@@ -130,19 +130,19 @@ namespace GameCreator.Engine
 
         private void ProcessCollisionEvents()
         {
-            var collisionTree = Library.Collision.GenerateCollisionTree(PresortedInstances);
+            var collisionTree = Library.Move.GenerateCollisionTree(PresortedInstances);
 
             ForInstances(i =>
             {
-                Library.Collision.RemoveFromRTree(i, collisionTree);
+                Library.Move.RemoveFromRTree(i, collisionTree);
 
                 if (i.Sprite == null) return;
 
-                var overlapping = Library.Collision
+                var overlapping = Library.Move
                     .InstancesInBoundingBox(i, collisionTree)
                     .Select(o => (GameInstance) Instances[o]);
 
-                var collisions = Library.Collision.GetCollisions(i, overlapping, false);
+                var collisions = Library.Move.GetCollisions(i, overlapping, false);
 
                 foreach (var other in collisions)
                 {
@@ -170,7 +170,7 @@ namespace GameCreator.Engine
                 {
                     var destx = i.X + i.HSpeed; // Direction may have changed in collision event
                     var desty = i.Y + i.VSpeed;
-                    if (Library.Collision.PlaceFree(i, destx, desty, true))
+                    if (Library.Move.PlaceFree(i, destx, desty, true))
                     {
                         i.X = destx;
                         i.Y = desty;

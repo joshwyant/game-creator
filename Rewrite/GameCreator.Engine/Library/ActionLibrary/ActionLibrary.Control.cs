@@ -1,4 +1,5 @@
-﻿using GameCreator.Runtime.Api;
+﻿using System;
+using GameCreator.Runtime.Api;
 
 namespace GameCreator.Engine.Library
 {
@@ -8,17 +9,17 @@ namespace GameCreator.Engine.Library
 
         public bool IfEmpty(GameInstance self, double x, double y, bool allObjects, bool relative = false)
         {
-            return false;
+            throw new NotImplementedException();
         }
 
         public bool IfCollision(GameInstance self, double x, double y, bool allObjects, bool relative = false)
         {
-            return false;
+            throw new NotImplementedException();
         }
 
         public bool IfObject(GameInstance self, GameObject obj, double x, double y, bool relative = false)
         {
-            return false;
+            throw new NotImplementedException();
         }
 
         /// <param name="operation">
@@ -28,22 +29,22 @@ namespace GameCreator.Engine.Library
         /// </param>
         public bool IfNumber(GameObject obj, int number, int operation)
         {
-            return false;
+            throw new NotImplementedException();
         }
 
         public bool IfDice(int sides)
         {
-            return false;
+            throw new NotImplementedException();
         }
 
         public bool IfQuestion(string question)
         {
-            return false;
+            throw new NotImplementedException();
         }
 
-        public bool If(Value expression)
+        public bool If(Variant expression)
         {
-            return false;
+            throw new NotImplementedException();
         }
 
         /// <param name="button">
@@ -54,12 +55,12 @@ namespace GameCreator.Engine.Library
         /// </param>
         public bool IfMouse(int button)
         {
-            return false;
+            throw new NotImplementedException();
         }
 
         public bool IfAligned(GameInstance self, int snapx, int snapy)
         {
-            return false;
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -68,11 +69,13 @@ namespace GameCreator.Engine.Library
         /// </summary>
         public void CallInheritedEvent()
         {
+            throw new NotImplementedException();
         }
 
-        public void ExecuteScript(GameInstance self, GameScript script, Value arg0, Value arg1, Value arg2, Value arg3,
-            Value arg4)
+        public void ExecuteScript(GameInstance self, GameScript script, Variant arg0, Variant arg1, Variant arg2, Variant arg3,
+            Variant arg4)
         {
+            throw new NotImplementedException();
         }
 
         /// <param name="operation">
@@ -80,13 +83,14 @@ namespace GameCreator.Engine.Library
         /// 1 = less than,
         /// 2 = greater than
         /// </param>
-        public bool IfVariable(GameInstance self, Value result, Value value, int operation)
+        public bool IfVariable(GameInstance self, Variant result, Variant value, int operation)
         {
-            return false;
+            throw new NotImplementedException();
         }
 
-        public void DrawVariable(GameInstance self, Value result, double x, double y, bool relative = false)
+        public void DrawVariable(GameInstance self, Variant result, double x, double y, bool relative = false)
         {
+            throw new NotImplementedException();
         }
 
         #endregion

@@ -38,6 +38,13 @@ namespace GameCreator.Engine
         public int SpriteHeight => AssignedObject?.Sprite?.Height ?? 0;
         public int SpriteXOffset => AssignedObject?.Sprite?.XOrigin ?? 0;
         public int SpriteYOffset => AssignedObject?.Sprite?.YOrigin ?? 0;
+        public int PathIndex { get; internal set; }
+        public double PathPosition { get; set; }
+        public double PathPositionPrevious { get; set; }
+        public double PathSpeed { get; set; }
+        public double PathOrientation { get; set; }
+        public double PathScale { get; set; }
+        public PathEndAction PathEndAction { get; set; }
 
         public double Direction
         {
@@ -232,8 +239,8 @@ namespace GameCreator.Engine
                 () =>
                 {
                     if (Sprite == null) return false;
-                    var m = Context.Library.Collision.GetSpriteTransform(this);
-                    var bb = Context.Library.Collision.GetSpriteTransformedBoundingBox(Sprite, m);
+                    var m = Context.Library.Move.GetSpriteTransform(this);
+                    var bb = Context.Library.Move.GetSpriteTransformedBoundingBox(Sprite, m);
 
                     if (!bb.IsValid) return false;
 
@@ -248,8 +255,8 @@ namespace GameCreator.Engine
                 () =>
                 {
                     if (Sprite == null) return false;
-                    var m = Context.Library.Collision.GetSpriteTransform(this);
-                    var bb = Context.Library.Collision.GetSpriteTransformedBoundingBox(Sprite, m);
+                    var m = Context.Library.Move.GetSpriteTransform(this);
+                    var bb = Context.Library.Move.GetSpriteTransformedBoundingBox(Sprite, m);
 
                     if (!bb.IsValid) return false;
 

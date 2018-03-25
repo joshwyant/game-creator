@@ -10,14 +10,16 @@ using static System.Math;
 
 namespace GameCreator.Engine.Library
 {
-    public class CollisionFunctions
+    public class MoveFunctions : IMoveFunctions
     {
         public GameContext Context { get; }
 
-        public CollisionFunctions(GameContext context)
+        public MoveFunctions(GameContext context)
         {
             Context = context;
         }
+        
+        #region Helpers
 
         public Matrix3x2 GetSpriteTransform(GameInstance i)
         {
@@ -166,7 +168,7 @@ namespace GameCreator.Engine.Library
         {
             return GetCollisions(i, i.X, i.Y, instances, onlySolid);
         }
-
+        
         public bool PlaceFree(GameInstance i, double x, double y, bool onlySolid)
         {
             return PlaceFree(i, x, y, Context.PresortedInstances, onlySolid);
@@ -224,6 +226,107 @@ namespace GameCreator.Engine.Library
                 i.X = newx;
                 i.Y = newy;
             }
+        }
+        #endregion
+
+        public void MotionSet(GameInstance self, double direction, double speed)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void MotionAdd(GameInstance self, double direction, double speed)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool PlaceFree(GameInstance self, double x, double y)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool PlaceEmpty(GameInstance self, double x, double y)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool PlaceMeeting(GameInstance self, double x, double y, int anyId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool PlaceSnapped(GameInstance self, int hsnap, int vsnap)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void MoveRandom(GameInstance self, int hsnap, int vsnap)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void MoveSnap(GameInstance self, int hsnap, int vsnap)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void MoveWrap(GameInstance self, bool hor, bool vert, double margin)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void MoveTowardsPoint(GameInstance self, double x, double y, double speed)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void MoveBounceSolid(GameInstance self, bool advanced)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void MoveBounceAll(GameInstance self, bool advanced)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void MoveContactSolid(GameInstance self, double dir, double maxdist)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void MoveContactAll(GameInstance self, double dir, double maxdist)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void MoveOutsideSolid(GameInstance self, double dir, double maxdist)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void MoveOutsideAll(GameInstance self, double dir, double maxdist)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DistanceToPoint(GameInstance self, double x, double y)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DistanceToObject(GameInstance self, int anyId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void PositionEmpty(double x, double y)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void PositionMeeting(double x, double y, int anyId)
+        {
+            throw new NotImplementedException();
         }
     }
 }

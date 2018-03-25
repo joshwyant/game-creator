@@ -37,5 +37,12 @@ namespace GameCreator.Engine
         [Gml("sprite_height")] int SpriteHeight { get; }
         [Gml("sprite_xoffset")] int SpriteXOffset { get; }
         [Gml("sprite_yoffset")] int SpriteYOffset { get; }
+        [Gml("path_index")] int PathIndex { get; }
+        [Gml("path_position")] double PathPosition { get; set; }
+        [Gml("path_positionprevious")] double PathPositionPrevious { get; set; }
+        [Gml("path_speed")] double PathSpeed { get; set; }
+        [Gml("path_orientation")] double PathOrientation { get; set; }
+        [Gml("path_scale")] double PathScale { get; set; }
+        [Gml("path_endaction")] PathEndAction PathEndAction { get; set; }
     }
 }

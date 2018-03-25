@@ -3,45 +3,45 @@ using System.Globalization;
 
 namespace GameCreator.Runtime.Api
 {
-    public struct Value
+    public struct Variant
     {
         private readonly string _string;
         private readonly double _real;
         
         #region Constructors
 
-        public Value(string val)
+        public Variant(string val)
         {
             ValueType = ValueType.String;
             _string = val;
             _real = 0.0;
         }
 
-        public Value(double val)
+        public Variant(double val)
         {
             ValueType = ValueType.Real;
             _real = val;
             _string = null;
         }
 
-        public Value(int val)
+        public Variant(int val)
             : this((double) val)
         {
         }
 
-        public Value(bool val)
+        public Variant(bool val)
             : this(val ? 1.0 : 0.0)
         {
         }
 
-        public Value(Value other)
+        public Variant(Variant other)
         {
             ValueType = other.ValueType;
             _real = other._real;
             _string = other._string;
         }
 
-        public Value(object obj)
+        public Variant(object obj)
         {
             switch (obj)
             {
@@ -50,7 +50,7 @@ namespace GameCreator.Runtime.Api
                     _string = str;
                     _real = 0.0;
                     break;
-                case Value val:
+                case Variant val:
                     ValueType = val.ValueType;
                     _real = val._real;
                     _string = val._string;
@@ -122,65 +122,65 @@ namespace GameCreator.Runtime.Api
         #endregion
         
         #region Static Properties
-        public static Value Zero = new Value(0.0);
-        public static Value One = new Value(1.0);
-        public static Value EmptyString = new Value(string.Empty);
-        public static Value Null = default(Value);
+        public static Variant Zero = new Variant(0.0);
+        public static Variant One = new Variant(1.0);
+        public static Variant EmptyString = new Variant(string.Empty);
+        public static Variant Null = default(Variant);
         #endregion
         
         #region Equality
-        public static Value operator ==(Value a, Value b)
+        public static Variant operator ==(Variant a, Variant b)
         {
             return a.ValueType == b.ValueType
                    && (a.ValueType == ValueType.Real && a._real == b._real
                        || a.ValueType == ValueType.String && a._string == b._string);
         }
 
-        public static Value operator !=(Value a, Value b)
+        public static Variant operator !=(Variant a, Variant b)
         {
             return !(a == b);
         }
         #endregion
         
         #region Implicit Conversions
-        public static implicit operator int(Value v)
+        public static implicit operator int(Variant v)
         {
             return v.Int;
         }
-        public static implicit operator double(Value v)
+        public static implicit operator double(Variant v)
         {
             return v.Real;
         }
-        public static implicit operator bool(Value v)
+        public static implicit operator bool(Variant v)
         {
             return v.Bool;
         }
-        public static implicit operator string(Value v)
+        public static implicit operator string(Variant v)
         {
             return v.String;
         }
-        public static implicit operator Value(double d)
+        public static implicit operator Variant(double d)
         {
-            return new Value(d);
+            return new Variant(d);
         }
-        public static implicit operator Value(string s)
+        public static implicit operator Variant(string s)
         {
-            return new Value(s);
+            return new Variant(s);
         }
-        public static implicit operator Value(bool b)
+        public static implicit operator Variant(bool b)
         {
-            return new Value(b);
+            return new Variant(b);
         }
-        public static implicit operator Value(int i)
+        public static implicit operator Variant(int i)
         {
-            return new Value(i);
+            return new Variant(i);
         }
         #endregion
 
         #region Equals
         public override bool Equals(object obj)
         {
-            if (obj is Value v)
+            if (obj is Variant v)
             {
                 return this == v;
             }

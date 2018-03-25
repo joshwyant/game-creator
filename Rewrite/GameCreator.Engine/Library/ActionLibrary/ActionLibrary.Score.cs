@@ -1,4 +1,6 @@
-﻿namespace GameCreator.Engine.Library
+﻿using System;
+
+namespace GameCreator.Engine.Library
 {
     public partial class ActionLibrary
     {
@@ -6,6 +8,7 @@
 
         public void SetScore(double score, bool relative = false)
         {
+            throw new NotImplementedException();
         }
 
         /// <param name="operation">
@@ -15,24 +18,28 @@
         /// </param>
         public bool IfScore(double value, int operation)
         {
-            return false;
+            throw new NotImplementedException();
         }
 
         public void DrawScore(GameInstance self, double x, double y, string caption, bool relative = false)
         {
+            throw new NotImplementedException();
         }
 
         public void ShowHighscore(GameBackground background, bool showBorder, int newColor, int otherColor,
             string fontString)
         {
+            throw new NotImplementedException();
         }
 
         public void ClearHighscore()
         {
+            throw new NotImplementedException();
         }
 
         public void SetLives(double lives, bool relative = false)
         {
+            throw new NotImplementedException();
         }
 
         /// <param name="operation">
@@ -42,19 +49,22 @@
         /// </param>
         public bool IfLives(double value, int operation)
         {
-            return false;
+            throw new NotImplementedException();
         }
 
         public void DrawLives(GameInstance self, double x, double y, string caption, bool relative = false)
         {
+            throw new NotImplementedException();
         }
 
         public void DrawLifeImages(GameInstance self, double x, double y, GameSprite sprite, bool relative = false)
         {
+            throw new NotImplementedException();
         }
 
         public void SetHealth(double health, bool relative = false)
         {
+            throw new NotImplementedException();
         }
 
         /// <param name="operation">
@@ -64,7 +74,7 @@
         /// </param>
         public bool IfHealth(double value, int operation)
         {
-            return false;
+            throw new NotImplementedException();
         }
 
         /// <param name="backColor">
@@ -78,11 +88,13 @@
         public void DrawHealth(GameInstance self, double x1, double y1, double x2, double y2, int backColor,
             int barColor, bool relative = false)
         {
+            throw new NotImplementedException();
         }
 
         public void SetCaption(bool showScore, string scoreCaption, bool showLives, string livesCaption,
             bool showHealth, string healthCaption)
         {
+            throw new NotImplementedException();
         }
 
         #endregion

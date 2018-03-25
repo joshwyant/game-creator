@@ -33,7 +33,7 @@ namespace GameCreator.Engine.Library
 
             if (moveList.Count != 0)
             {
-                var dir = moveList[Context.Library.Real.Random.Next(moveList.Count)];
+                var dir = moveList[Context.Library.Real.RandomObject.Next(moveList.Count)];
 
                 if (dir == Library.MoveDirections.Stop)
                 {
@@ -120,23 +120,28 @@ namespace GameCreator.Engine.Library
 
         public void MoveRandom(GameInstance self, int snapx, int snapy)
         {
+            throw new NotImplementedException();
         }
 
         public void Snap(GameInstance self, int snapx, int snapy)
         {
+            throw new NotImplementedException();
         }
 
         /// <param name="direction">0 = horizontal, 1 = vertical, 2 = both directions</param>
         public void Wrap(GameInstance self, int direction)
         {
+            throw new NotImplementedException();
         }
 
         public void MoveContact(GameInstance self, double direction, double maximum = -1, bool allObjects = false)
         {
+            throw new NotImplementedException();
         }
 
         public void Bounce(GameInstance self, bool precise, bool allObjects)
         {
+            throw new NotImplementedException();
         }
 
         /// <param name="atEnd">
@@ -146,29 +151,35 @@ namespace GameCreator.Engine.Library
         /// <param name="absolute">whether absolute or relative</param>
         public void SetPath(GameInstance self, GamePath path, double speed, int atEnd, bool absolute)
         {
+            throw new NotImplementedException();
         }
 
         public void PathEnd(GameInstance self)
         {
+            throw new NotImplementedException();
         }
 
         /// <param name="position">Range is between 0 and 1</param>
         public void PathPosition(GameInstance self, double position, bool relative = false)
         {
+            throw new NotImplementedException();
         }
 
         public void PathSpeed(GameInstance self, double speed, bool relative = false)
         {
+            throw new NotImplementedException();
         }
 
         public void LinearStep(GameInstance self, double x, double y, double speed, bool stopAtAllObjects,
             bool relative = false)
         {
+            throw new NotImplementedException();
         }
 
         public void PotentialStep(GameInstance self, double x, double y, double speed, bool stopAtAllObjects,
             bool relative = false)
         {
+            throw new NotImplementedException();
         }
 
         #endregion

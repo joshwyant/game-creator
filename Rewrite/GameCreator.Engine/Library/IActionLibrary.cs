@@ -293,7 +293,7 @@ namespace GameCreator.Engine.Library
         bool IfQuestion(string question);
 
         [Gml("action_if")]
-        bool If(Value expression);
+        bool If(Variant expression);
 
         /// <param name="button">
         /// 0 = no button,
@@ -315,8 +315,8 @@ namespace GameCreator.Engine.Library
         void CallInheritedEvent();
 
         [Gml("action_execute_script")]
-        void ExecuteScript([GmlBinding(CurrentInstance)] GameInstance self, GameScript script, Value arg0,
-            Value arg1, Value arg2, Value arg3, Value arg4);
+        void ExecuteScript([GmlBinding(CurrentInstance)] GameInstance self, GameScript script, Variant arg0,
+            Variant arg1, Variant arg2, Variant arg3, Variant arg4);
 
         /// <param name="operation">
         /// 0 = equal to,
@@ -324,10 +324,10 @@ namespace GameCreator.Engine.Library
         /// 2 = greater than
         /// </param>
         [Gml("action_if_variable")]
-        bool IfVariable([GmlBinding(CurrentInstance)] GameInstance self, Value result, Value value, int operation);
+        bool IfVariable([GmlBinding(CurrentInstance)] GameInstance self, Variant result, Variant value, int operation);
 
         [Gml("action_draw_variable")]
-        void DrawVariable([GmlBinding(CurrentInstance)] GameInstance self, Value result, double x, double y,
+        void DrawVariable([GmlBinding(CurrentInstance)] GameInstance self, Variant result, double x, double y,
             [GmlBinding(Relative)] bool relative = false);
 
         #endregion
@@ -490,10 +490,10 @@ namespace GameCreator.Engine.Library
         void ResumeCd();
 
         [Gml("action_cd_present")]
-        bool CdExists();
+        bool IfCdExists();
 
         [Gml("action_cd_playing")]
-        bool CdPlaying();
+        bool IfCdPlaying();
 
         [Gml("action_set_cursor")]
         void SetCursor(GameSprite sprite, bool showNativeCursor);

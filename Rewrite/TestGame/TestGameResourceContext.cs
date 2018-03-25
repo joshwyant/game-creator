@@ -107,7 +107,7 @@ namespace TestGame
                 {
                     if (!Context.Input.CheckKeyPressed(VirtualKeyCode.LShift))
                     {
-                        Context.Library.Collision.MoveContactPosition(self, self.Direction, self.Speed, true);
+                        Context.Library.Move.MoveContactPosition(self, self.Direction, self.Speed, true);
                     }
                     
                     Context.Library.Main.PlaySound(ClickSound);
@@ -145,7 +145,7 @@ namespace TestGame
                 
                 RegisterEvent(EventType.Keyboard, VirtualKeyCode.Left, self =>
                 {
-                    if (Context.Library.Collision.PlaceFree(self, self.X - 5, self.Y, true))
+                    if (Context.Library.Move.PlaceFree(self, self.X - 5, self.Y, true))
                     {
                         self.HSpeed = -32;
                         self.VSpeed = 0;
@@ -156,7 +156,7 @@ namespace TestGame
                 
                 RegisterEvent(EventType.Keyboard, VirtualKeyCode.Right, self =>
                 {
-                    if (Context.Library.Collision.PlaceFree(self, self.X + 5, self.Y, true))
+                    if (Context.Library.Move.PlaceFree(self, self.X + 5, self.Y, true))
                     {
                         self.HSpeed = 32;
                         self.VSpeed = 0;
@@ -167,7 +167,7 @@ namespace TestGame
                 
                 RegisterEvent(EventType.Keyboard, VirtualKeyCode.Up, self =>
                 {
-                    if (Context.Library.Collision.PlaceFree(self, self.X, self.Y - 5, true))
+                    if (Context.Library.Move.PlaceFree(self, self.X, self.Y - 5, true))
                     {
                         self.HSpeed = 0;
                         self.VSpeed = -32;
@@ -178,7 +178,7 @@ namespace TestGame
                 
                 RegisterEvent(EventType.Keyboard, VirtualKeyCode.Down, self =>
                 {
-                    if (Context.Library.Collision.PlaceFree(self, self.X, self.Y + 5, true))
+                    if (Context.Library.Move.PlaceFree(self, self.X, self.Y + 5, true))
                     {
                         self.HSpeed = 0;
                         self.VSpeed = 32;
