@@ -9,6 +9,9 @@ namespace GameCreator.Engine
     {
         public StandardLibrary Library { get; }
 
+        [Gml("argument_relative")]
+        public bool ArgumentRelative { get; set; }
+
         protected GameContext(IGraphicsPlugin graphics, IInputPlugin input, IAudioPlugin audio,
             ITimerPlugin timer, IResourceContext predefinedResources)
         {
@@ -22,6 +25,21 @@ namespace GameCreator.Engine
             
             var sounds = predefinedResources.GetPredefinedSounds(this);
             Sounds = new IndexedResourceManager<GameSound>(sounds);
+            
+            var backgrounds = predefinedResources.GetPredefinedBackgrounds(this);
+            Backgrounds = new IndexedResourceManager<GameBackground>(backgrounds);
+            
+            var fonts = predefinedResources.GetPredefinedFonts(this);
+            Fonts = new IndexedResourceManager<GameFont>(fonts);
+            
+            var paths = predefinedResources.GetPredefinedPaths(this);
+            Paths = new IndexedResourceManager<GamePath>(paths);
+            
+            var scripts = predefinedResources.GetPredefinedScripts(this);
+            Scripts = new IndexedResourceManager<GameScript>(scripts);
+            
+            var timelines = predefinedResources.GetPredefinedTimelines(this);
+            Timelines = new IndexedResourceManager<GameTimeline>(timelines);
             
             var objects = predefinedResources.GetPredefinedObjects(this);
             Objects = new IndexedResourceManager<GameObject>(objects);

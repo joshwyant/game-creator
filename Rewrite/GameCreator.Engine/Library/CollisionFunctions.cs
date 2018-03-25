@@ -6,6 +6,7 @@ using System.Linq;
 using System.Numerics;
 using GameCreator.Engine.Common;
 using RTree;
+using static System.Math;
 
 namespace GameCreator.Engine.Library
 {
@@ -31,7 +32,7 @@ namespace GameCreator.Engine.Library
             if (i.ImageXScale != 1.0 || i.ImageYScale != 1.0)
                 m *= Matrix3x2.CreateScale((float) i.ImageXScale, (float) i.ImageYScale);
             if (i.ImageAngle != 0.0)
-                m *= Matrix3x2.CreateRotation((float) (-i.ImageAngle * Math.PI / 180));
+                m *= Matrix3x2.CreateRotation((float) (-i.ImageAngle * PI / 180));
             m *= Matrix3x2.CreateTranslation((float) x, (float) y);
             // Todo: Transform by a world matrix in the graphics context
             return m;
@@ -203,17 +204,17 @@ namespace GameCreator.Engine.Library
 
         public void MoveContactPosition(GameInstance i, double direction, double maxDist, bool onlySolid)
         {
-            if (i.Speed == 0 || !PlaceFree(i, i.X, i.Y, onlySolid))
+            if (i.Speed <= 0.00001 || !PlaceFree(i, i.X, i.Y, onlySolid))
                 return;
             
             var xstart = i.X;
             var ystart = i.Y;
-            var xstep = Math.Cos(direction * Math.PI / 180);
-            var ystep = -Math.Sin(direction * Math.PI / 180);
+            var xstep = Cos(direction * PI / 180);
+            var ystep = -Sin(direction * PI / 180);
 
-            for (var j = 0; j <= (int) Math.Ceiling(maxDist); j++)
+            for (var j = 0; j <= (int) Ceiling(maxDist); j++)
             {
-                var dist = Math.Min(j, maxDist);
+                var dist = Min(j, maxDist);
                 var newx = xstart + dist * xstep;
                 var newy = ystart + dist * ystep;
                 if (!PlaceFree(i, newx, newy, onlySolid))

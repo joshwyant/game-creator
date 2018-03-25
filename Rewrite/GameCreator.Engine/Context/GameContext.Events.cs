@@ -34,6 +34,11 @@ namespace GameCreator.Engine
         
         public void ProcessEvents()
         {
+            void PerformEventForInstances(EventType eventType, int eventNumber = 0)
+            {
+                ForInstances(i => i.PerformEvent(eventType, eventNumber));
+            }
+            
             // Process begin step events
             ForInstances(i =>
             {
@@ -64,13 +69,12 @@ namespace GameCreator.Engine
                         continue;
                     anyKey = true;
 
-                    ForInstances(i => i.PerformEvent(EventType.Keyboard, (int) keyCode));
+                    PerformEventForInstances(EventType.Keyboard, (int) keyCode);
                 }
                 
                 // vk_any/vk_none
-                ForInstances(i =>
-                    i.PerformEvent(EventType.KeyPress,
-                        anyKey ? (int) VirtualKeyCode.AnyKey : (int) VirtualKeyCode.NoKey));
+                PerformEventForInstances(EventType.KeyPress, 
+                    anyKey ? (int) VirtualKeyCode.AnyKey : (int) VirtualKeyCode.NoKey);
             }
 
             // Process key press events
@@ -79,16 +83,16 @@ namespace GameCreator.Engine
                 while (KeysPressed.Count > 0)
                 {
                     var keyCode = KeysPressed.Dequeue();
-                    ForInstances(i => i.PerformEvent(EventType.KeyPress, (int) keyCode));
+                    PerformEventForInstances(EventType.KeyPress, (int) keyCode);
                 }
                 
                 // vk_any
-                ForInstances(i => i.PerformEvent(EventType.KeyPress, (int) VirtualKeyCode.AnyKey));
+                PerformEventForInstances(EventType.KeyPress, (int) VirtualKeyCode.AnyKey);
             }
             else
             {
                 // vk_none
-                ForInstances(i => i.PerformEvent(EventType.KeyPress, (int) VirtualKeyCode.NoKey));
+                PerformEventForInstances(EventType.KeyPress, (int) VirtualKeyCode.NoKey);
             }
             
             // Process key release events
@@ -99,95 +103,80 @@ namespace GameCreator.Engine
                     if (!Input.CheckKeyPressed(key))
                     {
                         released.Add(key);
-                        ForInstances(i => i.PerformEvent(EventType.KeyRelease, (int) key));
+                        PerformEventForInstances(EventType.KeyRelease, (int) key);
                     }
                 }
                 
                 // vk_any/vk_none
-                ForInstances(i =>
-                    i.PerformEvent(EventType.KeyRelease,
-                        released.Any() ? (int) VirtualKeyCode.AnyKey : (int) VirtualKeyCode.NoKey));
+                PerformEventForInstances(EventType.KeyRelease,
+                        released.Any() ? (int) VirtualKeyCode.AnyKey : (int) VirtualKeyCode.NoKey);
                 
                 // update KeysDown
                 KeysDown.ExceptWith(released);
             }
             
             // Process step events and set instances to their new positions
-            ForInstances(i =>
-            {   
-                i.PerformEvent(EventType.Step, (int) StepKind.Normal);
-                
-                // friction first
-                i.Speed = i.Friction > 0 && Math.Abs(i.Speed) < i.Friction
-                    ? 0
-                    : i.Speed - i.Friction * Math.Sign(i.Speed);
-                
-                // then gravity
-                i.AddSpeedVector(
-                    i.Gravity * Math.Cos(i.GravityDirection * Math.PI / 180),
-                    -i.Gravity * Math.Sin(i.GravityDirection * Math.PI / 180));
-                
-                // move the object
-                i.X += i.HSpeed;
-                i.Y += i.VSpeed;
-            });
+            ForInstances(i => i.FullStep());
             
             // Process collision events
-            {
-                var collisionTree = Library.CollisionFunctions.GenerateCollisionTree(PresortedInstances);
-                
-                ForInstances(i =>
-                {
-                    Library.CollisionFunctions.RemoveFromRTree(i, collisionTree);
-                    
-                    if (i.Sprite == null) return;
-
-                    var overlapping = Library.CollisionFunctions
-                        .InstancesInBoundingBox(i, collisionTree)
-                        .Select(o => (GameInstance) Instances[o]);
-                    
-                    var collisions = Library.CollisionFunctions.GetCollisions(i, overlapping, false);
-                    
-                    foreach (var other in collisions)
-                    {
-                        // Generate collision events in both instances
-                        CollideInstances(i, other);
-                        CollideInstances(other, i);
-                        OtherInstance = null;
-                    }
-                });
-
-                void CollideInstances(GameInstance i, GameInstance other)
-                {
-                    if (!i.AssignedObject.IsEventRegistered(other.AssignedObject)) return;
-
-                    if (other.Solid)
-                    {
-                        i.X = i.XPrevious;
-                        i.Y = i.YPrevious;
-                    }
-                    
-                    OtherInstance = other;
-                    i.PerformEvent(EventType.Collision, other.ObjectIndex);
-
-                    if (other.Solid)
-                    {
-                        var destx = i.X + i.HSpeed; // Direction may have changed in collision event
-                        var desty = i.Y + i.VSpeed;
-                        if (Library.CollisionFunctions.PlaceFree(i, destx, desty, true))
-                        {
-                            i.X = destx;
-                            i.Y = desty;
-                        }
-                    }
-                }
-            }
+            ProcessCollisionEvents();
             
             // Process end step events
-            ForInstances(i => i.PerformEvent(EventType.Step, (int) StepKind.EndStep));
+            PerformEventForInstances(EventType.Step, (int) StepKind.EndStep);
             
             // Draw the screen and process draw events
             DrawScreen();
+        }
+
+        private void ProcessCollisionEvents()
+        {
+            var collisionTree = Library.Collision.GenerateCollisionTree(PresortedInstances);
+
+            ForInstances(i =>
+            {
+                Library.Collision.RemoveFromRTree(i, collisionTree);
+
+                if (i.Sprite == null) return;
+
+                var overlapping = Library.Collision
+                    .InstancesInBoundingBox(i, collisionTree)
+                    .Select(o => (GameInstance) Instances[o]);
+
+                var collisions = Library.Collision.GetCollisions(i, overlapping, false);
+
+                foreach (var other in collisions)
+                {
+                    // Generate collision events in both instances
+                    CollideInstances(i, other);
+                    CollideInstances(other, i);
+                    OtherInstance = null;
+                }
+            });
+
+            void CollideInstances(GameInstance i, GameInstance other)
+            {
+                if (!i.AssignedObject.IsEventRegistered(other.AssignedObject)) return;
+
+                if (other.Solid)
+                {
+                    i.X = i.XPrevious;
+                    i.Y = i.YPrevious;
+                }
+
+                OtherInstance = other;
+                i.PerformEvent(EventType.Collision, other.ObjectIndex);
+
+                if (other.Solid)
+                {
+                    var destx = i.X + i.HSpeed; // Direction may have changed in collision event
+                    var desty = i.Y + i.VSpeed;
+                    if (Library.Collision.PlaceFree(i, destx, desty, true))
+                    {
+                        i.X = destx;
+                        i.Y = desty;
+                    }
+                }
+            }
         }
 
         public void DrawScreen()
@@ -196,10 +185,13 @@ namespace GameCreator.Engine
 
             if (Enable3dMode)
             {
-                Library.D3dFunctions.SetProjectionPerspective(0, 0, CurrentRoom.Width, CurrentRoom.Height, 0);
+                // Set the default perspective projection. 
+                // Y-axis is flipped, and instances with more depth appear farther away.
+                Library.D3d.SetProjectionPerspective(0, 0, CurrentRoom.Width, CurrentRoom.Height, 0);
             }
             else
             {
+                // Set a normal, flat (2-dimensional) projection for the room.
                 Graphics.SetOrthographicProjection(0, 0, CurrentRoom.Width, CurrentRoom.Height, 0);
             }
 
@@ -209,17 +201,23 @@ namespace GameCreator.Engine
             // Process draw events
             ForInstances(i =>
             {
+                // Compute the new subimage
                 if (i.ImageSingle < 0)
                 {
+                    var prevSubImage = i.ComputeSubimage();
                     i.ImageIndex += i.ImageSpeed;
+                    
+                    // Perform AnimationEnd event
+                    i.PerformEventIf(EventType.Other, (int) OtherEventKind.AnimationEnd,
+                        () => prevSubImage != 0 && i.ComputeSubimage() == 0);
                 }
                 
+                // Used for simple drawing functions in 3D
                 Graphics.DrawDepth3d = i.Depth;
-                if (i.AssignedObject.IsEventRegistered(EventType.Draw))
-                {
-                    i.PerformEvent(EventType.Draw);
-                }
-                else
+                
+                // Perform the draw event if there are actions present,
+                // or else draw the sprite.
+                if (!i.PerformEventIfRegistered(EventType.Draw))
                 {
                     i.DrawSprite();
                 }

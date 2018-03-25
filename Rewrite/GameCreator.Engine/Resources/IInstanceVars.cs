@@ -33,5 +33,9 @@ namespace GameCreator.Engine
         [Gml("gravity")] double Gravity { get; set; }
         [Gml("gravity_direction")] double GravityDirection { get; set; }
         [Gml("friction")] double Friction { get; set; }
+        [Gml("sprite_width")] int SpriteWidth { get; }
+        [Gml("sprite_height")] int SpriteHeight { get; }
+        [Gml("sprite_xoffset")] int SpriteXOffset { get; }
+        [Gml("sprite_yoffset")] int SpriteYOffset { get; }
     }
 }

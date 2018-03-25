@@ -107,10 +107,10 @@ namespace TestGame
                 {
                     if (!Context.Input.CheckKeyPressed(VirtualKeyCode.LShift))
                     {
-                        Context.Library.CollisionFunctions.MoveContactPosition(self, self.Direction, self.Speed, true);
+                        Context.Library.Collision.MoveContactPosition(self, self.Direction, self.Speed, true);
                     }
                     
-                    Context.Library.MainFunctions.PlaySound(ClickSound);
+                    Context.Library.Main.PlaySound(ClickSound);
 
                     self.Speed = 0;
                     self.ImageSpeed = 0;
@@ -145,7 +145,7 @@ namespace TestGame
                 
                 RegisterEvent(EventType.Keyboard, VirtualKeyCode.Left, self =>
                 {
-                    if (Context.Library.CollisionFunctions.PlaceFree(self, self.X - 5, self.Y, true))
+                    if (Context.Library.Collision.PlaceFree(self, self.X - 5, self.Y, true))
                     {
                         self.HSpeed = -32;
                         self.VSpeed = 0;
@@ -156,7 +156,7 @@ namespace TestGame
                 
                 RegisterEvent(EventType.Keyboard, VirtualKeyCode.Right, self =>
                 {
-                    if (Context.Library.CollisionFunctions.PlaceFree(self, self.X + 5, self.Y, true))
+                    if (Context.Library.Collision.PlaceFree(self, self.X + 5, self.Y, true))
                     {
                         self.HSpeed = 32;
                         self.VSpeed = 0;
@@ -167,7 +167,7 @@ namespace TestGame
                 
                 RegisterEvent(EventType.Keyboard, VirtualKeyCode.Up, self =>
                 {
-                    if (Context.Library.CollisionFunctions.PlaceFree(self, self.X, self.Y - 5, true))
+                    if (Context.Library.Collision.PlaceFree(self, self.X, self.Y - 5, true))
                     {
                         self.HSpeed = 0;
                         self.VSpeed = -32;
@@ -178,7 +178,7 @@ namespace TestGame
                 
                 RegisterEvent(EventType.Keyboard, VirtualKeyCode.Down, self =>
                 {
-                    if (Context.Library.CollisionFunctions.PlaceFree(self, self.X, self.Y + 5, true))
+                    if (Context.Library.Collision.PlaceFree(self, self.X, self.Y + 5, true))
                     {
                         self.HSpeed = 0;
                         self.VSpeed = 32;
@@ -320,6 +320,31 @@ namespace TestGame
             }
 
             return sounds;
+        }
+
+        public IList<GameBackground> GetPredefinedBackgrounds(GameContext context)
+        {
+            return new GameBackground[0];
+        }
+
+        public IList<GameFont> GetPredefinedFonts(GameContext context)
+        {
+            return new GameFont[0];
+        }
+
+        public IList<GamePath> GetPredefinedPaths(GameContext context)
+        {
+            return new GamePath[0];
+        }
+
+        public IList<GameScript> GetPredefinedScripts(GameContext context)
+        {
+            return new GameScript[0];
+        }
+
+        public IList<GameTimeline> GetPredefinedTimelines(GameContext context)
+        {
+            return new GameTimeline[0];
         }
 
         public IList<GameObject> GetPredefinedObjects(GameContext context)

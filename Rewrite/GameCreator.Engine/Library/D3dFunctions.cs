@@ -1,4 +1,4 @@
-﻿using System;
+﻿using static System.Math;
 
 namespace GameCreator.Engine.Library
 {
@@ -26,8 +26,8 @@ namespace GameCreator.Engine.Library
             var aspectRatio = w / h;
             var xcenter = x + w * 0.5;
             var ycenter = y + h * 0.5;
-            var c = Math.Cos(angle * Math.PI / 180.0);
-            var s = Math.Sin(angle * Math.PI / 180.0);
+            var c = Cos(angle * PI / 180.0);
+            var s = Sin(angle * PI / 180.0);
             
             Context.Graphics.SetProjection(
                 xcenter, 
@@ -39,7 +39,7 @@ namespace GameCreator.Engine.Library
                 -s, // xup = 0, rotated by angle
                 c, // yup = 1, rotated by angle
                 0, 
-                2*Math.Atan(0.5 / aspectRatio), 
+                2*Atan(0.5 / aspectRatio), 
                 aspectRatio, 
                 1, 
                 32000);
