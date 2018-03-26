@@ -4,7 +4,6 @@ namespace GameCreator.ActionLibraries
 {
     public class ActionDefinition
     {
-        public ActionLibrary Library { get; set; }
         public int GameMakerVersion { get; set; }
         public string Name { get; set; }
         public int ActionID { get; set; }
@@ -25,10 +24,14 @@ namespace GameCreator.ActionLibraries
         public ActionExecutionType ExecutionType { get; set; }
         public string FunctionName { get; set; }
         public string Code { get; set; }
-        
-        public ActionDefinition(ActionLibrary library, string name, int id, byte[] image)
+
+        public ActionDefinition()
         {
-            Library = library;
+            
+        }
+        
+        public ActionDefinition(string name, int id, byte[] image)
+        {
             GameMakerVersion = 520;
             Name = name;
             ActionID = id;
@@ -56,7 +59,7 @@ namespace GameCreator.ActionLibraries
         }
 
         public ActionDefinition(ActionLibrary library)
-            : this(library, $"Action {++library.LastActionId}", library.LastActionId, null)
+            : this($"Action {++library.LastActionId}", library.LastActionId, null)
         {
             
         }
