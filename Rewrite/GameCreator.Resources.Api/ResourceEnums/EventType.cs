@@ -1,4 +1,4 @@
-﻿namespace GameCreator.Engine.Common
+﻿namespace GameCreator.Resources.Api
 {   
     public enum EventType
     {

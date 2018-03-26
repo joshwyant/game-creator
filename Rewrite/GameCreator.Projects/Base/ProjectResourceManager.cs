@@ -3,7 +3,7 @@ using GameCreator.Resources.Api;
 
 namespace GameCreator.Projects
 {
-    public class ProjectResourceManager<T> : IndexedResourceManager<T> where T : IIndexedResource
+    public class ProjectResourceManager<T> : IndexedResourceManager<T> where T : IIndexedResource, new()
     {
         private readonly SortedDictionary<int, ResourceLeafNode<T>> _nodesMap 
             = new SortedDictionary<int, ResourceLeafNode<T>>();
@@ -34,9 +34,24 @@ namespace GameCreator.Projects
             return AddNode(obj).Value.Id;
         }
 
+        public T Create()
+        {
+            return CreateNode().Value;
+        }
+
         public ResourceLeafNode<T> GetNode(T value)
         {
-            return _nodesMap[value.Id];
+            return GetNode(value.Id);
+        }
+
+        public ResourceLeafNode<T> GetNode(int id)
+        {
+            return _nodesMap[id];
+        }
+
+        public ResourceLeafNode<T> CreateNode()
+        {
+            return AddNode(new T());
         }
 
         public ResourceLeafNode<T> AddNode(T value)

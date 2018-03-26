@@ -1,9 +1,9 @@
-﻿namespace GameCreator.Projects
+﻿using System.Collections.Generic;
+
+namespace GameCreator.Projects
 {
     public class TimelineResource : BaseResource
     {
-        public TimelineResource(string name) : base(name)
-        {
-        }
+        public SortedDictionary<int, List<ActionEntry>> Moments { get; set; }
     }
 }

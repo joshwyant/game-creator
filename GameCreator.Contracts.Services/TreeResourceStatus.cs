@@ -9,6 +9,6 @@ namespace GameCreator.Contracts.Services
     {
         Primary = 1,
         Group = 2,
-        Secondary = 3,
+        Secondary = 3
     }
 }

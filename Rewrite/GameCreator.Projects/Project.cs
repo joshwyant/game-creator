@@ -1,9 +1,13 @@
-﻿using GameCreator.Resources.Api;
+﻿using System.Collections.Generic;
+using System.Linq;
+using GameCreator.Resources.Api;
 
 namespace GameCreator.Projects
 {
     public class Project
     {
+        public GameSettings Settings { get; }
+        public GameInformation Information { get; }
         public ProjectResourceManager<SpriteResource> Sprites { get; }
         public ProjectResourceManager<SoundResource> Sounds { get; }
         public ProjectResourceManager<BackgroundResource> Backgrounds { get; }
@@ -15,9 +19,13 @@ namespace GameCreator.Projects
         public ProjectResourceManager<ObjectResource> Objects { get; }
         public ProjectResourceManager<RoomResource> Rooms { get; }
         public IndexedResourceManager<InstanceResource> Instances { get; }
+        public IndexedResourceManager<TileResource> Tiles { get; }
+        public List<string> LibraryCreationCodes { get; set; }
 
         public Project()
         {
+            Settings = new GameSettings();
+            Information = new GameInformation();
             Sprites = new ProjectResourceManager<SpriteResource>("sprite");
             Sounds = new ProjectResourceManager<SoundResource>("sound");
             Backgrounds = new ProjectResourceManager<BackgroundResource>("background");
@@ -29,6 +37,7 @@ namespace GameCreator.Projects
             Objects = new ProjectResourceManager<ObjectResource>("object");
             Rooms = new ProjectResourceManager<RoomResource>("room");
             Instances = new IndexedResourceManager<InstanceResource>(100001);
+            Tiles = new IndexedResourceManager<TileResource>(10000001);
         }
     }
 }

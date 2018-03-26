@@ -1,6 +1,7 @@
 ﻿using System;
 using static System.Math;
 using GameCreator.Engine.Common;
+using GameCreator.Resources.Api;
 using GameCreator.Runtime.Api;
 
 namespace GameCreator.Engine

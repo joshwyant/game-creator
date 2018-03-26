@@ -1,5 +1,6 @@
 using GameCreator.Engine.Api;
 using GameCreator.Engine.Common;
+using GameCreator.Resources.Api;
 using Moq;
 using NUnit.Framework;
 

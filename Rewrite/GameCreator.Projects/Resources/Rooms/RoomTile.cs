@@ -1,6 +1,7 @@
 ﻿namespace GameCreator.Projects
 {
-    public class DataFileResource : BaseResource
+    public class RoomTile
     {
+        
     }
 }

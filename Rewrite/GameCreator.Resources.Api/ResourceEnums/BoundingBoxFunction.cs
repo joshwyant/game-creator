@@ -1,4 +1,4 @@
-﻿namespace GameCreator.Engine
+﻿namespace GameCreator.Resources.Api
 {
     public enum BoundingBoxFunction
     {

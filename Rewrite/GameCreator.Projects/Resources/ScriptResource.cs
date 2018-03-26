@@ -2,8 +2,6 @@
 {
     public class ScriptResource : BaseResource
     {
-        public ScriptResource(string name) : base(name)
-        {
-        }
+        public string Code { get; set; }
     }
 }
