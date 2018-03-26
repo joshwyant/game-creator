@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using GameCreator.Engine.Api;
 using GameCreator.Engine.Common;
+using GameCreator.Resources.Api;
 
 namespace GameCreator.Engine
 {

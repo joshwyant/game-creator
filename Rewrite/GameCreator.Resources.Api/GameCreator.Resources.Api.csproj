@@ -2,7 +2,4 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\GameCreator.Resources.Api\GameCreator.Resources.Api.csproj" />
-  </ItemGroup>
 </Project>

@@ -1,5 +1,6 @@
 ﻿using System;
 using GameCreator.Engine.Api;
+using GameCreator.Resources.Api;
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;

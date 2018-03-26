@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using GameCreator.Runtime.Api;
 
-namespace GameCreator.Engine
+namespace GameCreator.Resources.Api
 {
     public class IndexedResourceManager<T> : IIndexedResourceManager<T> where T : IIndexedResource
     {
@@ -22,7 +21,7 @@ namespace GameCreator.Engine
             {
                 if (item.Id == -1)
                 {
-                    Add(item);
+                    BaseAdd(item);
                 }
                 else
                 {
@@ -37,6 +36,12 @@ namespace GameCreator.Engine
             return instances.ContainsKey(id);
         }
 
+        public int NextIndex
+        {
+            get => nextIndex;
+            set => SetNextIndex(value);
+        }
+
         public void SetNextIndex(int nextIndex)
         {
             this.nextIndex = Math.Max(this.nextIndex, nextIndex);
@@ -47,12 +52,17 @@ namespace GameCreator.Engine
             return nextIndex++;
         }
 
-        public int Add(T obj)
+        private int BaseAdd(T obj)
         {
             int idx;
             instances[idx = nextIndex++] = obj;
             obj.Id = idx;
             return idx;
+        }
+
+        public virtual int Add(T obj)
+        {
+            return BaseAdd(obj);
         }
 
         public T this[int id]
@@ -61,12 +71,12 @@ namespace GameCreator.Engine
             set => instances[id] = value;
         }
 
-        public void Remove(int id)
+        public virtual void Remove(int id)
         {
             instances.Remove(id);
         }
 
-        public IEnumerator<T> GetEnumerator()
+        public virtual IEnumerator<T> GetEnumerator()
         {
             return instances.Values.GetEnumerator();
         }

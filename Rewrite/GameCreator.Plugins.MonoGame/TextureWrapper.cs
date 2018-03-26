@@ -1,4 +1,5 @@
 ﻿using GameCreator.Engine.Api;
+using GameCreator.Resources.Api;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace GameCreator.Plugins.MonoGame

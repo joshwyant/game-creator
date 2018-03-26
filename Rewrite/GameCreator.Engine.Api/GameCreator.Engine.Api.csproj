@@ -7,6 +7,7 @@
       <Project>{729CA8B1-286E-46E1-A622-018BBA00CDE3}</Project>
       <Name>GameCreator.Engine.Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\GameCreator.Resources.Api\GameCreator.Resources.Api.csproj" />
     <ProjectReference Include="..\GameCreator.Runtime.Api\GameCreator.Runtime.Api.csproj" />
   </ItemGroup>
 </Project>

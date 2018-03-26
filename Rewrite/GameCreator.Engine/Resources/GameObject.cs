@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using GameCreator.Engine.Common;
-using GameCreator.Runtime.Api;
+using GameCreator.Resources.Api;
 
 namespace GameCreator.Engine
 {

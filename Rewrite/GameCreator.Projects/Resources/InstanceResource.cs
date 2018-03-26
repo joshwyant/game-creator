@@ -1,8 +1,8 @@
 ﻿using GameCreator.Resources.Api;
 
-namespace GameCreator.Engine
+namespace GameCreator.Projects
 {
-    public class GameBackground : IIndexedResource
+    public class InstanceResource : IIndexedResource
     {
         public int Id { get; set; }
     }

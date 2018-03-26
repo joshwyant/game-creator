@@ -1,4 +1,4 @@
-﻿namespace GameCreator.Runtime.Api
+﻿namespace GameCreator.Resources.Api
 {
     public interface IIndexedResource
     {

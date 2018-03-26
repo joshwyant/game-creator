@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using GameCreator.Engine.Api;
 using GameCreator.Engine.Library;
+using GameCreator.Resources.Api;
 using GameCreator.Runtime.Api;
 
 namespace GameCreator.Engine

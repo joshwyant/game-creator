@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using GameCreator.Engine;
-using GameCreator.Engine.Api;
 using GameCreator.Engine.Common;
+using GameCreator.Resources.Api;
 
 namespace TestGame
 {
