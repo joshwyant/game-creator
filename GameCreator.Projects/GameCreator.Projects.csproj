@@ -1,86 +1,11 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.30703</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{6F3F0A9A-D56A-4B69-AEA9-24BBADF965D8}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>GameCreator.Projects</RootNamespace>
-    <AssemblyName>GameCreator.Projects</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
+    <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="LightInject, Version=3.0.2.7, Culture=neutral, PublicKeyToken=null" />
-    <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.8.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Git\GitHelper.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\App.Contracts\App.Contracts.csproj">
-      <Project>{e923b911-c95c-4d7d-a48d-3380e6217d8c}</Project>
-      <Name>App.Contracts</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\App.Resources\App.Resources.csproj">
-      <Project>{8d3b44e4-d6cf-4ea2-893d-d01b1f227d92}</Project>
-      <Name>App.Resources</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\GameCreator.Contracts.Services\GameCreator.Contracts.Services.csproj">
-      <Project>{eb3457c6-7007-43f9-b4c1-2d44747cdbdb}</Project>
-      <Name>GameCreator.Contracts.Services</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\GameCreator.Contracts\GameCreator.Contracts.csproj">
-      <Project>{b7e4be34-18c9-4350-aa1d-0eeacb691963}</Project>
-      <Name>GameCreator.Contracts</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\GameCreator.Framework\GameCreator.Framework.csproj">
-      <Project>{6BC89687-EBA6-47F8-ADF0-05C1300D699A}</Project>
-      <Name>GameCreator.Framework</Name>
+    <ProjectReference Include="..\GameCreator.Resources.Api\GameCreator.Resources.Api.csproj">
+      <Project>{119EE0D6-8DF3-4E1E-8B84-954D1F8B9E05}</Project>
+      <Name>GameCreator.Resources.Api</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup />
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
 </Project>
