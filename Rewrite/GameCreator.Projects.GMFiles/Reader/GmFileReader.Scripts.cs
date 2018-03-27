@@ -1,26 +1,26 @@
 ﻿namespace GameCreator.Projects.GMFiles
 {
-    partial class GmFileReader
+    internal partial class GmFileReader
     {
-        void readScripts()
+        private void ReadScripts()
         {
-            var version = getInt();
+            var version = ReadInt();
 
-            var count = getInt();
+            var count = ReadInt();
 
             for (var i = 0; i < count; i++)
             {
-                project.Scripts.NextIndex = i;
+                Project.Scripts.NextIndex = i;
 
-                if (getInt() != 0)
+                if (ReadInt() != 0)
                 {
-                    var script = project.Scripts.Create();
+                    var script = Project.Scripts.Create();
 
-                    script.Name = getString();
+                    script.Name = ReadString();
 
-                    version = getInt();
+                    version = ReadInt();
 
-                    script.Code = getString();
+                    script.Code = ReadString();
                 }
             }
         }

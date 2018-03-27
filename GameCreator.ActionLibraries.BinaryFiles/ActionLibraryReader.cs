@@ -36,9 +36,8 @@ namespace GameCreator.ActionLibraries.BinaryFiles
             {
                 byte[] ReadPrefixedBytes()
                 {
-                    var size = br.ReadInt32();
-                    var bytes = new byte[size];
-                    br.Read(bytes, 0, size);
+                    var bytes = new byte[br.ReadInt32()];
+                    br.Read(bytes, 0, bytes.Length);
                     return bytes;
                 }
 

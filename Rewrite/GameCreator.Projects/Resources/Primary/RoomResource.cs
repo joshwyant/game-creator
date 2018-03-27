@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace GameCreator.Projects
 {
@@ -31,12 +32,12 @@ namespace GameCreator.Projects
         public bool ShowViews { get; set; }
         public bool DeleteUnderlyingObjects { get; set; }
         public bool DeleteUnderlyingTiles { get; set; }
-        public int TileWidth { get; set; }
-        public int TileHeight { get; set; }
-        public int TileHorizontalSeparation { get; set; }
-        public int TileVerticalSeparation { get; set; }
-        public int TileHorizontalOffset { get; set; }
-        public int TileVerticalOffset { get; set; }
+        [Obsolete] public int TileWidth { get; set; }
+        [Obsolete] public int TileHeight { get; set; }
+        [Obsolete] public int TileHorizontalSeparation { get; set; }
+        [Obsolete] public int TileVerticalSeparation { get; set; }
+        [Obsolete] public int TileHorizontalOffset { get; set; }
+        [Obsolete] public int TileVerticalOffset { get; set; }
         public int CurrentTab { get; set; }
         public int ScrollbarX { get; set; }
         public int ScrollbarY { get; set; }

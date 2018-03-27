@@ -1,10 +1,11 @@
-﻿using GameCreator.Resources.Api;
+﻿using System;
+using GameCreator.Resources.Api;
 
 namespace GameCreator.Projects
 {
     public class SoundResource : BaseResource
     {
-        public SoundFileType Type { get; set; }
+        [Obsolete] public SoundFileType Type { get; set; }
         public SoundKind Kind { get; set; }
         public string Extension { get; set; }
         public string Filename { get; set; }

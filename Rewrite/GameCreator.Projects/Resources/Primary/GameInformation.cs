@@ -1,9 +1,11 @@
-﻿namespace GameCreator.Projects
+﻿using System;
+
+namespace GameCreator.Projects
 {
     public class GameInformation
     {
         public int BackgroundColor { get; set; }
-        public bool MimicMainForm { get; set; }
+        [Obsolete] public bool MimicMainForm { get; set; }
         public string FormCaption { get; set; }
         public int X { get; set; }
         public int Y { get; set; }

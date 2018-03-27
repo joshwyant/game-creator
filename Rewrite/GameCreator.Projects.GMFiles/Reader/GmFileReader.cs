@@ -6,113 +6,102 @@ using System.Text;
 
 namespace GameCreator.Projects.GMFiles
 {
-    partial class GmFileReader : IDisposable
+    internal partial class GmFileReader : IDisposable
     {
-        static readonly DateTime ReferenceDate = new DateTime(1899, 12, 30);
+        private static readonly DateTime ReferenceDate = new DateTime(1899, 12, 30);
         private static readonly HashSet<int> SupportedVersions = new HashSet<int>(new[] {500, 510, 520, 530, 600});
-        
-        Project project;
 
-        BinaryReader reader;
-        private Stream source;
+        public Project Project { get; }
+        public Stream Source { get; }
+        private BinaryReader Reader { get; set; }
 
-        bool isReading = false;
+        private bool _isReading;
         
         public GmFileReader(Project project, Stream source)
         {
-            this.project = project;
-            this.source = source;
+            Project = project;
+            Source = source;
         }
 
         public void Read()
         {
-            if (isReading)
+            if (_isReading)
                 throw new InvalidOperationException("Cannot read the file after it has already been read.");
 
-            isReading = true;
+            _isReading = true;
 
-            using (reader = new BinaryReader(source))
+            using (Reader = new BinaryReader(Source, Encoding.ASCII))
             {
-                var magic = reader.ReadInt32();
+                var magic = ReadInt();
 
                 if (magic != 1234321)
                     throw new InvalidDataException("File is not a valid Game Maker file.");
 
-                var version = reader.ReadInt32();
+                var version = ReadInt();
 
                 if (!SupportedVersions.Contains(version))
                     throw new NotSupportedException("Unsupported version.");
 
-                project.Settings.GameID = reader.ReadInt32();
+                Project.Settings.GameID = ReadInt();
+                Project.Settings.DirectPlayGuid = new Guid(ReadBlob(16));
 
-                var guidBytes = new byte[16];
+                ReadSettings();
 
-                reader.Read(guidBytes, 0, 16);
+                ReadSounds();
 
-                project.Settings.DirectPlayGuid = new Guid(guidBytes);
+                ReadSprites();
 
-                readSettings();
+                ReadBackgrounds();
 
-                readSounds();
+                ReadPaths();
 
-                readSprites();
+                ReadScripts();
 
-                readBackgrounds();
+                ReadFonts();
 
-                readPaths();
+                ReadTimelines();
 
-                readScripts();
+                ReadObjects();
 
-                readFonts();
+                ReadRooms();
 
-                readTimelines();
+                Project.Instances.NextIndex = ReadInt();
+                Project.Tiles.NextIndex = ReadInt();
 
-                readObjects();
+                ReadGameInformation();
 
-                readRooms();
-
-                project.Instances.NextIndex = getInt();
-                project.Tiles.NextIndex = getInt();
-
-                readGameInformation();
-
-                var versionForFollowing = getInt();
-                var libraryDependencyCount = getInt();
+                var versionForFollowing = ReadInt();
+                var libraryDependencyCount = ReadInt();
                 var libraryCreationCodes = new List<string>();
                 for (var i = 0; i < libraryDependencyCount; i++)
                 {
-                    libraryCreationCodes.Add(getString());
+                    libraryCreationCodes.Add(ReadString());
                 }
-                project.LibraryCreationCodes = libraryCreationCodes;
+                Project.LibraryCreationCodes = libraryCreationCodes;
 
-                versionForFollowing = getInt();
-                var executableRoomCount = getInt();
+                versionForFollowing = ReadInt();
+                var executableRoomCount = ReadInt();
                 var executableRoomList = new List<int>();
                 for (var i = 0; i < executableRoomCount; i++)
                 {
-                    executableRoomList.Add(getInt());
+                    executableRoomList.Add(ReadInt());
                 }
                 //project.ExecutableRoomList = executableRoomList;
 
-                var rootCount = 11;
-
-                if (version == 500 || version == 540)
-                    rootCount = 11;
-                else if (version >= 700)
-                    rootCount = 12;
+                var rootCount = version >= 700 ? 12 : 11;
 
                 for (var i = 0; i < rootCount; i++)
                 {
-                    readRootResource();
+                    ReadRootResource();
                 }
             }
         }
 
-        byte[] getZipped()
+        private byte[] ReadZipped()
         {
-            var data = new byte[reader.ReadUInt32()];
+            var data = new byte[Reader.ReadUInt32()];
 
-            reader.Read(data, 0, data.Length);
+            Reader.Read(data, 0, data.Length);
 
             using (var ims = new MemoryStream(data))
             using (var oms = new MemoryStream())
@@ -124,37 +113,26 @@ namespace GameCreator.Projects.GMFiles
             }
         }
 
-        byte[] getBlob()
+        private byte[] ReadBlob() => ReadBlob(ReadInt());
+
+        private byte[] ReadBlob(int length)
         {
-            var data = new byte[reader.ReadInt32()];
-            reader.Read(data, 0, data.Length);
+            var data = new byte[length];
+            Reader.Read(data, 0, length);
             return data;
         }
 
-        string getString()
-        {
-            var sb = new StringBuilder();
+        private string ReadString() => new string(Reader.ReadChars(Reader.ReadInt32()));
 
-            for (int length = reader.ReadInt32(), i = 0; i < length; i++)
-            {
-                sb.Append((char)reader.ReadByte());
-            }
+        private DateTime ReadDate() => ReferenceDate.AddDays(Reader.ReadDouble());
 
-            return sb.ToString();
-        }
+        private bool ReadBool() => Reader.ReadInt32() != 0;
 
-        DateTime getDate()
-        {
-            return ReferenceDate.AddDays(reader.ReadDouble());
-        }
-
-        bool getBool() { return Convert.ToBoolean(reader.ReadInt32()); }
-
-        int getInt() { return reader.ReadInt32(); }
+        private int ReadInt() => Reader.ReadInt32();
 
         public void Dispose()
         {
-            reader?.Dispose();
+            Reader?.Dispose();
         }
     }
 }

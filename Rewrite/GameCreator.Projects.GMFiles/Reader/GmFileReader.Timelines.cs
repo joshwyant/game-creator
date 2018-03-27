@@ -2,31 +2,31 @@
 
 namespace GameCreator.Projects.GMFiles
 {
-    partial class GmFileReader
+    internal partial class GmFileReader
     {
-        void readTimelines()
+        private void ReadTimelines()
         {
-            var version = getInt();
+            var version = ReadInt();
 
-            var count = getInt();
+            var count = ReadInt();
 
             for (var i = 0; i < count; i++)
             {
-                project.Timelines.NextIndex = i;
+                Project.Timelines.NextIndex = i;
 
-                if (getInt() != 0)
+                if (ReadInt() != 0)
                 {
-                    var timeline = project.Timelines.Create();
+                    var timeline = Project.Timelines.Create();
 
-                    timeline.Name = getString();
+                    timeline.Name = ReadString();
 
-                    version = getInt();
+                    version = ReadInt();
 
                     timeline.Moments = new SortedDictionary<int, List<ActionEntry>>();
 
-                    for (int momentCount = getInt(), j = 0; j < momentCount; j++)
+                    for (int momentCount = ReadInt(), j = 0; j < momentCount; j++)
                     {
-                        timeline.Moments.Add(getInt(), getActions());
+                        timeline.Moments.Add(ReadInt(), GetActions());
                     }
                 }
             }

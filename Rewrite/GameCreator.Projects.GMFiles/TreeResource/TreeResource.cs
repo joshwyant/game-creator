@@ -2,7 +2,7 @@
 
 namespace GameCreator.Projects.GMFiles
 {
-    public class TreeResourceHeader
+    internal class TreeResourceHeader
     {
         public TreeResourceStatus Status { get; set; }
         public TreeResourceKind Grouping { get; set; }

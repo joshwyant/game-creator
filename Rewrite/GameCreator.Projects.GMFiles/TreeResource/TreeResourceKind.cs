@@ -1,6 +1,6 @@
 ﻿namespace GameCreator.Projects.GMFiles
 {
-    public enum TreeResourceKind
+    internal enum TreeResourceKind
     {
         Objects = 1,
         Sprites = 2,

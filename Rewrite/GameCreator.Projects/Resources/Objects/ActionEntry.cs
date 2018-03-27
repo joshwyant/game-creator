@@ -8,7 +8,7 @@ namespace GameCreator.Projects
         public int ActionId { get; set; }
         public int AppliesToObjectIndex { get; set; }
         public bool AppliesToSomething { get; set; }
-        public List<ActionArgument> Arguments { get; set; }
+        public string[] Arguments { get; set; }
         public int ArgumentsUsed { get; set; }
         public string Code { get; set; }
         public string FunctionName { get; set; }
@@ -19,5 +19,7 @@ namespace GameCreator.Projects
         public bool Not { get; set; }
         public bool Relative { get; set; }
         public ActionExecutionType Type { get; set; }
+        public ActionArgumentType[] ArgumentTypes { get; set; }
+        public int Version { get; set; }
     }
 }

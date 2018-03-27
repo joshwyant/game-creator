@@ -1,6 +1,6 @@
 ﻿namespace GameCreator.Projects.GMFiles
 {
-    public enum TreeResourceStatus
+    internal enum TreeResourceStatus
     {
         Primary = 1,
         Group = 2,

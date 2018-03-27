@@ -3,53 +3,50 @@ using GameCreator.Resources.Api;
 
 namespace GameCreator.Projects.GMFiles
 {
-    partial class GmFileReader
+    internal partial class GmFileReader
     {
-        void readObjects()
+        private void ReadObjects()
         {
-            var version = getInt();
+            var version = ReadInt();
 
-            var count = getInt();
+            var count = ReadInt();
 
             for (var i = 0; i < count; i++)
             {
-                project.Objects.NextIndex = i;
+                Project.Objects.NextIndex = i;
                 
-                if (getInt() != 0)
+                if (ReadInt() != 0)
                 {
-                    var obj = project.Objects.Create();
+                    var obj = Project.Objects.Create();
 
-                    obj.Name = getString();
+                    obj.Name = ReadString();
 
-                    version = getInt();
+                    version = ReadInt();
 
-                    obj.SpriteIndex = getInt();
-                    obj.Solid = getBool();
-                    obj.Visible = getBool();
-                    obj.Depth = getInt();
-                    obj.Persistent = getBool();
-                    obj.Parent = getInt();
-                    obj.MaskSpriteIndex = getInt();
+                    obj.SpriteIndex = ReadInt();
+                    obj.Solid = ReadBool();
+                    obj.Visible = ReadBool();
+                    obj.Depth = ReadInt();
+                    obj.Persistent = ReadBool();
+                    obj.Parent = ReadInt();
+                    obj.MaskSpriteIndex = ReadInt();
 
-                    var topEvtTypeIdx = getInt(); // Event type count minus 1
-                    var evtTypeIdx = topEvtTypeIdx;
+                    var eventType = (EventType) ReadInt(); // Event type count minus 1
 
                     obj.Events = new Dictionary<EventType, List<EventEntry>>();
 
-                    while (evtTypeIdx >= 0)
+                    while (eventType >= 0)
                     {
-                        var eventType = (EventType)(topEvtTypeIdx - evtTypeIdx);
-
                         obj.Events.Add(eventType, new List<EventEntry>());
 
                         int numb;
-                        while ((numb = getInt()) != -1) // Once we get to -1, we can decrement evtTypeIdx.
+                        while ((numb = ReadInt()) != -1) // Once we get to -1, we can decrement eventType.
                         {
-                            var evt = new EventEntry(eventType, numb, getActions());
+                            var evt = new EventEntry(eventType, numb, GetActions());
                             obj.Events[eventType].Add(evt);
                         }
 
-                        evtTypeIdx--;
+                        eventType -= 1;
                     }
                 }
             }

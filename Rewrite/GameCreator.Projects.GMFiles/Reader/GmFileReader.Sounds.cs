@@ -2,43 +2,43 @@
 
 namespace GameCreator.Projects.GMFiles
 {
-    partial class GmFileReader
+    internal partial class GmFileReader
     {
-        void readSounds()
+        private void ReadSounds()
         {
-            var version = getInt();
+            var version = ReadInt();
 
-            var count = getInt();
+            var count = ReadInt();
 
             for (var i = 0; i < count; i++)
             {
-                project.Sounds.NextIndex = i;
+                Project.Sounds.NextIndex = i;
 
-                if (getInt() != 0)
+                if (ReadInt() != 0)
                 {
-                    var sound = project.Sounds.Create();
+                    var sound = Project.Sounds.Create();
 
-                    sound.Name = getString();
+                    sound.Name = ReadString();
 
-                    version = getInt();
+                    version = ReadInt();
 
                     if (version == 440)
-                        sound.Type = (SoundFileType)getInt();
+                        sound.Type = (SoundFileType)ReadInt();
 
                     if (version >= 600)
-                        sound.Kind = (SoundKind)reader.ReadUInt32();
+                        sound.Kind = (SoundKind)Reader.ReadUInt32();
 
-                    sound.Extension = getString();
+                    sound.Extension = ReadString();
 
                     if (version >= 600)
                     {
-                        sound.Filename = getString();
+                        sound.Filename = ReadString();
 
-                        if (reader.ReadUInt32() != 0)
+                        if (Reader.ReadUInt32() != 0)
                         {
                             if (version == 600)
                             {
-                                sound.MusicData = getZipped();
+                                sound.MusicData = ReadZipped();
                             }
                         }
                     }
@@ -47,20 +47,20 @@ namespace GameCreator.Projects.GMFiles
                     {
                         if (sound.Type != SoundFileType.None)
                         {
-                            sound.MusicData = getZipped();
+                            sound.MusicData = ReadZipped();
                         }
 
-                        sound.AllowSoundEffects = getBool();
-                        sound.Buffers = getInt();
-                        sound.LoadOnlyOnUse = getInt();
+                        sound.AllowSoundEffects = ReadBool();
+                        sound.Buffers = ReadInt();
+                        sound.LoadOnlyOnUse = ReadInt();
                     }
 
                     if (version >= 600)
                     {
-                        sound.Effects = (SoundEffects)getInt();
-                        sound.Volume = reader.ReadDouble();
-                        sound.Pan = reader.ReadDouble();
-                        sound.Preload = getBool();
+                        sound.Effects = (SoundEffects)ReadInt();
+                        sound.Volume = Reader.ReadDouble();
+                        sound.Pan = Reader.ReadDouble();
+                        sound.Preload = ReadBool();
                     }
                 }
             }

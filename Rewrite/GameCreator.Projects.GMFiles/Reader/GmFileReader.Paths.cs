@@ -2,38 +2,38 @@
 
 namespace GameCreator.Projects.GMFiles
 {
-    partial class GmFileReader
+    internal partial class GmFileReader
     {
-        void readPaths()
+        private void ReadPaths()
         {
-            var version = getInt();
+            var version = ReadInt();
 
-            var count = getInt();
+            var count = ReadInt();
 
             for (var i = 0; i < count; i++)
             {
-                project.Paths.NextIndex = i;
+                Project.Paths.NextIndex = i;
 
-                if (getInt() != 0)
+                if (ReadInt() != 0)
                 {
-                    var path = project.Paths.Create();
+                    var path = Project.Paths.Create();
 
-                    path.Name = getString();
+                    path.Name = ReadString();
 
-                    version = getInt();
+                    version = ReadInt();
 
-                    path.IsSmooth = getBool();
-                    path.IsClosed = getBool();
-                    path.Precision = getInt();
-                    path.RoomReference = getInt();
-                    path.SnapX = getInt();
-                    path.SnapY = getInt();
+                    path.IsSmooth = ReadBool();
+                    path.IsClosed = ReadBool();
+                    path.Precision = ReadInt();
+                    path.RoomReference = ReadInt();
+                    path.SnapX = ReadInt();
+                    path.SnapY = ReadInt();
 
-                    var points = getInt();
+                    var points = ReadInt();
                     path.Points = new List<PathVertex>(points);
                     for (var j = 0; j < points; j++)
                     {
-                        path.Points.Add(new PathVertex(reader.ReadDouble(), reader.ReadDouble(), reader.ReadDouble()));
+                        path.Points.Add(new PathVertex(Reader.ReadDouble(), Reader.ReadDouble(), Reader.ReadDouble()));
                     }
                 }
             }

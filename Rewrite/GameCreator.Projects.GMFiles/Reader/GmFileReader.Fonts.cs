@@ -1,31 +1,31 @@
 ﻿namespace GameCreator.Projects.GMFiles
 {
-    partial class GmFileReader
+    internal partial class GmFileReader
     {
-        void readFonts()
+        private void ReadFonts()
         {
-            var version = getInt();
+            var version = ReadInt();
 
-            var count = getInt();
+            var count = ReadInt();
 
             for (var i = 0; i < count; i++)
             {
-                project.Fonts.NextIndex = i;
+                Project.Fonts.NextIndex = i;
 
-                if (getInt() != 0)
+                if (ReadInt() != 0)
                 {
-                    var font = project.Fonts.Create();
+                    var font = Project.Fonts.Create();
 
-                    font.Name = getString();
+                    font.Name = ReadString();
 
-                    version = getInt();
+                    version = ReadInt();
 
-                    font.FontName = getString();
-                    font.Size = getInt();
-                    font.IsBold = getBool();
-                    font.IsItalic = getBool();
-                    font.CharacterRangeBegin = getInt();
-                    font.CharacterRangeEnd = getInt();
+                    font.FontName = ReadString();
+                    font.Size = ReadInt();
+                    font.IsBold = ReadBool();
+                    font.IsItalic = ReadBool();
+                    font.CharacterRangeBegin = ReadInt();
+                    font.CharacterRangeEnd = ReadInt();
                 }
             }
         }

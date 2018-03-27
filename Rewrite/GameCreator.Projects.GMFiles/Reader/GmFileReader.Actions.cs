@@ -1,50 +1,42 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using GameCreator.Resources.Api;
 
 namespace GameCreator.Projects.GMFiles
 {
-    partial class GmFileReader
+    internal partial class GmFileReader
     {
-        List<ActionEntry> getActions()
+        private List<ActionEntry> GetActions()
         {
-            var actions = new List<ActionEntry>();
+            var version = ReadInt();
 
-            var version = getInt();
-
-            for (int count = getInt(), i = 0; i < count; i++)
-            {
-                var action = new ActionEntry();
-                actions.Add(action);
-
-                version = getInt();
-
-                action.LibraryId = getInt();
-                action.ActionId = getInt();
-                action.Kind = (ActionKind)getInt();
-                action.MayBeRelative = getBool();
-                action.IsQuestion = getBool();
-                action.AppliesToSomething = getBool();
-                action.Type = (ActionExecutionType)getInt();
-                action.FunctionName = getString();
-                action.Code = getString();
-                action.ArgumentsUsed = getInt();
-                action.Arguments = new List<ActionArgument>(8);
-                for (int argc = getInt(), j = 0; j < argc; j++)
+            return Enumerable.Range(0, ReadInt())
+                .Select(i => new ActionEntry
                 {
-                    action.Arguments.Add(new ActionArgument((ActionArgumentType)getInt()));
-                }
-                action.AppliesToObjectIndex = getInt();
-                action.Relative = getBool();
-                for (int argc = getInt(), j = 0; j < argc; j++)
-                {
-                    var arg = action.Arguments[j];
-                    arg.Value = getString();
-                    action.Arguments[j] = arg; // Write it back since it's a struct
-                }
-                action.Not = getBool();
-            }
-
-            return actions;
+                    Version = ReadInt(),
+                    LibraryId = ReadInt(),
+                    ActionId = ReadInt(),
+                    Kind = (ActionKind) ReadInt(),
+                    MayBeRelative = ReadBool(),
+                    IsQuestion = ReadBool(),
+                    AppliesToSomething = ReadBool(),
+                    Type = (ActionExecutionType) ReadInt(),
+                    FunctionName = ReadString(),
+                    Code = ReadString(),
+                    ArgumentsUsed = ReadInt(),
+                    ArgumentTypes = Enumerable
+                        .Range(0, ReadInt())
+                        .Select(j => (ActionArgumentType) ReadInt())
+                        .ToArray(),
+                    AppliesToObjectIndex = ReadInt(),
+                    Relative = ReadBool(),
+                    Arguments = Enumerable
+                        .Range(0, ReadInt())
+                        .Select(j => ReadString())
+                        .ToArray(),
+                    Not = ReadBool()
+                }).ToList();
         }
     }
 }

@@ -1,59 +1,59 @@
 ﻿namespace GameCreator.Projects.GMFiles
 {
-    partial class GmFileReader
+    internal partial class GmFileReader
     {
-        void readBackgrounds()
+        private void ReadBackgrounds()
         {
-            var version = getInt();
+            var version = ReadInt();
 
-            var count = getInt();
+            var count = ReadInt();
 
             for (var i = 0; i < count; i++)
             {
-                project.Backgrounds.NextIndex = i;
+                Project.Backgrounds.NextIndex = i;
 
-                if (getInt() != 0)
+                if (ReadInt() != 0)
                 {
-                    var background = project.Backgrounds.Create();
+                    var background = Project.Backgrounds.Create();
 
-                    background.Name = getString();
+                    background.Name = ReadString();
 
-                    version = getInt();
+                    version = ReadInt();
 
                     if (version >= 400 && version <= 543)
                     {
-                        background.Width = getInt();
-                        background.Height = getInt();
-                        background.IsTransparent = getInt();
+                        background.Width = ReadInt();
+                        background.Height = ReadInt();
+                        background.IsTransparent = ReadInt();
 
                         if (version == 400)
                         {
-                            background.UseVideoMemory = getBool();
-                            background.LoadOnlyOnUse = getBool();
+                            background.UseVideoMemory = ReadBool();
+                            background.LoadOnlyOnUse = ReadBool();
                         }
 
                         if (version == 543)
                         {
-                            background.SmoothEdges = getBool();
-                            background.PreloadTexture = getBool();
+                            background.SmoothEdges = ReadBool();
+                            background.PreloadTexture = ReadBool();
                         }
 
                         if (version >= 543)
                         {
-                            background.UseAsTileset = getBool();
-                            background.TileWidth = getInt();
-                            background.TileHeight = getInt();
-                            background.HorizontalOffset = getInt();
-                            background.VerticalOffset = getInt();
-                            background.HorizontalSeparation = getInt();
-                            background.VerticalSeparation = getInt();
+                            background.UseAsTileset = ReadBool();
+                            background.TileWidth = ReadInt();
+                            background.TileHeight = ReadInt();
+                            background.HorizontalOffset = ReadInt();
+                            background.VerticalOffset = ReadInt();
+                            background.HorizontalSeparation = ReadInt();
+                            background.VerticalSeparation = ReadInt();
                         }
 
-                        if (getBool())
+                        if (ReadBool())
                         {
-                            if (getInt() != -1)
+                            if (ReadInt() != -1)
                             {
-                                background.Data = getZipped();
+                                background.Data = ReadZipped();
                             }
                         }
                     }

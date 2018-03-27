@@ -1,14 +1,16 @@
-﻿namespace GameCreator.Projects
+﻿using System;
+
+namespace GameCreator.Projects
 {
     public class BackgroundResource : BaseResource
     {
         public int Width { get; set; }
         public int Height { get; set; }
         public int IsTransparent { get; set; }
-        public bool UseVideoMemory { get; set; }
-        public bool LoadOnlyOnUse { get; set; }
-        public bool SmoothEdges { get; set; }
-        public bool PreloadTexture { get; set; }
+        [Obsolete] public bool UseVideoMemory { get; set; }
+        [Obsolete] public bool LoadOnlyOnUse { get; set; }
+        [Obsolete] public bool SmoothEdges { get; set; }
+        [Obsolete] public bool PreloadTexture { get; set; }
         public bool UseAsTileset { get; set; }
         public int TileWidth { get; set; }
         public int TileHeight { get; set; }

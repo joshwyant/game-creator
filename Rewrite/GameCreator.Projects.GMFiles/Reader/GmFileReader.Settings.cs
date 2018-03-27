@@ -3,33 +3,33 @@ using GameCreator.Resources.Api;
 
 namespace GameCreator.Projects.GMFiles
 {
-    partial class GmFileReader
+    internal partial class GmFileReader
     {
-        void readSettings()
+        private void ReadSettings()
         {
-            var version = getInt();
+            var version = ReadInt();
 
-            var settings = project.Settings;
+            var settings = Project.Settings;
 
-            settings.StartInFullscreenMode = getBool();
+            settings.StartInFullscreenMode = ReadBool();
 
             if (version >= 600)
-                settings.InterpolateColors = getBool();
+                settings.InterpolateColors = ReadBool();
 
-            settings.DrawWindowBorder = !getBool();
-            settings.ShowCursor = getBool();
+            settings.DrawWindowBorder = !ReadBool();
+            settings.ShowCursor = ReadBool();
 
             if (version == 530)
             {
-                var windowScaling = getInt();
+                var windowScaling = ReadInt();
 
-                settings.WindowScalePercent = getInt();
-                settings.FullscreenScalePercent = getInt();
-                settings.ScalingWithHardwareSupportOnly = getBool();
+                settings.WindowScalePercent = ReadInt();
+                settings.FullscreenScalePercent = ReadInt();
+                settings.ScalingWithHardwareSupportOnly = ReadBool();
             }
             else if (version >= 542)
             {
-                var scaling = getInt();
+                var scaling = ReadInt();
 
                 switch (scaling)
                 {
@@ -45,111 +45,111 @@ namespace GameCreator.Projects.GMFiles
                         break;
                 }
 
-                settings.WindowResizable = getBool();
-                settings.WindowAlwaysOnTop = getBool();
-                settings.ColorOutsiteRoom = getInt();
+                settings.WindowResizable = ReadBool();
+                settings.WindowAlwaysOnTop = ReadBool();
+                settings.ColorOutsiteRoom = ReadInt();
             }
 
-            settings.SetScreenResolution = getBool();
+            settings.SetScreenResolution = ReadBool();
 
             if (version == 530)
             {
-                settings.ColorDepth = getInt() == 1 ? ColorDepth.ColorDepth32Bit : ColorDepth.ColorDepth16Bit;
-                settings.ExclusiveGraphicsMode = getBool();
-                settings.Resolution = (ScreenResolution)getInt();
-                settings.Frequency = getInt();
-                settings.WaitForVerticalBlankBeforeDrawing = getBool();
-                settings.FullscreenDisplayCaption = getBool();
+                settings.ColorDepth = ReadInt() == 1 ? ColorDepth.ColorDepth32Bit : ColorDepth.ColorDepth16Bit;
+                settings.ExclusiveGraphicsMode = ReadBool();
+                settings.Resolution = (ScreenResolution)ReadInt();
+                settings.Frequency = ReadInt();
+                settings.WaitForVerticalBlankBeforeDrawing = ReadBool();
+                settings.FullscreenDisplayCaption = ReadBool();
             }
             else if (version >= 542)
             {
-                settings.ColorDepth = (ColorDepth)getInt();
-                settings.Resolution = (ScreenResolution)getInt();
-                settings.Frequency = getInt();
+                settings.ColorDepth = (ColorDepth)ReadInt();
+                settings.Resolution = (ScreenResolution)ReadInt();
+                settings.Frequency = ReadInt();
             }
-            settings.WindowCaptionShowButtons = !getBool();
+            settings.WindowCaptionShowButtons = !ReadBool();
             if (version >= 542)
             {
-                settings.Synchronization = getBool();
+                settings.Synchronization = ReadBool();
             }
-            settings.EnableShortcutF4 = getBool();
-            settings.EnableShortcutF1 = getBool();
-            settings.EnableShortcutEsc = getBool();
-            settings.EnableShortcutsF5AndF6 = getBool();
-            settings.ProcessPriority = (ProcessPriority)getInt();
+            settings.EnableShortcutF4 = ReadBool();
+            settings.EnableShortcutF1 = ReadBool();
+            settings.EnableShortcutEsc = ReadBool();
+            settings.EnableShortcutsF5AndF6 = ReadBool();
+            settings.ProcessPriority = (ProcessPriority)ReadInt();
 
             if (version == 530)
             {
-                reader.ReadInt64(); // reserved
+                Reader.ReadInt64(); // reserved
             }
 
-            settings.FreezeGameWhenFormLosesFocus = getBool();
-            settings.LoadingProgressBarMode = (LoadingProgressBarMode)getInt();
+            settings.FreezeGameWhenFormLosesFocus = ReadBool();
+            settings.LoadingProgressBarMode = (LoadingProgressBarMode)ReadInt();
 
             if (settings.LoadingProgressBarMode == LoadingProgressBarMode.OwnLoadingProgressBar)
             {
                 if (version >= 530 && version <= 702)
                 {
-                    if (getInt() != -1)
+                    if (ReadInt() != -1)
                     {
-                        settings.LoadingBarBackgroundImageData = getZipped();
+                        settings.LoadingBarBackgroundImageData = ReadZipped();
                     }
 
-                    if (getInt() != -1)
+                    if (ReadInt() != -1)
                     {
-                        settings.LoadingBarImageData = getZipped();
+                        settings.LoadingBarImageData = ReadZipped();
                     }
                 }
             }
 
-            settings.ShowLoadingImage = getBool();
+            settings.ShowLoadingImage = ReadBool();
 
             if (settings.ShowLoadingImage)
             {
                 if (version >= 530 && version <= 702)
                 {
-                    if (getInt() != -1)
+                    if (ReadInt() != -1)
                     {
-                        settings.LoadingImageData = getZipped();
+                        settings.LoadingImageData = ReadZipped();
                     }
                 }
             }
 
-            settings.LoadingImageTransparent = getInt();
-            settings.LoadingImageAlpha = getInt();
-            settings.ScaleLoadingBarImage = getBool();
+            settings.LoadingImageTransparent = ReadInt();
+            settings.LoadingImageAlpha = ReadInt();
+            settings.ScaleLoadingBarImage = ReadBool();
 
-            settings.IconData = getBlob();
+            settings.IconData = ReadBlob();
 
-            settings.DisplayErrorMessages = getBool();
-            settings.UserErrorLog = getBool();
-            settings.AbortOnError = getBool();
-            settings.TreatUninitializedVariablesAs0 = getBool();
-            settings.Author = getString();
+            settings.DisplayErrorMessages = ReadBool();
+            settings.UserErrorLog = ReadBool();
+            settings.AbortOnError = ReadBool();
+            settings.TreatUninitializedVariablesAs0 = ReadBool();
+            settings.Author = ReadString();
 
             if (version >= 530 && version <= 600)
             {
-                settings.Version = getInt();
+                settings.Version = ReadInt();
             }
 
-            settings.LastChangedDate = getDate();
-            settings.Information = getString();
+            settings.LastChangedDate = ReadDate();
+            settings.Information = ReadString();
 
             settings.Constants = new Dictionary<string, string>();
 
-            for (int count = getInt(), i = 0; i < count; i++)
-                settings.Constants.Add(getString(), getString());
+            for (int count = ReadInt(), i = 0; i < count; i++)
+                settings.Constants.Add(ReadString(), ReadString());
 
             if (version == 542 || version == 600)
             {
                 settings.IncludeFiles = new List<string>();
                 
-                for (int count = getInt(), i = 0; i < count; i++)
-                    settings.IncludeFiles.Add(getString());
+                for (int count = ReadInt(), i = 0; i < count; i++)
+                    settings.IncludeFiles.Add(ReadString());
 
-                settings.SaveIncludeFilesToTempDirectory = getBool();
-                settings.OverwriteIncludeFiles = getBool();
-                settings.RemoveIncludeFiles = getBool();
+                settings.SaveIncludeFilesToTempDirectory = ReadBool();
+                settings.OverwriteIncludeFiles = ReadBool();
+                settings.RemoveIncludeFiles = ReadBool();
             }
         }
     }

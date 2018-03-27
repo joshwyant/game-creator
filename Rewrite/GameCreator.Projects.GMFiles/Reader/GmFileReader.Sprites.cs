@@ -3,67 +3,108 @@ using GameCreator.Resources.Api;
 
 namespace GameCreator.Projects.GMFiles
 {
-    partial class GmFileReader
+    internal partial class GmFileReader
     {
-        void readSprites()
+        private void ReadSprites()
         {
-            var version = getInt();
+            var spritesVersion = ReadInt();
 
-            var count = getInt();
+            var count = ReadInt();
 
             for (var i = 0; i < count; i++)
             {
-                project.Sprites.NextIndex = i;
+                Project.Sprites.NextIndex = i;
 
-                if (getInt() != 0)
+                if (ReadInt() != 0)
                 {
-                    var sprite = project.Sprites.Create();
+                    var sprite = Project.Sprites.Create();
 
-                    sprite.Name = getString();
+                    if (spritesVersion >= 800)
+                    {
+                        sprite.LastModified = ReadDate();
+                    }
 
-                    version = getInt();
+                    sprite.Name = ReadString();
+
+                    var version = sprite.Version = ReadInt();
 
                     if (version >= 400 && version <= 542)
                     {
-                        sprite.Width = getInt();
-                        sprite.Height = getInt();
-                        sprite.BoundingBoxLeft = getInt();
-                        sprite.BoundingBoxRight = getInt();
-                        sprite.BoundingBoxBottom = getInt();
-                        sprite.BoundingBoxTop = getInt();
-                        sprite.IsTransparent = getBool();
+                        sprite.Width = ReadInt();
+                        sprite.Height = ReadInt();
+                        sprite.BoundingBoxLeft = ReadInt();
+                        sprite.BoundingBoxRight = ReadInt();
+                        sprite.BoundingBoxBottom = ReadInt();
+                        sprite.BoundingBoxTop = ReadInt();
+                        sprite.IsTransparent = ReadBool();
 
                         if (version == 542)
                         {
-                            sprite.SmoothEdges = getBool();
-                            sprite.PreloadTexture = getBool();
+                            sprite.SmoothEdges = ReadBool();
+                            sprite.PreloadTexture = ReadBool();
                         }
 
-                        sprite.BoundingBoxFunction = (BoundingBoxFunction)getInt();
-                        sprite.PreciseCollisionChecking = getBool();
+                        sprite.BoundingBoxFunction = (BoundingBoxFunction)ReadInt();
+                        sprite.PreciseCollisionChecking = ReadBool();
 
                         if (version == 400)
                         {
-                            sprite.UseVideoMemory = getBool();
-                            sprite.LoadOnlyOnUse = getBool();
+                            sprite.UseVideoMemory = ReadBool();
+                            sprite.LoadOnlyOnUse = ReadBool();
                         }
                     }
 
-                    sprite.XOrigin = getInt();
-                    sprite.YOrigin = getInt();
+                    sprite.XOrigin = ReadInt();
+                    sprite.YOrigin = ReadInt();
 
                     if (version >= 400 && version <= 542)
                     {
-                        var subimageCount = getInt();
-                        sprite.SubImages = new List<byte[]>();
+                        var subimageCount = ReadInt();
+                        sprite.SubImages = new List<SubImage>();
 
                         for (var j = 0; j < subimageCount; j++)
                         {
-                            if (getInt() != 0)
+                            if (ReadInt() != 0)
                             {
-                                sprite.SubImages.Add(getZipped());
+                                sprite.SubImages.Add(new SubImage
+                                {
+                                    Version = version,
+                                    Data = ReadZipped()
+                                });
                             }
                         }
+                    }
+                    else if (version >= 800)
+                    {
+                        var subimageCount = ReadInt();
+                        sprite.SubImages = new List<SubImage>();
+
+                        for (var j = 0; j < subimageCount; j++)
+                        {
+                            version = ReadInt();
+                            var width = ReadInt();
+                            var height = ReadInt();
+                            if (width != 0 && height != 0)
+                            {
+                                sprite.SubImages.Add(new SubImage
+                                {
+                                    Version = version,
+                                    IsRawFormat = true,
+                                    Width = width,
+                                    Height = height,
+                                    Data = ReadZipped()
+                                });
+                            }
+                        }
+
+                        sprite.Shape = (CollisionMaskFunction) ReadInt();
+                        sprite.AlphaTolerance = ReadInt();
+                        sprite.SeparateCollisionMasks = ReadBool();
+                        sprite.BoundingBoxFunction = (BoundingBoxFunction) ReadInt();
+                        sprite.BoundingBoxLeft = ReadInt();
+                        sprite.BoundingBoxRight = ReadInt();
+                        sprite.BoundingBoxBottom = ReadInt();
+                        sprite.BoundingBoxTop = ReadInt();
                     }
                 }
             }

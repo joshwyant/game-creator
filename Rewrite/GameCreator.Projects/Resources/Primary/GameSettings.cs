@@ -12,9 +12,9 @@ namespace GameCreator.Projects
         public bool InterpolateColors { get; set; }
         public bool DrawWindowBorder { get; set; }
         public bool ShowCursor { get; set; }
-        public int WindowScalePercent { get; set; }
-        public int FullscreenScalePercent { get; set; }
-        public bool ScalingWithHardwareSupportOnly { get; set; }
+        [Obsolete] public int WindowScalePercent { get; set; }
+        [Obsolete] public int FullscreenScalePercent { get; set; }
+        [Obsolete] public bool ScalingWithHardwareSupportOnly { get; set; }
         public ScalingMode ScalingMode { get; set; }
         public int Scaling { get; set; }
         public bool WindowResizable { get; set; }
@@ -22,11 +22,11 @@ namespace GameCreator.Projects
         public int ColorOutsiteRoom { get; set; }
         public bool SetScreenResolution { get; set; }
         public ColorDepth ColorDepth { get; set; }
-        public bool ExclusiveGraphicsMode { get; set; }
+        [Obsolete] public bool ExclusiveGraphicsMode { get; set; }
         public ScreenResolution Resolution { get; set; }
         public int Frequency { get; set; }
-        public bool WaitForVerticalBlankBeforeDrawing { get; set; }
-        public bool FullscreenDisplayCaption { get; set; }
+        [Obsolete] public bool WaitForVerticalBlankBeforeDrawing { get; set; }
+        [Obsolete] public bool FullscreenDisplayCaption { get; set; }
         public bool WindowCaptionShowButtons { get; set; }
         public bool Synchronization { get; set; }
         public bool EnableShortcutF4 { get; set; }
