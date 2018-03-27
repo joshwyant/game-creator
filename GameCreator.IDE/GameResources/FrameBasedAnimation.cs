@@ -21,52 +21,6 @@ namespace GameCreator.IDE
         MaximumSize
     }
 
-    enum BoundingBoxMode
-    {
-        Automatic,
-        FullImage,
-        Manual
-    }
-
-    enum BoundingBoxShape
-    {
-        Precise,
-        Disk,
-        Diamond,
-        Rectangle
-    }
-
-    struct BoundingBox
-    {
-        public int Left;
-        public int Top;
-        public int Right;
-        public int Bottom;
-        public BoundingBox(int left, int top, int right, int bottom)
-        {
-            Left = left;
-            Top = top;
-            Right = right;
-            Bottom = bottom;
-        }
-        public void Normalize()
-        {
-            int t;
-            if (Left > Right)
-            {
-                t = Left;
-                Left = Right;
-                Right = t;
-            }
-            if (Top > Bottom)
-            {
-                t = Top;
-                Top = Bottom;
-                Bottom = t;
-            }
-        }
-    }
-
     delegate void SizingCallback(out FramePlacement placement, out FrameSizing sizing);
 
     class FrameBasedAnimation : IDisposable
@@ -170,38 +124,6 @@ namespace GameCreator.IDE
             EnsureUndisposed();
             bbmode = BoundingBoxMode.Manual;
             bboxes[0] = bbox;
-        }
-        void ComputeBoundingBox(int index)
-        {
-            EnsureUndisposed();
-            if (bbmode != BoundingBoxMode.Automatic)
-                return;
-            BoundingBox bb = new BoundingBox(width - 1, height - 1, 0, 0);
-            Bitmap b = frames[index];
-            BitmapData bd = b.LockBits(new Rectangle(0, 0, width, height), ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb);
-            for (int j = 0; j < height; j++)
-            {
-                for (int i = 0; i < width; i++)
-                {
-                    int pixel = System.Runtime.InteropServices.Marshal.ReadInt32(bd.Scan0, bd.Stride * j + i * 4);
-                    int alpha = (int)((uint)pixel >> 24);
-                    if (alpha > tol)
-                    {
-                        if (bb.Left > i) bb.Left = i;
-                        if (bb.Right < i) bb.Right = i;
-                        if (bb.Top > j) bb.Top = j;
-                        if (bb.Bottom < j) bb.Bottom = j;
-                    }
-                }
-            }
-            b.UnlockBits(bd);
-            if (index >= bboxes.Count)
-            {
-                while (index >= bboxes.Count)
-                    bboxes.Add(index == bboxes.Count ? bb : new BoundingBox());
-            }
-            else
-                bboxes[index] = bb;
         }
         // Create a new bitmap that is a resized version of the original's current frame using argb
         static Bitmap Resize(Bitmap original, int width, int height, FramePlacement placement)
@@ -346,60 +268,6 @@ namespace GameCreator.IDE
             Bitmap bmp = new Bitmap(frames[framenum]);
             bmp.MakeTransparent(bmp.GetPixel(0, bmp.Height - 1));
             return bmp;
-        }
-        public System.Collections.BitArray CollisionMask(int framenum)
-        {
-            EnsureUndisposed();
-            if (framenum >= frames.Count)
-                return null;
-            if (!separatemasks)
-                framenum = 0;
-            BoundingBox bb = GetBoundingBox(framenum);
-            if (bb.Left > bb.Right || bb.Top > bb.Bottom)
-                return null;
-            bb.Normalize();
-            int w = bb.Right - bb.Left + 1;
-            int h = bb.Bottom - bb.Top + 1;
-            System.Collections.BitArray mask = new System.Collections.BitArray(w * h);
-            switch (bbshape)
-            {
-                case BoundingBoxShape.Rectangle:
-                    // The mask is a rectangle.
-                    mask.SetAll(true);
-                    break;
-                case BoundingBoxShape.Diamond:
-                case BoundingBoxShape.Disk:
-                    // Use a lambda function for the shape: a disk or a diamond.
-                    Func<double, double, bool> ftn =
-                        bbshape == BoundingBoxShape.Disk ?
-                        (Func<double, double, bool>)((double x, double y) => (x * x + y * y < 1.0)) :
-                        (Func<double, double, bool>)((double x, double y) => (Math.Abs(x) + Math.Abs(y) < 1.0));
-                    
-                    // Fill in the mask fitting the coordinates into the lambda function for the shape.
-                    //GM8 BETA1/2/RC1 incorrect version (off-by-one and excessive rounding):
-                    //int scalex = (bb.Right - bb.Left) >> 1;
-                    //int scaley = (bb.Bottom - bb.Top) >> 1;
-                    //for (int j = 0; j < h; j++)
-                    //    for (int i = 0; i < w; i++)
-                    //        mask[j * w + i] = ftn((double)(i - scalex) / (double)scalex, (double)(j - scaley) / (double)scaley);
-                    // correct code:
-                    double scalex = (double)(bb.Right - bb.Left + 1) * 0.5;
-                    double scaley = (double)(bb.Bottom - bb.Top + 1) * 0.5;
-                    for (int j = 0; j < h; j++)
-                        for (int i = 0; i < w; i++)
-                            mask[j * w + i] = ftn((double)(i - scalex) / scalex, (double)(j - scaley) / scaley);
-                    break;
-                default:
-                    // Generate a mask based on alpha tolerance on each pixel.
-                    Bitmap b = frames[framenum];
-                    BitmapData bd = b.LockBits(new Rectangle(bb.Left, bb.Top, w, h), ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb);
-                    for (int j = 0; j < h; j++)
-                        for (int i = 0; i < w; i++)
-                            mask[j * w + i] = (int)((uint)System.Runtime.InteropServices.Marshal.ReadInt32(bd.Scan0, (j + bb.Top) * bd.Stride + (i + bb.Left) * 4) >> 24) > tol;
-                    b.UnlockBits(bd);
-                    break;
-            }
-            return mask;
         }
         public void Clear()
         {

@@ -59,9 +59,6 @@
     <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Actions\Action.cs" />
-    <Compile Include="Actions\ActionDefinition.cs" />
-    <Compile Include="Actions\ActionLibrary.cs" />
     <Compile Include="Core\BaseFunction.cs" />
     <Compile Include="Core\Constants.cs" />
     <Compile Include="Core\IFunction.cs" />
@@ -74,30 +71,7 @@
     <Compile Include="Core\Error.cs" />
     <Compile Include="Core\ErrorDefinition.cs" />
     <Compile Include="Core\Value.cs" />
-    <Compile Include="Events\KeyCodes.cs" />
-    <Compile Include="Events\MouseEventNumber.cs" />
-    <Compile Include="Events\MouseEvents.cs" />
-    <Compile Include="Events\OtherEventNumber.cs" />
-    <Compile Include="Events\OtherEvents.cs" />
-    <Compile Include="Events\StepEventNumber.cs" />
-    <Compile Include="Events\StepEvents.cs" />
-    <Compile Include="Events\VirtualKeyCode.cs" />
-    <Compile Include="Resources\IInstanceFactory.cs" />
-    <Compile Include="Resources\ILibraryInitializer.cs" />
-    <Compile Include="Resources\LibraryInitializer.cs" />
-    <Compile Include="Resources\ResourceExtensions.cs" />
-    <Compile Include="Resources\NamedIndexedResource.cs" />
-    <Compile Include="Resources\IndexedResourceManager.cs" />
-    <Compile Include="Resources\IndexedResource.cs" />
-    <Compile Include="Resources\Entities\Instance.cs" />
     <Compile Include="Core\InstanceTarget.cs" />
-    <Compile Include="Resources\LibraryContext.cs" />
-    <Compile Include="Resources\ResourceContext.cs" />
-    <Compile Include="Resources\Entities\Sprite.cs" />
-    <Compile Include="Events\Event.cs" />
-    <Compile Include="Resources\Entities\Script.cs" />
-    <Compile Include="Resources\Entities\Room.cs" />
-    <Compile Include="Resources\Entities\Object.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

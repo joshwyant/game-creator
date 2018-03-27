@@ -47,37 +47,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Git\GitHelper.cs" />
-    <Compile Include="GmFiles\Gm6ProjectType.cs" />
-    <Compile Include="GmFiles\GmdProjectType.cs" />
-    <Compile Include="GmFiles\Gm8ProjectType.cs" />
-    <Compile Include="GmFiles\GmFileExtensions.cs" />
-    <Compile Include="GmFiles\Reader\GmFileProjectReader.Fonts.cs" />
-    <Compile Include="GmFiles\Reader\GmFileProjectReader.Paths.cs" />
-    <Compile Include="GmFiles\Reader\GmFileProjectReader.Actions.cs" />
-    <Compile Include="GmFiles\Reader\GmFileProjectReader.GameInformation.cs" />
-    <Compile Include="GmFiles\Reader\GmFileProjectReader.ResourceTree.cs" />
-    <Compile Include="GmFiles\Reader\GmFileProjectReader.Timelines.cs" />
-    <Compile Include="GmFiles\Reader\GmFileProjectReader.Objects.cs" />
-    <Compile Include="GmFiles\Reader\GmFileProjectReader.Rooms.cs" />
-    <Compile Include="GmFiles\Reader\GmFileProjectReader.Scripts.cs" />
-    <Compile Include="GmFiles\Reader\GmFileProjectReader.Backgrounds.cs" />
-    <Compile Include="GmFiles\Reader\GmFileProjectReader.Sprites.cs" />
-    <Compile Include="GmFiles\Reader\GmFileProjectReader.Sounds.cs" />
-    <Compile Include="GmFiles\Reader\GmFileProjectReader.Settings.cs" />
-    <Compile Include="GmFiles\Reader\GmFileProjectReader.cs" />
-    <Compile Include="GmFiles\GmFileProjectService.cs" />
-    <Compile Include="GmFiles\Writer\GmFileProjectWriter.cs" />
-    <Compile Include="GmFiles\GMKIn.cs" />
-    <Compile Include="GmFiles\GMKOut.cs" />
-    <Compile Include="GmFiles\GmkProjectType.cs" />
-    <Compile Include="GmFiles\GmFileProjectType.cs" />
-    <Compile Include="GmProject.cs" />
-    <Compile Include="GmFiles\IGmFileProjectType.cs" />
-    <Compile Include="JsonProjects\JsonProjectService.cs" />
-    <Compile Include="JsonProjects\JsonProjectType.cs" />
-    <Compile Include="JsonProjects\Models\JsonRootProject.cs" />
-    <Compile Include="JsonProjects\Models\Reader\JsonProjectType.Reader.cs" />
-    <Compile Include="JsonProjects\Models\Writer\JsonProjectType.Writer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -69,18 +69,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GameResources\FrameBasedAnimation.cs" />
-    <Compile Include="GameResources\Actions\ActionArgument.cs" />
     <Compile Include="GameResources\Actions\ActionDataObject.cs" />
     <Compile Include="GameResources\Actions\ActionDeclaration.cs" />
-    <Compile Include="GameResources\Actions\ActionDefinition.cs" />
     <Compile Include="GameResources\Actions\ActionForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="GameResources\Actions\ActionForm.Designer.cs">
       <DependentUpon>ActionForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="GameResources\Actions\ActionInterfaceKind.cs" />
-    <Compile Include="GameResources\Actions\ActionLibrary.cs" />
     <Compile Include="GameResources\Actions\ActionPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -174,7 +170,6 @@
     <Compile Include="GameResources\Objects\ObjectResourceView.cs" />
     <Compile Include="GameResources\IDeletable.cs" />
     <Compile Include="GameResources\Scripts\IScriptExportable.cs" />
-    <Compile Include="GameResources\IndexedResourceManager.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
