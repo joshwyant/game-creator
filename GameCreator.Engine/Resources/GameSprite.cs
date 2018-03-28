@@ -8,6 +8,7 @@ namespace GameCreator.Engine
     {
         public GameContext Context { get; }
         public int Id { get; set; } = -1;
+        public string Name { get; set; }
         public ITexture[] Textures { get; internal set; }
         public IImage[] SubImages { get; }
         public int Width { get; }

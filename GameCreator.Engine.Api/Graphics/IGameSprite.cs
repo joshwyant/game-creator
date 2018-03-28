@@ -2,9 +2,8 @@
 
 namespace GameCreator.Engine.Api
 {
-    public interface IGameSprite : IIndexedResource
+    public interface IGameSprite : INamedResource
     {
-        int Id { get; set; }
         ITexture[] Textures { get; }
         IImage[] SubImages { get; }
         int Width { get; }

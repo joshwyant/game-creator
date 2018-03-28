@@ -4,6 +4,7 @@ using System.Linq;
 using GameCreator.Engine.Api;
 using GameCreator.Engine.Common;
 using GameCreator.Resources.Api;
+using Ninject.Activation;
 
 namespace GameCreator.Engine
 {
@@ -28,7 +29,7 @@ namespace GameCreator.Engine
             for (var i = 0; i < PresortedInstances.Count; i++)
             {
                 var instance = PresortedInstances[i];
-                if (instance.Destroyed) continue;
+                if (instance.Destroyed || instance.Deactivated) continue;
                 handler(instance);
             }
         }
@@ -38,6 +39,14 @@ namespace GameCreator.Engine
             void PerformEventForInstances(EventType eventType, int eventNumber = 0)
             {
                 ForInstances(i => i.PerformEvent(eventType, eventNumber));
+            }
+            
+            // Go to a room
+            if (NextRoom != null)
+            {
+                var newRoom = NextRoom;
+                NextRoom = null;
+                SetCurrentRoom(newRoom);
             }
             
             // Process begin step events
@@ -131,7 +140,7 @@ namespace GameCreator.Engine
 
         private void ProcessCollisionEvents()
         {
-            var collisionTree = Library.Move.GenerateCollisionTree(PresortedInstances);
+            var collisionTree = Library.Move.GenerateCollisionTree(PresortedInstances.Where(i => !i.Deactivated));
 
             ForInstances(i =>
             {
@@ -197,7 +206,7 @@ namespace GameCreator.Engine
             }
 
             // Re-sort all the instances by depth now.
-            PresortedInstances = GetRoomInstances();
+            PresortedInstances = SortInstances();
 
             // Process draw events
             ForInstances(i =>

@@ -11,7 +11,7 @@
 
         public void GoToRoom(GameRoom room)
         {
-            Context.CurrentRoom = room;
+            Context.NextRoom = room;
         }
 
         public GameInstance CreateInstance(double x, double y, GameObject assignedObject)

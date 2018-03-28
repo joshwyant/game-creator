@@ -88,6 +88,7 @@ namespace GameCreator.Engine
         public double Friction { get; set; }
         public GameSprite Sprite => Context.Sprites[SpriteIndex];
         public GameObject AssignedObject { get; private set; }
+        public bool Deactivated { get; set; }
 
         internal GameInstance(GameContext context, double x, double y, GameObject assignedObject)
         {

@@ -2,8 +2,9 @@
 
 namespace GameCreator.Engine
 {
-    public class GameBackground : IIndexedResource
+    public class GameBackground : INamedResource
     {
         public int Id { get; set; }
+        public string Name { get; set; }
     }
 }

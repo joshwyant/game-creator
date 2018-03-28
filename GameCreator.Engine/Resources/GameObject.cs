@@ -5,7 +5,7 @@ using GameCreator.Resources.Api;
 
 namespace GameCreator.Engine
 {
-    public abstract class GameObject : IIndexedResource
+    public abstract class GameObject : INamedResource
     {
         public GameContext Context { get; }
         public int Id { get; set; } = -1;
@@ -13,6 +13,7 @@ namespace GameCreator.Engine
         public abstract GameSprite Sprite { get; }
         public bool Solid { get; protected set; }
         public bool Persistent { get; protected set; }
+        public string Name { get; set; }
         
         protected internal GameObject(GameContext context)
         {
@@ -129,7 +130,7 @@ namespace GameCreator.Engine
 
         public void PerformEvent(GameInstance instance, EventType eventType, int eventNumber = 0)
         {
-            if (!instance.Destroyed || eventType == EventType.Destroy)
+            if ((!instance.Destroyed || eventType == EventType.Destroy) && !instance.Deactivated)
             {
                 if (IsEventRegistered(eventType, eventNumber))
                 {

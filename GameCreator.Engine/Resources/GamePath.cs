@@ -2,8 +2,9 @@
 
 namespace GameCreator.Engine
 {
-    public class GamePath : IIndexedResource
+    public class GamePath : INamedResource
     {
         public int Id { get; set; }
+        public string Name { get; set; }
     }
 }

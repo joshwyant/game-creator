@@ -49,7 +49,7 @@ namespace GameCreator.Engine
                 gameObject.OnRegisterEvents();
             }
             
-            Instances = new IndexedResourceManager<IInstance>(100001);
+            AllInstances = new IndexedResourceManager<IInstance>(100001);
             
             var rooms = predefinedResources.GetPredefinedRooms(this);
             Rooms = new IndexedResourceManager<GameRoom>(rooms);
@@ -58,10 +58,10 @@ namespace GameCreator.Engine
             var triggers = predefinedResources.GetPredefinedTriggers(this);
             Triggers = new IndexedResourceManager<ITrigger>(triggers);
 
-            Instances.SetNextIndex(predefinedResources.NextInstanceId);
-            Sprites.SetNextIndex(predefinedResources.NextSpriteId);
-            Objects.SetNextIndex(predefinedResources.NextObjectId);
-            Rooms.SetNextIndex(predefinedResources.NextRoomId);
+            Instances.TrySetNextIndex(predefinedResources.NextInstanceId);
+            Sprites.TrySetNextIndex(predefinedResources.NextSpriteId);
+            Objects.TrySetNextIndex(predefinedResources.NextObjectId);
+            Rooms.TrySetNextIndex(predefinedResources.NextRoomId);
 
             Graphics.Load += Graphics_Load;
             Graphics.Draw += Graphics_Update;

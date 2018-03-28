@@ -17,18 +17,7 @@ namespace GameCreator.Resources.Api
         public IndexedResourceManager(IEnumerable<T> initialItems, int startingIndex = 0)
             : this(startingIndex)
         {
-            foreach (var item in initialItems)
-            {
-                if (item.Id == -1)
-                {
-                    BaseAdd(item);
-                }
-                else
-                {
-                    this[item.Id] = item;
-                    nextIndex = Math.Max(nextIndex, item.Id + 1);
-                }
-            }
+            BaseAddRange(initialItems);
         }
 
         public bool ContainsKey(int id)
@@ -39,12 +28,19 @@ namespace GameCreator.Resources.Api
         public int NextIndex
         {
             get => nextIndex;
-            set => SetNextIndex(value);
+            set
+            {
+                if (!TrySetNextIndex(value))
+                {
+                    throw new InvalidOperationException();
+                }
+            }
         }
 
-        public void SetNextIndex(int nextIndex)
+        public bool TrySetNextIndex(int index)
         {
-            this.nextIndex = Math.Max(this.nextIndex, nextIndex);
+            nextIndex = Math.Max(nextIndex, index);
+            return index == nextIndex;
         }
 
         public int GenerateId()
@@ -54,15 +50,38 @@ namespace GameCreator.Resources.Api
 
         private int BaseAdd(T obj)
         {
-            int idx;
-            instances[idx = nextIndex++] = obj;
-            obj.Id = idx;
-            return idx;
+            if (obj.Id == -1)
+            {
+                obj.Id = GenerateId();
+            }
+            else
+            {
+                TrySetNextIndex(obj.Id + 1);
+            }
+            instances[obj.Id] = obj;
+
+            return obj.Id;
         }
 
         public virtual int Add(T obj)
         {
             return BaseAdd(obj);
+        }
+
+        public void AddRange(IEnumerable<T> objs)
+        {
+            foreach (var item in objs)
+            {
+                Add(item); // Uses virtual add
+            }
+        }
+
+        private void BaseAddRange(IEnumerable<T> objs)
+        {
+            foreach (var item in objs)
+            {
+                BaseAdd(item); // Uses non-virtual add for constructor
+            }
         }
 
         public T this[int id]
@@ -74,6 +93,14 @@ namespace GameCreator.Resources.Api
         public virtual void Remove(int id)
         {
             instances.Remove(id);
+        }
+
+        public void RemoveRange(IEnumerable<int> items)
+        {
+            foreach (var item in items)
+            {
+                Remove(item);
+            }
         }
 
         public virtual IEnumerator<T> GetEnumerator()

@@ -3,30 +3,25 @@ using GameCreator.Resources.Api;
 
 namespace GameCreator.Projects
 {
-    public class ProjectResourceManager<T> : IndexedResourceManager<T> where T : IIndexedResource, new()
+    public class ProjectResourceManager<T> : NamedResourceManager<T> where T : INamedResource, new()
     {
         private readonly SortedDictionary<int, ResourceLeafNode<T>> _nodesMap 
             = new SortedDictionary<int, ResourceLeafNode<T>>();
         
         public ResourceDirectoryNode<T> Root { get; }
         
-        public string NamePrefix { get; }
+        public override string Prefix { get; }
         
-        public ProjectResourceManager(string namePrefix, int startingIndex = 0) : base(startingIndex)
+        public ProjectResourceManager(string prefix, int startingIndex = 0) : base(startingIndex)
         {
             Root = new ResourceDirectoryNode<T>();
-            NamePrefix = namePrefix;
+            Prefix = prefix;
         }
 
-        public ProjectResourceManager(T[] initialItems, string namePrefix, int startingIndex = 0) : base(initialItems, startingIndex)
+        public ProjectResourceManager(T[] initialItems, string prefix, int startingIndex = 0) : base(initialItems, startingIndex)
         {
             Root = new ResourceDirectoryNode<T>(initialItems);
-            NamePrefix = namePrefix;
-        }
-
-        public string GenerateDefaultName()
-        {
-            return NamePrefix + NextIndex;
+            Prefix = prefix;
         }
         
         public override int Add(T obj)
@@ -69,6 +64,15 @@ namespace GameCreator.Projects
             node.Remove();
             _nodesMap.Remove(id);
             base.Remove(id);
+        }
+
+        public override void Remove(string name)
+        {
+            var t = this[name];
+            var node = _nodesMap[t.Id];
+            node.Remove();
+            _nodesMap.Remove(t.Id);
+            base.Remove(name);
         }
 
         public void Remove(ResourceLeafNode<T> node)
