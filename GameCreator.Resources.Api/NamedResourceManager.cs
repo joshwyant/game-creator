@@ -8,14 +8,18 @@ namespace GameCreator.Resources.Api
         where T : INamedResource
     {
         private Dictionary<string, T> _nameLookup;
+        private IResourceTable _symbolTable;
         
-        public NamedResourceManager(int startingIndex) : base(startingIndex)
+        public NamedResourceManager(IResourceTable symbolTable, int startingIndex) : base(startingIndex)
         {
+            _symbolTable = symbolTable;
             _nameLookup = new Dictionary<string, T>();
         }
 
-        public NamedResourceManager(T[] initialItems, int startingIndex = 0) : base(initialItems, startingIndex)
+        public NamedResourceManager(IResourceTable symbolTable, T[] initialItems, int startingIndex = 0) 
+            : base(initialItems, startingIndex)
         {
+            _symbolTable = symbolTable;
             _nameLookup = initialItems.ToDictionary(i => i.Name, i => i);
         }
 
@@ -26,6 +30,7 @@ namespace GameCreator.Resources.Api
             {
                 obj.Name = GenerateName();
             }
+            _symbolTable.RegisterResource(obj);
 
             return idx;
         }
@@ -48,6 +53,7 @@ namespace GameCreator.Resources.Api
         {
             var obj = this[id];
             _nameLookup.Remove(obj.Name);
+            _symbolTable.RemoveResource(obj);
             base.Remove(id);
         }
 
@@ -55,6 +61,7 @@ namespace GameCreator.Resources.Api
         {
             var obj = _nameLookup[name];
             _nameLookup.Remove(name);
+            _symbolTable.RemoveResource(obj);
             base.Remove(obj.Id);
         }
 

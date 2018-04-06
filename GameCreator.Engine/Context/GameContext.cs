@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using GameCreator.Engine.Api;
 using GameCreator.Engine.Library;
 using GameCreator.Resources.Api;
@@ -9,6 +10,8 @@ namespace GameCreator.Engine
     public abstract partial class GameContext : IGameContext
     {
         public StandardLibrary Library { get; }
+
+        public IVariableList Globals { get; }
 
         [Gml("argument_relative")]
         public bool ArgumentRelative { get; set; }
@@ -79,6 +82,79 @@ namespace GameCreator.Engine
             {
                 SetCurrentRoom(Rooms[RoomOrder.First()], true);
             }
+        }
+
+        public virtual void ReportError(string msg)
+        {
+            throw new Exception(msg);
+        }
+
+        public InstanceScope CreateInstanceScope(IInstance instance)
+        {
+            return new InstanceScope(this, instance);
+        }
+
+        public void With(IInstance self, Action<IInstance> action)
+        {
+            using (CreateInstanceScope(self))
+            {
+                action(self);
+            }
+        }
+
+        public void With(int objectOrInstanceId, Action<IInstance> action)
+        {
+            switch (objectOrInstanceId)
+            {
+                case -1: // self
+                    With(CurrentInstance, action);
+                    break;
+                case -2: // other
+                    With(OtherInstance, action);
+                    break;
+                case -3: // all
+                    foreach (var instance in Instances)
+                    {
+                        With(instance, action);
+                    }
+                    break;
+                case -4: // noone
+                    break;
+                case -5: // global
+                    ReportError("Cannot use global in a with statement.");
+                    break;
+                default:
+                    if (objectOrInstanceId <= 100000)
+                    {
+                        foreach (var instance in Instances.Where(i => i.ObjectIndex == objectOrInstanceId))
+                        {
+                            With(instance, action);
+                        }
+                    }
+                    else
+                    {
+                        if (Instances.ContainsKey(objectOrInstanceId))
+                        {
+                            With(Instances[objectOrInstanceId], action);
+                        }
+                    }
+                    break;
+            }
+        }
+
+        public IIndexedResource GetResourceByName(string name)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Variant ExecuteFunction(string name, params Variant[] args)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Func<Variant, Variant[]> GetFunctionByName(string name)
+        {
+            throw new NotImplementedException();
         }
     }
 }

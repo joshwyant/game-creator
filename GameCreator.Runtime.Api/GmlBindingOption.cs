@@ -1,4 +1,4 @@
-﻿namespace GameCreator.Engine.Api
+﻿namespace GameCreator.Runtime.Api
 {
     public enum GmlBindingOption
     {

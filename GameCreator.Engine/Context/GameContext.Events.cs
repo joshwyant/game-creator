@@ -4,6 +4,7 @@ using System.Linq;
 using GameCreator.Engine.Api;
 using GameCreator.Engine.Common;
 using GameCreator.Resources.Api;
+using GameCreator.Runtime.Api;
 using Ninject.Activation;
 
 namespace GameCreator.Engine
@@ -12,7 +13,8 @@ namespace GameCreator.Engine
     {
         public IndexedResourceManager<ITrigger> Triggers { get; }
         public ITimerPlugin Timer { get; }
-        public GameInstance OtherInstance { get; set; }
+        public IInstance CurrentInstance { get; set; }
+        public IInstance OtherInstance { get; set; }
         
         /// <summary>
         /// This can be accessed in a loop, but don't use foreach if you are creating new instances!
@@ -30,6 +32,7 @@ namespace GameCreator.Engine
             {
                 var instance = PresortedInstances[i];
                 if (instance.Destroyed || instance.Deactivated) continue;
+                
                 handler(instance);
             }
         }
