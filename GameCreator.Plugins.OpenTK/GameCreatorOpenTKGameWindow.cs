@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Drawing;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
+using OpenTK.Windowing.Common;
+using OpenTK.Windowing.Desktop;
+using OpenTK.Mathematics;
 using static OpenTK.Graphics.OpenGL.GL;
 
 namespace GameCreator.Plugins.OpenTK
@@ -12,24 +15,26 @@ namespace GameCreator.Plugins.OpenTK
         private readonly double _scale;
         
         public GameCreatorOpenTKGameWindow() 
-            : base(640, 480) // Hack
+            : base(GameWindowSettings.Default, new NativeWindowSettings() { Size = new Vector2i(640, 480) }) // Hack
         {
             // Workaround for DPI issue https://github.com/opentk/opentk/issues/47
             // This would be cleaner if we could get the width/height from a room in IResourceContext
-            _scale = (double)Width / 640; 
+            _scale = (double)ClientSize.X / 640; 
             WindowBorder = WindowBorder.Fixed;
+            Load += GameCreatorOpenTKGameWindow_Load;
+            Unload += GameCreatorOpenTKGameWindow_Unload;
         }
 
         public void SetWindowSize(int w, int h)
         {
-            ClientSize = new Size((int)(w * _scale), (int)(h * _scale));
+            ClientSize = new Vector2i((int)(w * _scale), (int)(h * _scale));
         }
 
-        protected override void OnLoad(EventArgs e)
+        void GameCreatorOpenTKGameWindow_Load()
         {
             Enable(EnableCap.Texture2D);
             Enable(EnableCap.Blend);
-            BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
+            BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
             Hint(HintTarget.PerspectiveCorrectionHint, HintMode.Nicest);
             
             GameCreatorLoad?.Invoke(this, EventArgs.Empty);
@@ -61,7 +66,7 @@ namespace GameCreator.Plugins.OpenTK
             return texId;
         }
 
-        protected override void OnUnload(EventArgs e)
+        void GameCreatorOpenTKGameWindow_Unload()
         {
             DeleteTextures(_loadedTextures.Count, _loadedTextures.ToArray());
         }

@@ -11,12 +11,12 @@ namespace GameCreator.Plugins.OpenTK
             Game = game;
         }
 
-        public double Fps => Game.RenderFrequency;
+        public double Fps => Game.UpdateFrequency;
 
         public double TargetFps
         {
-            get => Game.TargetRenderFrequency;
-            set => Game.TargetRenderFrequency = value;
+            get => Game.UpdateFrequency;
+            set => Game.UpdateFrequency = value;
         }
         public void Sleep(int ms)
         {

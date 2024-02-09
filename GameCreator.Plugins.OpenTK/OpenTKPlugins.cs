@@ -14,9 +14,9 @@ namespace GameCreator.Plugins.OpenTK
 
         public OpenTKPlugins()
         {
-            var options = new ToolkitOptions();
-            options.Backend = PlatformBackend.PreferNative;
-            Toolkit.Init(options);
+            //var options = new ToolkitOptions();
+            //options.Backend = PlatformBackend.PreferNative;
+            //Toolkit.Init(options);
 
             _gameWindow = new GameCreatorOpenTKGameWindow();
             Graphics = new OpenTKGraphicsPlugin(_gameWindow);

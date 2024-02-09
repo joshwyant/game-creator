@@ -1,6 +1,7 @@
 ﻿using GameCreator.Engine.Api;
 using GameCreator.Engine.Common;
 using OpenTK.Input;
+using OpenTK.Windowing.Common;
 
 namespace GameCreator.Plugins.OpenTK
 {
@@ -15,7 +16,7 @@ namespace GameCreator.Plugins.OpenTK
             gameWindow.KeyDown += GameWindow_KeyDown;
         }
 
-        void GameWindow_KeyDown(object sender, KeyboardKeyEventArgs e)
+        void GameWindow_KeyDown(KeyboardKeyEventArgs e)
         {
             var key = KeyMapper.GetMap(e.Key);
             
@@ -34,7 +35,7 @@ namespace GameCreator.Plugins.OpenTK
                 return false;
             }
 
-            return GameWindow.Keyboard[realKeyCode];
+            return GameWindow.IsKeyDown(realKeyCode);
         }
 
         public event KeyboardEventHandler KeyPress;

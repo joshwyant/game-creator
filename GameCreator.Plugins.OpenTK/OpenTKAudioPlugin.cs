@@ -19,7 +19,7 @@ namespace GameCreator.Plugins.OpenTK
     {
         private const bool disabled = true;
         
-        private AudioContext Context { get; }
+        //private AudioContext Context { get; }
         
         List<int> buffers = new List<int>();
         List<Source> sources = new List<Source>();
@@ -28,11 +28,11 @@ namespace GameCreator.Plugins.OpenTK
         {
             if (!disabled)
             {
-                Context = new AudioContext();
+                //Context = new AudioContext();
             }
         }
 
-        public ISoundEffect LoadSound(Stream stream)
+        public unsafe ISoundEffect LoadSound(Stream stream)
         {
             if (disabled)
             {
@@ -46,7 +46,10 @@ namespace GameCreator.Plugins.OpenTK
             buffers.Add(bufferId);
             var soundInfo = new SoundInfo(bufferId, length);
             
-            BufferData(bufferId, GetSoundFormat(channels, bits), data, data.Length, rate);
+            fixed (byte* dataPtr = data)
+            {
+                BufferData(bufferId, GetSoundFormat(channels, bits), (IntPtr)dataPtr, data.Length, rate);
+            }
 
             return soundInfo;
         }
@@ -149,7 +152,7 @@ namespace GameCreator.Plugins.OpenTK
             ReleaseUnmanagedResources();
             if (disposing)
             {
-                Context?.Dispose();
+                //Context?.Dispose();
             }
         }
 

@@ -1,81 +1,83 @@
 ﻿using System.Collections.Generic;
 using GameCreator.Engine.Common;
+using OpenTK.Windowing.Common;
 using OpenTK.Input;
+using OpenTK.Windowing.GraphicsLibraryFramework;
 
 namespace GameCreator.Plugins.OpenTK
 {
     public static class KeyMapper
     {
-        private static readonly Dictionary<VirtualKeyCode, Key> Reverse;
-        private static readonly Dictionary<Key, VirtualKeyCode> Lookup;
+        private static readonly Dictionary<VirtualKeyCode, Keys> Reverse;
+        private static readonly Dictionary<Keys, VirtualKeyCode> Lookup;
 
         static KeyMapper()
         {
-            Reverse = new Dictionary<VirtualKeyCode, Key>();
-            Lookup = new Dictionary<Key, VirtualKeyCode>();
+            Reverse = new Dictionary<VirtualKeyCode, Keys>();
+            Lookup = new Dictionary<Keys, VirtualKeyCode>();
             
-            Map(VirtualKeyCode.Left, Key.Left);
-            Map(VirtualKeyCode.Right, Key.Right);
-            Map(VirtualKeyCode.Up, Key.Up);
-            Map(VirtualKeyCode.Down, Key.Down);
-            Map(VirtualKeyCode.Enter, Key.Enter);
-            Map(VirtualKeyCode.Escape, Key.Escape);
-            Map(VirtualKeyCode.Space, Key.Space);
-            Map(VirtualKeyCode.LShift, Key.LShift);
-            Map(VirtualKeyCode.RShift, Key.RShift);
-            Map(VirtualKeyCode.LControl, Key.LControl);
-            Map(VirtualKeyCode.RControl, Key.RControl);
-            Map(VirtualKeyCode.LAlt, Key.LAlt);
-            Map(VirtualKeyCode.RAlt, Key.RAlt);
-            Map(VirtualKeyCode.Backspace, Key.Back);
-            Map(VirtualKeyCode.Tab, Key.Tab);
-            Map(VirtualKeyCode.Home, Key.Home);
-            Map(VirtualKeyCode.End, Key.End);
-            Map(VirtualKeyCode.Delete, Key.Delete);
-            Map(VirtualKeyCode.Insert, Key.Insert);
-            Map(VirtualKeyCode.PageUp, Key.PageUp);
-            Map(VirtualKeyCode.PageDown, Key.PageDown);
-            Map(VirtualKeyCode.Pause, Key.Pause);
-            Map(VirtualKeyCode.PrintScreen, Key.PrintScreen);
+            Map(VirtualKeyCode.Left, Keys.Left);
+            Map(VirtualKeyCode.Right, Keys.Right);
+            Map(VirtualKeyCode.Up, Keys.Up);
+            Map(VirtualKeyCode.Down, Keys.Down);
+            Map(VirtualKeyCode.Enter, Keys.Enter);
+            Map(VirtualKeyCode.Escape, Keys.Escape);
+            Map(VirtualKeyCode.Space, Keys.Space);
+            Map(VirtualKeyCode.LShift, Keys.LeftShift);
+            Map(VirtualKeyCode.RShift, Keys.RightShift);
+            Map(VirtualKeyCode.LControl, Keys.LeftControl);
+            Map(VirtualKeyCode.RControl, Keys.RightControl);
+            Map(VirtualKeyCode.LAlt, Keys.LeftAlt);
+            Map(VirtualKeyCode.RAlt, Keys.RightAlt);
+            Map(VirtualKeyCode.Backspace, Keys.Backspace);
+            Map(VirtualKeyCode.Tab, Keys.Tab);
+            Map(VirtualKeyCode.Home, Keys.Home);
+            Map(VirtualKeyCode.End, Keys.End);
+            Map(VirtualKeyCode.Delete, Keys.Delete);
+            Map(VirtualKeyCode.Insert, Keys.Insert);
+            Map(VirtualKeyCode.PageUp, Keys.PageUp);
+            Map(VirtualKeyCode.PageDown, Keys.PageDown);
+            Map(VirtualKeyCode.Pause, Keys.Pause);
+            Map(VirtualKeyCode.PrintScreen, Keys.PrintScreen);
             // F1-F24
             for (var i = 0; i < 24; i++)
             {
-                Map((VirtualKeyCode) (112 + i), Key.F1 + i);
+                Map((VirtualKeyCode) (112 + i), Keys.F1 + i);
             }
             // Keypad
             for (var m = 0; m <= 9; m++)
             {
-                Map((VirtualKeyCode) (96 + m), Key.Keypad0 + m);
+                Map((VirtualKeyCode) (96 + m), Keys.KeyPad0 + m);
             }
-            Map(VirtualKeyCode.Multiply, Key.KeypadMultiply);
-            Map(VirtualKeyCode.Divide, Key.KeypadDivide);
-            Map(VirtualKeyCode.Add, Key.KeypadAdd);
-            Map(VirtualKeyCode.Subtract, Key.KeypadSubtract);
-            Map(VirtualKeyCode.Decimal, Key.KeypadDecimal);
+            Map(VirtualKeyCode.Multiply, Keys.KeyPadMultiply);
+            Map(VirtualKeyCode.Divide, Keys.KeyPadDivide);
+            Map(VirtualKeyCode.Add, Keys.KeyPadAdd);
+            Map(VirtualKeyCode.Subtract, Keys.KeyPadSubtract);
+            Map(VirtualKeyCode.Decimal, Keys.KeyPadDecimal);
             // Letters
             for (var k = 0; k < 26; k++)
             {
-                Map((VirtualKeyCode) (65 + k), Key.A + k);
+                Map((VirtualKeyCode) (65 + k), Keys.A + k);
             }
             // Digits
             for (var j = 0; j <= 9; j++)
             {
-                Map((VirtualKeyCode) (48 + j), Key.Number0 + j);
+                Map((VirtualKeyCode) (48 + j), Keys.D0 + j);
             }
         }
 
-        static void Map(VirtualKeyCode a, Key b)
+        static void Map(VirtualKeyCode a, Keys b)
         {
             Reverse.Add(a, b);
             Lookup.Add(b, a);
         }
 
-        public static VirtualKeyCode GetMap(Key key)
+        public static VirtualKeyCode GetMap(Keys key)
         {
             return Lookup.ContainsKey(key) ? Lookup[key] : VirtualKeyCode.NoKey;
         }
 
-        public static Key GetMap(VirtualKeyCode key)
+        public static Keys GetMap(VirtualKeyCode key)
         {
             return Reverse.ContainsKey(key) ? Reverse[key] : 0;
         }

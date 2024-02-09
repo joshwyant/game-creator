@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\GameCreator.Engine\GameCreator.Engine.csproj" />
@@ -9,6 +9,6 @@
     <ProjectReference Include="..\TestGame\TestGame.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Ninject" Version="3.3.4" />
+    <PackageReference Include="Ninject" Version="3.3.6" />
   </ItemGroup>
 </Project>

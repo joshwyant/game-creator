@@ -1,8 +1,9 @@
 ﻿using System.IO;
 using System.Linq;
 using GameCreator.Resources.Api;
+using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Advanced;
-using Image = SixLabors.ImageSharp.Image;
+using SixLabors.ImageSharp.PixelFormats;
 
 namespace TestGame
 {
@@ -35,19 +36,26 @@ namespace TestGame
 
         public unsafe IImage FromStream(Stream s)
         {
-            using (var image = Image.Load(s))
+            using (var image = SixLabors.ImageSharp.Image.Load(s))
             {
-                var pixels = new uint[image.Width * image.Height];
+                var pixels = new Rgba32[image.Width * image.Height];
+                (image.Frames[0] as ImageFrame<Rgba32>).CopyPixelDataTo(pixels);
 
-                fixed (void* data = &image.Frames[0].DangerousGetPinnableReferenceToPixelBuffer())
-                {
-                    for (var i = 0; i < pixels.Length; i++)
-                    {
-                        pixels[i] = ((uint*) data)[i];
-                    }
-                }
+                // //fixed (uint* data = &image.Frames[0].DangerousGetPinnableReferenceToPixelBuffer())
+                // {
+                //     //&image.Frames[0].CopyPixelsTo(data);
+                //     for (var i = 0; i < pixels.Length; i++)
+                //     {
+                //         var pixel = pixelSpan[i];
+                //         // Pack the RGBA channels into a single uint
+                //         pixels[i] = (uint)((pixel.R << 24) | (pixel.G << 16) | (pixel.B << 8) | pixel.A);
+                //     }
+                // }
 
-                return new LoadedImage(image.Width, image.Height, pixels);
+                var bytes = pixels
+                    .Select(pixel => (uint)((pixel.R << 24) | (pixel.G << 16) | (pixel.B << 8) | pixel.A))
+                    .ToArray();
+                return new LoadedImage(image.Width, image.Height, bytes);
             }
         }
     }
