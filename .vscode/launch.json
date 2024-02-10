@@ -5,17 +5,6 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "TestGame.OpenTK .NET Core Launch (console)",
-            "type": "coreclr",
-            "request": "launch",
-            "preLaunchTask": "build TestGame.OpenTK",
-            "program": "${workspaceFolder}/TestGame.OpenTK/bin/Debug/net8.0/TestGame.OpenTK.dll",
-            "args": [],
-            "cwd": "${workspaceFolder}/TestGame.OpenTK",
-            "stopAtEntry": false,
-            "console": "internalConsole"
-        },
-        {
             "name": "TestGame.MonoGame .NET Core Launch (console)",
             "type": "coreclr",
             "request": "launch",
