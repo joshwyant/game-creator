@@ -35,8 +35,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameCreator.ActionLibraries
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Deprecated", "Deprecated", "{5964A234-0CA1-415A-859A-6F426BE6DA05}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameCreator.Framework.Gml.Compiler.Clr", "GameCreator.Framework.Gml.Compiler.Clr\GameCreator.Framework.Gml.Compiler.Clr.csproj", "{6BC89687-EBA6-47F8-ADF0-05C1300D699A}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameCreator.Framework", "GameCreator.Framework\GameCreator.Framework.csproj", "{6BC89687-EBA6-47F8-ADF0-05C1300D699A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameCreator.Framework.Gml", "GameCreator.Framework.Gml\GameCreator.Framework.Gml.csproj", "{026075FF-7A82-4AEB-B09A-70073D6ED686}"
