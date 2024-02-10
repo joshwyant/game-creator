@@ -7,9 +7,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameCreator.Engine", "GameC
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameCreator.Plugins.MonoGame", "GameCreator.Plugins.MonoGame\GameCreator.Plugins.MonoGame.csproj", "{31EAFE14-057B-4DF5-AA4D-D4FDC3D13808}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameCreator.Plugins.OpenTK", "GameCreator.Plugins.OpenTK\GameCreator.Plugins.OpenTK.csproj", "{E0519A44-7AB0-421F-B344-5CDA117E41A0}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameCreator.Engine.Tests", "GameCreator.Engine.Tests\GameCreator.Engine.Tests.csproj", "{B420C2C0-3EDC-4274-880F-E6C564369A83}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestGame", "TestGame\TestGame.csproj", "{43CE9176-5B16-4D9C-BD9C-F91EF5E1A7B6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestGame.OpenTK", "TestGame.OpenTK\TestGame.OpenTK.csproj", "{780CB8F7-2E2D-4B92-9767-AF2E55BC19B6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestGame.MonoGame", "TestGame.MonoGame\TestGame.MonoGame.csproj", "{4BD29805-7C58-469A-9B54-0833E9010527}"
 EndProject
@@ -41,6 +45,10 @@ Global
 		{31EAFE14-057B-4DF5-AA4D-D4FDC3D13808}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{31EAFE14-057B-4DF5-AA4D-D4FDC3D13808}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{31EAFE14-057B-4DF5-AA4D-D4FDC3D13808}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E0519A44-7AB0-421F-B344-5CDA117E41A0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E0519A44-7AB0-421F-B344-5CDA117E41A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E0519A44-7AB0-421F-B344-5CDA117E41A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E0519A44-7AB0-421F-B344-5CDA117E41A0}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B420C2C0-3EDC-4274-880F-E6C564369A83}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B420C2C0-3EDC-4274-880F-E6C564369A83}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B420C2C0-3EDC-4274-880F-E6C564369A83}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -49,6 +57,10 @@ Global
 		{43CE9176-5B16-4D9C-BD9C-F91EF5E1A7B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{43CE9176-5B16-4D9C-BD9C-F91EF5E1A7B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{43CE9176-5B16-4D9C-BD9C-F91EF5E1A7B6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{780CB8F7-2E2D-4B92-9767-AF2E55BC19B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{780CB8F7-2E2D-4B92-9767-AF2E55BC19B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{780CB8F7-2E2D-4B92-9767-AF2E55BC19B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{780CB8F7-2E2D-4B92-9767-AF2E55BC19B6}.Release|Any CPU.Build.0 = Release|Any CPU
 		{4BD29805-7C58-469A-9B54-0833E9010527}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4BD29805-7C58-469A-9B54-0833E9010527}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4BD29805-7C58-469A-9B54-0833E9010527}.Release|Any CPU.ActiveCfg = Release|Any CPU
