@@ -5,14 +5,14 @@ using GameCreator.Api.Resources;
 
 namespace GameCreator.Api.Runtime
 {
-    [StructLayout(LayoutKind.Explicit)]
+    //[StructLayout(LayoutKind.Explicit)]
     public struct Variant
     {
-        [FieldOffset(0)]
+        //[FieldOffset(0)]
         public readonly ValueType _valueType;
-        [FieldOffset(4)]
+        //[FieldOffset(4)]
         private readonly string _string;
-        [FieldOffset(4)]
+        //[FieldOffset(4)]
         private readonly double _real;
         
         #region Constructors
