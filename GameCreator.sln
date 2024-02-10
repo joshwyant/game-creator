@@ -25,11 +25,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameCreator.Resources.Api",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameCreator.Projects.GMFiles", "GameCreator.Projects.GMFiles\GameCreator.Projects.GMFiles.csproj", "{D6833F7F-C45E-44FC-9604-7E727957B9E3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameCreator.ActionLibraries", "GameCreator.ActionLibraries\GameCreator.ActionLibraries.csproj", "{04BEEA53-DF37-45EF-BAB2-0773963887BD}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameCreator.ActionLibraries.BinaryFiles", "GameCreator.ActionLibraries.BinaryFiles\GameCreator.ActionLibraries.BinaryFiles.csproj", "{95D1D1D0-B1B3-4C3C-BFD3-536E9E35BB1C}"
-EndProject
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -84,14 +79,6 @@ Global
 		{D6833F7F-C45E-44FC-9604-7E727957B9E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D6833F7F-C45E-44FC-9604-7E727957B9E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D6833F7F-C45E-44FC-9604-7E727957B9E3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{04BEEA53-DF37-45EF-BAB2-0773963887BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{04BEEA53-DF37-45EF-BAB2-0773963887BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{04BEEA53-DF37-45EF-BAB2-0773963887BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{04BEEA53-DF37-45EF-BAB2-0773963887BD}.Release|Any CPU.Build.0 = Release|Any CPU
-		{95D1D1D0-B1B3-4C3C-BFD3-536E9E35BB1C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{95D1D1D0-B1B3-4C3C-BFD3-536E9E35BB1C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{95D1D1D0-B1B3-4C3C-BFD3-536E9E35BB1C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{95D1D1D0-B1B3-4C3C-BFD3-536E9E35BB1C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
