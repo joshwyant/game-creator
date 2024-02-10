@@ -19,6 +19,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameCreator.Api.Runtime", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameCreator.Api.Engine", "GameCreator.Api.Engine\GameCreator.Api.Engine.csproj", "{3884A5B1-F348-438E-8CD0-301E7E66B8B3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameCreator.Projects", "GameCreator.Projects\GameCreator.Projects.csproj", "{6EB4B42A-9646-41EB-BD0E-1C183C9013C5}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameCreator.Api.Resources", "GameCreator.Api.Resources\GameCreator.Api.Resources.csproj", "{119EE0D6-8DF3-4E1E-8B84-954D1F8B9E05}"
 EndProject
 Global
@@ -63,6 +65,10 @@ Global
 		{3884A5B1-F348-438E-8CD0-301E7E66B8B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3884A5B1-F348-438E-8CD0-301E7E66B8B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3884A5B1-F348-438E-8CD0-301E7E66B8B3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6EB4B42A-9646-41EB-BD0E-1C183C9013C5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6EB4B42A-9646-41EB-BD0E-1C183C9013C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6EB4B42A-9646-41EB-BD0E-1C183C9013C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6EB4B42A-9646-41EB-BD0E-1C183C9013C5}.Release|Any CPU.Build.0 = Release|Any CPU
 		{119EE0D6-8DF3-4E1E-8B84-954D1F8B9E05}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{119EE0D6-8DF3-4E1E-8B84-954D1F8B9E05}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{119EE0D6-8DF3-4E1E-8B84-954D1F8B9E05}.Release|Any CPU.ActiveCfg = Release|Any CPU
