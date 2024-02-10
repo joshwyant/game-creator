@@ -6,6 +6,7 @@ namespace GameCreator.Engine
 {
     public abstract class GameRoom : IIndexedResource
     {
+        public GameRoom() {}
         public abstract IList<PredefinedInstance> PredefinedInstances { get; }
 
         public IList<PredefinedInstance> GetSortedPredefinedInstances()

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using GameCreator.Engine.Api;
 using GameCreator.Engine.Common;
 using GameCreator.Resources.Api;
@@ -12,8 +13,13 @@ namespace GameCreator.Engine.Tests
         private Mock<IGraphicsPlugin> graphics;
         private Mock<IAudioPlugin> audio;
         private Mock<IInputPlugin> input;
+        private TestRoom room;
         private FakeTimerPlugin _timerPlugin;
         private FakeGameContext c;
+        private class TestRoom : GameRoom
+        {
+            public override IList<PredefinedInstance> PredefinedInstances { get; } = [];
+        }
         
         [SetUp]
         public void SetUp()
@@ -21,17 +27,28 @@ namespace GameCreator.Engine.Tests
             graphics = new Mock<IGraphicsPlugin>();
             audio = new Mock<IAudioPlugin>();
             input = new Mock<IInputPlugin>();
+            room = new TestRoom();
             resources = new Mock<IResourceContext>();
             resources.Setup(r => r.GetPredefinedObjects(It.IsAny<GameContext>()))
                 .Returns<GameContext>(ctx =>
                     new[] { new pacman(ctx) }
                 );
-            resources.Setup(r => r.GetPredefinedRooms(It.IsAny<GameContext>())).Returns(new GameRoom[0]);
-            resources.Setup(r => r.GetPredefinedSprites(It.IsAny<GameContext>())).Returns(new GameSprite[0]);
-            resources.Setup(r => r.GetPredefinedTriggers(It.IsAny<GameContext>())).Returns(new ITrigger[0]);
-            
+            resources.Setup(r => r.GetPredefinedRooms(It.IsAny<GameContext>())).Returns([]);
+            resources.Setup(r => r.GetPredefinedSounds(It.IsAny<GameContext>())).Returns([]);
+            resources.Setup(r => r.GetPredefinedBackgrounds(It.IsAny<GameContext>())).Returns([]);
+            resources.Setup(r => r.GetPredefinedFonts(It.IsAny<GameContext>())).Returns([]);
+            resources.Setup(r => r.GetPredefinedPaths(It.IsAny<GameContext>())).Returns([]);
+            resources.Setup(r => r.GetPredefinedScripts(It.IsAny<GameContext>())).Returns([]);
+            resources.Setup(r => r.GetPredefinedTimelines(It.IsAny<GameContext>())).Returns([]);
+            resources.Setup(r => r.GetPredefinedObjects(It.IsAny<GameContext>())).Returns([]);
+            resources.Setup(r => r.GetPredefinedTimelines(It.IsAny<GameContext>())).Returns([]);
+            resources.Setup(r => r.GetPredefinedTriggers(It.IsAny<GameContext>())).Returns([]);
+            resources.Setup(r => r.GetPredefinedSprites(It.IsAny<GameContext>())).Returns([]);
+            resources.Setup(r => r.GetPredefinedTriggers(It.IsAny<GameContext>())).Returns([]);
             
             c = new FakeGameContext(graphics.Object, input.Object, audio.Object, _timerPlugin, resources.Object);
+            c.Rooms.Add(room);
+            c.CurrentRoom = room;
         }
         
         class pacman : GameObject
@@ -50,6 +67,8 @@ namespace GameCreator.Engine.Tests
         [Test]
         public void Test1()
         {
+            c.Objects.Add(new pacman(c));
+
             c.CreateInstance(0, 0, c.Objects[0]);
         }
 

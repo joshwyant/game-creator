@@ -275,7 +275,7 @@ namespace TestGame
                 PredefinedInstances = instances.ToArray();
             }
 
-            public override IList<PredefinedInstance> PredefinedInstances { get; }
+            public override IList<PredefinedInstance> PredefinedInstances { get; } = [];
         }
         
         public int NextRoomId => -1;
