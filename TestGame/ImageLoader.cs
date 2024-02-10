@@ -53,7 +53,7 @@ namespace TestGame
                 // }
 
                 var bytes = pixels
-                    .Select(pixel => (uint)((pixel.R << 24) | (pixel.G << 16) | (pixel.B << 8) | pixel.A))
+                    .Select(pixel => (uint)(((pixel.A) << 24) | ((pixel.B) << 16) | ((pixel.G) << 8) | pixel.R))
                     .ToArray();
                 return new LoadedImage(image.Width, image.Height, bytes);
             }
