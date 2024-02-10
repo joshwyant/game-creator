@@ -1,0 +1,23 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace GameCreator.Runtime
+{
+    public class CollisionMask
+    {
+        bool PointInUnitCircle(double x, double y)
+        {
+            return (x * x + y * y) < 1.0;
+        }
+        bool PointInUnitDiamond(double x, double y)
+        {
+            return (Math.Abs(x) + Math.Abs(y)) < 1;
+        }
+        bool PointInUnitSquare(double x, double y)
+        {
+            return (Math.Abs(x) < 0.5) && (Math.Abs(y) < 0.5);
+        }
+    }
+}
