@@ -27,6 +27,12 @@ namespace GameCreator.Test
                             Js.MultiplyAssign(x, y))
                     }, "x", "y")
                 );
+
+            var jquery = Js.Variable("$");
+
+            var document = Js.Variable("document");
+
+            //var jqueryDocument = Js.Call
         }
 
         [TestMethod]
