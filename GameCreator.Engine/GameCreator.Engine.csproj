@@ -8,8 +8,8 @@
     <PackageReference Include="System.Numerics.Vectors" Version="4.5.0" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\GameCreator.Engine.Api\GameCreator.Engine.Api.csproj" />
+    <ProjectReference Include="..\GameCreator.Api.Engine\GameCreator.Api.Engine.csproj" />
     <ProjectReference Include="..\GameCreator.Engine.Common\GameCreator.Engine.Common.csproj" />
-    <ProjectReference Include="..\GameCreator.Runtime.Api\GameCreator.Runtime.Api.csproj" />
+    <ProjectReference Include="..\GameCreator.Api.Runtime\GameCreator.Api.Runtime.csproj" />
   </ItemGroup>
 </Project>

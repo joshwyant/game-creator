@@ -3,6 +3,6 @@
     <TargetFramework>net8.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\GameCreator.Resources.Api\GameCreator.Resources.Api.csproj" />
+    <ProjectReference Include="..\GameCreator.Api.Resources\GameCreator.Api.Resources.csproj" />
   </ItemGroup>
 </Project>

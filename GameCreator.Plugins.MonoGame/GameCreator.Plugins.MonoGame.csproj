@@ -3,7 +3,7 @@
     <TargetFramework>net8.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\GameCreator.Engine.Api\GameCreator.Engine.Api.csproj" />
+    <ProjectReference Include="..\GameCreator.Api.Engine\GameCreator.Api.Engine.csproj" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.1.303" />
