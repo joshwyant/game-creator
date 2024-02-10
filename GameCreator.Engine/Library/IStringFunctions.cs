@@ -1,5 +1,5 @@
-﻿using GameCreator.Engine.Api;
-using GameCreator.Runtime.Api;
+﻿using GameCreator.Api.Engine;
+using GameCreator.Api.Runtime;
 
 namespace GameCreator.Engine.Library
 {

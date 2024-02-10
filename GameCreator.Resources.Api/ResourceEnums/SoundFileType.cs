@@ -1,4 +1,4 @@
-﻿namespace GameCreator.Resources.Api
+﻿namespace GameCreator.Api.Resources
 {
     public enum SoundFileType
     {

@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using GameCreator.Engine;
 using GameCreator.Engine.Common;
-using GameCreator.Resources.Api;
+using GameCreator.Api.Resources;
 
 namespace TestGame
 {

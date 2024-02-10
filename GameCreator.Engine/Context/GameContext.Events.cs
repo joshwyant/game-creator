@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using GameCreator.Engine.Api;
+using GameCreator.Api.Engine;
 using GameCreator.Engine.Common;
-using GameCreator.Resources.Api;
+using GameCreator.Api.Resources;
 
 namespace GameCreator.Engine
 {

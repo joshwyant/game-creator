@@ -1,7 +1,7 @@
 using System.Collections.Generic;
-using GameCreator.Engine.Api;
+using GameCreator.Api.Engine;
 using GameCreator.Engine.Common;
-using GameCreator.Resources.Api;
+using GameCreator.Api.Resources;
 using Moq;
 using NUnit.Framework;
 

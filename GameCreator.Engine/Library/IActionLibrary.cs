@@ -1,6 +1,6 @@
-﻿using GameCreator.Engine.Api;
-using GameCreator.Runtime.Api;
-using static GameCreator.Engine.Api.GmlBindingOption;
+﻿using GameCreator.Api.Engine;
+using GameCreator.Api.Runtime;
+using static GameCreator.Api.Engine.GmlBindingOption;
 
 namespace GameCreator.Engine.Library
 {

@@ -1,6 +1,6 @@
-﻿using GameCreator.Resources.Api;
+﻿using GameCreator.Api.Resources;
 
-namespace GameCreator.Runtime.Api
+namespace GameCreator.Api.Runtime
 {
     public interface IGameContext
     {

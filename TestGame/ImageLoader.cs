@@ -1,6 +1,6 @@
 ﻿using System.IO;
 using System.Linq;
-using GameCreator.Resources.Api;
+using GameCreator.Api.Resources;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 

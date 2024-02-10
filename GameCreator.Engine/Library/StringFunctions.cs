@@ -1,5 +1,5 @@
 ﻿using System;
-using GameCreator.Runtime.Api;
+using GameCreator.Api.Runtime;
 
 namespace GameCreator.Engine.Library
 {

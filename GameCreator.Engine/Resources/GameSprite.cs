@@ -1,6 +1,6 @@
 ﻿using System.Linq;
-using GameCreator.Engine.Api;
-using GameCreator.Resources.Api;
+using GameCreator.Api.Engine;
+using GameCreator.Api.Resources;
 
 namespace GameCreator.Engine
 {

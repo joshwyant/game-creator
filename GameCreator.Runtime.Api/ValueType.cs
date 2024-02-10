@@ -1,4 +1,4 @@
-﻿namespace GameCreator.Runtime.Api
+﻿namespace GameCreator.Api.Runtime
 {
     public enum ValueType
     {

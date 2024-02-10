@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace GameCreator.Engine.Api
+namespace GameCreator.Api.Engine
 {
     public class GmlAttribute : Attribute
     {

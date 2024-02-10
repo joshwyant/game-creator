@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Globalization;
-using GameCreator.Resources.Api;
+using GameCreator.Api.Resources;
 
-namespace GameCreator.Runtime.Api
+namespace GameCreator.Api.Runtime
 {
     public struct Variant
     {

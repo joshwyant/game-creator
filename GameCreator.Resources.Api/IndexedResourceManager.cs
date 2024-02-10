@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-namespace GameCreator.Resources.Api
+namespace GameCreator.Api.Resources
 {
     public class IndexedResourceManager<T> : IIndexedResourceManager<T> where T : IIndexedResource
     {

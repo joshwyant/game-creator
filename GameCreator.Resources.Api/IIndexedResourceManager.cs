@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace GameCreator.Resources.Api
+namespace GameCreator.Api.Resources
 {
     public interface IIndexedResourceManager<T> : IEnumerable<T> where T : IIndexedResource
     {

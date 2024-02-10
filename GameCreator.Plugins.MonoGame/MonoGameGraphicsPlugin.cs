@@ -1,6 +1,6 @@
 ﻿using System;
-using GameCreator.Engine.Api;
-using GameCreator.Resources.Api;
+using GameCreator.Api.Engine;
+using GameCreator.Api.Resources;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 

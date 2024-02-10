@@ -1,6 +1,6 @@
 ﻿using System.IO;
 
-namespace GameCreator.Engine.Api
+namespace GameCreator.Api.Engine
 {
     public interface IAudioPlugin
     {

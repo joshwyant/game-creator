@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace GameCreator.Resources.Api
+namespace GameCreator.Api.Resources
 {
     [Flags]
     public enum SoundEffects

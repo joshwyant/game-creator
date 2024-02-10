@@ -1,7 +1,7 @@
 ﻿using System;
-using GameCreator.Resources.Api;
+using GameCreator.Api.Resources;
 
-namespace GameCreator.Engine.Api
+namespace GameCreator.Api.Engine
 {
     public interface IGraphicsPlugin
     {
