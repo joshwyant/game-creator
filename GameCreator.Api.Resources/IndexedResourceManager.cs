@@ -26,7 +26,7 @@ namespace GameCreator.Api.Resources
                 else
                 {
                     this[item.Id] = item;
-                    nextIndex = Math.Max(nextIndex, item.Id + 1);
+                    nextIndex = Math.Max(startingIndex, item.Id + 1);
                 }
             }
         }

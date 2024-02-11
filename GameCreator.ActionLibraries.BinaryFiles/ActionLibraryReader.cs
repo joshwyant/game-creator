@@ -3,7 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
-using GameCreator.Resources.Api;
+using GameCreator.Api.Resources;
 
 namespace GameCreator.ActionLibraries.BinaryFiles
 {
