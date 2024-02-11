@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using GameCreator.Resources.Api;
+using GameCreator.Api.Resources;
 
 namespace GameCreator.Projects.GMFiles
 {
