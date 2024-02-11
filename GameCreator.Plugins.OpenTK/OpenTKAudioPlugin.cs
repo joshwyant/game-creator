@@ -17,7 +17,7 @@ namespace GameCreator.Plugins.OpenTK
     // https://web.archive.org/web/20141213140451/https://ccrma.stanford.edu/courses/422/projects/WaveFormat/
     internal sealed class OpenTKAudioPlugin : IAudioPlugin, IDisposable
     {
-        private const bool disabled = true;
+        private const bool disabled = false;
         
         //private AudioContext Context { get; }
         
@@ -77,13 +77,13 @@ namespace GameCreator.Plugins.OpenTK
             });
         }
 
-        private TimeSpan CalculateLength(int channels, int bits, int rate, int dataLength)
+        private TimeSpan CalculateLength(int num_channels, int bits_per_sample, int sample_rate, int dataLength)
         {
-            return TimeSpan.FromSeconds((double)dataLength / (rate * channels * (bits >> 4)));
+            return TimeSpan.FromSeconds((double)dataLength / (bits_per_sample >> 3) / num_channels / sample_rate);
         }
         
         // Loads a wave/riff audio file.
-        private static byte[] LoadWave(Stream stream, out int channels, out int bits, out int rate)
+        private static byte[] LoadWave(Stream stream, out int num_channels, out int bits_per_sample, out int sample_rate)
         {
             if (stream == null)
                 throw new ArgumentNullException("stream");
@@ -108,21 +108,17 @@ namespace GameCreator.Plugins.OpenTK
 
                 var format_chunk_size = reader.ReadInt32();
                 int audio_format = reader.ReadInt16();
-                int num_channels = reader.ReadInt16();
-                var sample_rate = reader.ReadInt32();
+                num_channels = reader.ReadInt16();
+                sample_rate = reader.ReadInt32();
                 var byte_rate = reader.ReadInt32();
                 int block_align = reader.ReadInt16();
-                int bits_per_sample = reader.ReadInt16();
+                bits_per_sample = reader.ReadInt16();
 
                 var data_signature = new string(reader.ReadChars(4));
                 if (data_signature != "data")
                     throw new NotSupportedException("Specified wave file is not supported.");
 
                 var data_chunk_size = reader.ReadInt32();
-
-                channels = num_channels;
-                bits = bits_per_sample;
-                rate = sample_rate;
 
                 return reader.ReadBytes((int)reader.BaseStream.Length);
             }

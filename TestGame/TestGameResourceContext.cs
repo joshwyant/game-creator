@@ -92,7 +92,7 @@ namespace TestGame
             
                 RegisterEvent(EventType.Create, self =>
                 {
-                    Context.Start3dMode();
+                    //Context.Start3dMode();
                     
                     self.X = 128;
                     self.Y = 128;

@@ -21,8 +21,6 @@ namespace GameCreator.Plugins.OpenTK
             // This would be cleaner if we could get the width/height from a room in IResourceContext
             _scale = (double)ClientSize.X / 640; 
             WindowBorder = WindowBorder.Fixed;
-            Load += GameCreatorOpenTKGameWindow_Load;
-            Unload += GameCreatorOpenTKGameWindow_Unload;
         }
 
         public void SetWindowSize(int w, int h)
@@ -30,8 +28,22 @@ namespace GameCreator.Plugins.OpenTK
             ClientSize = new Vector2i((int)(w * _scale), (int)(h * _scale));
         }
 
-        void GameCreatorOpenTKGameWindow_Load()
+        protected override void OnResize(ResizeEventArgs e)
         {
+            base.OnResize(e);
+
+            GL.Viewport(0, 0, e.Width, e.Height);
+        }
+
+        protected override void OnUpdateFrame(FrameEventArgs args)
+        {
+            base.OnUpdateFrame(args);
+        }
+
+        protected override void OnLoad()
+        {
+            base.OnLoad();
+
             Enable(EnableCap.Texture2D);
             Enable(EnableCap.Blend);
             BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
@@ -47,6 +59,8 @@ namespace GameCreator.Plugins.OpenTK
         
         protected override void OnRenderFrame(FrameEventArgs e)
         {
+            base.OnRenderFrame(e);
+
             SleepTime = Math.Max(0.0, SleepTime - e.Time);
 
             if (SleepTime == 0.0)
@@ -66,8 +80,10 @@ namespace GameCreator.Plugins.OpenTK
             return texId;
         }
 
-        void GameCreatorOpenTKGameWindow_Unload()
+        protected override void OnUnload()
         {
+            base.OnUnload();
+
             DeleteTextures(_loadedTextures.Count, _loadedTextures.ToArray());
         }
     }
