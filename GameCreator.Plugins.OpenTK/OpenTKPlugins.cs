@@ -1,5 +1,5 @@
 ﻿using System;
-using GameCreator.Engine.Api;
+using GameCreator.Api.Engine;
 using OpenTK;
 
 namespace GameCreator.Plugins.OpenTK

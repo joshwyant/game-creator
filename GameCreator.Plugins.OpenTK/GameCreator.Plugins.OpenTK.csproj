@@ -4,7 +4,7 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\GameCreator.Engine.Api\GameCreator.Engine.Api.csproj" />
+    <ProjectReference Include="..\GameCreator.Api.Engine\GameCreator.Api.Engine.csproj" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Ninject" Version="3.3.6" />
