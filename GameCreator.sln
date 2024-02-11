@@ -7,8 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameCreator.Engine", "GameC
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameCreator.Engine.Tests", "GameCreator.Engine.Tests\GameCreator.Engine.Tests.csproj", "{B420C2C0-3EDC-4274-880F-E6C564369A83}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestGame", "TestGame\TestGame.csproj", "{43CE9176-5B16-4D9C-BD9C-F91EF5E1A7B6}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameCreator.Engine.Common", "GameCreator.Engine.Common\GameCreator.Engine.Common.csproj", "{729CA8B1-286E-46E1-A622-018BBA00CDE3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameCreator.Api.Runtime", "GameCreator.Api.Runtime\GameCreator.Api.Runtime.csproj", "{1081AFE4-4757-4D58-95E8-F91D1660A7C6}"
@@ -35,10 +33,6 @@ Global
 		{B420C2C0-3EDC-4274-880F-E6C564369A83}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B420C2C0-3EDC-4274-880F-E6C564369A83}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B420C2C0-3EDC-4274-880F-E6C564369A83}.Release|Any CPU.Build.0 = Release|Any CPU
-		{43CE9176-5B16-4D9C-BD9C-F91EF5E1A7B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{43CE9176-5B16-4D9C-BD9C-F91EF5E1A7B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{43CE9176-5B16-4D9C-BD9C-F91EF5E1A7B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{43CE9176-5B16-4D9C-BD9C-F91EF5E1A7B6}.Release|Any CPU.Build.0 = Release|Any CPU
 		{729CA8B1-286E-46E1-A622-018BBA00CDE3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{729CA8B1-286E-46E1-A622-018BBA00CDE3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{729CA8B1-286E-46E1-A622-018BBA00CDE3}.Release|Any CPU.ActiveCfg = Release|Any CPU
