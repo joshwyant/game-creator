@@ -1,28 +1,34 @@
 ﻿using System;
 using System.Globalization;
+using System.Runtime.InteropServices;
 using GameCreator.Api.Resources;
 
 namespace GameCreator.Api.Runtime
 {
+    //[StructLayout(LayoutKind.Explicit)]
     public struct Variant
     {
+        //[FieldOffset(0)]
+        public readonly ValueType _valueType;
+        //[FieldOffset(4)]
         private readonly string _string;
+        //[FieldOffset(4)]
         private readonly double _real;
         
         #region Constructors
 
         public Variant(string val)
         {
-            ValueType = ValueType.String;
+            _valueType = ValueType.String;
             _string = val;
-            _real = 0.0;
+            //_real = 0.0;
         }
 
         public Variant(double val)
         {
-            ValueType = ValueType.Real;
+            _valueType = ValueType.Real;
             _real = val;
-            _string = null;
+            //_string = null;
         }
 
         public Variant(int val)
@@ -37,9 +43,11 @@ namespace GameCreator.Api.Runtime
 
         public Variant(Variant other)
         {
-            ValueType = other.ValueType;
-            _real = other._real;
-            _string = other._string;
+            _valueType = other._valueType;
+            if (_valueType == ValueType.String)
+                _string = other._string;
+            else
+                _real = other._real;
         }
 
         public Variant(object obj)
@@ -47,23 +55,25 @@ namespace GameCreator.Api.Runtime
             switch (obj)
             {
                 case string str:
-                    ValueType = ValueType.String;
+                    _valueType = ValueType.String;
                     _string = str;
-                    _real = 0.0;
+                    //_real = 0.0;
                     break;
                 case Variant val:
-                    ValueType = val.ValueType;
-                    _real = val._real;
-                    _string = val._string;
+                    _valueType = val._valueType;
+                    if (_valueType == ValueType.String)
+                        _string = val._string;
+                    else
+                        _real = val._real;
                     break;
                 case null:
-                    ValueType = ValueType.Undefined;
+                    _valueType = ValueType.Undefined;
                     _real = 0.0;
-                    _string = null;
+                    //_string = null;
                     break;
                 default:
-                    ValueType = ValueType.Real;
-                    _string = null;
+                    _valueType = ValueType.Real;
+                    //_string = null;
                     switch (obj)
                     {
                         case IIndexedResource res:
@@ -86,7 +96,7 @@ namespace GameCreator.Api.Runtime
                             catch
                             {
                                 _real = 0.0;
-                                ValueType = ValueType.Undefined;
+                                _valueType = ValueType.Undefined;
                             }
                             break;
                     }
@@ -118,7 +128,7 @@ namespace GameCreator.Api.Runtime
         public bool IsReal => ValueType == ValueType.Real;
         public bool IsString => ValueType == ValueType.String;
         public bool IsNull => ValueType == ValueType.Undefined;
-        public ValueType ValueType { get; }
+        public ValueType ValueType => _valueType;
 
         #endregion
         
