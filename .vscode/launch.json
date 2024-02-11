@@ -15,16 +15,5 @@
             "stopAtEntry": false,
             "console": "internalConsole"
         },
-        {
-            "name": "TestGame.MonoGame .NET Core Launch (console)",
-            "type": "coreclr",
-            "request": "launch",
-            "preLaunchTask": "build TestGame.MonoGame",
-            "program": "${workspaceFolder}/TestGame.MonoGame/bin/Debug/net8.0/TestGame.MonoGame.dll",
-            "args": [],
-            "cwd": "${workspaceFolder}/TestGame.MonoGame",
-            "stopAtEntry": false,
-            "console": "internalConsole"
-        },
     ]
 }

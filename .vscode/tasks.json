@@ -23,25 +23,5 @@
             },
             "problemMatcher": "$msCompile"
         },
-        {
-            "label": "build TestGame.MonoGame",
-            "command": "dotnet",
-            "type": "shell",
-            "args": [
-                "build",
-                // Ask dotnet build to generate full paths for file names.
-                "/property:GenerateFullPaths=true",
-                // Do not generate summary otherwise it leads to duplicate errors in Problems panel
-                "/consoleloggerparameters:NoSummary",
-            ],
-            "options": {
-                "cwd": "${workspaceFolder}/TestGame.MonoGame"
-            },
-            "group": "build",
-            "presentation": {
-                "reveal": "silent"
-            },
-            "problemMatcher": "$msCompile"
-        }
     ]
 }
