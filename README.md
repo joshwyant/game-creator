@@ -1,26 +1,39 @@
-# game-creator
-An **open-source clone of Game Maker** focused on **maximum portability** and **backwards-compatability**.
+# Game Creator - A Classic Game Maker-Compatible Game Engine
 
-**As of 2018,** I am in the process of rewriting the game engine in dotnet core, and have destroyed most of the old code. The original version was centered around the parser. This one is centered around the game engine. The only thing left to move over is the interpreter/compiler. After that, we need a cross-platform IDE, which should be plug-and-play. I'm thinking of writing it in Avalonia (http://avaloniaui.net/) or creating a web-based UI.
+An experimental cross-platform, pluggable .NET game engine, with an editor, scripting engine, runner, compiler, and front-end with various implementations, compatible with games created for _**Game Maker**_, based on the API and behavior observed during gameplay.
 
-I have fully modularized everything and moved platform logic into plugins. Currently, 2 platform plugins exist and are functional: MonoGame and OpenTK. Between these, maximum portability is ensured. A further iteration to include a WebGL platform is planned and will call for a GML grammar written in Antlr, which will open up possibilities even further.
+Note that this engine is based on the the classic, legacy versions of
+Game Maker written by Mark Overmars (versions <= 8.1), _not_ GameMaker Studio or current versions of GameMaker (with no space) developed by YoYo Games.
 
-Eventually I will publish the modules to Nuget, which will allow all kinds of GM tools to be created: editors, format converters, microservices in docker, command-line tools, GML shell, etc. It's possible it could be ported to the Unity platform.
+### Branches
+The old code base (14+ years) is incomplete and was in the middle of some heavy refactoring, so I have moved various components into different branches as they are reworked with new code. Here are the main variants:
 
-I've been working on this project sporadically in my spare time since I was 16 (2008). It started with an interpreter that reliably worked exactly like GM's.
+- **master** - all of the game engine logic and API, including for the function and action libraries.
+  
+- **monogame** - a front-end runtime built on MonoGame.
+  
+- **opentk** - a front-end runtime built on OpenTK.
+  
+- **fix-legacy** - includes the GML interpreter and legacy IDE, and supports GML backends.
 
-## What's implemented
-1. Game engine - almost fully functional, with 3D support and pixel-perfect collision detection.
-2. Plugin support
-3. GM Domain Model - Events, resources, instances, rooms, etc.
-4. GM project and library loading
-5. GML Interpreter, binary compiler, and JIT compiler - execute_string() is supported
+- **gmfiles** - compatibility with .gmd files and includes a .gmk decoder.
+  
+- **action-libraries** - compatibility with classic action library files.
+  
+- **GML-binder** - support for writing seamless GML-style code in c#, and tighter integraton with the runtime and interpreter.
+  
+- **clr-compiler** - just-in-time (JIT) compiler interface for outputting parsed GML to .NET bytecode.
 
-## What's left
-1. Cross-platform IDE
-2. Web platform
-3. Full action and function libraries
-4. Specific libraries: particles, multiplayer, etc.
+Some of the code, specifically for reading and writing GML, GMK, and action library files, are based on other 
+
+#### Other branches:
+
+- **gc-projects** - the project model for the older code.
+  
+- **js-backburner** - an older GML parser and runtime experiment written in JavaScript.
+
 
 ## Contributing
-Let me know if you'd like to help out! The project is written in C# (dotnet core). The biggest need is implementation of the function library. You can reach me at Joshwyant91@gmail.com.
+The developer experience should be continually improving now. Feel free to join the effort, submit a PR, report any issues, or just get in touch!
+
+Josh
