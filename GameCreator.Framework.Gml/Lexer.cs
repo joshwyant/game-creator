@@ -9,45 +9,15 @@ namespace GameCreator.Framework.Gml
         TextReader reader;
         char peek = ' ';
         const char eof = '\xFFFF';
-        Stack<Token> pushed = new Stack<Token>();
-        Stack<char> chars = new Stack<char>();
-        public int line = 1;
-        public int col = 1;
-        public int tokencol = 0;
-        public readonly static Dictionary<string, Token> Words = new Dictionary<string,Token>();
+        Stack<Token> pushed = new (), 
+                     chars = new();
+        public int line = 1, col = 1, tokencol = 0;
+        public readonly static Dictionary<string, Token> Words;
         static Lexer()
         {
-            reserve(Token.Break);
-            reserve(Token.Continue);
-            reserve(Token.Return);
-            reserve(Token.If);
-            reserve(Token.Then);
-            reserve(Token.Else);
-            reserve(Token.While);
-            reserve(Token.Do);
-            reserve(Token.Until);
-            reserve(Token.For);
-            reserve(Token.NotWord);
-            reserve(Token.And);
-            reserve(Token.Or);
-            reserve(Token.Xor);
-            reserve(Token.Repeat);
-            reserve(Token.With);
-            reserve(Token.Div);
-            reserve(Token.Mod);
-            reserve(Token.Var);
-            reserve(Token.Globalvar);
-            reserve(Token.Switch);
-            reserve(Token.Case);
-            reserve(Token.Default);
-            reserve(Token.Exit);
-            reserve(Token.Begin);
-            reserve(Token.End);
-            reserve(Token.Self);
-            reserve(Token.Other);
-            reserve(Token.All);
-            reserve(Token.Noone);
-            reserve(Token.Global);
+            Words = Token
+                .AllBuiltInTokens
+                .ToDictionary(t => t.lexeme);
         }
         public Lexer(TextReader r)
         {
@@ -85,12 +55,10 @@ namespace GameCreator.Framework.Gml
         }
         public Token Scan()
         {
+            char advance() => advance();
             if (pushed.Count != 0) return pushed.Pop();
             skipwhite:
-            while (char.IsWhiteSpace(peek))
-            {
-                peek = readch();
-            }
+            while (char.IsWhiteSpace(peek)) advance();
             if (peek == eof) return Token.Eof;
             tokencol = col;
             // [A-Za-z_][A-Za-z0-9_]*
@@ -100,11 +68,11 @@ namespace GameCreator.Framework.Gml
                 do
                 {
                     sb.Append(peek);
-                    peek = readch();
+                    advance();
                 } while (char.IsLetterOrDigit(peek) || peek == '_');
                 string s = sb.ToString();
                 // reserve keywords and constants. Return their values literally as tokens
-                if (Words.ContainsKey(s)) return Words[s];
+                if (Words.ContainsKey(s)) return Words[s].WithLineAndColumn(line, tokencol);
                 var t = new Token(TokenKind.Identifier, s, line, tokencol);
                 Words.Add(s, t);
                 return t;
@@ -114,8 +82,7 @@ namespace GameCreator.Framework.Gml
                 var sb = new StringBuilder();
                 do
                 {
-                    peek = readch();
-                    switch (peek)
+                    switch (advance())
                     {
                         case eof:
                         case '\"':
@@ -133,8 +100,7 @@ namespace GameCreator.Framework.Gml
                 var sb = new StringBuilder();
                 do
                 {
-                    peek = readch();
-                    switch (peek)
+                    switch (advance())
                     {
                         case eof:
                         case '\'':
@@ -153,8 +119,7 @@ namespace GameCreator.Framework.Gml
                 double d = 0;
                 if (peek == '.')
                 {
-                    peek = readch();
-                    if (!char.IsDigit(peek))
+                    if (!char.IsDigit(advance()))
                     {
                         return new Token(TokenKind.Dot, line, tokencol);
                     }
@@ -166,8 +131,7 @@ namespace GameCreator.Framework.Gml
                     do
                     {
                         d = d * 10 + double.Parse(peek.ToString());
-                        peek = readch();
-                    } while (char.IsDigit(peek));
+                    } while (char.IsDigit(advance()));
                 }
 
                 double p = 10;
@@ -179,41 +143,38 @@ namespace GameCreator.Framework.Gml
                         d += double.Parse(peek.ToString()) / p;
                         p *= 10;
                     }
-                    peek = readch();
+                    advance();
                 }
                 return new Real(d, line, tokencol);
             }
             else if (peek == '$')
             {
-                peek = readch();
+                advance();
                 double d = 0;
                 while (char.IsDigit(peek) || (peek >= 'a' && peek <= 'f') || (peek >= 'A' && peek <= 'F'))
                 {
                     d = d * 16 + (double)int.Parse(peek.ToString(), System.Globalization.NumberStyles.AllowHexSpecifier);
-                    peek = readch();
+                    advance();
                 }
                 return new Real(d, line, tokencol);
             }
             else if (peek == '/')
             {
-                peek = readch();
-                switch (peek)
+                switch (advance())
                 {
                     case '=':
-                        peek = readch(); return new Token(TokenKind.DivideAssignment, line, tokencol);
+                        advance(); return new Token(TokenKind.DivideAssignment, line, tokencol);
                     case '/':
-                        do peek = readch(); while (peek != '\n' && peek != '\r' && peek != eof);
+                        do advance(); while (peek != '\n' && peek != '\r' && peek != eof);
                         goto skipwhite;
                     case '*':
                         do
                         {
-                            peek = readch();
-                            if (peek == '*')
+                            if (advance() == '*')
                             {
-                                peek = readch();
-                                if (peek == '/')
+                                if (advance() == '/')
                                 {
-                                    peek = readch();
+                                    advance();
                                     goto skipwhite;
                                 }
                             }
@@ -228,58 +189,65 @@ namespace GameCreator.Framework.Gml
             {
                 switch (peek)
                 {
-                    case '~': peek = readch(); return new Token(TokenKind.BitwiseComplement, line, tokencol);
-                    case '(': peek = readch(); return new Token(TokenKind.OpeningParenthesis, line, tokencol);
-                    case ')': peek = readch(); return new Token(TokenKind.ClosingParenthesis, line, tokencol);
-                    case '{': peek = readch(); return new Token(TokenKind.OpeningCurlyBrace, line, tokencol);
-                    case '}': peek = readch(); return new Token(TokenKind.ClosingCurlyBrace, line, tokencol);
-                    case '[': peek = readch(); return new Token(TokenKind.OpeningSquareBracket, line, tokencol);
-                    case ']': peek = readch(); return new Token(TokenKind.ClosingSquareBracket, line, tokencol);
-                    case ';': peek = readch(); return new Token(TokenKind.Semicolon, line, tokencol);
-                    case ',': peek = readch(); return new Token(TokenKind.Comma, line, tokencol);
-                    case ':': peek = readch(); if (peek == '=') { peek = readch(); return new Token(TokenKind.Assignment, ":=", line, tokencol); } return new Token(TokenKind.Colon, line, tokencol);
-                    case '=': peek = readch(); if (peek == '=') { peek = readch(); return new Token(TokenKind.Equality, line, tokencol); } return new Token(TokenKind.Assignment, line, tokencol);
-                    case '!': peek = readch(); if (peek == '=') { peek = readch(); return new Token(TokenKind.Inequality, line, tokencol); } return new Token(TokenKind.Not, line, tokencol);
-                    case '*': peek = readch(); if (peek == '=') { peek = readch(); return new Token(TokenKind.MultiplyAssignment, line, tokencol); } return new Token(TokenKind.Multiply, line, tokencol);
-                    case '+': peek = readch(); if (peek == '=') { peek = readch(); return new Token(TokenKind.AdditionAssignment, line, tokencol); } return new Token(TokenKind.Plus, line, tokencol);
-                    case '-': peek = readch(); if (peek == '=') { peek = readch(); return new Token(TokenKind.SubtractionAssignment, line, tokencol); } return new Token(TokenKind.Minus, line, tokencol);
-                    case '&': peek = readch(); if (peek == '=') { peek = readch(); return new Token(TokenKind.AndAssignment, line, tokencol); }
+                    case '~': advance(); return new Token(TokenKind.BitwiseComplement, line, tokencol);
+                    case '(': advance(); return new Token(TokenKind.OpeningParenthesis, line, tokencol);
+                    case ')': advance(); return new Token(TokenKind.ClosingParenthesis, line, tokencol);
+                    case '{': advance(); return new Token(TokenKind.OpeningCurlyBrace, line, tokencol);
+                    case '}': advance(); return new Token(TokenKind.ClosingCurlyBrace, line, tokencol);
+                    case '[': advance(); return new Token(TokenKind.OpeningSquareBracket, line, tokencol);
+                    case ']': advance(); return new Token(TokenKind.ClosingSquareBracket, line, tokencol);
+                    case ';': advance(); return new Token(TokenKind.Semicolon, line, tokencol);
+                    case ',': advance(); return new Token(TokenKind.Comma, line, tokencol);
+                    case '=': advance(); if (peek == '=') { advance(); return new Token(TokenKind.Equality, line, tokencol); } return new Token(TokenKind.Assignment, line, tokencol);
+                    case '!': advance(); if (peek == '=') { advance(); return new Token(TokenKind.Inequality, line, tokencol); } return new Token(TokenKind.Not, line, tokencol);
+                    case '*': advance(); if (peek == '=') { advance(); return new Token(TokenKind.MultiplyAssignment, line, tokencol); } return new Token(TokenKind.Multiply, line, tokencol);
+                    case '+': advance(); if (peek == '=') { advance(); return new Token(TokenKind.AdditionAssignment, line, tokencol); } return new Token(TokenKind.Plus, line, tokencol);
+                    case '-': advance(); if (peek == '=') { advance(); return new Token(TokenKind.SubtractionAssignment, line, tokencol); } return new Token(TokenKind.Minus, line, tokencol);
+                    case ':': advance();
+                        if (peek == '=') {
+                            advance();
+                            return new Token(TokenKind.Assignment, line, tokencol)
+                                .WithAlternateLexeme(":=");
+                        }
+                        return new Token(TokenKind.Colon, line, tokencol);
+                    case '&': advance(); if (peek == '=') { advance(); return new Token(TokenKind.AndAssignment, line, tokencol); }
                         else
-                            if (peek == '&') { peek = readch(); return new Token(TokenKind.LogicalAnd, line, tokencol); } return new Token(TokenKind.BitwiseAnd, line, tokencol);
-                    case '|': peek = readch(); if (peek == '=') { peek = readch(); return new Token(TokenKind.OrAssignment, line, tokencol); }
+                            if (peek == '&') { advance(); return new Token(TokenKind.LogicalAnd, line, tokencol); } return new Token(TokenKind.BitwiseAnd, line, tokencol);
+                    case '|': advance(); if (peek == '=') { advance(); return new Token(TokenKind.OrAssignment, line, tokencol); }
                         else
-                            if (peek == '|') { peek = readch(); return new Token(TokenKind.LogicalOr, line, tokencol); } return new Token(TokenKind.BitwiseOr, line, tokencol);
-                    case '^': peek = readch(); if (peek == '=') { peek = readch(); return new Token(TokenKind.XorAssignment, line, tokencol); }
+                            if (peek == '|') { advance(); return new Token(TokenKind.LogicalOr, line, tokencol); } return new Token(TokenKind.BitwiseOr, line, tokencol);
+                    case '^': advance(); if (peek == '=') { advance(); return new Token(TokenKind.XorAssignment, line, tokencol); }
                         else
-                            if (peek == '^') { peek = readch(); return new Token(TokenKind.LogicalXor, line, tokencol); } return new Token(TokenKind.BitwiseXor, line, tokencol);
+                            if (peek == '^') { advance(); return new Token(TokenKind.LogicalXor, line, tokencol); } return new Token(TokenKind.BitwiseXor, line, tokencol);
                     case '<':
-                        peek = readch();
+                        advance();
                         if (peek == '=')
                         {
-                            peek = readch();
+                            advance();
                             return new Token(TokenKind.LessThanOrEqual, line, tokencol);
                         }
                         else if (peek == '<')
                         {
-                            peek = readch();
+                            advance();
                             return new Token(TokenKind.ShiftLeft, line, tokencol);
                         }
                         else if (peek == '>')
                         {
-                            peek = readch();
-                            return new Token(TokenKind.Inequality, "<>", line, tokencol);
+                            advance();
+                            return new Token(TokenKind.Inequality, line, tokencol)
+                                .WithAlternateLexeme("<>");
                         }
                         else return new Token(TokenKind.LessThan, line, tokencol);
                     case '>':
-                        peek = readch();
+                        advance();
                         if (peek == '=')
                         {
-                            peek = readch();
+                            advance();
                             return new Token(TokenKind.GreaterThanOrEqual, line, tokencol);
                         }
                         else if (peek == '>')
                         {
-                            peek = readch();
+                            advance();
                             return new Token(TokenKind.ShiftRight, line, tokencol);
                         }
                         else return new Token(TokenKind.GreaterThan, line, tokencol);

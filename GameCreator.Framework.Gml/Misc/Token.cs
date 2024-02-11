@@ -2,16 +2,48 @@
 {
     public class Token
     {
-        public TokenKind t;
-        public string lexeme = string.Empty;
-        public object attribute;
-        public int line, col;
-        public Token(TokenKind x, int l, int c) { t = x; line = l; col = c; }
-        public Token(TokenKind x, string lexeme, int l, int c) { t = x; this.lexeme = lexeme; line = l; col = c; }
-        public override string ToString() { return lexeme; }
+        public readonly TokenKind t;
+        public readonly string lexeme = string.Empty;
+        public readonly int line, col;
+        public readonly object attribute = null;
+        public Token(TokenKind x, int l, int c)
+            : this(x, string.Empty, l, c) { }
+        public Token(TokenKind x, string lexeme, int l, int c) 
+        {
+            t = x;
+            this.lexeme = lexeme;
+            line = l; col = c; 
+        }
+        public override string ToString() => lexeme;
         public static Token Unknown = new Token(TokenKind.Unknown, 0, 0);
         public static Token Eof = new Token(TokenKind.Eof, 0, 0);
         public static Token None = new Token(TokenKind.None, 0, 0);
+        public Token WithAlternateLexeme(string lexeme) 
+            => new Token(t, lexeme, line, col)
+            {
+                attribute = attribute
+            };
+        public Token WithLineAndColumn(int line, int col) 
+            => new Token(t, lexeme, line, col)
+            {
+                attribute = attribute
+            };
+        public Token WithAttribute(object attribute)
+            => new Token(t, lexeme, line, col)
+            {
+                attribute = attribute
+            };
+            
+        public static Token[] AllBuiltInTokens = [
+            Unknown, Eof, None, Break, Continue, Return, If, Then, Else, While, Until, Do, For, NotWord,
+            And, Or, Xor, Repeat, With, Div, Mod, Var, Globalvar, Switch, Case, Default, Exit, Begin, End,
+            Self, Other, All, Noone, Global, BitwiseComplement, Not, Inequality, BitwiseXor, LogicalXor,
+            XorAssignment, BitwiseAnd, LogicalAnd, AndAssignment, Multiply, MultiplyAssignment, OpeningParenthesis,
+            ClosingParenthesis, Minus, SubtractionAssignment, Plus, AdditionAssignment, Assignment, Equality,
+            OpeningCurlyBrace, ClosingCurlyBrace, OpeningSquareBracket, ClosingSquareBracket, BitwiseOr, LogicalOr,
+            OrAssignment, Colon, Semicolon, LessThan, LessThanOrEqual, ShiftLeft, GreaterThan, GreaterThanOrEqual,
+            ShiftRight, Comma, Dot, Divide, DivideAssignment,
+        ];
         public static Token
             Break                   = new Token ( TokenKind.Break,                 "break"     , 0, 0),
             Continue                = new Token ( TokenKind.Continue,              "continue"  , 0, 0),
