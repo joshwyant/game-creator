@@ -4,5 +4,16 @@
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
+        {
+            "name": "TestGame.MonoGame .NET Core Launch (console)",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build TestGame.MonoGame",
+            "program": "${workspaceFolder}/TestGame.MonoGame/bin/Debug/net8.0/TestGame.MonoGame.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/TestGame.MonoGame",
+            "stopAtEntry": false,
+            "console": "internalConsole"
+        },
     ]
 }
