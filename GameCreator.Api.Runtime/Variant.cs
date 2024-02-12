@@ -5,14 +5,10 @@ using GameCreator.Api.Resources;
 
 namespace GameCreator.Api.Runtime
 {
-    //[StructLayout(LayoutKind.Explicit)]
     public struct Variant
     {
-        //[FieldOffset(0)]
         public readonly ValueType _valueType;
-        //[FieldOffset(4)]
         private readonly string _string;
-        //[FieldOffset(4)]
         private readonly double _real;
         
         #region Constructors
@@ -21,14 +17,14 @@ namespace GameCreator.Api.Runtime
         {
             _valueType = ValueType.String;
             _string = val;
-            //_real = 0.0;
+            _real = 0.0;
         }
 
         public Variant(double val)
         {
             _valueType = ValueType.Real;
             _real = val;
-            //_string = null;
+            _string = null;
         }
 
         public Variant(int val)
@@ -57,7 +53,7 @@ namespace GameCreator.Api.Runtime
                 case string str:
                     _valueType = ValueType.String;
                     _string = str;
-                    //_real = 0.0;
+                    _real = 0.0;
                     break;
                 case Variant val:
                     _valueType = val._valueType;
@@ -69,11 +65,11 @@ namespace GameCreator.Api.Runtime
                 case null:
                     _valueType = ValueType.Undefined;
                     _real = 0.0;
-                    //_string = null;
+                    _string = null;
                     break;
                 default:
                     _valueType = ValueType.Real;
-                    //_string = null;
+                    _string = null;
                     switch (obj)
                     {
                         case IIndexedResource res:
