@@ -108,5 +108,10 @@ surface_exists(id)	6.1
 surface_free(id)	6.1	
 surface_create(w, h)	6.1	
 
+Deprecated functions:
+background_create_from_surface(id, x, y, w, h, transparent, smooth, preload)	6.1	7.0
+sprite_add_from_surface(ind, id, x, y, w, h)	6.1	7.0
+sprite_create_from_surface(id, x, y, w, h, precise, transparent, smooth, preload, xorig, yorig)	6.1	7.0
+
 */
 

@@ -93,5 +93,23 @@ file_attributes(fname, attr)	4.3
 registry_set_root(root)	4.3	
 window_handle()	4.3	
 
+Deprecated functions:
+external_define5(dll, name, arg1type, arg2type, arg3type, arg4type, arg5type, restype)	4.3	4.3
+external_define6(dll, name, arg1type, arg2type, arg3type, arg4type, arg5type, arg6type, restype)	4.3	4.3
+external_define7(dll, name, arg1type, arg2type, arg3type, arg4type, arg5type, arg6type, arg7type, restype)	4.3	4.3
+external_define8(dll, name, arg1type, arg2type, arg3type, arg4type, arg5type, arg6type, arg8type, restype)	4.3	4.3
+external_call5(id, arg1, arg2, arg3, arg4, arg5)	4.3	4.3
+external_call6(id, arg1, arg2, arg3, arg4, arg5, arg6)	4.3	4.3
+external_call7(id, arg1, arg2, arg3, arg4, arg5, arg6, arg7)	4.3	4.3
+external_call8(id, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8)	4.3	4.3
+path_get_end(ind)	4.3	5.2
+sprite_get_videomem(ind)	4.3	5.3a
+sprite_get_loadonuse(ind)	4.3	5.3a
+sound_get_loadonuse(ind)	4.3	5.3a
+background_get_videomem(ind)	4.3	5.3a
+background_get_loadonuse(ind)	4.3	5.3a
+script_get_name(ind)	4.3	6.1
+script_get_text(ind)	4.3	6.1
+
 */
 

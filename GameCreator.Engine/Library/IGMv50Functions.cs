@@ -43,5 +43,12 @@ external_call(id, arg1, arg2, …)	5.0
 draw_sprite_tiled(n, img, x, y)	5.0	
 arctan2(y, x)	5.0	
 
+Deprecated functions:
+datafile_exists(ind)	5.0	5.3a
+datafile_get_name(ind)	5.0	5.3a
+datafile_get_filename(ind)	5.0	5.3a
+datafile_export(ind, fname)	5.0	5.3a
+datafile_discard(ind)	5.0	5.3a
+
 */
 

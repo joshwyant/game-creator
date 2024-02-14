@@ -27,10 +27,33 @@ tan(x)	1.1
 set_score(numb)	1.1
 sleep(numb)	1.1
 
+Deprecated:
+sound(numb)	1.1	1.4
+show_highscore(numb)	1.1	1.4
+write(ind, x)	1.1	2.0
+read(ind)	1.1	2.0
+goto_room(numb)	1.1	3.3
+create(x, y, obj)	1.1	3.3
+change(obj1, obj2)	1.1	3.3
+change_at(x, y, obj)	1.1	3.3
+destroy(obj)	1.1	3.3
+destroy_at(x, y)	1.1	3.3
+is_free(x, y)	1.1	3.3
+is_empty(x, y)	1.1	3.3
+is_meeting(x, y, obj)	1.1	3.3
+number(obj)	1.1	3.3
+move_random(obj)	1.1	3.3
+end_game()	1.1	3.3
+redraw()	1.1	3.3
+set_gamespeed(numb)	1.1	3.3
+min(x, y)	1.1	5.2
+max(x, y)	1.1	5.2
+
 */
 
 public interface IGMv11Functions
 {
+    #region Deprecated Functions
     [Gml("sound", v11, v14)]
     void Sound(int numb);
 
@@ -90,6 +113,7 @@ public interface IGMv11Functions
 
     [Gml("max", v11, v52)]
     double Max(double x, double y);
+    #endregion
 
     [Gml("random", v11)]
     double Random(double x);

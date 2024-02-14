@@ -34,5 +34,10 @@ tile_set_depth(id, depth)	4.2a
 tile_set_scale(id, xscale, yscale)	4.2a	
 tile_set_alpha(id, alpha)	4.2a	
 
+Deprecated functions:
+file_open_append(fname)	4.2a	5.1
+tile_find(x, y, foreground)	4.2a	5.3a
+tile_delete_at(x, y, foreground)	4.2a	5.3a
+
 */
 

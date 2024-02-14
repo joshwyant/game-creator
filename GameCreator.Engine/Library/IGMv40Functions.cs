@@ -103,10 +103,25 @@ external_define1(dll, name, arg1type, restype)	4.0
 external_define2(dll, name, arg1type, arg2type, restype)	4.0
 make_color(red, green, blue)	4.0
 
+Deprecated functions:
+background_replace(ind, fname)	4.0	4.0
+external_call0(id)	4.0	4.3
+external_call1(id)	4.0	4.3
+external_call2(id)	4.0	4.3
+draw_sprite_transparent(n, img, x, y, s, alpha)	4.0	5.0
+draw_background_transparent(n, x, y, s, alpha)	4.0	5.0
+draw_pixel(x, y)	4.0	5.3a
+draw_fill(x, y)	4.0	5.3a
+draw_arc(x1, y1, x2, y2, x3, y3, x4, y4)	4.0	5.3a
+draw_chord(x1, y1, x2, y2, x3, y3, x4, y4)	4.0	5.3a
+draw_pie(x1, y1, x2, y2, x3, y3, x4, y4)	4.0	5.3a
+screen_gamma(r, g, b)	4.0	5.3a
+
 */
 
 public interface IGMv40Functions
 {
+    #region Deprecated functions
     [Gml("background_replace", v40, v40)]
     void BackgroundReplace(int ind, string fname);
 
@@ -142,6 +157,7 @@ public interface IGMv40Functions
 
     [Gml("screen_gamma", v40, v53a)]
     void ScreenGamma(int r, int g, int b);
+    #endregion
     
     [Gml("get_open_filename", v40)]
     string GetOpenFilename(string filter, string fname);

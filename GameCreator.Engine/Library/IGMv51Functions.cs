@@ -156,5 +156,56 @@ part_changer_region(ps, ind, xmin, xmax, ymin, ymax, shape)	5.1
 part_changer_types(ps, parttype1, parttype2)	5.1	
 part_changer_kind(ps, kind)	5.1	
 
+Deprecated functions:
+path_set_end(ind, val)	5.1	5.2
+set_graphics_mode(exclusive, horres, coldepth, freq, fullscreen, winscale, fullscale)	5.1	5.3a
+sprite_set_transparent(ind, transp)	5.1	5.3a
+sprite_set_videomem(ind, mode)	5.1	5.3a
+sprite_set_loadonuse(ind, mode)	5.1	5.3a
+sprite_mirror(ind)	5.1	5.3a
+sprite_flip(ind)	5.1	5.3a
+sprite_shift(ind, x, y)	5.1	5.3a
+sprite_rotate180(ind)	5.1	5.3a
+sprite_rotate90(ind, clockwise, resize)	5.1	5.3a
+sprite_rotate(ind, angle, quality)	5.1	5.3a
+sprite_resize(ind, w, h, corner)	5.1	5.3a
+sprite_stretch(ind, w, h, quality)	5.1	5.3a
+sprite_scale(ind, xscale, yscale, quality, corner, resize)	5.1	5.3a
+sprite_black_white(ind)	5.1	5.3a
+sprite_set_hue(ind, amount)	5.1	5.3a
+sprite_change_value(ind, amount)	5.1	5.3a
+sprite_change_saturation(ind, amount)	5.1	5.3a
+sprite_fade(ind, col, amount)	5.1	5.3a
+sprite_screendoor(ind, amount)	5.1	5.3a
+sprite_blur(ind, amount)	5.1	5.3a
+background_set_transparent(ind, transp)	5.1	5.3a
+background_set_videomem(ind, mode)	5.1	5.3a
+background_set_loadonuse(ind, mode)	5.1	5.3a
+background_mirror(ind)	5.1	5.3a
+background_flip(ind)	5.1	5.3a
+background_shift(ind, x, y)	5.1	5.3a
+background_rotate180(ind)	5.1	5.3a
+background_rotate90(ind, clockwise, resize)	5.1	5.3a
+background_rotate(ind, angle, quality)	5.1	5.3a
+background_resize(ind, w, h, corner)	5.1	5.3a
+background_stretch(ind, w, h, quality)	5.1	5.3a
+background_scale(ind, xscale, yscale, quality, corner, resize)	5.1	5.3a
+background_black_white(ind)	5.1	5.3a
+background_set_hue(ind, amount)	5.1	5.3a
+background_change_value(ind, amount)	5.1	5.3a
+background_change_saturation(ind, amount)	5.1	5.3a
+background_fade(ind, col, amount)	5.1	5.3a
+background_screendoor(ind, amount)	5.1	5.3a
+background_blur(ind, amount)	5.1	5.3a
+part_type_color(ind, color_start, color_middle, color_end)	5.1	6.0
+part_system_doastep(ind)	5.1	6.0
+part_system_draw(ind, x, y)	5.1	6.0
+sprite_create_from_screen(left, top, right, bottom, precise, transparent, videomem, loadonuse, xorig, yorig)	5.1	7.0
+sprite_add_from_screen(ind, left, top, right, bottom)	5.1	7.0
+sprite_set_bbox_mode(ind, mode)	5.1	7.0
+sprite_set_bbox(ind, left, top, right, bottom)	5.1	7.0
+sprite_set_precise(ind, mode)	5.1	7.0
+background_create_from_screen(left, top, right, bottom, transparent, videomem, loadonuse)	5.1	7.0
+
 */
 

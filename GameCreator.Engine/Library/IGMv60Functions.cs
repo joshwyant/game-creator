@@ -214,5 +214,11 @@ window_set_fullscreen(full)	6.0
 window_get_visible()	6.0	
 window_set_visible(visible)	6.0	
 
+Deprecated functions:
+background_get_preload(ind)	6.0	7.0
+background_get_smooth(ind)	6.0	7.0
+sprite_get_preload(ind)	6.0	7.0
+sprite_get_smooth(ind)	6.0	7.0
+
 */
 

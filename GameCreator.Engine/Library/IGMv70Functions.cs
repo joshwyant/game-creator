@@ -60,5 +60,11 @@ splash_show_video(fname, loop)	7.0
 transition_exists(kind)	7.0	
 transition_define(kind, name)	7.0	
 
+Deprecated functions:
+background_replace_alpha(ind, fname, preload)	7.0	7.0
+background_add_alpha(fname, preload)	7.0	7.0
+sprite_replace_alpha(ind, fname, imgnumb, precise, preload, xorig, yorig)	7.0	7.0
+sprite_add_alpha(fname, imgnumb, precise, preload, xorig, yorig)	7.0	7.0
+
 */
 

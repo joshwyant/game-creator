@@ -93,5 +93,8 @@ ds_priority_find_min(id)	5.2
 ds_priority_delete_max(id)	5.2	
 ds_priority_find_max(id)	5.2	
 
+Deprecated functions:
+mouse_set_screen_position(x, y)	5.2	5.3a
+
 */
 
