@@ -27,6 +27,72 @@ string_repeat(str, count)	3.0
 
 public interface IGMv30Functions
 {
+    [Gml("perform_create_event", v30, v31)]
+    void PerformCreateEvent(int obj);
+
+    [Gml("perform_destroy_event", v30, v31)]
+    void PerformDestroyEvent(int obj);
+
+    [Gml("perform_step_event", v30, v31)]
+    void PerformStepEvent(int obj);
+
+    [Gml("perform_collision_event", v30, v31)]
+    void PerformCollisionEvent(int obj);
+
+    [Gml("perform_alarm_event", v30, v31)]
+    void PerformAlarmEvent(int obj, int numb);
+
+    [Gml("perform_mouse_event", v30, v31)]
+    void PerformMouseEvent(int obj, int numb);
+
+    [Gml("perform_keyboard_event", v30, v31)]
+    void PerformKeyboardEvent(int obj, int key);
+
+    [Gml("perform_meeting_event", v30, v31)]
+    void PerformMeetingEvent(int obj, int obj2);
+
+    [Gml("perform_other_event", v30, v31)]
+    void PerformOtherEvent(int obj, int numb);
+
+    [Gml("set_motion", v30, v33)]
+    void SetMotion(int dir, double speed);
+
+    [Gml("add_motion", v30, v33)]
+    void AddMotion(int dir, double speed);
+
+    [Gml("bounce", v30, v33)]
+    void Bounce();
+
+    [Gml("is_aligned", v30, v33)]
+    bool IsAligned();
+
+    [Gml("align", v30, v33)]
+    void Align();
+
+    [Gml("set_collision_mode", v30, v33)]
+    void SetCollisionMode(int val);
+
+    [Gml("execute", v30, v33)]
+    void Execute(string program, string args, bool wait);
+
+    [Gml("shellexecute", v30, v33)]
+    void Shellexecute(string file, string args);
+
+    [Gml("min3", v30, v52)]
+    double Min3(double x, double y, double z);
+
+    [Gml("max3", v30, v52)]
+    double Max3(double x, double y, double z);
+
+    [Gml("show_text", v30, v61)]
+    void ShowText(string fname, bool full, int backcol, double delay);
+
+    [Gml("show_image", v30, v61)]
+    void ShowImage(string fname, bool full, double delay);
+
+    [Gml("show_video", v30, v61)]
+    void ShowVideo(string fname, bool full, bool loop);
+
     [Gml("debug_message", v30)]
     void DebugMessage(string str);
 

@@ -24,6 +24,58 @@ file_exists(fname)	2.0
 
 public interface IGMv20Functions
 {
+
+    [Gml("file_write", v20, v30)]
+    void FileWrite(double x);
+
+    [Gml("file_read", v20, v30)]
+    double FileRead();
+
+    [Gml("highscore_setcolor", v20, v33)]
+    void HighscoreSetcolor(int col1, int col2);
+
+    [Gml("highscore_setfont", v20, v33)]
+    void HighscoreSetfont(string str);
+
+    [Gml("check_mouse_button", v20, v33)]
+    bool CheckMouseButton(int numb);
+
+    [Gml("check_joystick_direction", v20, v33)]
+    bool CheckJoystickDirection();
+
+    [Gml("check_joystick_button", v20, v33)]
+    bool CheckJoystickButton(int numb);
+
+    [Gml("fullscreen", v20, v33)]
+    void Fullscreen(bool full);
+
+    [Gml("draw_button", v20, v33)]
+    void DrawButton(double x1, double y1, double x2, double y2, bool down);
+
+    [Gml("set_brush_style", v20, v33)]
+    void SetBrushStyle(int style);
+
+    [Gml("set_pen_size", v20, v33)]
+    void SetPenSize(int size);
+
+    [Gml("set_font_angle", v20, v33)]
+    void SetFontAngle(int angle);
+
+    [Gml("file_open_read", v20, v52)]
+    void FileOpenRead(string fname);
+
+    [Gml("file_open_write", v20, v52)]
+    void FileOpenWrite(string fname);
+
+    [Gml("file_close", v20, v52)]
+    void FileClose();
+
+    [Gml("sound_frequency", v20, v53a)]
+    void SoundFrequency(int numb, double value);
+
+    [Gml("draw_circle", v20, v53a)]
+    void DrawCircle(double xc, double yc, double r);
+    
     [Gml("highscore_show", v20)]
     void HighscoreShow(double numb);
 

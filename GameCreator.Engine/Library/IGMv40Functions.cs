@@ -107,6 +107,42 @@ make_color(red, green, blue)	4.0
 
 public interface IGMv40Functions
 {
+    [Gml("background_replace", v40, v40)]
+    void BackgroundReplace(int ind, string fname);
+
+    [Gml("external_call0", v40, v43c)]
+    void ExternalCall0(int id);
+
+    [Gml("external_call1", v40, v43c)]
+    void ExternalCall1(int id);
+
+    [Gml("external_call2", v40, v43c)]
+    void ExternalCall2(int id);
+
+    [Gml("draw_sprite_transparent", v40, v50)]
+    void DrawSpriteTransparent(int n, int img, double x, double y, double s, int alpha);
+
+    [Gml("draw_background_transparent", v40, v50)]
+    void DrawBackgroundTransparent(int n, double x, double y, double s, int alpha);
+
+    [Gml("draw_pixel", v40, v53a)]
+    void DrawPixel(double x, double y);
+
+    [Gml("draw_fill", v40, v53a)]
+    void DrawFill(double x, double y);
+
+    [Gml("draw_arc", v40, v53a)]
+    void DrawArc(double x1, double y1, double x2, double y2, double x3, double y3, double x4, double y4);
+
+    [Gml("draw_chord", v40, v53a)]
+    void DrawChord(double x1, double y1, double x2, double y2, double x3, double y3, double x4, double y4);
+
+    [Gml("draw_pie", v40, v53a)]
+    void DrawPie(double x1, double y1, double x2, double y2, double x3, double y3, double x4, double y4);
+
+    [Gml("screen_gamma", v40, v53a)]
+    void ScreenGamma(int r, int g, int b);
+    
     [Gml("get_open_filename", v40)]
     string GetOpenFilename(string filter, string fname);
 
