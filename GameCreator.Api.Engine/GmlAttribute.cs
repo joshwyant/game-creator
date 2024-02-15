@@ -6,6 +6,7 @@ namespace GameCreator.Api.Engine
     {
         public string? Name { get; }
         public GameMakerVersion MinVersion { get; }
+        public GameMakerVersion MaxVersion { get; }
         
         public GmlAttribute(string? name = null, GameMakerVersion minVersion = GameMakerVersion.Any, GameMakerVersion maxVersion = GameMakerVersion.Any)
         {
