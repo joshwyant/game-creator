@@ -93,4 +93,19 @@ public interface IFilesystemFunctions
 
     [Gml("directory_create", v40)]
     double DirectoryCreate(string dname);
+
+    //
+    // Introduced in v4.3c
+    //
+    [Gml("file_find_first", v43c)]
+    void FileFindFirst(string mask, int attr);
+
+    [Gml("file_find_next", v43c)]
+    void FileFindNext();
+
+    [Gml("file_find_close", v43c)]
+    void FileFindClose();
+
+    [Gml("file_attributes", v43c)]
+    void FileAttributes(string fname, int attr);
 }

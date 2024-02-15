@@ -44,4 +44,10 @@ public interface ISoundBasicFunctions
     [Gml("sound_isplaying", v40)]
     double SoundIsplaying(double index);
 
+    //
+    // Introduced in v4.3c
+    //
+    [Gml("sound_stop_all", v43c)]
+    void SoundStopAll();
+
 }

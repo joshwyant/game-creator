@@ -41,4 +41,15 @@ public interface IGfxTextFunctions
     [Gml("string_height", v20)]
     double StringHeight(string text);
 
+    //
+    // Introduced in v4.3c
+    //
+    [Gml("draw_text_ext", v43c)]
+    void DrawTextExt(int x, int y, string str, int sep, int w);
+
+    [Gml("string_width_ext", v43c)]
+    int StringWidthExt(string str, int sep, int w);
+
+    [Gml("string_height_ext", v43c)]
+    int StringHeightExt(string str, int sep, int w);
 }

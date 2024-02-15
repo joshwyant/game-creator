@@ -25,4 +25,13 @@ public interface IProcessFunctions
 
     [Gml("execute_shell", v40)]
     double ExecuteShell(string prog, string arg);
+
+    //
+    // Introduced in v4.3c
+    //
+    [Gml("parameter_count", v43c)]
+    int ParameterCount();
+
+    [Gml("parameter_string", v43c)]
+    string ParameterString(int ind);
 }

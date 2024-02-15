@@ -36,4 +36,9 @@ public interface IRegistryFunctions
     [Gml("registry_exists_ext", v40)]
     double RegistryExistsExt(string key, string name);
 
+    //
+    // Introduced in v4.3c
+    //
+    [Gml("registry_set_root", v43c)]
+    void RegistrySetRoot(string root);
 }

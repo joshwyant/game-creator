@@ -66,4 +66,16 @@ public interface IStringFunctions
 
     [Gml("string_format", v40)]
     string StringFormat(double val, double tot, double dec);
+
+    //
+    // Introduced in v4.3c
+    //
+    [Gml("string_replace", v43c)]
+    string StringReplace(string str, string substr, string newstr);
+
+    [Gml("string_replace_all", v43c)]
+    string StringReplaceAll(string str, string substr, string newstr);
+
+    [Gml("string_count", v43c)]
+    int StringCount(string substr, string str);
 }
