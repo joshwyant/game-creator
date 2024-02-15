@@ -37,4 +37,16 @@ public interface IEventFunctions
     void PerformOtherEvent(int obj, int numb);
     #endregion
 
+    //
+    // Introduced in v4.0
+    //
+
+    [Gml("event_perform", v40)]
+    void EventPerform(double type, double numb);
+
+    [Gml("event_perform_object", v40)]
+    void EventPerformObject(string obj, double type, double numb);
+
+    [Gml("event_user", v40)]
+    void EventUser(double numb);
 }

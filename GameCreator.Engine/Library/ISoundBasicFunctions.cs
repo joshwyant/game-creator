@@ -38,4 +38,10 @@ public interface ISoundBasicFunctions
     [Gml("sound_pan", v20)]
     void SoundPan(double numb, double value);
 
+    //
+    // Introduced in v4.0
+    //
+    [Gml("sound_isplaying", v40)]
+    double SoundIsplaying(double index);
+
 }

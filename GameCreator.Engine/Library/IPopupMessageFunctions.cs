@@ -23,4 +23,23 @@ public interface IPopupMessageFunctions
     [Gml("get_string", v14)]
     string GetString(string str, string def);
 
+    //
+    // Introduced in v4.0
+    //
+
+    [Gml("get_open_filename", v40)]
+    string GetOpenFilename(string filter, string fname);
+
+    [Gml("get_save_filename", v40)]
+    string GetSaveFilename(string filter, string fname);
+
+    [Gml("get_directory", v40)]
+    string GetDirectory(string dname);
+
+    [Gml("get_color", v40)]
+    double GetColor(double defcolor);
+    
+    [Gml("show_menu", v40)]
+    void ShowMenu(string str, double def);
+
 }

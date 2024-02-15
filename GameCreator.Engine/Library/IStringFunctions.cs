@@ -57,4 +57,13 @@ public interface IStringFunctions
 
     [Gml("string_lettersdigits", v33)]
     string StringLettersDigits(string str);
+
+    //
+    // Introduced in v4.0
+    //
+    [Gml("real", v40)]
+    double Real(string str);
+
+    [Gml("string_format", v40)]
+    string StringFormat(double val, double tot, double dec);
 }

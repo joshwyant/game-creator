@@ -16,4 +16,13 @@ public interface IProcessFunctions
     void Shellexecute(string file, string args);
     #endregion
 
+    //
+    // Introduced in v4.0
+    //
+
+    [Gml("execute_program", v40)]
+    double ExecuteProgram(string prog, string arg, double wait);
+
+    [Gml("execute_shell", v40)]
+    double ExecuteShell(string prog, string arg);
 }

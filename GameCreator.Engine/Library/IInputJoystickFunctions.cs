@@ -28,4 +28,24 @@ public interface IInputJoystickFunctions
     double GetJoystickZpos();
     #endregion
 
+    //
+    // Introduced in v4.0
+    //
+    [Gml("joystick_exists", v40)]
+    double JoystickExists(double id);
+
+    [Gml("joystick_direction", v40)]
+    double JoystickDirection(double id);
+
+    [Gml("joystick_check_button", v40)]
+    double JoystickCheckButton(double id, double numb);
+
+    [Gml("joystick_xpos", v40)]
+    double JoystickXpos(double id);
+
+    [Gml("joystick_ypos", v40)]
+    double JoystickYpos(double id);
+
+    [Gml("joystick_zpos", v40)]
+    double JoystickZpos(double id);
 }

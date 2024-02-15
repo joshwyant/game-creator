@@ -30,4 +30,38 @@ public interface IRoomFunctions
     [Gml("find_room", v31, v33)]
     void FindRoom(string str);
     #endregion
+
+    //
+    // Introduced in v4.0
+    //
+
+    [Gml("room_goto", v40)]
+    void RoomGoto(double numb);
+
+    [Gml("room_goto_previous", v40)]
+    void RoomGotoPrevious();
+
+    [Gml("room_goto_next", v40)]
+    void RoomGotoNext();
+
+    [Gml("room_restart", v40)]
+    void RoomRestart();
+
+    [Gml("room_previous", v40)]
+    void RoomPrevious(double numb);
+
+    [Gml("room_next", v40)]
+    void RoomNext(double numb);
+
+    [Gml("game_end", v40)]
+    void GameEnd();
+
+    [Gml("game_restart", v40)]
+    void GameRestart();
+
+    [Gml("game_save", v40)]
+    void GameSave(string @string);
+
+    [Gml("game_load", v40)]
+    void GameLoad(string @string);
 }

@@ -69,4 +69,49 @@ public interface IMoveFunctions
 
     [Gml("distance_to_object", v31)]
     double DistanceToObject(string obj);
+
+    //
+    // Introduced in v4.0
+    //
+    [Gml("motion_set", v40)]
+    void MotionSet(double dir, double speed);
+
+    [Gml("motion_add", v40)]
+    void MotionAdd(double dir, double speed);
+
+    [Gml("place_free", v40)]
+    double PlaceFree(double x, double y);
+
+    [Gml("place_empty", v40)]
+    double PlaceEmpty(double x, double y);
+
+    [Gml("place_meeting", v40)]
+    double PlaceMeeting(double x, double y, string obj);
+
+    [Gml("place_snapped", v40)]
+    double PlaceSnapped(double hsnap, double vsnap);
+
+    [Gml("move_random", v40)]
+    void MoveRandom(double hsnap, double vsnap);
+
+    [Gml("move_snap", v40)]
+    void MoveSnap(double hsnap, double vsnap);
+
+    [Gml("move_towards_point", v40)]
+    void MoveTowardsPoint(double x, double y, double sp);
+
+    [Gml("move_bounce_solid", v40)]
+    void MoveBounceSolid(double adv);
+
+    [Gml("move_bounce_all", v40)]
+    void MoveBounceAll(double adv);
+
+    [Gml("move_contact", v40)]
+    void MoveContact(double dir);
+
+    [Gml("position_empty", v40)]
+    double PositionEmpty(double x, double y);
+
+    [Gml("position_meeting", v40)]
+    double PositionMeeting(double x, double y, string obj);
 }

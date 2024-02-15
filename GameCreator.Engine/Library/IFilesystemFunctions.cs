@@ -77,4 +77,13 @@ public interface IFilesystemFunctions
 
     [Gml("file_copy", v33)]
     void FileCopy(string oldname, string newname);
+
+    //
+    // Introduced in v4.0
+    //
+    [Gml("directory_exists", v40)]
+    double DirectoryExists(string dname);
+
+    [Gml("directory_create", v40)]
+    double DirectoryCreate(string dname);
 }

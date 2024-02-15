@@ -3,7 +3,7 @@ using static GameCreator.Api.Engine.GameMakerVersion;
 
 namespace GameCreator.Engine.Library;
 
-public interface IResSoundFunctions
+public interface IResBackgroundFunctions
 {
     #region Deprecated Functions
     #endregion
@@ -11,9 +11,9 @@ public interface IResSoundFunctions
     //
     // Introduced in v4.0
     //
-    [Gml("sound_discard", v40)]
-    void SoundDiscard(double index);
+    [Gml("background_discard", v40)]
+    void BackgroundDiscard(double numb);
 
-    [Gml("sound_restore", v40)]
-    void SoundRestore(double index);
+    [Gml("background_restore", v40)]
+    void BackgroundRestore(double numb);
 }

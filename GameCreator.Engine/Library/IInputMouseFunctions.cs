@@ -13,4 +13,9 @@ public interface IInputMouseFunctions
     bool CheckMouseButton(int numb);
     #endregion
 
+    //
+    // Introduced in v4.0
+    //
+    [Gml("mouse_clear", v40)]
+    void MouseClear(double button);
 }
