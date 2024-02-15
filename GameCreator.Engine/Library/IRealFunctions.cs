@@ -120,4 +120,13 @@ public interface IRealFunctions
 
     [Gml("point_direction", v32b)]
     double PointDirection(double x1, double y1, double x2, double y2);
+
+    //
+    // Introduced in v4.1
+    //
+    [Gml("is_real", v41)]
+    bool IsReal(double val);
+
+    [Gml("is_string", v41)]
+    bool IsString(string val);
 }

@@ -83,5 +83,11 @@ public interface IGfxDrawShapesFunctions
     
     [Gml("make_color", v40)]
     double MakeColor(double red, double green, double blue);
+
+    //
+    // Introduced in v4.1
+    //
+    [Gml("draw_getpixel", v41)]
+    int DrawGetpixel(int x, int y);
     
 }

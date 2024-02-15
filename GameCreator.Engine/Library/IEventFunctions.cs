@@ -49,4 +49,11 @@ public interface IEventFunctions
 
     [Gml("event_user", v40)]
     void EventUser(double numb);
+
+    //
+    // Introduced in v4.1
+    //
+
+    [Gml("event_inherited", v41)]
+    void EventInherited();
 }

@@ -28,4 +28,8 @@ public interface IExternalLibraryFunctions
     void ExternalCall2(int id);
     #endregion
 
+    // Introduced in v4.1
+    [Gml("execute_string", v41)]
+    void ExecuteString(string str);
+
 }
