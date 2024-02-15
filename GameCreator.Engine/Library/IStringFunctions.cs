@@ -16,4 +16,32 @@ public interface IStringFunctions
 
     [Gml("string", v14)]
     string String(double x);
+
+    //
+    // Introduced in v3.0
+    //
+    
+    [Gml("string_length", v30)]
+    double StringLength(string str);
+
+    [Gml("string_pos", v30)]
+    double StringPos(string substr, string str);
+
+    [Gml("string_copy", v30)]
+    string StringCopy(string str, double index, double count);
+
+    [Gml("string_delete", v30)]
+    string StringDelete(string str, double index, double count);
+
+    [Gml("string_insert", v30)]
+    string StringInsert(string substr, string str, double index);
+
+    [Gml("string_lower", v30)]
+    string StringLower(string str);
+
+    [Gml("string_upper", v30)]
+    string StringUpper(string str);
+
+    [Gml("string_repeat", v30)]
+    string StringRepeat(string str, double count);
 }

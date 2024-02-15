@@ -19,6 +19,13 @@ public interface IRealFunctions
 
     [Gml("max", v11, v52)]
     double Max(double x, double y);
+
+    // Introduced in v3.0
+    [Gml("min3", v30, v52)]
+    double Min3(double x, double y, double z);
+
+    [Gml("max3", v30, v52)]
+    double Max3(double x, double y, double z);
     #endregion
 
     //
@@ -82,9 +89,26 @@ public interface IRealFunctions
     //
     // Introduced in v2.0
     //
+    
     [Gml("degtorad", v20)]
     double DegToRad(double x);
 
     [Gml("radtodeg", v20)]
     double RadToDeg(double x);
+
+    //
+    // Introduced in v3.0
+    //
+
+    [Gml("arcsin", v30)]
+    double Arcsin(double x);
+
+    [Gml("arccos", v30)]
+    double Arccos(double x);
+
+    [Gml("arctan", v30)]
+    double Arctan(double x);
+
+    [Gml("mean", v30)]
+    double Mean(double x, double y);
 }

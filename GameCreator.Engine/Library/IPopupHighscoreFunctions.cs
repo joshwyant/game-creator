@@ -33,4 +33,13 @@ public interface IPopupHighscoreFunctions
 
     [Gml("highscore_add", v20)]
     void HighscoreAdd(string str, double numb);
+
+    //
+    // Introduced in v3.0
+    //
+    [Gml("highscore_value", v30)]
+    double HighscoreValue(double place);
+
+    [Gml("highscore_name", v30)]
+    string HighscoreName(double place);
 }
