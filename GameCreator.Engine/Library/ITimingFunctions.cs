@@ -7,5 +7,8 @@ public interface ITimingFunctions
 {
     #region Deprecated Functions
     #endregion
+    
+    [Gml("sleep", v11)]
+    void Sleep(double numb);
 
 }
