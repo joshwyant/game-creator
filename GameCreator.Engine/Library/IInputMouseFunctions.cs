@@ -33,4 +33,13 @@ public interface IInputMouseFunctions
 
     [Gml("mouse_check_button_released", v60)]
     bool MouseCheckButtonReleased(int numb);
+
+    //
+    // 8.0
+    //
+    [Gml("mouse_wheel_down", v80)]
+    bool MouseWheelDown();
+
+    [Gml("mouse_wheel_up", v80)]
+    bool MouseWheelUp();
 }

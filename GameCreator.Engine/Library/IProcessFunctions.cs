@@ -43,4 +43,10 @@ public interface IProcessFunctions
     
     [Gml("set_program_priority", v52)]
     void SetProgramPriority(int priority);
+
+    //
+    // 8.0
+    //
+    [Gml("set_application_title", v80)]
+    void SetApplicationTitle(string title);
 }

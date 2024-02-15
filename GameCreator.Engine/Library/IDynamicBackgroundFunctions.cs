@@ -128,4 +128,25 @@ public interface IDynamicBackgroundFunctions
 
     [Gml("background_set_alpha_from_background", v60)]
     void BackgroundSetAlphaFromBackground(int ind, int back);
+
+    //
+    // 8.0
+    //
+    [Gml("background_replace_background", v80)]
+    void BackgroundReplaceBackground(int ind, string fname);
+
+    [Gml("background_add_background", v80)]
+    void BackgroundAddBackground(string fname);
+
+    [Gml("background_create_from_surface", v80)]
+    void BackgroundCreateFromSurface(int id, double x, double y, double w, double h, bool removeback, bool smooth);
+
+    [Gml("background_create_from_screen", v80)]
+    void BackgroundCreateFromScreen(double x, double y, double w, double h, bool removeback, bool smooth);
+
+    [Gml("background_replace", v80)]
+    void BackgroundReplace(int ind, string fname, bool removeback, bool smooth);
+
+    [Gml("background_add", v80)]
+    void BackgroundAdd(string fname, bool removeback, bool smooth);
 }

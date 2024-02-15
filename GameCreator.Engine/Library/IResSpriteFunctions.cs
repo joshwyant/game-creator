@@ -90,4 +90,10 @@ public interface IResSpriteFunctions
     //
     [Gml("sprite_save", v70)]
     void SpriteSave(int ind, int subimg, string fname);
+
+    //
+    // 8.0
+    //
+    [Gml("sprite_save_strip", v80)]
+    void SpriteSaveStrip(int ind, string fname);
 }

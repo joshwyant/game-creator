@@ -234,4 +234,16 @@ public interface IFilesystemFunctions
 
     [Gml("export_include_file", v70)]
     void ExportIncludeFile(string fname);
+
+    //
+    // 8.0
+    //
+    [Gml("disk_free", v80)]
+    double DiskFree(string drive);
+
+    [Gml("disk_size", v80)]
+    double DiskSize(string drive);
+
+    [Gml("file_text_eoln", v80)]
+    bool FileTextEoln();
 }

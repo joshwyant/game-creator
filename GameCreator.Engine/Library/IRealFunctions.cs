@@ -177,4 +177,16 @@ public interface IRealFunctions
 
     [Gml("random_set_seed", v70)]
     void RandomSetSeed(int seed);
+
+    //
+    // 8.0
+    //
+    [Gml("irandom_range", v80)]
+    int IrandomRange(int x1, int x2);
+
+    [Gml("irandom", v80)]
+    int Irandom(int x);
+
+    [Gml("random_range", v80)]
+    double RandomRange(double x1, double x2);
 }

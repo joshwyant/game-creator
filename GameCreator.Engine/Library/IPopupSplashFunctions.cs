@@ -81,4 +81,16 @@ public interface IPopupSplashFunctions
 
     [Gml("splash_show_video", v70)]
     void SplashShowVideo(string fname, bool loop);
+
+    //
+    // 8.0
+    //
+    [Gml("splash_set_close_button", v80)]
+    void SplashSetCloseButton(bool show);
+
+    [Gml("splash_set_position", v80)]
+    void SplashSetPosition(double x, double y);
+
+    [Gml("splash_show_web", v80)]
+    void SplashShowWeb(string url, double delay);
 }

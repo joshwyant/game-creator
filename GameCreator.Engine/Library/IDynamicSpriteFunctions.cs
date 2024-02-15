@@ -18,7 +18,6 @@ public interface IDynamicSpriteFunctions
     //
     // Introduced in v5.1
     //
-
     [Gml("sprite_set_transparent", v51, v53a)]
     void SpriteSetTransparent(int ind, int transp);
 
@@ -113,7 +112,6 @@ public interface IDynamicSpriteFunctions
     //
     // Introduced in v4.1
     //
-
     [Gml("sprite_delete", v41)]
     void SpriteDelete(int ind);
 
@@ -134,4 +132,34 @@ public interface IDynamicSpriteFunctions
     //
     [Gml("sprite_set_alpha_from_sprite", v60)]
     void SpriteSetAlphaFromSprite(int ind, int spr);
+
+    //
+    // 8.0
+    //
+    [Gml("sprite_replace_sprite", v80)]
+    void SpriteReplaceSprite(int ind, string fname);
+
+    [Gml("sprite_add_sprite", v80)]
+    void SpriteAddSprite(string fname);
+
+    [Gml("sprite_collision_mask", v80)]
+    void SpriteCollisionMask(bool sepmasks, int bboxmode, double bbleft, double bbright, double bbtop, double bbbottom, int kind, double tolerance);
+
+    [Gml("sprite_add_from_surface", v80)]
+    void SpriteAddFromSurface(int ind, int id, double x, double y, double w, double h, bool removeback, bool smooth);
+
+    [Gml("sprite_create_from_surface", v80)]
+    void SpriteCreateFromSurface(int id, double x, double y, double w, double h, bool removeback, bool smooth, double xorig, double yorig);
+
+    [Gml("sprite_add_from_screen", v80)]
+    void SpriteAddFromScreen(int ind, double x, double y, double w, double h, bool removeback, bool smooth);
+
+    [Gml("sprite_create_from_screen", v80)]
+    void SpriteCreateFromScreen(double x, double y, double w, double h, bool removeback, bool smooth, double xorig, double yorig);
+
+    [Gml("sprite_replace", v80)]
+    void SpriteReplace(int ind, string fname, int imgnumb, bool removeback, bool smooth, double xorig, double yorig);
+
+    [Gml("sprite_add", v80)]
+    void SpriteAdd(string fname, int imgnumb, bool removeback, bool smooth, double xorig, double yorig);
 }
