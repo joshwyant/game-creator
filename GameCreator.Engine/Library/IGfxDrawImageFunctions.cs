@@ -14,6 +14,12 @@ public interface IGfxDrawImageFunctions
 
     [Gml("draw_subimage", v14, v33)]
     void DrawSubimage(double x, double y, int obj, int ind);
+
+    //
+    // Introduced in v3.3
+    //
     #endregion
 
+    [Gml("draw_tiled_image", v33, v33)]
+    void DrawTiledImage(double x, double y, int obj);
 }

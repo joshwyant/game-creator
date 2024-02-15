@@ -32,6 +32,30 @@ public interface IFilesystemFunctions
 
     [Gml("file_close", v20, v52)]
     void FileClose();
+
+    //
+    // Introduced in v3.3
+    //
+    [Gml("file_write_string", v33, v52)]
+    void FileWriteString(string str);
+
+    [Gml("file_write_real", v33, v52)]
+    void FileWriteReal(double x);
+
+    [Gml("file_writeln", v33, v52)]
+    void FileWriteln();
+
+    [Gml("file_read_string", v33, v52)]
+    string FileReadString();
+
+    [Gml("file_read_real", v33, v52)]
+    double FileReadReal();
+
+    [Gml("file_readln", v33, v52)]
+    string FileReadln();
+
+    [Gml("file_eof", v33, v52)]
+    bool FileEof();
     #endregion
 
     //
@@ -40,4 +64,17 @@ public interface IFilesystemFunctions
 
     [Gml("file_exists", v20)]
     double FileExists(string fname);
+
+    //
+    // Introduced in v3.3
+    //
+
+    [Gml("file_delete", v33)]
+    void FileDelete(string fname);
+
+    [Gml("file_rename", v33)]
+    void FileRename(string oldname, string newname);
+
+    [Gml("file_copy", v33)]
+    void FileCopy(string oldname, string newname);
 }

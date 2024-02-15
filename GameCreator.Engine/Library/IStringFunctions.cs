@@ -44,4 +44,17 @@ public interface IStringFunctions
 
     [Gml("string_repeat", v30)]
     string StringRepeat(string str, double count);
+
+    //
+    // Introduced in v3.3
+    //
+    
+    [Gml("string_letters", v33)]
+    string StringLetters(string str);
+
+    [Gml("string_digits", v33)]
+    string StringDigits(string str);
+
+    [Gml("string_lettersdigits", v33)]
+    string StringLettersDigits(string str);
 }
