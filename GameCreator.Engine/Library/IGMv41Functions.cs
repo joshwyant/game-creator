@@ -131,26 +131,6 @@ public interface IGMv41Functions
     [Gml("mplay_session_find", v41)]
     void MplaySessionFind();
 
-    // Here are the rest:
-
-    [Gml("mplay_init_modem", v41)]
-    void MplayInitModem(string initstr, string phonenr);
-
-    [Gml("mplay_init_serial", v41)]
-    void MplayInitSerial(int portno, int baudrate, int stopbits, int parity, int flow);
-
-    [Gml("mplay_connect_status", v41)]
-    void MplayConnectStatus();
-
-    [Gml("mplay_end", v41)]
-    void MplayEnd();
-
-    [Gml("mplay_session_create", v41)]
-    void MplaySessionCreate(string sesname, int playnumb, string playername);
-
-    [Gml("mplay_session_find", v41)]
-    void MplaySessionFind();
-
     [Gml("mplay_session_name", v41)]
     void MplaySessionName(int numb);
 

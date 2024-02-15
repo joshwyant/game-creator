@@ -18,3 +18,32 @@ draw_self()	8.1
 
 */
 
+public interface IGMv81Functions
+{
+    [Gml("message_text_charset", v81)]
+    void MessageTextCharset(int type, int charset);
+
+    [Gml("string_byte_at", v81)]
+    int StringByteAt(string str, int index);
+
+    [Gml("string_byte_length", v81)]
+    int StringByteLength(string str);
+
+    [Gml("ansi_char", v81)]
+    string AnsiChar(int val);
+
+    [Gml("point_distance_3d", v81)]
+    double PointDistance3d(double x1, double y1, double z1, double x2, double y2, double z2);
+
+    [Gml("dot_product_3d", v81)]
+    double DotProduct3d(double x1, double y1, double z1, double x2, double y2, double z2);
+
+    [Gml("dot_product", v81)]
+    double DotProduct(double x1, double y1, double x2, double y2);
+
+    [Gml("d3d_light_define_ambient", v81)]
+    void D3dLightDefineAmbient(int color);
+
+    [Gml("draw_self", v81)]
+    void DrawSelf();
+}
