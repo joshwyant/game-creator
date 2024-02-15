@@ -74,4 +74,10 @@ public interface IExternalLibraryFunctions
 
     [Gml("external_call", v50)]
     void ExternalCall(int id, params double[] args);
+
+    //
+    // Introduced in v5.1
+    //
+    [Gml("external_free", v51)]
+    void ExternalFree(int dll);
 }

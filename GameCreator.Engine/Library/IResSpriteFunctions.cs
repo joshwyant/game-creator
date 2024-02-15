@@ -69,4 +69,10 @@ public interface IResSpriteFunctions
 
     [Gml("sprite_get_bbox_bottom", v43c)]
     int SpriteGetBboxBottom(int ind);
+
+    //
+    // 5.1
+    //
+    [Gml("sprite_get_bbox_mode", v51)]
+    int SpriteGetBboxMode(int ind);
 }

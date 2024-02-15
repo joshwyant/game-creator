@@ -19,4 +19,13 @@ public interface IDynamicSoundFunctions
 
     [Gml("sound_delete", v41)]
     void SoundDelete(int index);
+
+    //
+    // Introduced in v5.1
+    //
+    [Gml("sound_add", v51)]
+    int SoundAdd(string fname, int buffers, int effects, bool loadonuse);
+
+    [Gml("sound_replace", v51)]
+    void SoundReplace(int index, string fname, int buffers, int effects, bool loadonuse);
 }

@@ -18,4 +18,10 @@ public interface IInputMouseFunctions
     //
     [Gml("mouse_clear", v40)]
     void MouseClear(double button);
+
+    //
+    // Introduced in v5.1
+    //
+    [Gml("mouse_wait", v51)]
+    void MouseWait();
 }

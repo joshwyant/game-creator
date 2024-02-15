@@ -135,4 +135,13 @@ public interface IRealFunctions
     //
     [Gml("arctan2", v50)]
     double Arctan2(double y, double x);
+
+    //
+    // Introduced in v5.1
+    //
+    [Gml("lengthdir_x", v51)]
+    double LengthdirX(double len, double dir);
+
+    [Gml("lengthdir_y", v51)]
+    double LengthdirY(double len, double dir);
 }

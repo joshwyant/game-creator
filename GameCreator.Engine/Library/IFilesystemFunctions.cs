@@ -108,4 +108,37 @@ public interface IFilesystemFunctions
 
     [Gml("file_attributes", v43c)]
     void FileAttributes(string fname, int attr);
+
+    //
+    // 5.1
+    //
+    [Gml("ini_open", v51)]
+    void IniOpen(string name);
+
+    [Gml("ini_close", v51)]
+    void IniClose();
+
+    [Gml("ini_read_string", v51)]
+    string IniReadString(string section, string key, string @default);
+
+    [Gml("ini_read_real", v51)]
+    double IniReadReal(string section, string key, double @default);
+
+    [Gml("ini_write_string", v51)]
+    void IniWriteString(string section, string key, string value);
+
+    [Gml("ini_write_real", v51)]
+    void IniWriteReal(string section, string key, double value);
+
+    [Gml("ini_key_exists", v51)]
+    bool IniKeyExists(string section, string key);
+
+    [Gml("ini_section_exists", v51)]
+    bool IniSectionExists(string section);
+
+    [Gml("ini_key_delete", v51)]
+    void IniKeyDelete(string section, string key);
+
+    [Gml("ini_section_delete", v51)]
+    void IniSectionDelete(string section);
 }

@@ -21,4 +21,10 @@ public interface IResScriptFunctions
     //
     [Gml("script_exists", v43c)]
     bool ScriptExists(int ind);
+
+    //
+    // Introduced in v5.1
+    //
+    [Gml("script_execute", v51)]
+    void ScriptExecute(string scr, params object[] args);
 }

@@ -18,4 +18,22 @@ public interface IMiscFunctions
     //
     [Gml("show_debug_message", v50)]
     void ShowDebugMessage(string str);
+
+    //
+    // Introduced in v5.1
+    //
+    [Gml("variable_global_exists", v51)]
+    bool VariableGlobalExists(string name);
+
+    [Gml("variable_local_exists", v51)]
+    bool VariableLocalExists(string name);
+
+    [Gml("variable_global_get", v51)]
+    object VariableGlobalGet(string name);
+
+    [Gml("variable_global_set", v51)]
+    void VariableGlobalSet(string name, object value);
+
+    [Gml("variable_local_set", v51)]
+    void VariableLocalSet(string name, object value);
 }

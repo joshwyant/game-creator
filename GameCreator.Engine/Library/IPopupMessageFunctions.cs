@@ -86,4 +86,10 @@ public interface IPopupMessageFunctions
     //
     [Gml("message_size", v50)]
     void MessageSize(double w, double h);
+
+    //
+    // Introduced in v5.1
+    //
+    [Gml("message_alpha", v51)]
+    void MessageAlpha(int alpha);
 }

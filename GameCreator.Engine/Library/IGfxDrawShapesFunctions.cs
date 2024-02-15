@@ -101,4 +101,16 @@ public interface IGfxDrawShapesFunctions
 
     [Gml("draw_polygon_end", v42a)]
     void DrawPolygonEnd();
+
+    //
+    // Introduced in v5.1
+    //
+    [Gml("push_graphics_settings", v51)]
+    void PushGraphicsSettings();
+
+    [Gml("pop_graphics_settings", v51)]
+    void PopGraphicsSettings();
+    
+    [Gml("draw_arrow", v51)]
+    void DrawArrow(double x1, double y1, double x2, double y2, double size);
 }

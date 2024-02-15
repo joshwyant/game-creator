@@ -60,4 +60,46 @@ public interface IGfxDrawImageFunctions
     //
     [Gml("draw_sprite_tiled", v50)]
     void DrawSpriteTiled(int n, int img, double x, double y);
+
+    //
+    // Introduced in v5.1
+    //
+    [Gml("draw_sprite_tiled_ext", v51)]
+    void DrawSpriteTiledExt(int n, int img, double x, double y, double xscale, double yscale, int alpha);
+
+    [Gml("draw_sprite_part", v51)]
+    void DrawSpritePart(int n, int img, int left, int top, int right, int bottom, double x, double y);
+
+    [Gml("draw_sprite_part_ext", v51)]
+    void DrawSpritePartExt(int n, int img, int left, int top, int right, int bottom, double x, double y, double xscale, double yscale, int alpha);
+
+    [Gml("draw_sprite_part_alpha", v51)]
+    void DrawSpritePartAlpha(int n, int img, int left, int top, int right, int bottom, double x, double y, double xscale, double yscale, int alphaspr, int ind);
+
+    [Gml("draw_sprite_stretched_ext", v51)]
+    void DrawSpriteStretchedExt(int n, int img, double x, double y, double w, double h, int alpha);
+
+    [Gml("draw_sprite_alpha", v51)]
+    void DrawSpriteAlpha(int n, int img, double x, double y, double xscale, double yscale, int alphaspr, int ind);
+
+    [Gml("draw_background_ext", v51)]
+    void DrawBackgroundExt(int n, double x, double y);
+
+    [Gml("draw_background_stretched_ext", v51)]
+    void DrawBackgroundStretchedExt(int n, double x, double y, double w, double h, int alpha);
+
+    [Gml("draw_background_tiled_ext", v51)]
+    void DrawBackgroundTiledExt(int n, double x, double y, double xscale, double yscale, int alpha);
+
+    [Gml("draw_background_part", v51)]
+    void DrawBackgroundPart(int n, int left, int top, int right, int bottom, double x, double y);
+
+    [Gml("draw_background_part_ext", v51)]
+    void DrawBackgroundPartExt(int n, int left, int top, int right, int bottom, double x, double y, double xscale, double yscale, int alpha);
+
+    [Gml("draw_background_alpha", v51)]
+    void DrawBackgroundAlpha(int n, double x, double y, double xscale, double yscale, int alphaback);
+
+    [Gml("draw_background_part_alpha", v51)]
+    void DrawBackgroundPartAlpha(int n, int left, int top, int right, int bottom, double x, double y, double xscale, double yscale, int alphaback);
 }
