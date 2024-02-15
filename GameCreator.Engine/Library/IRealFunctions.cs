@@ -111,4 +111,13 @@ public interface IRealFunctions
 
     [Gml("mean", v30)]
     double Mean(double x, double y);
+
+    //
+    // Introduced in v3.1
+    //
+    [Gml("point_distance", v32b)]
+    double PointDistance(double x1, double y1, double x2, double y2);
+
+    [Gml("point_direction", v32b)]
+    double PointDirection(double x1, double y1, double x2, double y2);
 }
