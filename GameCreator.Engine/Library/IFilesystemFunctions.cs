@@ -56,6 +56,13 @@ public interface IFilesystemFunctions
 
     [Gml("file_eof", v33, v52)]
     bool FileEof();
+
+    //
+    // Introduced in v4.2a
+    //
+    // Replaced with file_text_open_append in v5.2
+    [Gml("file_open_append", v42a, v51)]
+    void FileOpenAppend(string fname);
     #endregion
 
     //

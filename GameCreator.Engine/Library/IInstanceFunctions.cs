@@ -64,4 +64,10 @@ public interface IInstanceFunctions
 
     [Gml("position_change", v40)]
     void PositionChange(double x, double y, string obj, double perf);
+
+    //
+    // Introduced in v4.2a
+    //
+    [Gml("instance_copy", v42a)]
+    int InstanceCopy(bool performevent);
 }

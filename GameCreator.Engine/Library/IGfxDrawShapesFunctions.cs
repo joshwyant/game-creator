@@ -89,5 +89,16 @@ public interface IGfxDrawShapesFunctions
     //
     [Gml("draw_getpixel", v41)]
     int DrawGetpixel(int x, int y);
-    
+
+    //
+    // Introduced in v4.2a
+    //
+    [Gml("draw_polygon_begin", v42a)]
+    void DrawPolygonBegin();
+
+    [Gml("draw_polygon_vertex", v42a)]
+    void DrawPolygonVertex(double x, double y);
+
+    [Gml("draw_polygon_end", v42a)]
+    void DrawPolygonEnd();
 }

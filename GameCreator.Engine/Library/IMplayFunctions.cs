@@ -91,4 +91,11 @@ public interface IMplayFunctions
 
     [Gml("mplay_message_clear", v41)]
     void MplayMessageClear(int player);
+
+    //
+    // Introduced in v4.2a
+    //
+
+    [Gml("mplay_ipaddress", v42a)]
+    string MplayIpaddress();
 }
