@@ -28,5 +28,20 @@ public interface IMoveFunctions
 
     [Gml("align", v30, v33)]
     void Align();
+
+    //
+    // Introduced in v3.1
+    //
+    [Gml("move_towards", v31, v33)]
+    void MoveTowards(double x, double y);
     #endregion
+
+    //
+    // Introduced in v3.1
+    //
+    [Gml("distance_to_point", v31)]
+    double DistanceToPoint(double x, double y);
+
+    [Gml("distance_to_object", v31)]
+    double DistanceToObject(string obj);
 }
