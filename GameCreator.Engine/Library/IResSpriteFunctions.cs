@@ -84,4 +84,10 @@ public interface IResSpriteFunctions
     //
     [Gml("sprite_get_bbox_mode", v51)]
     int SpriteGetBboxMode(int ind);
+
+    //
+    // 7.0
+    //
+    [Gml("sprite_save", v70)]
+    void SpriteSave(int ind, int subimg, string fname);
 }

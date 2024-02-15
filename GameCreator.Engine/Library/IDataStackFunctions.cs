@@ -37,4 +37,16 @@ public interface IDataStackFunctions
 
     [Gml("ds_stack_top", v52)]
     double DsStackTop(int id);
+
+    //
+    // 7.0
+    //
+    [Gml("ds_stack_read", v70)]
+    void DsStackRead(int id, string str);
+
+    [Gml("ds_stack_write", v70)]
+    void DsStackWrite(int id);
+
+    [Gml("ds_stack_copy", v70)]
+    void DsStackCopy(int id, int source);
 }

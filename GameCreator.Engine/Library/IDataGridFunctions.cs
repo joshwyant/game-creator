@@ -100,4 +100,19 @@ public interface IDataGridFunctions
 
     [Gml("ds_grid_create", v61)]
     void DsGridCreate(double w, double h);
+
+    //
+    // 7.0
+    //
+    [Gml("ds_grid_read", v70)]
+    void DsGridRead(int id, string str);
+
+    [Gml("ds_grid_write", v70)]
+    void DsGridWrite(int id);
+
+    [Gml("ds_grid_shuffle", v70)]
+    void DsGridShuffle(int id);
+
+    [Gml("ds_grid_copy", v70)]
+    void DsGridCopy(int id, int source);
 }

@@ -263,4 +263,16 @@ public interface IGfxDrawShapesFunctions
 
     [Gml("tile_set_blend", v60)]
     void TileSetBlend(int id, int color);
+
+    //
+    // 7.0
+    //
+    [Gml("draw_set_circle_precision", v70)]
+    void DrawSetCirclePrecision(double precision);
+    
+    [Gml("draw_line_width_color", v70)]
+    void DrawLineWidthColor(double x1, double y1, double x2, double y2, double w, int col1, int col2);
+
+    [Gml("draw_line_width", v70)]
+    void DrawLineWidth(double x1, double y1, double x2, double y2, double w);
 }

@@ -99,6 +99,15 @@ public interface IDynamicSpriteFunctions
 
     [Gml("sprite_create_from_surface", v61, v70)]
     int SpriteCreateFromSurface(int id, double x, double y, double w, double h, bool precise, bool transparent, bool smooth, bool preload, double xorig, double yorig);
+
+    //
+    // 7.0
+    //
+    [Gml("sprite_replace_alpha", v70, v70)]
+    void SpriteReplaceAlpha(int ind, string fname, int imgnumb, bool precise, bool preload, double xorig, double yorig);
+
+    [Gml("sprite_add_alpha", v70, v70)]
+    void SpriteAddAlpha(string fname, int imgnumb, bool precise, bool preload, double xorig, double yorig);
     #endregion
 
     //

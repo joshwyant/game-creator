@@ -49,4 +49,17 @@ public interface IDataPriorityQueueFunctions
 
     [Gml("ds_priority_find_max", v52)]
     double DsPriorityFindMax(int id);
+
+    //
+    // 7.0
+    //
+
+    [Gml("ds_priority_read", v70)]
+    void DsPriorityRead(int id, string str);
+
+    [Gml("ds_priority_write", v70)]
+    void DsPriorityWrite(int id);
+
+    [Gml("ds_priority_copy", v70)]
+    void DsPriorityCopy(int id, int source);
 }

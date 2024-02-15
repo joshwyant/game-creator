@@ -91,6 +91,15 @@ public interface IDynamicBackgroundFunctions
     //
     [Gml("background_create_from_surface", v61, v70)]
     int BackgroundCreateFromSurface(int id, double x, double y, double w, double h, bool transparent, bool smooth, bool preload);
+
+    //
+    // 7.0
+    //
+    [Gml("background_replace_alpha", v70, v70)]
+    void BackgroundReplaceAlpha(int ind, string fname, bool preload);
+
+    [Gml("background_add_alpha", v70, v70)]
+    void BackgroundAddAlpha(string fname, bool preload);
     #endregion
 
     //

@@ -46,4 +46,20 @@ public interface IDataListFunctions
 
     [Gml("ds_list_sort", v52)]
     void DsListSort(int id, bool ascend);
+
+    //
+    // 7.0
+    //
+
+    [Gml("ds_list_read", v70)]
+    void DsListRead(int id, string str);
+
+    [Gml("ds_list_write", v70)]
+    void DsListWrite(int id);
+
+    [Gml("ds_list_shuffle", v70)]
+    void DsListShuffle(int id);
+
+    [Gml("ds_list_copy", v70)]
+    void DsListCopy(int id, int source);
 }

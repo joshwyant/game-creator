@@ -51,4 +51,17 @@ public interface IDataMapFunctions
 
     [Gml("ds_map_find_last", v52)]
     string DsMapFindLast(int id);
+
+    //
+    // 7.0
+    //
+
+    [Gml("ds_map_read", v70)]
+    void DsMapRead(int id, string str);
+
+    [Gml("ds_map_write", v70)]
+    void DsMapWrite(int id);
+
+    [Gml("ds_map_copy", v70)]
+    void DsMapCopy(int id, int source);
 }

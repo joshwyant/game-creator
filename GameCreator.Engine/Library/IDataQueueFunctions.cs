@@ -37,4 +37,17 @@ public interface IDataQueueFunctions
 
     [Gml("ds_queue_tail", v52)]
     double DsQueueTail(int id);
+
+    //
+    // 7.0
+    //
+
+    [Gml("ds_queue_read", v70)]
+    void DsQueueRead(int id, string str);
+
+    [Gml("ds_queue_write", v70)]
+    void DsQueueWrite(int id);
+
+    [Gml("ds_queue_copy", v70)]
+    void DsQueueCopy(int id, int source);
 }

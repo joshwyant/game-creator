@@ -51,4 +51,10 @@ public interface IResBackgroundFunctions
 
     [Gml("background_get_height", v43c)]
     int BackgroundGetHeight(int ind);
+
+    //
+    // 7.0
+    //
+    [Gml("background_save", v70)]
+    void BackgroundSave(int ind, string fname);
 }

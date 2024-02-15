@@ -222,4 +222,16 @@ public interface IFilesystemFunctions
 
     [Gml("file_text_eof", v53a)]
     double FileTextEof(double fileid);
+    
+    //
+    // 7.0
+    //
+    [Gml("discard_include_file", v70)]
+    void DiscardIncludeFile(string fname);
+
+    [Gml("export_include_file_location", v70)]
+    void ExportIncludeFileLocation(string fname, string location);
+
+    [Gml("export_include_file", v70)]
+    void ExportIncludeFile(string fname);
 }

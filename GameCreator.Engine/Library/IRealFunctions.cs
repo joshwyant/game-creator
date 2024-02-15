@@ -165,4 +165,16 @@ public interface IRealFunctions
 
     [Gml("choose", v61)]
     double Choose(params double[] values);
+
+    //
+    // 7.0
+    //
+    [Gml("randomize", v70)]
+    void Randomize();
+
+    [Gml("random_get_seed", v70)]
+    void RandomGetSeed();
+
+    [Gml("random_set_seed", v70)]
+    void RandomSetSeed(int seed);
 }
