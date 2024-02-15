@@ -84,4 +84,28 @@ public interface IGfxTileFunctions
 
     [Gml("tile_set_alpha", v42a)]
     void TileSetAlpha(int id, double alpha);
+
+    //
+    // 5.2
+    //
+    [Gml("tile_layer_hide", v52)]
+    void TileLayerHide(double depth);
+
+    [Gml("tile_layer_show", v52)]
+    void TileLayerShow(double depth);
+
+    [Gml("tile_layer_delete", v52)]
+    void TileLayerDelete(double depth);
+
+    [Gml("tile_layer_shift", v52)]
+    void TileLayerShift(double depth, double x, double y);
+
+    [Gml("tile_layer_find", v52)]
+    int TileLayerFind(double depth, double x, double y);
+
+    [Gml("tile_layer_delete_at", v52)]
+    void TileLayerDeleteAt(double depth, double x, double y);
+
+    [Gml("tile_layer_depth", v52)]
+    void TileLayerDepth(double depth, double newdepth);
 }

@@ -141,4 +141,49 @@ public interface IFilesystemFunctions
 
     [Gml("ini_section_delete", v51)]
     void IniSectionDelete(string section);
+
+    //
+    // 5.2
+    //
+    [Gml("filename_name", v52)]
+    string FilenameName(string fname);
+
+    [Gml("filename_path", v52)]
+    string FilenamePath(string fname);
+
+    [Gml("filename_dir", v52)]
+    string FilenameDir(string fname);
+
+    [Gml("filename_drive", v52)]
+    string FilenameDrive(string fname);
+
+    [Gml("filename_ext", v52)]
+    string FilenameExt(string fname);
+
+    [Gml("filename_change_ext", v52)]
+    string FilenameChangeExt(string fname, string newext);
+
+    [Gml("file_bin_open", v52)]
+    int FileBinOpen(string fname, int mod);
+
+    [Gml("file_bin_rewrite", v52)]
+    void FileBinRewrite(int fileid);
+
+    [Gml("file_bin_close", v52)]
+    void FileBinClose(int fileid);
+
+    [Gml("file_bin_size", v52)]
+    int FileBinSize(int fileid);
+
+    [Gml("file_bin_position", v52)]
+    int FileBinPosition(int fileid);
+
+    [Gml("file_bin_seek", v52)]
+    void FileBinSeek(int fileid, int pos);
+
+    [Gml("file_bin_write_byte", v52)]
+    void FileBinWriteByte(int fileid, int val);
+
+    [Gml("file_bin_read_byte", v52)]
+    int FileBinReadByte(int fileid);
 }

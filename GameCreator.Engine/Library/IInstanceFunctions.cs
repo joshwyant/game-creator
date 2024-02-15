@@ -70,4 +70,25 @@ public interface IInstanceFunctions
     //
     [Gml("instance_copy", v42a)]
     int InstanceCopy(bool performevent);
+
+    //
+    // Introduced in v5.2
+    //
+    [Gml("instance_deactivate_all", v52)]
+    void InstanceDeactivateAll(bool notme);
+
+    [Gml("instance_deactivate_object", v52)]
+    void InstanceDeactivateObject(int obj);
+
+    [Gml("instance_deactivate_region", v52)]
+    void InstanceDeactivateRegion(double left, double top, double width, double height, bool inside, bool notme);
+
+    [Gml("instance_activate_all", v52)]
+    void InstanceActivateAll();
+
+    [Gml("instance_activate_object", v52)]
+    void InstanceActivateObject(int obj);
+
+    [Gml("instance_activate_region", v52)]
+    void InstanceActivateRegion(double left, double top, double width, double height, bool inside);
 }

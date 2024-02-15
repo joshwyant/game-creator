@@ -34,4 +34,13 @@ public interface IProcessFunctions
 
     [Gml("parameter_string", v43c)]
     string ParameterString(int ind);
+
+    //
+    // 5.2
+    //
+    [Gml("environment_get_variable", v52)]
+    string EnvironmentGetVariable(string name);
+    
+    [Gml("set_program_priority", v52)]
+    void SetProgramPriority(int priority);
 }

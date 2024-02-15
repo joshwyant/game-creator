@@ -17,6 +17,12 @@ public interface IGfxWindowFunctions
     //
     [Gml("fullscreen", v20, v33)]
     void Fullscreen(bool full);
+
+    //
+    // 5.2
+    //
+    [Gml("mouse_set_screen_position", v52, v53a)]
+    void MouseSetScreenPosition(double x, double y);
     #endregion
 
     //
@@ -24,5 +30,4 @@ public interface IGfxWindowFunctions
     //
     [Gml("set_cursor", v50)]
     void SetCursor(int cur);
-
 }
