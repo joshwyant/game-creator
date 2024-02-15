@@ -6,6 +6,11 @@ namespace GameCreator.Engine.Library;
 public interface IInputMouseFunctions
 {
     #region Deprecated Functions
+    //
+    // Introduced in v2.0
+    //
+    [Gml("check_mouse_button", v20, v33)]
+    bool CheckMouseButton(int numb);
     #endregion
 
 }

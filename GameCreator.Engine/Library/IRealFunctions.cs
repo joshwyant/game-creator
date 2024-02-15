@@ -21,6 +21,10 @@ public interface IRealFunctions
     double Max(double x, double y);
     #endregion
 
+    //
+    // Introduced in v1.1
+    //
+
     [Gml("random", v11)]
     double Random(double x);
 
@@ -74,4 +78,13 @@ public interface IRealFunctions
 
     [Gml("tan", v11)]
     double Tan(double x);
+
+    //
+    // Introduced in v2.0
+    //
+    [Gml("degtorad", v20)]
+    double DegToRad(double x);
+
+    [Gml("radtodeg", v20)]
+    double RadToDeg(double x);
 }

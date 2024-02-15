@@ -26,6 +26,21 @@ public interface IGfxDrawShapesFunctions
 
     [Gml("draw_triangle", v14, v53a)]
     void DrawTriangle(double x1, double y1, double x2, double y2, double x3, double y3);
+
+    //
+    // Introduced in v2.0
+
+    [Gml("draw_button", v20, v33)]
+    void DrawButton(double x1, double y1, double x2, double y2, bool down);
+
+    [Gml("set_brush_style", v20, v33)]
+    void SetBrushStyle(int style);
+
+    [Gml("set_pen_size", v20, v33)]
+    void SetPenSize(int size);
+    
+    [Gml("draw_circle", v20, v53a)]
+    void DrawCircle(double xc, double yc, double r);
     #endregion
 
     //

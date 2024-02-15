@@ -37,14 +37,4 @@ draw_triangle(x1, y1, x2, y2, x3, y3)	1.4	5.3a
 
 public interface IGMv14Functions
 {
-    #region Deprecated functions
-
-
-
-
-
-    #endregion
-    
-
-
 }
