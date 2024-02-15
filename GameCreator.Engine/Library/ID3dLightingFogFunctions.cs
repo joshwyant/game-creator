@@ -28,4 +28,10 @@ public interface ID3dLightingFogFunctions
 
     [Gml("d3d_set_fog", v60)]
     void D3dSetFog(bool enable, int color, double start, double end);
+
+    //
+    // 8.1
+    //
+    [Gml("d3d_light_define_ambient", v81)]
+    void D3dLightDefineAmbient(int color);
 }

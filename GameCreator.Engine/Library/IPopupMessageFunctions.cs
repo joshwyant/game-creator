@@ -92,4 +92,10 @@ public interface IPopupMessageFunctions
     //
     [Gml("message_alpha", v51)]
     void MessageAlpha(int alpha);
+
+    //
+    // 8.1
+    //
+    [Gml("message_text_charset", v81)]
+    void MessageTextCharset(int type, int charset);
 }

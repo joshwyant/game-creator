@@ -189,4 +189,16 @@ public interface IRealFunctions
 
     [Gml("random_range", v80)]
     double RandomRange(double x1, double x2);
+
+    //
+    // 8.1
+    //
+    [Gml("point_distance_3d", v81)]
+    double PointDistance3d(double x1, double y1, double z1, double x2, double y2, double z2);
+
+    [Gml("dot_product_3d", v81)]
+    double DotProduct3d(double x1, double y1, double z1, double x2, double y2, double z2);
+
+    [Gml("dot_product", v81)]
+    double DotProduct(double x1, double y1, double x2, double y2);
 }

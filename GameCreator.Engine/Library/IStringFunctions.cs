@@ -93,4 +93,16 @@ public interface IStringFunctions
 
     [Gml("clipboard_set_text", v50)]
     void ClipboardSetText(string str);
+
+    //
+    // 8.1
+    //
+    [Gml("string_byte_at", v81)]
+    int StringByteAt(string str, int index);
+
+    [Gml("string_byte_length", v81)]
+    int StringByteLength(string str);
+
+    [Gml("ansi_char", v81)]
+    string AnsiChar(int val);
 }

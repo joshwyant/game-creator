@@ -111,4 +111,10 @@ public interface IGfxDrawImageFunctions
 
     [Gml("draw_background_general", v60)]
     void DrawBackgroundGeneral(int back, double left, double top, double right, double bottom, double x, double y, double xscale, double yscale, double rot, int c1, int c2, int c3, int c4, double alpha);
+
+    //
+    // 8.1
+    //
+    [Gml("draw_self", v81)]
+    void DrawSelf();
 }
