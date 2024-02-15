@@ -113,4 +113,40 @@ public interface IGfxDrawShapesFunctions
     
     [Gml("draw_arrow", v51)]
     void DrawArrow(double x1, double y1, double x2, double y2, double size);
+
+    //
+    // 5.3a
+    //
+    [Gml("draw_path", v53a)]
+    double DrawPath(double path, double x, double y, double absolute);
+
+    [Gml("draw_healthbar", v53a)]
+    double DrawHealthbar(double x1, double y1, double x2, double y2, double amount, double backcol, double mincol, double maxcol, double direction, double showback, double showborder);
+
+    [Gml("make_color_rgb", v53a)]
+    double MakeColorRgb(double red, double green, double blue);
+
+    [Gml("make_color_hsv", v53a)]
+    double MakeColorHsv(double hue, double saturation, double value);
+
+    [Gml("color_get_red", v53a)]
+    double ColorGetRed(double col);
+
+    [Gml("color_get_green", v53a)]
+    double ColorGetGreen(double col);
+
+    [Gml("color_get_blue", v53a)]
+    double ColorGetBlue(double col);
+
+    [Gml("color_get_hue", v53a)]
+    double ColorGetHue(double col);
+
+    [Gml("color_get_saturation", v53a)]
+    double ColorGetSaturation(double col);
+
+    [Gml("color_get_value", v53a)]
+    double ColorGetValue(double col);
+
+    [Gml("merge_color", v53a)]
+    double MergeColor(double col1, double col2, double amount);
 }

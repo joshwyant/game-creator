@@ -186,4 +186,40 @@ public interface IFilesystemFunctions
 
     [Gml("file_bin_read_byte", v52)]
     int FileBinReadByte(int fileid);
+
+    //
+    // 5.3a
+    //
+    [Gml("file_text_open_read", v53a)]
+    double FileTextOpenRead(double fname);
+
+    [Gml("file_text_open_write", v53a)]
+    double FileTextOpenWrite(double fname);
+
+    [Gml("file_text_open_append", v53a)]
+    double FileTextOpenAppend(double fname);
+
+    [Gml("file_text_close", v53a)]
+    double FileTextClose(double fileid);
+
+    [Gml("file_text_write_string", v53a)]
+    double FileTextWriteString(double fileid, double str);
+
+    [Gml("file_text_write_real", v53a)]
+    double FileTextWriteReal(double fileid, double x);
+
+    [Gml("file_text_writeln", v53a)]
+    double FileTextWriteln(double fileid);
+
+    [Gml("file_text_read_string", v53a)]
+    double FileTextReadString(double fileid);
+
+    [Gml("file_text_read_real", v53a)]
+    double FileTextReadReal(double fileid);
+
+    [Gml("file_text_readln", v53a)]
+    double FileTextReadln(double fileid);
+
+    [Gml("file_text_eof", v53a)]
+    double FileTextEof(double fileid);
 }

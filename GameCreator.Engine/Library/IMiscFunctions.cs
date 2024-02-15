@@ -36,4 +36,31 @@ public interface IMiscFunctions
 
     [Gml("variable_local_set", v51)]
     void VariableLocalSet(string name, object value);
+
+    //
+    // 5.3a
+    //
+    [Gml("variable_global_array_get", v53a)]
+    double VariableGlobalArrayGet(double name, double ind);
+
+    [Gml("variable_global_array2_get", v53a)]
+    double VariableGlobalArray2Get(double name, double ind1, double ind2);
+
+    [Gml("variable_local_array_get", v53a)]
+    double VariableLocalArrayGet(double name, double ind);
+
+    [Gml("variable_local_array2_get", v53a)]
+    double VariableLocalArray2Get(double name, double ind1, double ind2);
+
+    [Gml("variable_global_array_set", v53a)]
+    double VariableGlobalArraySet(double name, double ind, double value);
+
+    [Gml("variable_global_array2_set", v53a)]
+    double VariableGlobalArray2Set(double name, double ind1, double ind2, double value);
+
+    [Gml("variable_local_array_set", v53a)]
+    double VariableLocalArraySet(double name, double ind, double value);
+
+    [Gml("variable_local_array2_set", v53a)]
+    double VariableLocalArray2Set(double name, double ind1, double ind2, double value);
 }

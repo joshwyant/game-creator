@@ -144,4 +144,16 @@ public interface IRealFunctions
 
     [Gml("lengthdir_y", v51)]
     double LengthdirY(double len, double dir);
+
+    //
+    // 5.3a
+    //
+    [Gml("min", v53a)]
+    double Min(params double[] values);
+
+    [Gml("max", v53a)]
+    double Max(params double[] values);
+
+    [Gml("mean", v53a)]
+    double Mean(params double[] values);
 }
