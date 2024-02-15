@@ -67,4 +67,13 @@ public interface IInputKeyboardFunctions
 
     [Gml("keyboard_key_release", v50)]
     void KeyboardKeyRelease(int key);
+
+    //
+    // 6.0
+    //
+    [Gml("keyboard_check_pressed", v60)]
+    bool KeyboardCheckPressed(int key);
+
+    [Gml("keyboard_check_released", v60)]
+    bool KeyboardCheckReleased(int key);
 }

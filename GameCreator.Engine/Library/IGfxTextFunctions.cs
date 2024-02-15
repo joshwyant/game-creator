@@ -58,4 +58,34 @@ public interface IGfxTextFunctions
     //
     [Gml("draw_text_sprite", v50)]
     void DrawTextSprite(double x, double y, string @string, int sep, double w, int sprite, int firstchar, double scale);
+
+    //
+    // Introduced in v6.0
+    //
+    [Gml("draw_set_font", v60)]
+    void DrawSetFont(int font);
+
+    [Gml("draw_set_halign", v60)]
+    void DrawSetHalign(int halign);
+
+    [Gml("draw_set_valign", v60)]
+    void DrawSetValign(int valign);
+
+    [Gml("draw_text_transformed", v60)]
+    void DrawTextTransformed(double x, double y, string @string, double xscale, double yscale, double angle);
+
+    [Gml("draw_text_ext_transformed", v60)]
+    void DrawTextExtTransformed(double x, double y, string @string, double sep, double w, double xscale, double yscale, double angle);
+
+    [Gml("draw_text_color", v60)]
+    void DrawTextColor(double x, double y, string @string, int c1, int c2, int c3, int c4, double alpha);
+
+    [Gml("draw_text_ext_color", v60)]
+    void DrawTextExtColor(double x, double y, string @string, double sep, double w, int c1, int c2, int c3, int c4, double alpha);
+
+    [Gml("draw_text_transformed_color", v60)]
+    void DrawTextTransformedColor(double x, double y, string @string, double sep, double w, int c1, int c2, int c3, int c4, double alpha);
+
+    [Gml("draw_text_ext_transformed_color", v60)]
+    void DrawTextExtTransformedColor(double x, double y, string @string, double sep, double w, double xscale, double yscale, double angle, int c1, int c2, int c3, int c4, double alpha);
 }

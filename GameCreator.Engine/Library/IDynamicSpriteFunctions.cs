@@ -110,4 +110,10 @@ public interface IDynamicSpriteFunctions
 
     [Gml("sprite_merge", v51)]
     int SpriteMerge(int ind1, int ind2);
+
+    //
+    // 6.0
+    //
+    [Gml("sprite_set_alpha_from_sprite", v60)]
+    void SpriteSetAlphaFromSprite(int ind, int spr);
 }

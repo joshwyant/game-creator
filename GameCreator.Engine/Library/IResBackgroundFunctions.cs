@@ -17,6 +17,15 @@ public interface IResBackgroundFunctions
 
     [Gml("background_get_transparent", v43c, v70)]
     bool BackgroundGetTransparent(int ind);
+
+    //
+    // Introduced in v6.0
+    //
+    [Gml("background_get_preload", v60)]
+    bool BackgroundGetPreload(int ind);
+
+    [Gml("background_get_smooth", v60)]
+    bool BackgroundGetSmooth(int ind);
     #endregion
 
     //

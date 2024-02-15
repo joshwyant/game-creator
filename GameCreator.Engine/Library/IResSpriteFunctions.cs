@@ -20,6 +20,15 @@ public interface IResSpriteFunctions
 
     [Gml("sprite_get_precise", v43c, v70)]
     bool SpriteGetPrecise(int ind);
+
+    //
+    // Introduced in v6.0
+    //
+    [Gml("sprite_get_preload", v60)]
+    bool SpriteGetPreload(int ind);
+
+    [Gml("sprite_get_smooth", v60)]
+    bool SpriteGetSmooth(int ind);
     #endregion
 
     //

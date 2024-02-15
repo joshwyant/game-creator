@@ -24,4 +24,13 @@ public interface IInputMouseFunctions
     //
     [Gml("mouse_wait", v51)]
     void MouseWait();
+
+    //
+    // 6.0
+    //
+    [Gml("mouse_check_button_pressed", v60)]
+    bool MouseCheckButtonPressed(int numb);
+
+    [Gml("mouse_check_button_released", v60)]
+    bool MouseCheckButtonReleased(int numb);
 }

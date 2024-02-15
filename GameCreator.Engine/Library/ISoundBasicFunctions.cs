@@ -50,4 +50,19 @@ public interface ISoundBasicFunctions
     [Gml("sound_stop_all", v43c)]
     void SoundStopAll();
 
+    //
+    // 6.1
+    //
+    [Gml("sound_set_search_directory", v60)]
+    void SoundSetSearchDirectory(string dir);
+
+    [Gml("sound_fade", v60)]
+    void SoundFade(int index, double value, double time);
+
+    [Gml("sound_background_tempo", v60)]
+    void SoundBackgroundTempo(double factor);
+
+    [Gml("sound_global_volume", v60)]
+    void SoundGlobalVolume(double value);
+
 }

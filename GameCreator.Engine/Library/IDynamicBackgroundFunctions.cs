@@ -98,4 +98,19 @@ public interface IDynamicBackgroundFunctions
     //
     [Gml("background_duplicate", v51)]
     int BackgroundDuplicate(int ind);
+
+    //
+    // 6.0
+    //
+    [Gml("background_create_gradient", v60)]
+    void BackgroundCreateGradient(int w, int h, int col1, int col2, int kind, bool preload);
+
+    [Gml("background_create_color", v60)]
+    void BackgroundCreateColor(int w, int h, int color, bool preload);
+
+    [Gml("background_assign", v60)]
+    void BackgroundAssign(int ind, int back);
+
+    [Gml("background_set_alpha_from_background", v60)]
+    void BackgroundSetAlphaFromBackground(int ind, int back);
 }

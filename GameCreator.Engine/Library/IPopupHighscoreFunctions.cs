@@ -54,4 +54,22 @@ public interface IPopupHighscoreFunctions
 
     [Gml("draw_highscore", v50)]
     void DrawHighscore(double x1, double y1, double x2, double y2);
+
+    //
+    // 6.0
+    //
+    [Gml("highscore_set_strings", v60)]
+    void HighscoreSetStrings(string caption, string nobody, string escape);
+
+    [Gml("highscore_set_colors", v60)]
+    void HighscoreSetColors(int back, int newcol, int other);
+
+    [Gml("highscore_set_font", v60)]
+    void HighscoreSetFont(string name, int size, int style);
+
+    [Gml("highscore_set_border", v60)]
+    void HighscoreSetBorder(bool show);
+
+    [Gml("highscore_set_background", v60)]
+    void HighscoreSetBackground(int back);
 }

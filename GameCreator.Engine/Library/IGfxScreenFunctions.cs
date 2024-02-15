@@ -27,4 +27,13 @@ public interface IGfxScreenFunctions
 
     [Gml("screen_save_part", v40)]
     void ScreenSavePart(string fname, double left, double top, double right, double bottom);
+    
+    //
+    // 6.0
+    //
+    [Gml("set_synchronization", v60)]
+    void SetSynchronization(bool value);
+
+    [Gml("set_automatic_draw", v60)]
+    void SetAutomaticDraw(bool value);
 }

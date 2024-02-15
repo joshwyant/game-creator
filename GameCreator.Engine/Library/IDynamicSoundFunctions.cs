@@ -28,4 +28,10 @@ public interface IDynamicSoundFunctions
 
     [Gml("sound_replace", v51)]
     void SoundReplace(int index, string fname, int buffers, int effects, bool loadonuse);
+
+    //
+    // 6.0
+    //
+    [Gml("sound_get_preload", v60)]
+    bool SoundGetPreload(int ind);
 }

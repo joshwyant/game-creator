@@ -58,4 +58,13 @@ public interface IParticleTypeFunctions
 
     [Gml("part_type_death", v51)]
     void PartTypeDeath(int ind, int death_number, int death_type);
+
+    //
+    // 6.0
+    //
+    [Gml("part_type_alpha2", v60)]
+    void PartTypeAlpha2(int ind, double alpha_start, double alpha_end);
+
+    [Gml("part_type_alpha", v60)]
+    void PartTypeAlpha(int ind, double alpha_start, double alpha_middle, double alpha_end);
 }

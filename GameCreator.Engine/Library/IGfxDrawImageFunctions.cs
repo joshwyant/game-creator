@@ -102,4 +102,13 @@ public interface IGfxDrawImageFunctions
 
     [Gml("draw_background_part_alpha", v51)]
     void DrawBackgroundPartAlpha(int n, int left, int top, int right, int bottom, double x, double y, double xscale, double yscale, int alphaback);
+
+    //
+    // v6.0
+    //
+    [Gml("draw_sprite_general", v60)]
+    void DrawSpriteGeneral(int sprite, int subimg, double left, double top, double right, double bottom, double x, double y, double xscale, double yscale, double rot, int c1, int c2, int c3, int c4, double alpha);
+
+    [Gml("draw_background_general", v60)]
+    void DrawBackgroundGeneral(int back, double left, double top, double right, double bottom, double x, double y, double xscale, double yscale, double rot, int c1, int c2, int c3, int c4, double alpha);
 }

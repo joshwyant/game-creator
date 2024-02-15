@@ -55,4 +55,11 @@ public interface IDynamicRoomFunctions
 
     [Gml("room_tile_clear", v51)]
     void RoomTileClear(int ind);
+    
+    //
+    // 6.0
+    //
+    
+    [Gml("room_assign", v60)]
+    void RoomAssign(int ind, int room);
 }

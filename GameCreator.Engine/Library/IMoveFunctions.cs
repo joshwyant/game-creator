@@ -129,4 +129,10 @@ public interface IMoveFunctions
 
     [Gml("move_outside_all", v50)]
     bool MoveOutsideAll(int dir, double maxdist);
+
+    //
+    // 6.0
+    //
+    [Gml("move_wrap", v60)]
+    void MoveWrap(bool hor, bool vert, double margin);
 }
