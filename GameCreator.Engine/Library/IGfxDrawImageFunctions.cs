@@ -54,4 +54,10 @@ public interface IGfxDrawImageFunctions
 
     [Gml("draw_background_tiled", v40)]
     void DrawBackgroundTiled(double n, double x, double y);
+
+    //
+    // Introduced in v5.0
+    //
+    [Gml("draw_sprite_tiled", v50)]
+    void DrawSpriteTiled(int n, int img, double x, double y);
 }

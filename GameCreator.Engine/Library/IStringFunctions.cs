@@ -78,4 +78,19 @@ public interface IStringFunctions
 
     [Gml("string_count", v43c)]
     int StringCount(string substr, string str);
+
+    //
+    // Introduced in v5.0
+    //
+    [Gml("string_char_at", v50)]
+    string StringCharAt(string str, int index);
+
+    [Gml("clipboard_has_text", v50)]
+    bool ClipboardHasText();
+
+    [Gml("clipboard_get_text", v50)]
+    string ClipboardGetText();
+
+    [Gml("clipboard_set_text", v50)]
+    void ClipboardSetText(string str);
 }

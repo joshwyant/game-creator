@@ -58,4 +58,10 @@ public interface ISoundCDFunctions
 
     [Gml("cd_close_door", v43c)]
     void CdCloseDoor();
+
+    //
+    // Introduced in v5.0
+    //
+    [Gml("MCI_command", v50)]
+    void MCICommand(string str);
 }

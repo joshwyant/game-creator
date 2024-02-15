@@ -81,4 +81,9 @@ public interface IPopupMessageFunctions
     [Gml("show_error", v43c)]
     void ShowError(string str, bool abort);
 
+    //
+    // Introduced in v5.0
+    //
+    [Gml("message_size", v50)]
+    void MessageSize(double w, double h);
 }

@@ -19,4 +19,10 @@ public interface IGfxWindowFunctions
     void Fullscreen(bool full);
     #endregion
 
+    //
+    // Introduced in v5.0
+    //
+    [Gml("set_cursor", v50)]
+    void SetCursor(int cur);
+
 }

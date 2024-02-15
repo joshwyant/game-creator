@@ -114,4 +114,19 @@ public interface IMoveFunctions
 
     [Gml("position_meeting", v40)]
     double PositionMeeting(double x, double y, string obj);
+
+    //
+    // Introduced in v5.0
+    //
+    [Gml("move_contact_solid", v50)]
+    bool MoveContactSolid(int dir, double maxdist);
+
+    [Gml("move_contact_all", v50)]
+    bool MoveContactAll(int dir, double maxdist);
+
+    [Gml("move_outside_solid", v50)]
+    bool MoveOutsideSolid(int dir, double maxdist);
+
+    [Gml("move_outside_all", v50)]
+    bool MoveOutsideAll(int dir, double maxdist);
 }

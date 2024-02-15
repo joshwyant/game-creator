@@ -129,4 +129,10 @@ public interface IRealFunctions
 
     [Gml("is_string", v41)]
     bool IsString(string val);
+
+    //
+    // Introduced in v5.0
+    //
+    [Gml("arctan2", v50)]
+    double Arctan2(double y, double x);
 }

@@ -42,4 +42,16 @@ public interface IPopupHighscoreFunctions
 
     [Gml("highscore_name", v30)]
     string HighscoreName(double place);
+
+    //
+    // Introduced in v5.0
+    //
+    [Gml("highscore_show_ext", v50)]
+    void HighscoreShowExt(double numb, bool back, bool border, int col1, int col2, string name, double size);
+
+    [Gml("highscore_add_current", v50)]
+    void HighscoreAddCurrent();
+
+    [Gml("draw_highscore", v50)]
+    void DrawHighscore(double x1, double y1, double x2, double y2);
 }

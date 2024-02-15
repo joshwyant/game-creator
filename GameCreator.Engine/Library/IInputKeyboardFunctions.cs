@@ -42,4 +42,29 @@ public interface IInputKeyboardFunctions
 
     [Gml("keyboard_wait", v40)]
     void KeyboardWait();
+
+    //
+    // Introduced in v5.0
+    //
+
+    [Gml("keyboard_set_map", v50)]
+    void KeyboardSetMap(int key1, int key2);
+
+    [Gml("keyboard_get_map", v50)]
+    int KeyboardGetMap(int key);
+
+    [Gml("keyboard_unset_map", v50)]
+    void KeyboardUnsetMap();
+
+    [Gml("keyboard_get_numlock", v50)]
+    bool KeyboardGetNumlock();
+
+    [Gml("keyboard_set_numlock", v50)]
+    void KeyboardSetNumlock(bool on);
+
+    [Gml("keyboard_key_press", v50)]
+    void KeyboardKeyPress(int key);
+
+    [Gml("keyboard_key_release", v50)]
+    void KeyboardKeyRelease(int key);
 }

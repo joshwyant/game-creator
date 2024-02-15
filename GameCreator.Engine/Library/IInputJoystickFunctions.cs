@@ -48,4 +48,31 @@ public interface IInputJoystickFunctions
 
     [Gml("joystick_zpos", v40)]
     double JoystickZpos(double id);
+
+    //
+    // Introduced in v5.0
+    //
+    [Gml("joystick_name", v50)]
+    string JoystickName(int id);
+
+    [Gml("joystick_axes", v50)]
+    int JoystickAxes(int id);
+
+    [Gml("joystick_buttons", v50)]
+    int JoystickButtons(int id);
+
+    [Gml("joystick_has_pov", v50)]
+    bool JoystickHasPov(int id);
+
+    [Gml("joystick_rpos", v50)]
+    double JoystickRpos(int id);
+
+    [Gml("joystick_upos", v50)]
+    double JoystickUpos(int id);
+
+    [Gml("joystick_vpos", v50)]
+    double JoystickVpos(int id);
+
+    [Gml("joystick_pov", v50)]
+    double JoystickPov(int id);
 }

@@ -52,4 +52,10 @@ public interface IGfxTextFunctions
 
     [Gml("string_height_ext", v43c)]
     int StringHeightExt(string str, int sep, int w);
+
+    //
+    // Introduced in v5.0
+    //
+    [Gml("draw_text_sprite", v50)]
+    void DrawTextSprite(double x, double y, string @string, int sep, double w, int sprite, int firstchar, double scale);
 }

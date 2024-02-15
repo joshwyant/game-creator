@@ -24,4 +24,10 @@ public interface IPopupSplashFunctions
     //
     [Gml("show_info", v14)]
     void ShowInfo();
+
+    //
+    // Introduced in v5.0
+    //
+    [Gml("load_info", v50)]
+    void LoadInfo(string fname);
 }

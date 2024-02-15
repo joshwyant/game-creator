@@ -66,4 +66,12 @@ public interface IExternalLibraryFunctions
     [Gml("window_handle", v43c)]
     void WindowHandle();
 
+    //
+    // Introduced in v5.0
+    //
+    [Gml("external_define", v50)]
+    void ExternalDefine(string dll, string name, string calltype, string restype, int argnumb, params double[] args);
+
+    [Gml("external_call", v50)]
+    void ExternalCall(int id, params double[] args);
 }
