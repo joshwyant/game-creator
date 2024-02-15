@@ -36,4 +36,16 @@ public interface IGfxScreenFunctions
 
     [Gml("set_automatic_draw", v60)]
     void SetAutomaticDraw(bool value);
+
+    //
+    // 6.1
+    //
+    [Gml("screen_wait_vsync", v61)]
+    void ScreenWaitVsync();
+
+    [Gml("set_automatic_draw", v61)]
+    void SetAutomaticDraw(double value);
+
+    [Gml("set_synchronization", v61)]
+    void SetSynchronization(double value);
 }

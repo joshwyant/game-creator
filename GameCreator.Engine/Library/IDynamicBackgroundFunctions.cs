@@ -85,6 +85,12 @@ public interface IDynamicBackgroundFunctions
 
     [Gml("background_create_from_screen", v51, v70)]
     int BackgroundCreateFromScreen(int left, int top, int right, int bottom, bool transparent, bool videomem, bool loadonuse);
+
+    //
+    // 6.1
+    //
+    [Gml("background_create_from_surface", v61, v70)]
+    int BackgroundCreateFromSurface(int id, double x, double y, double w, double h, bool transparent, bool smooth, bool preload);
     #endregion
 
     //

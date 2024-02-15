@@ -19,4 +19,10 @@ public interface ID3dProjectionFunctions
 
     [Gml("d3d_set_projection", v60)]
     void D3dSetProjection(double xfrom, double yfrom, double zfrom, double xto, double yto, double zto, double xup, double yup, double zup);
+
+    //
+    // 6.1
+    //
+    [Gml("d3d_set_projection_perspective", v61)]
+    void D3dSetProjectionPerspective(double x, double y, double w, double h, double angle);
 }

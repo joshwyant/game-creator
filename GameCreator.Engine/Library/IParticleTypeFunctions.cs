@@ -67,4 +67,38 @@ public interface IParticleTypeFunctions
 
     [Gml("part_type_alpha", v60)]
     void PartTypeAlpha(int ind, double alpha_start, double alpha_middle, double alpha_end);
+
+    //
+    // 6.1
+    //
+
+    [Gml("part_type_blend", v61)]
+    void PartTypeBlend(int ind, bool additive);
+
+    [Gml("part_type_alpha3", v61)]
+    void PartTypeAlpha3(int ind, double alpha1, double alpha2, double alpha3);
+
+    [Gml("part_type_alpha1", v61)]
+    void PartTypeAlpha1(int ind, double alpha1);
+
+    [Gml("part_type_color_hsv", v61)]
+    void PartTypeColorHsv(int ind, double hmin, double hmax, double smin, double smax, double vmin, double vmax);
+
+    [Gml("part_type_color_rgb", v61)]
+    void PartTypeColorRgb(int ind, double rmin, double rmax, double gmin, double gmax, double bmin, double bmax);
+
+    [Gml("part_type_color_mix", v61)]
+    void PartTypeColorMix(int ind, int color1, int color2);
+
+    [Gml("part_type_color3", v61)]
+    void PartTypeColor3(int ind, int color1, int color2, int color3);
+
+    [Gml("part_type_color1", v61)]
+    void PartTypeColor1(int ind, int color1);
+
+    [Gml("part_type_orientation", v61)]
+    void PartTypeOrientation(int ind, double ang_min, double ang_max, double ang_incr, double ang_wiggle, bool ang_relative);
+
+    [Gml("part_type_scale", v61)]
+    void PartTypeScale(int ind, double xscale, double yscale);
 }

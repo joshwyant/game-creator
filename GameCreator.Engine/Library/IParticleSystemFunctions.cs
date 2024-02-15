@@ -43,4 +43,28 @@ public interface IParticleSystemFunctions
 
     [Gml("part_particles_count", v51)]
     int PartParticlesCount(int ind);
+
+    //
+    // 6.1
+    //
+    [Gml("part_particles_create_color", v61)]
+    void PartParticlesCreateColor(int ind, double x, double y, int parttype, int color, double number);
+
+    [Gml("part_system_drawit", v61)]
+    void PartSystemDrawit(int ind);
+
+    [Gml("part_system_update", v61)]
+    void PartSystemUpdate(int ind);
+
+    [Gml("part_system_automatic_draw", v61)]
+    void PartSystemAutomaticDraw(int ind, bool automatic);
+
+    [Gml("part_system_automatic_update", v61)]
+    void PartSystemAutomaticUpdate(int ind, bool automatic);
+
+    [Gml("part_system_position", v61)]
+    void PartSystemPosition(int ind, double x, double y);
+
+    [Gml("part_system_depth", v61)]
+    void PartSystemDepth(int ind, double depth);
 }

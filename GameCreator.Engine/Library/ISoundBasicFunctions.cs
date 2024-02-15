@@ -51,7 +51,7 @@ public interface ISoundBasicFunctions
     void SoundStopAll();
 
     //
-    // 6.1
+    // 6.0
     //
     [Gml("sound_set_search_directory", v60)]
     void SoundSetSearchDirectory(string dir);

@@ -156,4 +156,13 @@ public interface IRealFunctions
 
     [Gml("mean", v53a)]
     double Mean(params double[] values);
+
+    //
+    // 6.1
+    //
+    [Gml("median", v61)]
+    double Median(params double[] values);
+
+    [Gml("choose", v61)]
+    double Choose(params double[] values);
 }

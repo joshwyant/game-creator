@@ -90,6 +90,15 @@ public interface IDynamicSpriteFunctions
 
     [Gml("sprite_set_precise", v51, v70)]
     void SpriteSetPrecise(int ind, int mode);
+
+    //
+    // 6.1
+    //
+    [Gml("sprite_add_from_surface", v61, v70)]
+    int SpriteAddFromSurface(int ind, int id, double x, double y, double w, double h);
+
+    [Gml("sprite_create_from_surface", v61, v70)]
+    int SpriteCreateFromSurface(int id, double x, double y, double w, double h, bool precise, bool transparent, bool smooth, bool preload, double xorig, double yorig);
     #endregion
 
     //
