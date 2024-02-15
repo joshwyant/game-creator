@@ -3,7 +3,7 @@ using GameCreator.Api.Runtime;
 
 namespace GameCreator.Engine.Library
 {
-    public class StringFunctions : IStringFunctions
+    public class StringFunctions
     {
         public GameContext Context { get; }
 

@@ -5,7 +5,7 @@ using static System.Math;
 
 namespace GameCreator.Engine.Library
 {
-    public class RealFunctions : IRealFunctions
+    public class RealFunctions
     {
         public GameContext Context { get; }
         private int _randomSeed;

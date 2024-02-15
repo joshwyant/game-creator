@@ -2,7 +2,7 @@
 
 namespace GameCreator.Engine.Library
 {
-    public class DateFunctions : IDateFunctions
+    public class DateFunctions
     {
         public GameContext Context { get; }
 

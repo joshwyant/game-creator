@@ -7,7 +7,7 @@ using static System.Math;
 
 namespace GameCreator.Engine.Library
 {
-    public class MoveFunctions : IMoveFunctions
+    public class MoveFunctions
     {
         public GameContext Context { get; }
 
