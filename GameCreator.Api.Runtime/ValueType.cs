@@ -1,9 +1,9 @@
 ﻿namespace GameCreator.Api.Runtime
 {
-    public enum ValueType
+    public enum ValueType : sbyte
     {
-        Undefined,
-        Real,
-        String
+        Real = 0,
+        String = 1,
+        Undefined = -1,
     }
 }
