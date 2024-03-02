@@ -1,5 +1,5 @@
 # Game Creator - A Classic Game Maker-Compatible Game Engine
-
+This project is tested with BrowserStack
 An experimental cross-platform, pluggable .NET game engine, with an editor, scripting engine, runner, compiler, and front-end with various implementations, compatible with games created for _**Game Maker**_, based on the API and behavior observed during gameplay.
 
 Note that this engine is based on the the classic, legacy versions of
